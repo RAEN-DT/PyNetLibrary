@@ -23,7 +23,9 @@ class BoundingBoxInsideScript:
         boundingBoxInsideFilter = BoundingBoxIsInsideFilter(outline)
         collectorFilter = FilteredElementCollector(doc).WherePasses(boundingBoxInsideFilter).ToElements()
 
-        ids = List[ElementId]([n.Id for n in collectorFilter])
+        ids = List[ElementId]()
+        for n in collectorFilter:
+            ids.Add(n.Id)
         uidoc.Selection.SetElementIds(ids)
         uidoc.ShowElements(ids)
 

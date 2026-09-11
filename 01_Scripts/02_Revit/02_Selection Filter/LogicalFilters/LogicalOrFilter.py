@@ -19,7 +19,9 @@ class LogicalOrFilterScript:
         doorsFilter = ElementCategoryFilter(BuiltInCategory.OST_Doors)
         windowsFilter = ElementCategoryFilter(BuiltInCategory.OST_Windows)
 
-        filters = List[ElementFilter]([doorsFilter, windowsFilter])
+        filters = List[ElementFilter]()
+        filters.Add(doorsFilter)
+        filters.Add(windowsFilter)
         logicalFilter = LogicalOrFilter(filters)
 
         collector = FilteredElementCollector(doc).WherePasses(logicalFilter).ToElements()

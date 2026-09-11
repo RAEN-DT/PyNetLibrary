@@ -19,7 +19,9 @@ class ElementOwnerViewScript:
         elementOwnerViewFilter = ElementOwnerViewFilter(uidoc.ActiveView.Id)
         collectorFilter = FilteredElementCollector(doc).WherePasses(elementOwnerViewFilter).ToElements()
 
-        ids = List[ElementId]([n.Id for n in collectorFilter])
+        ids = List[ElementId]()
+        for n in collectorFilter:
+            ids.Add(n.Id)
         uidoc.Selection.SetElementIds(ids)
         uidoc.ShowElements(ids)
 

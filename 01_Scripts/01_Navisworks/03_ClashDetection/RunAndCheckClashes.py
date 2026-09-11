@@ -80,3 +80,4 @@ class FeatureManager:
 # Entry point
 doc = Application.ActiveDocument
 ia_Result = FeatureManager.Run(doc)
+

@@ -28,7 +28,9 @@ class ElementIdSetFilterScript:
             print("No elements selected.")
             return []
 
-        ids = List[ElementId]([element.Id for element in selection])
+        ids = List[ElementId]()
+        for element in selection:
+            ids.Add(element.Id)
         elementIdSetFilter = ElementIdSetFilter(ids)  #type:ignore
         collectorFilter = FilteredElementCollector(doc).WherePasses(elementIdSetFilter).OfClass(Wall).ToElements()
 

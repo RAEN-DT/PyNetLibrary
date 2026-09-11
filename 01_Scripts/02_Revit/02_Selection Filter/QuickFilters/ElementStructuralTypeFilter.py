@@ -20,9 +20,12 @@ class ElementStructuralTypeFilterScript:
         structuralTypeFilter = ElementStructuralTypeFilter(StructuralType.Column)
         collectorFilter = FilteredElementCollector(doc).WherePasses(structuralTypeFilter).ToElements()
 
-        ids = List[ElementId]([n.Id for n in collectorFilter])
+        ids = List[ElementId]()
+        for n in collectorFilter:
+            ids.Add(n.Id)
         uidoc.Selection.SetElementIds(ids)
-        uidoc.ShowElements(ids)
+        if ids.Count > 0:
+            uidoc.ShowElements(ids)
 
         print(f"Found {len(collectorFilter)} structural column(s).")
         return list(collectorFilter)

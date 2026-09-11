@@ -52,6 +52,109 @@ def eid_val(eid):
 
 ---
 
+## Getting parameters — old `BuiltInParameter` vs new `ForgeTypeId`
+
+Revit 2024+ is migrating fixed parameter enums to `ForgeTypeId`-based identifiers (the same system
+already used for units — `UnitTypeId`, `SpecTypeId`). Both access paths still work; prefer the new
+one in scripts written from now on.
+
+```python
+# OLD — get_Parameter(BuiltInParameter....), still works, used throughout older example scripts
+p = el.get_Parameter(BuiltInParameter.WALL_TOP_OFFSET)
+
+# NEW — GetParameter(ParameterTypeId....), the ForgeTypeId-based equivalent
+p = el.GetParameter(ParameterTypeId.WallTopOffset)
+```
+
+| | Old | New |
+|---|---|---|
+| Method | `element.get_Parameter(...)` | `element.GetParameter(...)` |
+| Argument | `BuiltInParameter` enum member | `ForgeTypeId` from `ParameterTypeId` |
+| Import | `BuiltInParameter` (in `Autodesk.Revit.DB import *`) | `ParameterTypeId` (same import) |
+| Status | Legacy, still functional | Current direction of the API |
+
+The two spellings are not always 1:1 — check `ParameterTypeId` has a matching member before assuming
+one exists (`Grep` `ParameterTypeId\.` in the stubs, or search the BIP name in
+`02_PyNet Stubs/Autodesk/Revit/DB/__init__.py` for its `ForgeTypeId` counterpart). Both return the
+same `Parameter` object — `.AsDouble()`, `.AsString()`, `.Set(...)`, `.HasValue` work identically
+either way, so the choice only affects how you *look up* the parameter, not how you read/write it.
+
+**For new scripts, default to the `ParameterTypeId` form.** The `BuiltInParameter` examples elsewhere
+in this document reflect the existing script library and remain valid — don't rewrite working scripts
+just to switch styles — but write new code with `GetParameter(ParameterTypeId....)`.
+
+---
+
+## `HasValue` — freezes `True` once a parameter has ever been set
+
+`Parameter.HasValue` does **not** mean "currently has a non-empty value" — it means "this parameter
+slot has been assigned at least once." If a script (or a user) sets a value and later clears it
+(`param.Set("")`, `param.Set(0)`, or equivalent), `HasValue` stays `True` forever after — it does not
+revert to `False`. This applies to parameters you create and populate yourself in the same script.
+
+```python
+p = el.GetParameter(ParameterTypeId.SomeTextParam)
+p.Set("draft")
+p.HasValue        # True
+
+p.Set("")          # "clearing" it
+p.HasValue        # still True — NOT False
+p.AsString()      # "" (empty), which is what you actually need to check
+```
+
+**Never use `HasValue` alone to decide whether a parameter is meaningfully empty.** Check the actual
+content instead — but see the note below before doing this for `Integer`/`Double` parameters:
+
+```python
+# WRONG — HasValue stays True even after the value was cleared
+if p and p.HasValue:
+    ...
+
+# CORRECT for text — empty string is an unambiguous "no content"
+if p and p.HasValue and (p.AsString() or "").strip():
+# CORRECT for element references — InvalidElementId is unambiguous
+if p and p.HasValue and p.AsElementId() != ElementId.InvalidElementId:
+```
+
+`HasValue` is still useful for its original purpose — telling apart a parameter that genuinely
+doesn't exist / was never touched (`param is None`, or freshly created and untouched) from one the
+script or model has assigned to at some point. It just isn't a stand-in for "is this currently blank."
+
+### `Integer` / `Double` parameters: `0` is both "unset" and a valid value
+
+Unlike text (`""`) or element references (`InvalidElementId`), a numeric parameter that was **never
+set** also reads back as `0` via `AsInteger()` / `AsDouble()` — identical to a parameter someone
+deliberately set to `0`. Combined with the `HasValue` freeze above, this means the "empty" signal on
+a numeric parameter only exists for a single moment in its life:
+
+> ✅ **Verified in-session** (brand-new shared parameter, bound to Walls, never assigned on any
+> instance, tested inside a rolled-back transaction so nothing persisted): reading it fresh gave
+> `HasValue = False`, `AsDouble() = 0.0`. The same parameter, immediately after any `Set(...)` call
+> (including `Set(0.0)`), gave `HasValue = True`, `AsDouble() = 0.0` — indistinguishable from then on
+> from a parameter someone deliberately zeroed out.
+
+```python
+p = el.GetParameter(ParameterTypeId.SomeCountParam)
+p.AsDouble()   # 0.0 — could mean "never set" OR "explicitly set to 0"
+```
+
+**Practical rules:**
+- `HasValue` **does** correctly tell apart "never set" (`False`) from "has a value" (`True`) — but
+  only up to the *first* `Set(...)` call the parameter ever receives, from any source (a script, the
+  user, a template). After that first write, `HasValue` is permanently `True` and the numeric value
+  alone can no longer prove whether it's a real `0` or a leftover default.
+- Don't use `p.AsDouble() != 0.0` (or `AsInteger() != 0`) as an "is this filled in" check — a
+  legitimate zero value looks exactly like an empty one, and looks exactly like an untouched one too
+  once `HasValue` has flipped to `True`.
+- If a script needs to reliably tell "no data" apart from "zero" *after* the parameter may have been
+  written to, don't rely on the numeric parameter alone — pair it with a boolean/text flag parameter
+  that your own workflow controls.
+- When reporting/aggregating numeric parameters (areas, counts, lengths), treat `0` at face value —
+  don't try to filter out "unset" rows by value, since you cannot distinguish them from real zeros
+  once the model has been touched.
+
+---
+
 ## Getting family name and type name
 
 ```python
@@ -98,29 +201,34 @@ for el in (FilteredElementCollector(doc)
 
 ## Area measurements by category
 
-Areas come from built-in parameters. Units are **square feet** — multiply by `0.0929` to get m².
+Areas come from built-in parameters. Internal units are **feet / square feet**.
 
 > ⚠️ `WALL_ATTR_AREA_PARAM` does **NOT** exist in Revit 2024+. Walls are measured in ml via `CURVE_ELEM_LENGTH`, not m².
 
-| Category | Unit | BuiltInParameter | Conversion |
+> **Always convert with `UnitUtils.ConvertFromInternalUnits`, never a hardcoded factor** (e.g. `* 0.3048`, `* 0.0929`).
+> It's the API-sanctioned conversion — explicit about the target unit and safe against any future change to
+> Revit's internal unit basis. Requires `from Autodesk.Revit.DB import UnitUtils, UnitTypeId`.
+
+| Category | Unit | BuiltInParameter | UnitTypeId |
 |---|---|---|---|
-| Walls | ml | `CURVE_ELEM_LENGTH` | ft × 0.3048 |
-| Floors | m² | `HOST_AREA_COMPUTED` | ft² × 0.0929 |
-| Ceilings | m² | `HOST_AREA_COMPUTED` | ft² × 0.0929 |
-| Roofs | m² | `HOST_AREA_COMPUTED` | ft² × 0.0929 |
+| Walls | ml | `CURVE_ELEM_LENGTH` | `UnitTypeId.Meters` |
+| Floors | m² | `HOST_AREA_COMPUTED` | `UnitTypeId.SquareMeters` |
+| Ceilings | m² | `HOST_AREA_COMPUTED` | `UnitTypeId.SquareMeters` |
+| Roofs | m² | `HOST_AREA_COMPUTED` | `UnitTypeId.SquareMeters` |
 
 ```python
-FT2_TO_M2 = 0.0929
-FT_TO_M   = 0.3048
+from Autodesk.Revit.DB import UnitUtils, UnitTypeId
 
 # Wall length (ml)
 p = el.get_Parameter(BuiltInParameter.CURVE_ELEM_LENGTH)
-length_m = round(p.AsDouble() * FT_TO_M, 2) if p and p.HasValue else 0.0
+length_m = round(UnitUtils.ConvertFromInternalUnits(p.AsDouble(), UnitTypeId.Meters), 2) if p and p.HasValue else 0.0
 
 # Floor / ceiling / roof area (m²)
 p = el.get_Parameter(BuiltInParameter.HOST_AREA_COMPUTED)
-area_m2 = round(p.AsDouble() * FT2_TO_M2, 3) if p and p.HasValue else 0.0
+area_m2 = round(UnitUtils.ConvertFromInternalUnits(p.AsDouble(), UnitTypeId.SquareMeters), 3) if p and p.HasValue else 0.0
 ```
+
+To write a value back into internal units, use the inverse: `UnitUtils.ConvertToInternalUnits(value, unitTypeId)`.
 
 **Note:** area parameters live on **instances**, not types. To get total area per type, iterate instances and accumulate.
 
@@ -229,6 +337,37 @@ for sec, rows in results.items():
 
 ---
 
+## Building a .NET `List[T]` — never pass a Python `list` to the constructor
+
+In this platform's Python.NET runtime, `List[T](some_python_list)` **fails** — the constructor
+overload that takes `IEnumerable<T>` does not accept a native Python `list`, even one containing
+the right element type:
+
+```python
+# WRONG — raises: No method matches given arguments for List`1..ctor: (<class 'list'>)
+categories = List[BuiltInCategory]([BuiltInCategory.OST_Walls, BuiltInCategory.OST_Doors])
+ids = List[ElementId]([n.Id for n in collector])
+```
+
+**Always build it empty and populate with `.Add()`** — a fixed list or a loop over a comprehension:
+
+```python
+# CORRECT
+categories = List[BuiltInCategory]()
+categories.Add(BuiltInCategory.OST_Walls)
+categories.Add(BuiltInCategory.OST_Doors)
+
+ids = List[ElementId]()
+for n in collector:
+    ids.Add(n.Id)
+```
+
+Applies to any generic `List[T]` you build from a Python iterable — `ElementFilter`, `ElementId`,
+`BuiltInCategory`, `System.Type`, etc. — not just Revit-specific types. Same constraint applies in
+Navisworks scripts (see [navisworks.md](../../docs/navisworks.md)).
+
+---
+
 ## Common pitfalls
 
 | Symptom | Cause | Fix |
@@ -236,10 +375,15 @@ for sec, rows in results.items():
 | 0 types found despite elements existing | Used `WhereElementIsNotElementType()` when querying types | Switch to `WhereElementIsElementType()` |
 | `AttributeError: ElementId has no attribute IntegerValue` | Revit 2024+ | Use `eid.Value` |
 | Area returns 0 | Parameter queried on type, not instance | Area BIPs live on instances |
+| Hardcoded `* 0.3048` / `* 0.0929` conversion | Bypassing the API's own converter | Use `UnitUtils.ConvertFromInternalUnits(value, UnitTypeId.X)` |
 | Type map empty after iteration | `GetTypeId()` returning null element | Always check `type_el is not None` |
 | Excel export takes minutes | Auto-fitting widths via `ws.columns` | Don't set widths; user auto-fits |
 | "Problema con el contenido" on open | Table `displayName` looks like a cell ref (`T1`) | Use `Tabla_1` / non-reference name |
 | "Problema con el contenido" on open | Empty cells written as `''` (invalid `inlineStr`) | Write `value or None` |
+| `No method matches given arguments for List\`1..ctor: (<class 'list'>)` | Passed a Python `list` to `List[T](...)` | Build empty `List[T]()` then `.Add()` each item |
+| Using `get_Parameter(BuiltInParameter....)` in new code | Legacy access path, not wrong but outdated | Use `GetParameter(ParameterTypeId....)` for scripts written going forward |
+| `HasValue` is `True` on a parameter you just cleared | `HasValue` freezes `True` once ever set — it doesn't revert on clear | Check the actual content (`AsString()`, `AsElementId()`) instead, not `HasValue` alone |
+| Can't tell an "empty" numeric parameter from a real `0` | `Integer`/`Double` default to `0`; `HasValue` only proves "never set" *before* the first `Set(...)` — after that it's `True` forever | Don't filter numeric data by `!= 0`; use a separate flag parameter if "unset" must stay distinguishable post-write |
 
 ---
 

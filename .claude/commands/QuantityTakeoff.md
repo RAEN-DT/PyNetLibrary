@@ -61,14 +61,16 @@ Matching key: `(RevitCategoria, RevitTipoFamilia)` → resource definition.
 
 ## Measurement rules
 
-> ⚠️ **Critical:** `WALL_ATTR_AREA_PARAM` does NOT exist in Revit 2024+. All area-based categories use `HOST_AREA_COMPUTED`. Walls are measured in **ml** (metros lineales) via `CURVE_ELEM_LENGTH`.
+> ⚠️ **Critical:** `WALL_ATTR_AREA_PARAM` does NOT exist in Revit 2024+. All area-based categories use `HOST_AREA_COMPUTED` / `ParameterTypeId.HostAreaComputed`. Walls are measured in **ml** (metros lineales) via `CURVE_ELEM_LENGTH` / `ParameterTypeId.CurveElemLength`.
 
-| Category | Unit | BIP | Conversion |
-|---|---|---|---|
-| Muros | ml | `CURVE_ELEM_LENGTH` | ft × 0.3048 |
-| Suelos | m² | `HOST_AREA_COMPUTED` | ft² × 0.0929 |
-| Techos | m² | `HOST_AREA_COMPUTED` | ft² × 0.0929 |
-| Cubiertas | m² | `HOST_AREA_COMPUTED` | ft² × 0.0929 |
+> Use the `GetParameter(ParameterTypeId....)` form (ForgeTypeId-based), not the legacy `get_Parameter(BuiltInParameter....)` — see [RevitApiPatterns.md](RevitApiPatterns.md) "Getting parameters".
+
+| Category | Unit | ParameterTypeId | Legacy BuiltInParameter | Conversion |
+|---|---|---|---|---|
+| Muros | ml | `ParameterTypeId.CurveElemLength` | `CURVE_ELEM_LENGTH` | ft × 0.3048 |
+| Suelos | m² | `ParameterTypeId.HostAreaComputed` | `HOST_AREA_COMPUTED` | ft² × 0.0929 |
+| Techos | m² | `ParameterTypeId.HostAreaComputed` | `HOST_AREA_COMPUTED` | ft² × 0.0929 |
+| Cubiertas | m² | `ParameterTypeId.HostAreaComputed` | `HOST_AREA_COMPUTED` | ft² × 0.0929 |
 | Puertas | ud | — | count = 1 per instance |
 | Ventanas | ud | — | count = 1 per instance |
 | Luminarias | ud | — | count = 1 per instance |
@@ -152,13 +154,21 @@ The donut uses multi-segment SVG (one `<circle>` per chapter with cumulative `st
 ## Core script pattern
 
 ```python
+import pandas as pd
+
 FT2_TO_M2 = 0.0929
 FT_TO_M   = 0.3048
 AREA_CATS   = {"Suelos", "Techos", "Cubiertas"}
 LENGTH_CATS = {"Muros"}
 
-# Step 1: build lookup from Excel
-resource_lookup = {}  # (categoria, tipo) -> {code, capitulo, desc, unit, price}
+# Step 1: build lookup from Excel — pandas for reading, openpyxl stays for writing the output
+df_ref = pd.read_excel(str(ref_path), sheet_name=0, usecols="A:E", header=0)
+resource_lookup = {}  # code -> {capitulo, desc, unit, price}
+for row in df_ref.itertuples(index=False):
+    code = str(row[0]).strip() if pd.notna(row[0]) else ""
+    if code:
+        resource_lookup[code] = {"code": code, "capitulo": str(row[1]).strip(), "desc": str(row[2]).strip(),
+                                  "unit": str(row[3]).strip(), "price": float(row[4]) if pd.notna(row[4]) else 0.0}
 
 # Step 2: resolve types → resource, accumulate instances
 budget = {}  # code -> {meta..., qty, elements: [{eid, qty}]}
@@ -166,9 +176,11 @@ budget = {}  # code -> {meta..., qty, elements: [{eid, qty}]}
 for cat_name, bic in BIC_MAP.items():
     type_code_map = {}
     for t in FilteredElementCollector(doc).OfCategory(bic).WhereElementIsElementType().ToElements():
-        res = resource_lookup.get((cat_name, (t.Name or "").strip()))
-        if res:
-            type_code_map[int(t.Id.Value)] = res   # Revit 2024+: use .Value not .IntegerValue
+        p = t.LookupParameter(f"{PREFIX}5D_CodigoRecurso")
+        if p and p.HasValue:
+            res = resource_lookup.get((p.AsString() or "").strip())
+            if res:
+                type_code_map[int(t.Id.Value)] = res   # Revit 2024+: use .Value not .IntegerValue
 
     for el in FilteredElementCollector(doc).OfCategory(bic).WhereElementIsNotElementType().ToElements():
         tid = int(el.GetTypeId().Value)
@@ -179,10 +191,10 @@ for cat_name, bic in BIC_MAP.items():
             budget[code] = {**res, "qty": 0.0, "elements": []}
 
         if cat_name in LENGTH_CATS:
-            p = el.get_Parameter(BuiltInParameter.CURVE_ELEM_LENGTH)
+            p = el.GetParameter(ParameterTypeId.CurveElemLength)
             qty = round(p.AsDouble() * FT_TO_M, 2) if p and p.HasValue else 0.0
         elif cat_name in AREA_CATS:
-            p = el.get_Parameter(BuiltInParameter.HOST_AREA_COMPUTED)
+            p = el.GetParameter(ParameterTypeId.HostAreaComputed)
             qty = round(p.AsDouble() * FT2_TO_M2, 2) if p and p.HasValue else 0.0
         else:
             qty = 1.0
@@ -265,7 +277,7 @@ for param_name, key, as_float in [
 | `Permission denied` on Excel | File open in Excel | Ask user to close it |
 | Area returns 0 | `WALL_ATTR_AREA_PARAM` doesn't exist | Use `HOST_AREA_COMPUTED` for area, `CURVE_ELEM_LENGTH` for length |
 | `AttributeError: IntegerValue` | Revit 2024+ | Use `el.Id.Value` (Int64) |
-| openpyxl import fails | `_available_namespaces` session error | Retry once; if persists, restart Revit |
+| `openpyxl`/`pandas` import fails | `_available_namespaces` session error (numpy-backed libs) | Retry once; if persists, restart Revit |
 | Type map empty (0 types) | Used `WhereElementIsNotElementType()` | Switch to `WhereElementIsElementType()` |
 
 ---

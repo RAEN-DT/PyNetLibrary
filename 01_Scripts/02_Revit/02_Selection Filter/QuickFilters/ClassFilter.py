@@ -22,7 +22,9 @@ class ClassFilterScript:
 
         collectorSimplified = FilteredElementCollector(doc).OfClass(Wall).WhereElementIsNotElementType().ToElements()
 
-        ids = List[ElementId]([n.Id for n in collectorSimplified])
+        ids = List[ElementId]()
+        for n in collectorSimplified:
+            ids.Add(n.Id)
         uidoc.Selection.SetElementIds(ids)
         uidoc.ShowElements(ids)
 

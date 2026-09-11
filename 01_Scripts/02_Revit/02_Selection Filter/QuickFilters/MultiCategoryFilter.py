@@ -16,11 +16,15 @@ doc = uidoc.Document
 class MultiCategoryFilterScript:
     @staticmethod
     def Run(doc, uidoc):
-        categories = List[BuiltInCategory]([BuiltInCategory.OST_Walls, BuiltInCategory.OST_Doors])
+        categories = List[BuiltInCategory]()
+        categories.Add(BuiltInCategory.OST_Walls)
+        categories.Add(BuiltInCategory.OST_Doors)
         multicategoryFilter = ElementMulticategoryFilter(categories)
         collectorFilter = FilteredElementCollector(doc).WherePasses(multicategoryFilter).WhereElementIsNotElementType().ToElements()
 
-        ids = List[ElementId]([n.Id for n in collectorFilter])
+        ids = List[ElementId]()
+        for n in collectorFilter:
+            ids.Add(n.Id)
         uidoc.Selection.SetElementIds(ids)
         uidoc.ShowElements(ids)
 

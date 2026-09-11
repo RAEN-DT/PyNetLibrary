@@ -56,10 +56,10 @@ The Router row above (`RevitApiPatterns`) is a **reference** to read before writ
 it lives in `.claude/commands/` but is consulted, not run.
 
 Everything else in `.claude/commands/` is a **workflow Skill** the *user* invokes via slash command:
-`/ClashDetection`, `/ClashCoordination`, `/ClashToleranceComparison`, `/QCModelAudit`, `/QuantityTakeoff`, `/WindSiting`, `/PowerlineFireRisk`, `/DevMode`. They are
+`/ClashDetection`, `/ClashCoordination`, `/ClashToleranceComparison`, `/QCModelAudit`, `/QuantityTakeoff`, `/WindSiting`, `/PowerlineFireRisk`, `/CreateParameters`, `/DevMode`. They are
 self-contained and auto-load when invoked — do not duplicate their content here. Suggest the matching
 one when the user describes its task (e.g. a clash run, a QC audit, a 5D takeoff, a GIS/wind-farm siting study,
-a powerline wildfire-risk / vegetation-management study).
+a powerline wildfire-risk / vegetation-management study, creating/binding shared or project parameters from an Excel matrix).
 
 ---
 
@@ -116,6 +116,13 @@ across scripts. Do not abbreviate or transform output values unless explicitly a
 ```python
 ia_Result = [{"type": "Wall", "id": 1, "name": "Wall A", "height": 3.2}]
 ```
+
+> **Dashboards / reports.** Default: a self-contained HTML string built in Python, saved next to the
+> other output (Desktop / project folder) and opened instantly with `webbrowser.open('file:///...')`
+> from inside the host script — see `ModelAudit.py`, `QuantityTakeoff.py`, `ExportClashDashboard.py`
+> for the pattern (inline CSS, KPI cards, `<details>` for collapsible sections, no external JS). Do
+> **not** publish a Claude Artifact for a report/dashboard unless the user explicitly asks for one —
+> Artifacts add a publish round trip the user doesn't want for this workflow.
 
 ---
 

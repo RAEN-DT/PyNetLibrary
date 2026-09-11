@@ -80,14 +80,20 @@ class SearchSetsManager():
         searchSet.Locations = SearchLocations.DescendantsAndSelf
         searchSet.Selection.SelectAll()
 
+        # AddGroup semantics (undocumented, deduced from behavior): conditions inside the SAME
+        # AddGroup call are ANDed together; each group as a whole is ORed against every other
+        # group/condition at the top level of SearchConditions. With one condition per group (as
+        # below), the net effect is a plain OR between the two property-name fallbacks.
         condition = SearchCondition.HasPropertyByDisplayName("Revit Type", "Clash Test Code")
         conditionValue = condition.EqualValue(VariantData.FromDisplayString(value))
-        conditionList = List[SearchCondition]([conditionValue])
+        conditionList = List[SearchCondition]()
+        conditionList.Add(conditionValue)
         searchSet.SearchConditions.AddGroup(conditionList)
 
         conditionOr = SearchCondition.HasPropertyByDisplayName("Element", "Clash Test Code")
         conditionValueOr = conditionOr.EqualValue(VariantData.FromDisplayString(value))
-        conditionListOr = List[SearchCondition]([conditionValueOr])
+        conditionListOr = List[SearchCondition]()
+        conditionListOr.Add(conditionValueOr)
         searchSet.SearchConditions.AddGroup(conditionListOr) 
 
         instance = SelectionSet(searchSet)

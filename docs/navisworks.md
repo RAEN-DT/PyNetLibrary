@@ -35,6 +35,11 @@ doc = Application.ActiveDocument
 
 > Need the COM API or `List[T]`? Add them explicitly only where used:
 > `from Autodesk.Navisworks.Api.ComApi import ComApiBridge` · `from System.Collections.Generic import List`.
+>
+> **Never build a `List[T]` from a Python `list`** — `List[T]([...])` fails in this Python.NET
+> runtime (`No method matches given arguments for List\`1..ctor: (<class 'list'>)`). Build it empty
+> and populate with `.Add()`: `lst = List[T](); lst.Add(item)`. Full details in
+> [RevitApiPatterns.md](../.claude/commands/RevitApiPatterns.md#building-a-net-listt--never-pass-a-python-list-to-the-constructor).
 
 ### ⛔ NEVER use `from <namespace> import *`
 

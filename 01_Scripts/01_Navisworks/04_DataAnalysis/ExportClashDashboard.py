@@ -1,3 +1,6 @@
+# SPDX-License-Identifier: MIT
+# Copyright (c) 2024-2026 RAEN Digital Tools SL - PyNET Platform
+
 """
 Export Clash Dashboard Data & Launch Viewer
 Extracts clash test results, exports clashes.json,
@@ -15,19 +18,23 @@ from pathlib import Path
 from collections import defaultdict
 
 clr.AddReference("Autodesk.Navisworks.Api")
-from Autodesk.Navisworks.Api import *
+from Autodesk.Navisworks.Api import Application
 
 clr.AddReference("Autodesk.Navisworks.Clash")
-from Autodesk.Navisworks.Api.Clash import *
-
+from Autodesk.Navisworks.Api.Clash import DocumentClash
 clr.AddReference("System.Windows.Forms")
 clr.AddReference("System.Drawing")
 
-from System.Windows.Forms import *
-from System.Drawing import *
+from System.Windows.Forms import (
+    Form, Button, GroupBox, DataGridView, AnchorStyles,
+    FormBorderStyle, FormStartPosition,
+    DataGridViewAutoSizeColumnMode, DataGridViewSelectionMode,
+    DataGridViewColumnHeadersHeightSizeMode,
+)
+from System.Drawing import Point, Size, Color, Icon
 
 bundlePath = (Path.home() / "AppData" / "Roaming" / "Autodesk" / "ApplicationPlugins" / "RAEN.Navisworks.PyNET.bundle" / "Contents" / "2024")
-NavisworksIconPath = (Path.home() / "AppData" / "Roaming" / "Autodesk" / "ApplicationPlugins" / "RAEN.Navisworks.PyNET.bundle" / "Contents" / "2024" / "Images" / "manage.ico")
+NavisworksIconPath = (Path.home() / "AppData" / "Roaming" / "Autodesk" / "ApplicationPlugins" / "Raen.Navisworks.Pynet.bundle" / "manage.ico")
 sys.path.append(str(bundlePath))
 clr.AddReference("Raen.Core.Pynet.Resources")
 from Raen.Core.Pynet.Resources import CastUtils #type:ignore
@@ -35,11 +42,19 @@ from Raen.Core.Pynet.Resources import CastUtils #type:ignore
 from Autodesk.Navisworks.Api import Application
 doc = Application.ActiveDocument
 
-user_home = Path.home()
-repo_base = user_home / "source" / "repos" / "GithubRNM" / "PyNetLibrary" / "03_Viewer"
+# Viewer runtime (dist/ + dashboard/). The viewer lives in the PyNetVSCode repo under viewer/.
+# Set the location once per machine in %USERPROFILE%\.pynet\paths.json (not versioned):
+#   {"viewer_dir": "C:\\Repos\\PyNetVSCode\\viewer"}
+_PATHS = Path.home() / ".pynet" / "paths.json"
+_CFG = json.loads(_PATHS.read_text(encoding="utf-8")) if _PATHS.exists() else {}
+repo_base = Path(_CFG.get("viewer_dir", r"C:\Repos\PyNetVSCode\viewer"))
 VIEWER_DIR = repo_base / "dist"
 DASHBOARD_DIR = repo_base / "dashboard"
 PORT = 8095
+
+sys.path.append(str(Path.home() / "AppData" / "Roaming" / "Pynet" / "Library" / "01_Scripts" / "00_utils"))
+from pynet_clash import get_clash_tests
+
 
 class ClashExtractor:
     """Extracts clash data from the active document."""
@@ -110,7 +125,7 @@ class ClashExtractor:
         allClashes = []
         testsSummary = []
 
-        for test in testsData.Value.TestsRoot.Children:
+        for test in get_clash_tests(clashDocument):
             results = list(ClashExtractor.IterResults(test))
             count = len(results)
             status_counts = {}

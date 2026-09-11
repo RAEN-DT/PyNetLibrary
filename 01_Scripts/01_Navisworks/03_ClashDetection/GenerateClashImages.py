@@ -1,3 +1,6 @@
+# SPDX-License-Identifier: MIT
+# Copyright (c) 2024-2026 RAEN Digital Tools SL - PyNET Platform
+
 #region references
 import clr
 import sys
@@ -5,22 +8,12 @@ from pathlib import Path
 from datetime import datetime
 
 clr.AddReference("Autodesk.Navisworks.Api")
-from Autodesk.Navisworks.Api import *
-
-clr.AddReference("Autodesk.Navisworks.ComApi")
-from Autodesk.Navisworks.Api.ComApi import *
-
-clr.AddReference("Autodesk.Navisworks.Interop.ComApi")
-from Autodesk.Navisworks.Api.Interop.ComApi import *
+from Autodesk.Navisworks.Api import Application, ImageGenerationStyle
 
 clr.AddReference("Autodesk.Navisworks.Clash")
-from Autodesk.Navisworks.Api.Clash import *
-
+from Autodesk.Navisworks.Api.Clash import DocumentClash
 clr.AddReference("System.Windows.Forms")
-clr.AddReference("System.Drawing")
-
-from System.Windows.Forms import *
-from System.Drawing import *
+from System.Windows.Forms import MessageBox, MessageBoxButtons, MessageBoxIcon
 
 bundlePath = (Path.home() / "AppData" / "Roaming" / "Autodesk" / "ApplicationPlugins" / "RAEN.Navisworks.PyNET.bundle" / "Contents" / "2024")
 sys.path.append(str(bundlePath))
@@ -32,6 +25,10 @@ from Autodesk.Navisworks.Api import Application
 doc = Application.ActiveDocument
 
 #endregion
+
+
+sys.path.append(str(Path.home() / "AppData" / "Roaming" / "Pynet" / "Library" / "01_Scripts" / "00_utils"))
+from pynet_clash import get_clash_tests
 
 
 class ClashImageExporter:
@@ -66,7 +63,7 @@ class ClashImageExporter:
         clash_index = 1
         saved = 0
         skipped = 0
-        for test in testsData.Value.TestsRoot.Children:
+        for test in get_clash_tests(clashDoc):
             for r in test.Children:
                 status = str(r.Status)
                 if ClashImageExporter.TARGET_STATUSES and status not in ClashImageExporter.TARGET_STATUSES:

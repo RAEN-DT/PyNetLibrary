@@ -1,3 +1,6 @@
+# SPDX-License-Identifier: MIT
+# Copyright (c) 2024-2026 RAEN Digital Tools SL - PyNET Platform
+
 #region references
 import clr
 import sys
@@ -7,22 +10,12 @@ from datetime import datetime
 from collections import defaultdict
 
 clr.AddReference("Autodesk.Navisworks.Api")
-from Autodesk.Navisworks.Api import *
-
-clr.AddReference("Autodesk.Navisworks.ComApi")
-from Autodesk.Navisworks.Api.ComApi import *
-
-clr.AddReference("Autodesk.Navisworks.Interop.ComApi")
-from Autodesk.Navisworks.Api.Interop.ComApi import *
+from Autodesk.Navisworks.Api import Comment, CommentCollection, CommentStatus
 
 clr.AddReference("Autodesk.Navisworks.Clash")
-from Autodesk.Navisworks.Api.Clash import *
-
+from Autodesk.Navisworks.Api.Clash import DocumentClash, ClashResultGroup, ClashResultStatus
 clr.AddReference("System.Windows.Forms")
-clr.AddReference("System.Drawing")
-
-from System.Windows.Forms import *
-from System.Drawing import *
+from System.Windows.Forms import MessageBox, MessageBoxButtons, MessageBoxIcon, DialogResult
 
 bundlePath = (Path.home() / "AppData" / "Roaming" / "Autodesk" / "ApplicationPlugins" / "RAEN.Navisworks.PyNET.bundle" / "Contents" / "2024")
 sys.path.append(str(bundlePath))
@@ -34,6 +27,10 @@ from Autodesk.Navisworks.Api import Application, Assignee
 doc = Application.ActiveDocument
 
 #endregion
+
+
+sys.path.append(str(Path.home() / "AppData" / "Roaming" / "Pynet" / "Library" / "01_Scripts" / "00_utils"))
+from pynet_clash import get_clash_tests
 
 
 class ElementInfoExtractor:
@@ -214,7 +211,7 @@ class AutoReviewManager:
 
         # First pass: collect CON clash centers for proximity check (filter by PYNET code)
         con_clash_centers = []
-        for test in testsData.Value.TestsRoot.Children:
+        for test in get_clash_tests(clashDoc):
             for r in AutoReviewManager.IterAllResults(test):
                 try:
                     pa, _ = ElementInfoExtractor.GetPynetAndDiameter(r.Item1)
@@ -228,7 +225,7 @@ class AutoReviewManager:
         # Second pass: decide all New clashes
         decisions = []
         clash_index = 1
-        for test in testsData.Value.TestsRoot.Children:
+        for test in get_clash_tests(clashDoc):
             for r in AutoReviewManager.IterAllResults(test):
                 if str(r.Status) != "New":
                     clash_index += 1
@@ -304,7 +301,7 @@ class AutoReviewManager:
         # Group related clashes by shared element (within each test)
         print("\nGrouping related clashes...")
         total_groups = 0
-        for test in testsData.Value.TestsRoot.Children:
+        for test in get_clash_tests(clashDoc):
             total_groups += ClashGrouper.GroupBySharedElement(testsData, test)
         print(f"Groups created: {total_groups}")
 

@@ -1,12 +1,28 @@
+<!-- SPDX-License-Identifier: MIT -->
+<!-- Copyright (c) 2024-2026 RAEN Digital Tools SL - PyNET Platform -->
+
 <p align="center">
-  <img src="https://github.com/rafa2403nunez-droid/PyNetLibrary/blob/main/Assets/PyNetLibrary.png" width="400"/>
+  <img src="https://raw.githubusercontent.com/RAEN-DT/PyNetLibrary/main/Assets/PyNetLibrary.png" width="400"/>
 </p>
 
-# PyNet Library
+<p align="center">
+  <a href="https://github.com/RAEN-DT/PyNetLibrary/releases"><img src="https://img.shields.io/github/v/release/RAEN-DT/PyNetLibrary?label=release&color=f78166" alt="Release"/></a>
+  <img src="https://img.shields.io/badge/reference%20scripts-113-2b7489" alt="Scripts"/>
+  <img src="https://img.shields.io/badge/API%20stubs-8%2C788%20classes-6f42c1" alt="Stubs"/>
+  <img src="https://img.shields.io/badge/python-3.10%2B-blue" alt="Python"/>
+  <img src="https://img.shields.io/badge/platform-Windows-lightgrey" alt="Windows"/>
+  <img src="https://img.shields.io/badge/hosts-Navisworks%20%C2%B7%20Revit%20%C2%B7%20Civil%203D-orange" alt="Hosts"/>
+</p>
 
-**API context and reference scripts for Autodesk applications (Navisworks, Revit, Civil 3D)**, designed for the **[PyNet Platform](https://github.com/rafa2403nunez-droid/PyNet)**. This repo provides Python-style **stubs** of the Autodesk .NET APIs and example scripts, so that AI models (and developers) have the context they need to generate and understand automation code that runs through PyNet's embedded **Python.NET** engine.
+#
 
-> **AI Users:** This README, the API stubs under `02_PyNet Stubs/`, and the example scripts under `01_Scripts/` are the primary context sources for generating scripts. Read the execution environment and boilerplate sections before writing any code.
+**API context and reference scripts for Autodesk applications (Navisworks, Revit, Civil 3D)**, designed for the **[PyNet Platform](https://github.com/RAEN-DT/PyNet)**. This repo provides Python-style **stubs** of the Autodesk .NET APIs and example scripts, so that AI models (and developers) have the context they need to generate and understand automation code that runs through PyNet's embedded **Python.NET** engine.
+
+> **AI Users:** This README, the example scripts under `01_Scripts/`, and the API stubs under
+> `02_PyNet Stubs/` are the primary context sources for generating scripts. Read the execution
+> environment and boilerplate sections before writing any code. For an API signature, go to the
+> stubs through `02_PyNet Stubs/_index/CLASSES.tsv` — see [Stub Usage](#-stub-usage). It is faster
+> and more reliable than inferring a call and finding out at runtime.
 
 ---
 
@@ -276,23 +292,46 @@ FeatureManager.Run(doc)
 
 ## 🔍 Stub Usage
 
-The stub files under `02_PyNet Stubs/Autodesk/` (one folder per host: `Navisworks/`, `Revit/`, `AutoCAD/`, `Civil/`, `Aec/`) provide a Python-style representation of the Autodesk .NET APIs.
+The stub files under `02_PyNet Stubs/` are a Python-style representation of the Autodesk .NET APIs
+— **8,788 classes** across `Autodesk/` (one folder per host: `Navisworks/`, `Revit/`, `AutoCAD/`,
+`Civil/`, `Aec/`) plus the narrow slice of `System/` that PyNET actually imports. They are purely
+informational and never executed at runtime.
 
-### Purpose
-- Provide type hints and method signatures
-- Help AI models understand available API surfaces
-- Improve code generation accuracy
-- Assist developers in navigating the API
+### For AI models — check the stubs before guessing or probing
 
-### How to Use
-- Use stubs as a reference when writing scripts manually
-- Use them as context for AI-generated code
-- Explore them in an IDE for navigation and API understanding
-- They are not required at runtime and should not be executed directly
+An index makes the corpus cheap to query, so **the stubs are the authority on what the API offers**
+and should be consulted ahead of writing an exploratory script against the live model. Two steps:
 
-### Notes
-- Stubs mirror the structure of the Autodesk .NET assemblies
-- They are purely informational and not executed at runtime
+**1. Grep `02_PyNet Stubs/_index/CLASSES.tsv`** (942 KB) for the class name:
+
+```
+class      namespace             file                            start   end   base        members
+Wall       Autodesk.Revit.DB     Autodesk/Revit/DB/__init__.py   25358   25421 HostObject  58
+```
+
+**2. Read that file with `offset=start`, `limit=end-start`** — you get that class and nothing else.
+The median class is 16 lines.
+
+Never read a stub file whole: a single namespace can run to 25,000 lines. Never grep the corpus to
+find *where* a class lives — that is what the index is for. Grepping the stub files directly is
+still the right move for the opposite question, *which* class declares a given method, since
+ripgrep reports the file and line.
+
+**163 class names exist in more than one namespace** (`Application` is in six, `Entity` in five), so
+always match on the `namespace` column — it is also what tells you the correct import line.
+
+### When to probe the live model instead
+
+The stubs describe what the **API** offers. They cannot tell you what a **specific model** contains
+— which categories are populated, what a parameter is actually set to, how many elements match a
+filter. Those need a real query through the bridge. Use the stubs to get the call right, then run it.
+
+### Regenerating
+
+`01_Scripts/00_utils/GenerateStubs.py` rebuilds the stubs from the open host, then
+`01_Scripts/00_utils/IndexStubs.py` rebuilds the index — the second is required, because the index
+stores line numbers that are only valid for the stubs they were built from. Full detail in
+[docs/stubs.md](docs/stubs.md).
 
 ---
 
@@ -442,7 +481,7 @@ search.Selection.SelectAll()
 
 Have questions about installation, configuration, or usage? Check the full FAQ page:
 
-👉 [PyNet FAQs](https://github.com/rafa2403nunez-droid/PyNet/wiki/PyNET-FAQs)
+👉 [PyNet FAQs](https://github.com/RAEN-DT/PyNet/wiki/PyNET-FAQs)
 
 ---
 
@@ -453,7 +492,7 @@ This library is part of a modular system designed to enable AI-driven BIM automa
 This repository is designed to work alongside:
 
 - PyNet Platform → Executes scripts inside Navisworks via Python.NET  
-- PyNet Bridge (MCP) → Connects AI models to PyNet using IPC  
+- PyNet Bridge (MCP) → Connects AI models to PyNet locally  
 
 Together, these components enable:
 
@@ -461,35 +500,30 @@ Natural Language → AI → Python Script → PyNet → Navisworks / Revit / Civ
 
 | Component | Repository | Purpose |
 | :--- | :--- | :--- |
-| **PyNet Platform** | [rafa2403nunez-droid/PyNet](https://github.com/rafa2403nunez-droid/PyNet) | Navisworks/Revit plugin — hosts the Python.NET engine |
-| **PyNet Bridge (MCP)** | [rafa2403nunez-droid/PyNetBridge](https://github.com/rafa2403nunez-droid/PyNetBridge) | MCP server - connects AI models to PyNET with including secure scripts validation|
+| **PyNet Platform** | [PyNet](https://github.com/RAEN-DT/PyNet) | Navisworks/Revit plugin — hosts the Python.NET engine |
+| **PyNet Bridge (MCP)** | [PyNetBridge](https://github.com/RAEN-DT/PyNetBridge) | MCP server - connects AI models to PyNET with including secure scripts validation|
 | **PyNet Library** | This repo | Script reference library and AI context |
 
 To have AI generate and execute scripts live against Navisworks or Revit, install the MCP server:
 
 ```powershell
-irm https://raw.githubusercontent.com/rafa2403nunez-droid/PyNetBridge/main/install.ps1 | iex
+irm https://raw.githubusercontent.com/RAEN-DT/PyNetBridge/main/install.ps1 | iex
 ```
 
 This auto-detects and configures **Claude Desktop**, **Claude Code**, **Cline**, and **Roo Code**.
 
 ---
 
-## 🖥️ BIM Viewer & Coordination Dashboard (03_Viewer)
+## 🖥️ BIM Viewer & Coordination Dashboard
 
-Embeddable web component built with **ThatOpen Components** for visualizing federated IFC models alongside coordination data (clash detection) exported from Navisworks.
+The viewer is an embeddable web component built with **ThatOpen Components** for visualizing
+federated IFC models alongside coordination data (clash detection) exported from Navisworks.
 
-### Structure
-
-```
-03_Viewer/
-  src/           → Viewer TypeScript (ThatOpen + Three.js)
-  dashboard/     → Dashboard HTML + Plotly (clash table, charts)
-  server/        → Python servers: pnt_server.py (current) + legacy_server.py
-  public/worker/ → Web Worker for fragment parsing
-  dist/          → Viewer production build (generated with vite build)
-  dist_exe/      → Packaged standalone .exe of the dashboard (PyInstaller)
-```
+> **The viewer source now lives in [PyNetVSCode](https://github.com/RAEN-DT/PyNetVSCode)**, under
+> `viewer/`, together with the VS Code extension that ships it. Build instructions, the development
+> server and the viewer's public JavaScript API are documented there. This repo keeps the parts that
+> belong to the Autodesk side: producing the `.pnt` package and launching the dashboard from
+> Navisworks.
 
 ### The `.pnt` package
 
@@ -511,86 +545,15 @@ The script is located at `01_Scripts/01_Navisworks/04_DataAnalysis/ExportClashDa
 
 > **Important limitation:** The web server (Dash/Flask) only works when launched from a **WinForms** context (`Form.ShowDialog()`). Launching Dash from a direct MCP script (`send_command`) causes a deadlock due to the Python.NET GIL. This is why the script uses a Form as its entry point — the server thread is created from the Form button event, not from the MCP context.
 
-### Open a `.pnt` package — `pnt_server.py` (current)
+### Opening a `.pnt` package
 
-`pnt_server.py` is the product server: a Flask/Dash app wrapped in a **PyWebView desktop window**.
-It opens a `.pnt`, extracts it to `~/.pynet_viewer/<name>/`, and shows the viewer + dashboard.
+The easiest route is the **PyNET extension for VS Code**, which bundles the viewer and opens a
+`.pnt` in an editor tab. To run the server directly, or to build the viewer from source, see the
+[PyNetVSCode](https://github.com/RAEN-DT/PyNetVSCode) repo — `viewer/README.md` covers
+`pnt_server.py`, the standalone `.exe`, the hot-reload dev server and the viewer's public API.
 
-```powershell
-cd C:\Users\34655\source\repos\GithubRNM\PyNetLibrary\03_Viewer\server
-
-python pnt_server.py                 # opens a file picker to choose a .pnt
-python pnt_server.py project.pnt     # opens a specific package directly
-python pnt_server.py --port 8096     # custom port (default 8095)
-```
-
-#### Standalone `.exe` (no Python required)
-
-`pnt_server.py` can be packaged into a single distributable executable with PyInstaller — this is
-what `dist_exe/` (and `server/BIM-Dashboard.spec`) hold. End users just double-click the `.exe`,
-pick their `.pnt`, and explore the model + clashes without installing anything.
-
-```powershell
-cd C:\Users\34655\source\repos\GithubRNM\PyNetLibrary\03_Viewer\server
-pyinstaller pnt_server.py --onefile --noconsole --add-data "../dashboard;dashboard" --add-data "../dist;dist"
-```
-
-### Legacy — serve a folder of loose IFCs (`legacy_server.py`)
-
-> Development / troubleshooting only, and requires user approval. The standard flow is the `.pnt`
-> package above (or the Navisworks button). `legacy_server.py` is the older Python-stdlib server that
-> serves a directory of IFC files directly, with no `.pnt` packaging.
-
-<details>
-<summary>Show legacy instructions</summary>
-
-**Step 1 — Export data from Navisworks (via MCP or button)**
-
-**Step 2 — Start the HTTP server**
-
-```powershell
-cd C:\Users\34655\source\repos\GithubRNM\PyNetLibrary\03_Viewer
-python server\legacy_server.py --ifc-dir "C:\path\to\ifcs" --port 8095
-```
-
-**Step 3 — Open the dashboard**
-
-```
-http://localhost:8095/
-```
-
-**Standalone viewer (viewer only, no dashboard)**
-
-```
-http://localhost:8095/viewer/?models=model1.ifc,model2.ifc
-```
-</details>
-
-### Rebuild the viewer (after changes in src/)
-
-```powershell
-cd C:\Users\34655\source\repos\GithubRNM\PyNetLibrary\03_Viewer
-npm install
-npm run build
-```
-
-### Development with hot-reload
-
-```powershell
-cd C:\Users\34655\source\repos\GithubRNM\PyNetLibrary\03_Viewer
-npm run dev
-# Vite at http://localhost:5173 — requires legacy_server.py on port 8080 for IFC files
-python server\legacy_server.py --ifc-dir "C:\path\to\ifcs" --port 8080
-```
-
-### Viewer public API (for integration)
-
-| Function | Description |
-| :--- | :--- |
-| `window.loadModel(url, name)` | Loads an IFC model by URL |
-| `window.highlightElements(modelId, expressIds)` | Highlights elements (clash navigation) |
-| `window.fitToAllModels()` | Fits camera to all loaded models |
-| `postMessage({ type: "viewer-command", ... })` | iframe ↔ dashboard communication |
+For how the `.pnt` is produced from a model, see [docs/pnt-export.md](docs/pnt-export.md). For
+driving an already-loaded package from the AI side, see [docs/viewer-mcp.md](docs/viewer-mcp.md).
 
 ---
 
@@ -604,15 +567,14 @@ python server\legacy_server.py --ifc-dir "C:\path\to\ifcs" --port 8080
 ### Compatibility
 - Requires Autodesk applications with Python.NET support via PyNet Platform
 - Compatible with Python 3.10+
-- **Python 3.14 is not yet supported.** The `pythonnet` runtime currently supports Python 3.7 through 3.13. If you encounter a `System.NotSupportedException` mentioning an unsupported ABI version, install Python 3.12 or 3.13 and configure PyNet to use it.
+- **Python 3.14 is supported.**
 - Behavior may vary depending on application version
 - API access depends on Autodesk application version and edition compatibility
 
 ---
 
-© 2026 RAEN Digital Tools. Todos los derechos reservados.
-Obra inscrita en el Registro de la Propiedad Intelectual de la Comunidad de Madrid.
-
 <p align="center">
-  <img src="https://github.com/rafa2403nunez-droid/PyNetLibrary/blob/main/Assets/RAENDigitalTools.png" alt="RAEN Digital Tools" width="200">
+  <img src="https://raw.githubusercontent.com/RAEN-DT/PyNetLibrary/main/Assets/RAENDigitalTools.png" alt="RAEN Digital Tools" width="180"><br/><br/>
+  <sub>© 2026 RAEN Digital Tools · Todos los derechos reservados.<br/>
+  Obra inscrita en el Registro de la Propiedad Intelectual de la Comunidad de Madrid.</sub>
 </p>

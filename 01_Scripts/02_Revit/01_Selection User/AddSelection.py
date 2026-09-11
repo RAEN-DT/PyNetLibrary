@@ -1,3 +1,6 @@
+# SPDX-License-Identifier: MIT
+# Copyright (c) 2024-2026 RAEN Digital Tools SL - PyNET Platform
+
 import clr
 
 clr.AddReference("RevitAPI")
@@ -29,11 +32,10 @@ class AddSelectionScript:
     @staticmethod
     def Run(uidoc, doc):
         currentSelection = uidoc.Selection.GetElementIds()
-        currentReferences = []
+        currentReferences = List[Reference]()
         for id in currentSelection:
             element = doc.GetElement(id)
-            currentReferences.append(Reference.ParseFromStableRepresentation(doc, element.UniqueId))
-        currentReferences = List[Reference](currentReferences)
+            currentReferences.Add(Reference.ParseFromStableRepresentation(doc, element.UniqueId))
 
         references = None
         try:

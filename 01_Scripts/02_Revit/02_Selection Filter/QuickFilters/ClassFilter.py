@@ -1,3 +1,6 @@
+# SPDX-License-Identifier: MIT
+# Copyright (c) 2024-2026 RAEN Digital Tools SL - PyNET Platform
+
 import clr
 import System
 
@@ -19,7 +22,9 @@ class ClassFilterScript:
 
         collectorSimplified = FilteredElementCollector(doc).OfClass(Wall).WhereElementIsNotElementType().ToElements()
 
-        ids = List[ElementId]([n.Id for n in collectorSimplified])
+        ids = List[ElementId]()
+        for n in collectorSimplified:
+            ids.Add(n.Id)
         uidoc.Selection.SetElementIds(ids)
         uidoc.ShowElements(ids)
 

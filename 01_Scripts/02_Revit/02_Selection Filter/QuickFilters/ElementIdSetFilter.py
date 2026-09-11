@@ -1,3 +1,6 @@
+# SPDX-License-Identifier: MIT
+# Copyright (c) 2024-2026 RAEN Digital Tools SL - PyNET Platform
+
 import clr
 
 clr.AddReference("RevitAPI")
@@ -25,7 +28,9 @@ class ElementIdSetFilterScript:
             print("No elements selected.")
             return []
 
-        ids = List[ElementId]([element.Id for element in selection])
+        ids = List[ElementId]()
+        for element in selection:
+            ids.Add(element.Id)
         elementIdSetFilter = ElementIdSetFilter(ids)  #type:ignore
         collectorFilter = FilteredElementCollector(doc).WherePasses(elementIdSetFilter).OfClass(Wall).ToElements()
 

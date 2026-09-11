@@ -1,3 +1,6 @@
+# SPDX-License-Identifier: MIT
+# Copyright (c) 2024-2026 RAEN Digital Tools SL - PyNET Platform
+
 import clr
 
 clr.AddReference("RevitAPI")
@@ -13,11 +16,13 @@ doc = uidoc.Document
 class DesignOptionFilterScript:
     @staticmethod
     def Run(doc, uidoc):
-        option = DesignOption.GetActiveDesignOptionFilterId(doc)
+        option = DesignOption.GetActiveDesignOptionId(doc)
         designOptionFilter = ElementDesignOptionFilter(option)
         collectorFilter = FilteredElementCollector(doc).WherePasses(designOptionFilter).ToElements()
 
-        ids = List[ElementId]([n.Id for n in collectorFilter])
+        ids = List[ElementId]()
+        for n in collectorFilter:
+            ids.Add(n.Id)
         uidoc.Selection.SetElementIds(ids)
         uidoc.ShowElements(ids)
 

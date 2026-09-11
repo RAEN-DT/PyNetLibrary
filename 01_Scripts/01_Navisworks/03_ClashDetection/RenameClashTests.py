@@ -1,3 +1,6 @@
+# SPDX-License-Identifier: MIT
+# Copyright (c) 2024-2026 RAEN Digital Tools SL - PyNET Platform
+
 #region references
 
 import clr
@@ -6,25 +9,15 @@ from pathlib import Path
 import xml.etree.ElementTree as ET
 
 clr.AddReference("Autodesk.Navisworks.Api")
-from Autodesk.Navisworks.Api import *
-
-clr.AddReference("Autodesk.Navisworks.ComApi")
-from Autodesk.Navisworks.Api.ComApi import *
-
-clr.AddReference("Autodesk.Navisworks.Interop.ComApi")
-from Autodesk.Navisworks.Api.Interop.ComApi import *
+from Autodesk.Navisworks.Api import Application
 
 clr.AddReference("Autodesk.Navisworks.Clash")
-from Autodesk.Navisworks.Api.Clash import *
-
+from Autodesk.Navisworks.Api.Clash import DocumentClash
 clr.AddReference("System.Windows.Forms")
-clr.AddReference("System.Drawing")
-
-from System.Windows.Forms import*
-from System.Drawing import*
+from System.Windows.Forms import MessageBox, MessageBoxButtons, MessageBoxIcon
 
 bundlePath = (Path.home()/ "AppData"/ "Roaming"/ "Autodesk"/ "ApplicationPlugins"/ "RAEN.Navisworks.PyNET.bundle"/ "Contents"/ "2024")
-NavisworksinconPath = (Path.home()/ "AppData"/ "Roaming"/ "Autodesk"/ "ApplicationPlugins"/ "RAEN.Navisworks.PyNET.bundle"/ "Contents"/ "2024" / "Images" / "manage.ico")
+NavisworksinconPath = (Path.home() / "AppData" / "Roaming" / "Autodesk" / "ApplicationPlugins" / "Raen.Navisworks.Pynet.bundle" / "manage.ico")
 
 sys.path.append(str(bundlePath))
 
@@ -36,6 +29,10 @@ from Autodesk.Navisworks.Api import Application
 doc = Application.ActiveDocument
 
 #endregion
+
+sys.path.append(str(Path.home() / "AppData" / "Roaming" / "Pynet" / "Library" / "01_Scripts" / "00_utils"))
+from pynet_clash import get_clash_tests
+
 
 class DialogManager:
     """
@@ -58,8 +55,9 @@ class ClashManager:
 
     @staticmethod
     def RenameTests():
-        documentClashTests = CastUtils.CastTo[DocumentClash](doc.Clash).TestsData
-        tests = documentClashTests.Value.TestsRoot.Children
+        clashDoc = CastUtils.CastTo[DocumentClash](doc.Clash)
+        documentClashTests = clashDoc.TestsData
+        tests = get_clash_tests(clashDoc)
 
         for test in tests:
             documentClashTests.TestsEditDisplayName(test, "PrefixTest_" + test.DisplayName)

@@ -1,11 +1,15 @@
+# SPDX-License-Identifier: MIT
+# Copyright (c) 2024-2026 RAEN Digital Tools SL - PyNET Platform
+
 import clr
 from pathlib import Path
 import pandas as pd
 
 clr.AddReference("Autodesk.Navisworks.Api")
-from Autodesk.Navisworks.Api import *
-
 from Autodesk.Navisworks.Api import Application
+
+from System import Environment
+
 doc = Application.ActiveDocument
 
 
@@ -63,7 +67,7 @@ class ExportManager:
 
     @staticmethod
     def ToExcel(sorted_values):
-        desktop = Path.home() / "Desktop"
+        desktop = Path(Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory))
         excel_path = desktop / "MDE_Categoria_UniqueValues.xlsx"
         df = pd.DataFrame(sorted_values, columns=["MDE_Categoria", "Count"])
         df.to_excel(str(excel_path), index=False)

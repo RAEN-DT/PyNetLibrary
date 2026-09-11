@@ -1,3 +1,6 @@
+# SPDX-License-Identifier: MIT
+# Copyright (c) 2024-2026 RAEN Digital Tools SL - PyNET Platform
+
 import clr
 from pathlib import Path
 
@@ -16,9 +19,10 @@ try:
 except Exception:
     pass
 
+# Edit these paths to point at your own models.
 MODEL_PATHS = [
-    r"C:\Users\34655\Downloads\R\R\ModeloR - copia.rvt",
-    r"C:\Users\34655\Downloads\R\R\ModeloR.rvt",
+    r"C:\PyNET_Samples\Test1.rvt",
+    r"C:\PyNET_Samples\Test2.rvt",
 ]
 
 
@@ -91,7 +95,7 @@ if not form.confirmed:
 else:
     # All Revit API work happens here, after ShowDialog returns,
     # still inside the ExternalEventHandler.Execute() context.
-    app = __revit__.Application
+    app = __revit__.Application #type:ignore
     errors = []
 
     for path_str in MODEL_PATHS:

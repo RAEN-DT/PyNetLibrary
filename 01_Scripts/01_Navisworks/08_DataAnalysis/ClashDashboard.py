@@ -1,3 +1,6 @@
+# SPDX-License-Identifier: MIT
+# Copyright (c) 2024-2026 RAEN Digital Tools SL - PyNET Platform
+
 import clr
 import sys
 import json
@@ -6,9 +9,9 @@ from datetime import datetime
 import webbrowser
 
 clr.AddReference("Autodesk.Navisworks.Api")
-from Autodesk.Navisworks.Api import *
+from Autodesk.Navisworks.Api import Application
 clr.AddReference("Autodesk.Navisworks.Clash")
-from Autodesk.Navisworks.Api.Clash import *
+from Autodesk.Navisworks.Api.Clash import DocumentClash
 clr.AddReference("System.Windows.Forms")
 from System.Windows.Forms import MessageBox, MessageBoxButtons, MessageBoxIcon
 
@@ -22,13 +25,16 @@ from Autodesk.Navisworks.Api import Application
 doc = Application.ActiveDocument
 
 
+sys.path.append(str(Path.home() / "AppData" / "Roaming" / "Pynet" / "Library" / "01_Scripts" / "00_utils"))
+from pynet_clash import get_clash_tests
+
+
 class DataExtractor:
     @staticmethod
     def Run(document):
         clashDoc = CastUtils.CastTo[DocumentClash](document.Clash)
-        testsData = clashDoc.TestsData
         tests = []
-        for test in testsData.Value.TestsRoot.Children:
+        for test in get_clash_tests(clashDoc):
             counts = {"New": 0, "Active": 0, "Reviewed": 0, "Approved": 0, "Resolved": 0}
             for r in test.Children:
                 s = str(r.Status)

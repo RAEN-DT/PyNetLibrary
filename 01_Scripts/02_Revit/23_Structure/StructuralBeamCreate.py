@@ -1,3 +1,6 @@
+# SPDX-License-Identifier: MIT
+# Copyright (c) 2024-2026 RAEN Digital Tools SL - PyNET Platform
+
 import clr
 
 clr.AddReference("RevitAPI")
@@ -11,12 +14,20 @@ def m_to_ft(meters):
     return UnitUtils.ConvertToInternalUnits(meters, UnitTypeId.Meters)
 
 
+def eid_val(eid):
+    """Revit 2024+ exposes ElementId.Value; older versions use ElementId.IntegerValue."""
+    try:
+        return int(eid.Value)
+    except AttributeError:
+        return int(eid.IntegerValue)
+
+
 class StructuralBeamCreateScript:
     @staticmethod
     def Run(doc):
         beam_symbol = next(
             (fs for fs in FilteredElementCollector(doc).OfClass(FamilySymbol)
-             if fs.Category.Id.IntegerValue == int(BuiltInCategory.OST_StructuralFraming)),
+             if eid_val(fs.Category.Id) == int(BuiltInCategory.OST_StructuralFraming)),
             None
         )
 

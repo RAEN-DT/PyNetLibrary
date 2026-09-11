@@ -1,5 +1,8 @@
+# SPDX-License-Identifier: MIT
+# Copyright (c) 2024-2026 RAEN Digital Tools SL - PyNET Platform
 
-import openpyxl, webbrowser, math
+import openpyxl, webbrowser
+import pandas as pd
 from openpyxl.styles import Font as XFont, PatternFill, Alignment, Border, Side
 from openpyxl.utils import get_column_letter
 from pathlib import Path
@@ -54,15 +57,17 @@ DATE_STR = datetime.now().strftime("%d/%m/%Y %H:%M")
 MODEL_NAME = doc.Title.replace(".rvt", "")
 
 # ── 1. Load reference ──────────────────────────────────────────────────────
-wb_ref = openpyxl.load_workbook(str(ref_path), data_only=True)
-ws_ref = wb_ref.active
+df_ref = pd.read_excel(str(ref_path), sheet_name=0, usecols="A:E", header=0)
 resource_lookup = {}  # code -> {capitulo, desc, unit, price}
-for row in ws_ref.iter_rows(min_row=2, values_only=True):
-    if not row[0]: continue
-    vals = [str(v).strip() if v is not None else "" for v in row[:5]]
-    code, cap, desc, unit, price = vals
-    if code:
-        resource_lookup[code] = {"code": code, "capitulo": cap, "desc": desc, "unit": unit, "price": float(price) if price else 0.0}
+for row in df_ref.itertuples(index=False):
+    code = str(row[0]).strip() if pd.notna(row[0]) else ""
+    if not code:
+        continue
+    cap   = str(row[1]).strip() if pd.notna(row[1]) else ""
+    desc  = str(row[2]).strip() if pd.notna(row[2]) else ""
+    unit  = str(row[3]).strip() if pd.notna(row[3]) else ""
+    price = float(row[4]) if pd.notna(row[4]) else 0.0
+    resource_lookup[code] = {"code": code, "capitulo": cap, "desc": desc, "unit": unit, "price": price}
 
 # ── 2. Collect quantities with element breakdown ───────────────────────────
 budget = {}
@@ -84,10 +89,10 @@ for cat_name, bic in BIC_MAP.items():
         if code not in budget:
             budget[code] = {**res, "qty": 0.0, "elements": []}
         if cat_name in LENGTH_CATS:
-            p = el.get_Parameter(BuiltInParameter.CURVE_ELEM_LENGTH)
+            p = el.GetParameter(ParameterTypeId.CurveElemLength)
             qty = round(p.AsDouble() * FT_TO_M, 2) if p and p.HasValue else 0.0
         elif cat_name in AREA_CATS:
-            p = el.get_Parameter(BuiltInParameter.HOST_AREA_COMPUTED)
+            p = el.GetParameter(ParameterTypeId.HostAreaComputed)
             qty = round(p.AsDouble() * FT2_TO_M2, 2) if p and p.HasValue else 0.0
         else:
             qty = 1.0

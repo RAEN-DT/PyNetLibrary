@@ -1,3 +1,6 @@
+# SPDX-License-Identifier: MIT
+# Copyright (c) 2024-2026 RAEN Digital Tools SL - PyNET Platform
+
 #region references
 
 import clr
@@ -5,28 +8,16 @@ import sys
 from pathlib import Path
 
 clr.AddReference("Autodesk.Navisworks.Api")
-from Autodesk.Navisworks.Api import *
-
-clr.AddReference("Autodesk.Navisworks.ComApi")
-from Autodesk.Navisworks.Api.ComApi import *
-
-clr.AddReference("Autodesk.Navisworks.Interop.ComApi")
-from Autodesk.Navisworks.Api.Interop.ComApi import *
-
-clr.AddReference("Autodesk.Navisworks.Clash")
-from Autodesk.Navisworks.Api.Clash import *
+from Autodesk.Navisworks.Api import Application, PublishProperties, NwdExportOptions
 
 clr.AddReference("System.Windows.Forms")
-clr.AddReference("System.Drawing")
-
-from System.Windows.Forms import*
-from System.Drawing import*
+from System.Windows.Forms import MessageBox, MessageBoxButtons, MessageBoxIcon
 
 from System.Collections.Generic import List
-from datetime import datetime
+from System import DateTime
 
 bundlePath = (Path.home()/ "AppData"/ "Roaming"/ "Autodesk"/ "ApplicationPlugins"/ "RAEN.Navisworks.PyNET.bundle"/ "Contents"/ "2024")
-NavisworksinconPath = (Path.home()/ "AppData"/ "Roaming"/ "Autodesk"/ "ApplicationPlugins"/ "RAEN.Navisworks.PyNET.bundle"/ "Contents"/ "2024" / "Images" / "manage.ico")
+NavisworksinconPath = (Path.home() / "AppData" / "Roaming" / "Autodesk" / "ApplicationPlugins" / "Raen.Navisworks.Pynet.bundle" / "manage.ico")
 
 sys.path.append(str(bundlePath))
 
@@ -88,10 +79,14 @@ class ModelManagement:
             filePaths (list[str]): List of file paths to append.
             useTry (bool): If True, uses TryAppendFiles() for safe execution.
         """
+        netFilePaths = List[str]()
+        for p in filePaths:
+            netFilePaths.Add(p)
+
         if useTry:
-            document.TryAppendFiles(List[str](filePaths))
+            document.TryAppendFiles(netFilePaths)
         else:
-            document.AppendFiles(List[str](filePaths))
+            document.AppendFiles(netFilePaths)
 
     @staticmethod
     def PublishModel(document, path):
@@ -115,7 +110,7 @@ class ModelManagement:
         properties.ExpiryDate = ""
         properties.Keywords = ""
         properties.PreventObjectPropertyExport = False
-        properties.PublishDate = datetime.now()
+        properties.PublishDate = DateTime.Now
         properties.PublishedFor = ""
         properties.Publisher = ""
         properties.Subject = ""
@@ -123,6 +118,8 @@ class ModelManagement:
 
         properties.SetPassword("Password")
 
-        document.PublishFile(path, properties)
+        # Since Navisworks 2026, PublishFile requires the export options object: (fileName, options, properties)
+        options = NwdExportOptions()
+        document.PublishFile(path, options, properties)
 
 #endregion

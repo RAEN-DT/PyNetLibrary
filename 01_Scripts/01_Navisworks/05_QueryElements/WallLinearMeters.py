@@ -1,9 +1,14 @@
+# SPDX-License-Identifier: MIT
+# Copyright (c) 2024-2026 RAEN Digital Tools SL - PyNET Platform
+
 import clr
 import pandas as pd
 from pathlib import Path
 
 clr.AddReference("Autodesk.Navisworks.Api")
-from Autodesk.Navisworks.Api import *
+from Autodesk.Navisworks.Api import Application
+
+from System import Environment
 
 doc = Application.ActiveDocument
 
@@ -107,7 +112,7 @@ class ExportManager:
     @staticmethod
     def ToExcel(data):
         df = pd.DataFrame(data)
-        desktop = Path.home() / "Desktop"
+        desktop = Path(Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory))
         filepath = desktop / "Muros_MetrosLineales.xlsx"
         df.to_excel(str(filepath), index=False, sheet_name="Muros")
         print(f"Excel saved to: {filepath}")

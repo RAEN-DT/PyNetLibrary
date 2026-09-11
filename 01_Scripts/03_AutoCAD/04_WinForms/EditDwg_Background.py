@@ -1,3 +1,6 @@
+# SPDX-License-Identifier: MIT
+# Copyright (c) 2024-2026 RAEN Digital Tools SL - PyNET Platform
+
 """
 V1 — Background edit: files are NOT opened in the AutoCAD UI.
 Pattern: standalone Database + ReadDwgFile (OpenForReadAndAllShare) + SaveAs + Dispose.
@@ -22,32 +25,17 @@ from System.Windows.Forms import (
     Form, Label, Button, FormStartPosition,
     MessageBox, MessageBoxButtons, MessageBoxIcon,
 )
-from System.Drawing import Size, Point
+from System.Drawing import Size, Point, Icon
 
-TEST_DIR = Path(r"C:\Temp\PyNET3")
-FILES = ["PyNET_A.dwg", "PyNET_B.dwg"]
+Civil3DIconPath = (Path.home() / "AppData" / "Roaming" / "Autodesk"
+                   / "ApplicationPlugins" / "Raen.Civil3D.Pynet.bundle" / "C3D.ico")
 
-# Prepare fresh test files
-TEST_DIR.mkdir(parents=True, exist_ok=True)
-for i, filename in enumerate(FILES, 1):
-    fp = TEST_DIR / filename
-    db = Database(True, True)
-    try:
-        t = db.TransactionManager.StartTransaction()
-        try:
-            bt = t.GetObject(db.BlockTableId, OpenMode.ForRead)
-            ms = t.GetObject(bt[BlockTableRecord.ModelSpace], OpenMode.ForWrite)
-            ln = Line(Point3d(0, 0, 0), Point3d(i * 100.0, i * 50.0, 0))
-            ms.AppendEntity(ln)
-            t.AddNewlyCreatedDBObject(ln, True)
-            t.Commit()
-        except:
-            t.Abort()
-            raise
-        db.SaveAs(str(fp), DwgVersion.Current)
-    finally:
-        db.Dispose()
-    print(f"Prepared: {filename}")
+# Edit these paths to point at your own drawings.
+FILES = [
+    Path(r"C:\PyNET_Samples\PyNET_Test_1.dwg"),
+    Path(r"C:\PyNET_Samples\PyNET_Test_2.dwg"),
+]
+
 
 
 class EditDwgForm(Form):
@@ -59,13 +47,15 @@ class EditDwgForm(Form):
         self.StartPosition = FormStartPosition.CenterScreen
         self.FormBorderStyle = self.FormBorderStyle.FixedDialog
         self.MaximizeBox = False
+        if Path(str(Civil3DIconPath)).exists():
+            self.Icon = Icon(str(Civil3DIconPath))
 
         lbl = Label()
         lbl.Text = (
             "BACKGROUND mode — files are NOT opened in the UI.\n"
             "Will edit and save silently:\n\n"
-            "  • PyNET_A.dwg — new line to (50,200)\n"
-            "  • PyNET_B.dwg — new line to (150,300)"
+            "  • PyNET_Test_1.dwg — new line to (50,200)\n"
+            "  • PyNET_Test_2.dwg — new line to (150,300)"
         )
         lbl.Location = Point(20, 20)
         lbl.Size = Size(400, 90)
@@ -106,8 +96,7 @@ else:
     ]
 
     results = []
-    for filename, (start, end) in zip(FILES, new_lines):
-        file_path = TEST_DIR / filename
+    for file_path, (start, end) in zip(FILES, new_lines):
 
         db = Database(False, True)
         db.ReadDwgFile(str(file_path), FileOpenMode.OpenForReadAndAllShare, False, "")
@@ -127,8 +116,8 @@ else:
         finally:
             db.Dispose()  # always — releases file handle whether SaveAs succeeded or not
 
-        print(f"Updated: {filename}")
-        results.append({"file": filename, "status": "ok"})
+        print(f"Updated: {file_path.name}")
+        results.append({"file": file_path.name, "status": "ok"})
 
     MessageBox.Show(
         "Done! Files saved silently — no tabs opened.",

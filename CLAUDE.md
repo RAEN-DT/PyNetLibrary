@@ -1,3 +1,6 @@
+<!-- SPDX-License-Identifier: MIT -->
+<!-- Copyright (c) 2024-2026 RAEN Digital Tools SL - PyNET Platform -->
+
 # Project Context — PyNET Platform (Navisworks · Revit · AutoCAD/Civil 3D)
 
 This file is the **always-loaded core**: rules that apply to every interaction. Host-specific
@@ -14,13 +17,20 @@ IronPython). Full Python 3 syntax plus the `clr` bridge to .NET and the Autodesk
 
 Scripts are sent to the plugin through the MCP bridge and executed locally inside the host process.
 
+> **QGIS is a separate environment.** Standalone **PyQGIS** scripts (`04_QGIS`) are NOT PyNET-hosted —
+> they run headless in QGIS's own Python launcher, outside the bridge and its validator
+> ([docs/qgis.md](docs/qgis.md)). GIS *inside* AutoCAD (Map 3D / Civil, `01_Scripts/03_AutoCAD/20_GIS`) **is**
+> bridge-hosted and lives under [docs/autocad-civil.md](docs/autocad-civil.md).
+
 > **Always check `list_active_instances` first** to identify the running host and PID — boilerplate
 > and APIs differ per host. Civil 3D appears as **"AutoCAD"** in the instance list.
 
 > **Timeout rule:** always use a minimum timeout of **60 seconds** when calling `send_command`.
 
 > **MCP bridge:** `pip show pynet-mcp-bridge` (NOT `pynet-bridge`) using Python 3.10 pip at
-> `C:\Users\34655\AppData\Local\Programs\Python\Python310\Scripts\pip.exe`. Installed: **1.4.9**.
+> `%LOCALAPPDATA%\Programs\Python\Python310\Scripts\pip.exe`. Installed: **1.5.4**.
+> Note there are two copies on this machine (uv at `~/.local/bin` and pip); uv wins on PATH, so
+> keep both upgraded or a client may silently run the older one.
 
 ---
 
@@ -31,20 +41,25 @@ Scripts are sent to the plugin through the MCP bridge and executed locally insid
 | A **Navisworks** script | [docs/navisworks.md](docs/navisworks.md) |
 | A **Revit** script | [docs/revit.md](docs/revit.md) |
 | A Revit **element query / measurement** | [.claude/commands/RevitApiPatterns.md](.claude/commands/RevitApiPatterns.md) |
-| An **AutoCAD / Civil 3D** script | [docs/autocad-civil.md](docs/autocad-civil.md) |
+| An **AutoCAD / Civil 3D** script (incl. GIS *inside* AutoCAD — Map 3D, `01_Scripts/03_AutoCAD/20_GIS`) | [docs/autocad-civil.md](docs/autocad-civil.md) |
+| A **standalone QGIS / PyQGIS** script (`04_QGIS`, headless, NOT Autodesk-hosted) | [docs/qgis.md](docs/qgis.md) |
 | Any **form / dialog / custom UI** (WinForms) | [docs/winforms.md](docs/winforms.md) |
 | Reading an **Excel** file | [docs/excel-mcp.md](docs/excel-mcp.md) |
 | **Generating stubs** / VS Code IntelliSense | [docs/stubs.md](docs/stubs.md) |
 | **Deploying buttons / modules / Output Window** | [docs/ui-deployment.md](docs/ui-deployment.md) |
+| Exporting a **`.pnt`** package for the VS Code viewer | [docs/pnt-export.md](docs/pnt-export.md) |
+| Operating the VS Code viewer via **MCP** (`viewer_*` tools — select, isolate, highlight clashes, properties) | [docs/viewer-mcp.md](docs/viewer-mcp.md) |
+| The **bridge is not connected** — `mcp__pynet-bridge__*` tools missing, or `MCP error -32000: Connection closed` | [docs/bridge-troubleshooting.md](docs/bridge-troubleshooting.md) |
 | Full **security** whitelist/blocklist | [docs/security.md](docs/security.md) |
 
 The Router row above (`RevitApiPatterns`) is a **reference** to read before writing Revit queries —
 it lives in `.claude/commands/` but is consulted, not run.
 
 Everything else in `.claude/commands/` is a **workflow Skill** the *user* invokes via slash command:
-`/ClashDetection`, `/ClashCoordination`, `/QCModelAudit`, `/QuantityTakeoff`, `/DevMode`. They are
+`/ClashDetection`, `/ClashCoordination`, `/ClashToleranceComparison`, `/QCModelAudit`, `/QuantityTakeoff`, `/WindSiting`, `/PowerlineFireRisk`, `/CreateParameters`, `/DevMode`. They are
 self-contained and auto-load when invoked — do not duplicate their content here. Suggest the matching
-one when the user describes its task (e.g. a clash run, a QC audit, a 5D takeoff).
+one when the user describes its task (e.g. a clash run, a QC audit, a 5D takeoff, a GIS/wind-farm siting study,
+a powerline wildfire-risk / vegetation-management study, creating/binding shared or project parameters from an Excel matrix).
 
 ---
 
@@ -58,9 +73,20 @@ Be efficient: check existing context before writing from scratch.
 2. **Example scripts (MANDATORY before writing from scratch)** — `01_Scripts/01_Navisworks/`,
    `01_Scripts/02_Revit/`, `01_Scripts/03_AutoCAD/`. Use `Glob` to list the relevant folder, then
    `Read` the closest match. The library is validated and production-ready.
-3. **Live API exploration** — write a short `send_command` script to inspect the actual model at
-   runtime. The live model is the most accurate reference.
-4. **API stubs** — `02_PyNet Stubs/` (50k+ lines; never read in full — search a specific name only).
+3. **API stubs** — the authority on **what the API offers**: does this class exist, what is the
+   exact signature, what is the import line. Two cheap steps, so reach for them *before* probing
+   the live model or inferring a call:
+   - `Grep` `02_PyNet Stubs/_index/CLASSES.tsv` (942 KB, 8,788 classes) for the class name → it
+     returns the namespace, the file and the exact line range.
+   - `Read` that file with `offset`/`limit` → you get that class alone (median 16 lines).
+
+   Never read a stub file whole (a namespace can be 25k lines) and never grep the corpus just to
+   locate a class. Do grep the stub files to find *which* class declares a given method. Match on
+   the `namespace` column — 163 class names are repeated. See [docs/stubs.md](docs/stubs.md).
+4. **Live API exploration** — a short `send_command` script against the running host. This answers
+   what a **specific model contains** (populated categories, real parameter values, how many
+   elements match) — questions the stubs cannot answer. It costs a round trip and needs the host
+   open, so use the stubs to get the call right first, then run it.
 
 ---
 
@@ -91,6 +117,13 @@ across scripts. Do not abbreviate or transform output values unless explicitly a
 ia_Result = [{"type": "Wall", "id": 1, "name": "Wall A", "height": 3.2}]
 ```
 
+> **Dashboards / reports.** Default: a self-contained HTML string built in Python, saved next to the
+> other output (Desktop / project folder) and opened instantly with `webbrowser.open('file:///...')`
+> from inside the host script — see `ModelAudit.py`, `QuantityTakeoff.py`, `ExportClashDashboard.py`
+> for the pattern (inline CSS, KPI cards, `<details>` for collapsible sections, no external JS). Do
+> **not** publish a Claude Artifact for a report/dashboard unless the user explicitly asks for one —
+> Artifacts add a publish round trip the user doesn't want for this workflow.
+
 ---
 
 ## 6. Script creation & execution
@@ -112,15 +145,23 @@ do not save one-off scripts to disk just to work around length.
 
 ## 7. Security (summary)
 
-All scripts are statically validated before execution. Scope is strictly **Autodesk automation** —
-**no file system access, no network, no system-level actions**. Use `pathlib.Path`, never `os.path`.
+The static validator only runs for scripts sent through the **MCP bridge** (`send_command`) into an
+Autodesk host. Scripts run by their own launcher — **standalone QGIS** (`04_QGIS`, see
+[docs/qgis.md](docs/qgis.md)) or a user-saved button — do NOT pass through it. Use `pathlib.Path`,
+never `os.path`.
 
 Quick reference (full lists in [docs/security.md](docs/security.md)):
 - **Allowed imports:** `clr`, `sys`, `json`, `re`, `time`, `datetime`, `pathlib`, `typing`,
-  `threading`, `collections`, `xml`, `pandas`, `plotly`, `matplotlib`, `dash`, `webbrowser`,
-  `psutil`, `openpyxl`, `http.server`.
-- **Blocked imports:** `os`, `subprocess`, `shutil`, `socket`, `urllib`, `glob`, `inspect`, … 
-- **Blocked calls:** `eval`, `exec`, `compile`, `__import__`, `getattr`, `setattr`, …
+  `threading`, `collections`, `xml`, `math`, `functools`, `pandas`, `plotly`, `matplotlib`, `dash`,
+  `webbrowser`, `psutil`, `openpyxl`, `uuid`, `zipfile`, `io`, `mimetypes`, `difflib`, `csv`,
+  `ifcopenshell`, `numpy`, `shapely`, `qgis`, `processing`. Submodules: `http.server` (only).
+- **Blocked imports:** `os`, `subprocess`, `shutil`, `socket`, `urllib`, `glob`, `inspect`, …
+- **The sandbox is closed on purpose — no network, no local server.** `urllib` is blocked at the
+  root, and `flask` / `webview` are not whitelisted. The code that legitimately needs them (GIS
+  fetches in `04_QGIS`, the viewer and dashboard servers) runs through its own launcher, outside
+  the validator — so the bridge never has to open. Do not "fix" this by widening the whitelist.
+- **Blocked calls:** `eval`, `exec`, `compile`, `__import__`, `getattr`, `setattr`, … (blocked for MCP
+  only; user-authored scripts may use them).
 
 Do NOT attempt to bypass these. If a script needs something blocked, tell the user and suggest an
 alternative within scope.
@@ -144,6 +185,11 @@ processing, Excel, API queries. The plugin runs CPython 3.10 with pandas, openpy
 Only fall back to Bash/PowerShell for genuine OS operations (pip install, git). If a whitelisted
 library is missing and needed regularly, flag it so it can be added.
 
+> **Be scrupulous with arithmetic — never compute by hand.** Quantities, tolerances, sums, areas,
+> coordinates and any figure reported to the user must be calculated in Python (via the MCP bridge),
+> not estimated mentally. Even a "trivial" sum gets verified in code. A single wrong number erodes
+> trust in the whole analysis — double-check totals before reporting them.
+
 ---
 
 ## 10. Interaction mode
@@ -159,4 +205,4 @@ Use **Developer Mode** (full scripts, JSON, stack traces) only when activated wi
 See the `DevMode` skill for the full spec.
 
 > **Language:** match the user's conversation language (Spanish ↔ Spanish, English ↔ English).
-> All persistent repo AI artifacts (this file, `docs/`, skills) stay in **English**. See `CODEX.md`.
+> All persistent repo AI artifacts (this file, `docs/`, skills) stay in **English**. See `AGENTS.md`.

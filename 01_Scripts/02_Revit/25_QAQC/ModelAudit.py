@@ -1,21 +1,20 @@
+# SPDX-License-Identifier: MIT
+# Copyright (c) 2024-2026 RAEN Digital Tools SL - PyNET Platform
 
 import clr, sys, re, math, webbrowser
 from pathlib import Path
 from datetime import datetime
 
-if not hasattr(clr, '_available_namespaces'):
-    clr._available_namespaces = {}
-
-import openpyxl
-from openpyxl.styles import PatternFill, Font as XFont
-
 clr.AddReference("RevitAPI")
 from Autodesk.Revit.DB import *
+import openpyxl
+from openpyxl.styles import PatternFill, Font as XFont
 
 doc = __revit__.ActiveUIDocument.Document #type:ignore
 app = __revit__.Application #type:ignore
 
-EXCEL_PATH = r'C:\Users\34655\OneDrive - RAEN Digital Tools SL\01_Proyectos\04_Editeca\01_Curso Revit IA\01_WIP\Caso 4_Control de calidad\Editeca_Control de Calidad.xlsx'
+# Edit this path to point at your own quality-control workbook.
+EXCEL_PATH = r'C:\PyNET_Samples\PyNET_Control de Calidad.xlsx'
 OUTPUT_DIR = str(Path(EXCEL_PATH).parent)
 TODAY = datetime.now().strftime('%Y%m%d_%H%M%S')
 DATE_STR = datetime.now().strftime('%d/%m/%Y %H:%M')
@@ -347,19 +346,19 @@ for bic_str in matrix:
 
 # EXCEL
 print('Excel...')
-S_FILL={'OK':'C6EFCE','ERROR':'FFC7CE','WARNING':'FFEB9C'}; S_FONT={'OK':'006100','ERROR':'9C0006','WARNING':'9C5700'}
+from openpyxl.worksheet.table import Table, TableStyleInfo
 out_wb=openpyxl.Workbook(); out_wb.remove(out_wb.active)
+ti=0
 for sec,rr in results.items():
     ws=out_wb.create_sheet(sec[:31])
     ws.append(['Check','Estado','Detalle','ElementId'])
-    for cell in ws[1]: cell.font=XFont(bold=True,color='FFFFFF'); cell.fill=PatternFill('solid',fgColor='1F3864')
     for row in rr:
-        ws.append([row['Check'],row['Estado'],row['Detalle'],row['ElementId']])
-        for cell in ws[ws.max_row]:
-            cell.fill=PatternFill('solid',fgColor=S_FILL.get(row['Estado'],'FFFFFF'))
-            cell.font=XFont(color=S_FONT.get(row['Estado'],'000000'))
-    for col in ws.columns:
-        ws.column_dimensions[col[0].column_letter].width=min(max(len(str(c.value or '')) for c in col)+2,60)
+        ws.append([row['Check'] or None, row['Estado'] or None, row['Detalle'] or None, row['ElementId'] or None])
+    if rr:
+        ti+=1
+        tbl=Table(displayName=f'Tabla_{ti}',ref=f'A1:D{ws.max_row}')
+        tbl.tableStyleInfo=TableStyleInfo(name='TableStyleMedium2',showRowStripes=True)
+        ws.add_table(tbl)
 excel_out=str(Path(OUTPUT_DIR)/f'QC_ModelAudit_{TODAY}.xlsx')
 out_wb.save(excel_out)
 

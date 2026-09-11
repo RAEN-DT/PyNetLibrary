@@ -1,11 +1,27 @@
 AI_History/
 __pycache__/
-.claude/
+# This repo is PUBLIC, so what is tracked here must stay a subset of what the installer ships.
+# The workflow skills are tracked (customers already have them, and nothing else backs them up),
+# except the client-pilot and GIS ones, which are not given away.
+.claude/*
+!.claude/commands/
+.claude/commands/DataCenterGenerative.md
+.claude/commands/PowerlineFireRisk.md
+.claude/commands/WindSiting.md
 *.zip
 *.pdf
 01_Scripts/01_Navisworks/00_Workflows/
 01_Scripts/01_Navisworks/07_IFCExport/
 01_Scripts/02_Revit/00_Workflow/
-03_Viewer/server/dist/
-03_Viewer/server/build/
+01_Scripts/04_QGIS/
+node_modules/
+
+# The viewer moved to the PyNetVSCode repo (viewer/). Ignored so a leftover local
+# checkout here does not resurface as untracked files.
+03_Viewer/
 *.exe
+
+# Not published yet
+_docbuild/
+01_Scripts/02_Revit/27_DataCenter/
+01_Scripts/02_Revit/25_QAQC/ModelAudit.txt

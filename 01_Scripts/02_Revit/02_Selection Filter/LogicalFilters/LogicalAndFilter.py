@@ -1,3 +1,6 @@
+# SPDX-License-Identifier: MIT
+# Copyright (c) 2024-2026 RAEN Digital Tools SL - PyNET Platform
+
 import clr
 
 clr.AddReference("RevitAPI")
@@ -15,10 +18,14 @@ class LogicalAndFilterScript:
     def Run(doc):
         elementTypeFilter = ElementIsElementTypeFilter()
 
-        categories = List[BuiltInCategory]([BuiltInCategory.OST_Walls, BuiltInCategory.OST_Doors])
+        categories = List[BuiltInCategory]()
+        categories.Add(BuiltInCategory.OST_Walls)
+        categories.Add(BuiltInCategory.OST_Doors)
         multiCategoryFilter = ElementMulticategoryFilter(categories)
 
-        filters = List[ElementFilter]([multiCategoryFilter, elementTypeFilter])
+        filters = List[ElementFilter]()
+        filters.Add(multiCategoryFilter)
+        filters.Add(elementTypeFilter)
         logicalFilter = LogicalAndFilter(filters)
 
         collector = FilteredElementCollector(doc).WherePasses(logicalFilter).ToElements()

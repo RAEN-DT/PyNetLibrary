@@ -1,3 +1,6 @@
+# SPDX-License-Identifier: MIT
+# Copyright (c) 2024-2026 RAEN Digital Tools SL - PyNET Platform
+
 #region references
 import clr
 import sys
@@ -6,22 +9,12 @@ from pathlib import Path
 from datetime import datetime
 
 clr.AddReference("Autodesk.Navisworks.Api")
-from Autodesk.Navisworks.Api import *
-
-clr.AddReference("Autodesk.Navisworks.ComApi")
-from Autodesk.Navisworks.Api.ComApi import *
-
-clr.AddReference("Autodesk.Navisworks.Interop.ComApi")
-from Autodesk.Navisworks.Api.Interop.ComApi import *
+from Autodesk.Navisworks.Api import Comment, CommentCollection, CommentStatus
 
 clr.AddReference("Autodesk.Navisworks.Clash")
-from Autodesk.Navisworks.Api.Clash import *
-
+from Autodesk.Navisworks.Api.Clash import DocumentClash
 clr.AddReference("System.Windows.Forms")
-clr.AddReference("System.Drawing")
-
-from System.Windows.Forms import *
-from System.Drawing import *
+from System.Windows.Forms import MessageBox, MessageBoxButtons, MessageBoxIcon, DialogResult
 
 bundlePath = (Path.home() / "AppData" / "Roaming" / "Autodesk" / "ApplicationPlugins" / "RAEN.Navisworks.PyNET.bundle" / "Contents" / "2024")
 sys.path.append(str(bundlePath))
@@ -33,6 +26,10 @@ from Autodesk.Navisworks.Api import Application, Assignee
 doc = Application.ActiveDocument
 
 #endregion
+
+
+sys.path.append(str(Path.home() / "AppData" / "Roaming" / "Pynet" / "Library" / "01_Scripts" / "00_utils"))
+from pynet_clash import get_clash_tests
 
 
 class ElementInfoExtractor:
@@ -132,7 +129,7 @@ class AddClashCommentsManager:
 
         # Collect CON centers for proximity check
         con_centers = []
-        for test in testsData.Value.TestsRoot.Children:
+        for test in get_clash_tests(clashDoc):
             for r in AddClashCommentsManager.IterAllResults(test):
                 try:
                     pa, _ = ElementInfoExtractor.GetPynetAndDiameter(r.Item1)
@@ -144,7 +141,7 @@ class AddClashCommentsManager:
 
         # Collect results that already have a status (Approved or Reviewed)
         targets = []
-        for test in testsData.Value.TestsRoot.Children:
+        for test in get_clash_tests(clashDoc):
             for r in AddClashCommentsManager.IterAllResults(test):
                 if str(r.Status) not in ("Approved", "Reviewed"):
                     continue

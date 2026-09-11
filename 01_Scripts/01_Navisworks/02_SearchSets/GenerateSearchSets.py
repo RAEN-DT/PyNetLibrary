@@ -1,3 +1,6 @@
+# SPDX-License-Identifier: MIT
+# Copyright (c) 2024-2026 RAEN Digital Tools SL - PyNET Platform
+
 #region references
 
 import clr
@@ -5,27 +8,17 @@ import sys
 from pathlib import Path
 
 clr.AddReference("Autodesk.Navisworks.Api")
-from Autodesk.Navisworks.Api import *
-
-clr.AddReference("Autodesk.Navisworks.ComApi")
-from Autodesk.Navisworks.Api.ComApi import *
-
-clr.AddReference("Autodesk.Navisworks.Interop.ComApi")
-from Autodesk.Navisworks.Api.Interop.ComApi import *
-
-clr.AddReference("Autodesk.Navisworks.Clash")
-from Autodesk.Navisworks.Api.Clash import *
+from Autodesk.Navisworks.Api import (
+    Application, Search, SearchLocations, SearchCondition, VariantData, SelectionSet
+)
 
 clr.AddReference("System.Windows.Forms")
-clr.AddReference("System.Drawing")
-
-from System.Windows.Forms import*
-from System.Drawing import*
+from System.Windows.Forms import OpenFileDialog, DialogResult, MessageBox, MessageBoxButtons, MessageBoxIcon
 
 from System.Collections.Generic import List
 
 bundlePath = (Path.home()/ "AppData"/ "Roaming"/ "Autodesk"/ "ApplicationPlugins"/ "RAEN.Navisworks.PyNET.bundle"/ "Contents"/ "2024")
-NavisworksinconPath = (Path.home()/ "AppData"/ "Roaming"/ "Autodesk"/ "ApplicationPlugins"/ "RAEN.Navisworks.PyNET.bundle"/ "Contents"/ "2024" / "Images" / "manage.ico")
+NavisworksinconPath = (Path.home() / "AppData" / "Roaming" / "Autodesk" / "ApplicationPlugins" / "Raen.Navisworks.Pynet.bundle" / "manage.ico")
 
 sys.path.append(str(bundlePath))
 
@@ -50,7 +43,7 @@ class SearchSetsManager():
         Retrieves all Selection Sets from the active Navisworks document.
 
         Args:
-            document (Autodesk.Navisworks.Api.Document): 
+            document (Autodesk.Navisworks.Api.Document):
                 The currently active Navisworks document.
 
         Returns:
@@ -59,6 +52,18 @@ class SearchSetsManager():
                 currently defined in the document.
         """
         return document.SelectionSets
+
+    @staticmethod
+    def ClearSets(document):
+        """
+        Removes all Selection Sets from the active Navisworks document.
+        No transaction needed — write operations on DocumentSelectionSets are direct.
+
+        Args:
+            document (Autodesk.Navisworks.Api.Document):
+                The currently active Navisworks document.
+        """
+        document.SelectionSets.Clear()
     @staticmethod
     def CreateSet(value, selectionSets):
         """
@@ -75,14 +80,20 @@ class SearchSetsManager():
         searchSet.Locations = SearchLocations.DescendantsAndSelf
         searchSet.Selection.SelectAll()
 
+        # AddGroup semantics (undocumented, deduced from behavior): conditions inside the SAME
+        # AddGroup call are ANDed together; each group as a whole is ORed against every other
+        # group/condition at the top level of SearchConditions. With one condition per group (as
+        # below), the net effect is a plain OR between the two property-name fallbacks.
         condition = SearchCondition.HasPropertyByDisplayName("Revit Type", "Clash Test Code")
         conditionValue = condition.EqualValue(VariantData.FromDisplayString(value))
-        conditionList = List[SearchCondition]([conditionValue])
+        conditionList = List[SearchCondition]()
+        conditionList.Add(conditionValue)
         searchSet.SearchConditions.AddGroup(conditionList)
 
         conditionOr = SearchCondition.HasPropertyByDisplayName("Element", "Clash Test Code")
         conditionValueOr = conditionOr.EqualValue(VariantData.FromDisplayString(value))
-        conditionListOr = List[SearchCondition]([conditionValueOr])
+        conditionListOr = List[SearchCondition]()
+        conditionListOr.Add(conditionValueOr)
         searchSet.SearchConditions.AddGroup(conditionListOr) 
 
         instance = SelectionSet(searchSet)

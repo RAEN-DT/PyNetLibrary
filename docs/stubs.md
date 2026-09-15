@@ -50,6 +50,19 @@ Wall       Autodesk.Revit.DB     Autodesk/Revit/DB/__init__.py   25358   25421 H
 **163 class names exist in more than one namespace** (`Application` is in six, `Entity` in five).
 Always match on the `namespace` column — never assume the first hit is the right one.
 
+### Known gaps — when the stub is not the whole truth
+
+- **Overloads are collapsed: one signature per method name.** `Assembly.AddSubassembly` shows only
+  `(subassemblyId, pointHookTo)`; the 1-arg overload that hooks to the assembly marker is missing, and the
+  same for `MirrorSubassembly`. If a stub signature can't do what you need, list the real overloads by
+  reflection before concluding the API lacks it:
+  `[m for m in clr.GetClrType(T).GetMethods() if m.Name == "X"]`, printing each `GetParameters()`.
+- **Constructors are not shown** — every class gets a generic `__init__(*args)`. Use
+  `clr.GetClrType(T).GetConstructors()` (e.g. `SectionDisplayOptionCollection` needs an `ObjectId`).
+- **Enum members are often empty** (`AlignmentType: ...`). Use `Enum.GetValues(T)` live.
+- **Don't invent members.** A method that exists on one Civil class (`BaselineRegion.GetTargets`) is not on
+  a similar one (`Subassembly`) — check the stub before calling it.
+
 To find *which* class has a given method or property, grep the stub files directly: ripgrep reports
 the file and line, and that is cheaper than a second index would be. The index carries only what
 grep cannot produce — the line range and the disambiguating namespace.
@@ -103,7 +116,7 @@ Run `01_Scripts/00_utils/GenerateStubs.py` from the active host via `send_comman
 |------|-----------|
 | Navisworks | `Autodesk.Navisworks.Api`, `.ComApi`, `.Interop.ComApi`, `.Clash` |
 | Revit | `RevitAPI`, `RevitAPIUI` |
-| Civil 3D | `AcMgd`, `AcCoreMgd`, `AcDbMgd`, `AecBaseMgd`, `AeccDbMgd` |
+| Civil 3D | `AcMgd`, `AcCoreMgd`, `AcDbMgd`, `AecBaseMgd`, `AeccDbMgd`, `AecPropDataMgd` |
 
 ### Type mappings
 

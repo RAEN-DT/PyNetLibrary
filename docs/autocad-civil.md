@@ -334,7 +334,7 @@ names too (`Carril_D` on both sides) — rename if it matters.
 - Size the sample-line swath to the daylight offsets: with 1:1 / 3:2 slopes and ~20 m heights the slopes
   reached 32 m from the axis, so ±15 m lines clipped them; ±60 m fit.
 
-Reference: `01_Scripts/03_AutoCAD/XX_ApiLessons/Profiles.py` builds the cross-sections on top of this
+Reference: `01_Scripts/03_AutoCAD/00_Workflow/CreateCrossSections.py` builds the cross-sections on top of this
 corridor (sample lines ±60 m, views PK 6+250–6+750).
 
 ---
@@ -363,7 +363,7 @@ drawings, copy them by script or start from a DWT that already has them.
 Layer-driven attachment is therefore a **scan we implement**: walk ModelSpace, read `entity.Layer`,
 attach the PSets that the matrix marks for that layer. It is not automatic — new geometry needs a re-run.
 
-Reference script: `01_Scripts/03_AutoCAD/XX_ApiLessons/CreateParameter.py` (Excel matrix → PSets →
+Reference script: `01_Scripts/03_AutoCAD/00_Workflow/CreateParameters.py` (Excel matrix → PSets →
 layers → attachment, re-runnable). Two gotchas it encodes:
 
 - **`PropertyDefinition.DefaultData` for `DataType.Integer` needs an explicit `System.Int32`.** A plain
@@ -373,5 +373,7 @@ layers → attachment, re-runnable). Two gotchas it encodes:
   `Integer, Real, Text, TrueFalse, AutoIncrement, AlphaIncrement, List, Graphic` — note it is
   `TrueFalse`, not `TrueFalseType`.)
 - **`PropertyDataServices.GetPropertySet()` throws `eKeyNotFound` — it does not return a null
-  `ObjectId` — when the entity has no `ExtensionDictionary` yet**, which is the case for any freshly
-  drawn entity. Check `entity.ExtensionDictionary.IsNull` first instead of relying on the returned id.
+  `ObjectId` — whenever that PSet is not attached.** Checking `entity.ExtensionDictionary.IsNull` first
+  is not enough: attaching the first of several PSets creates the dictionary, and the check for the
+  second one then throws (verified live). Skip when there is no `ExtensionDictionary`, and otherwise wrap
+  the call in `try/except` treating `ErrorStatus.KeyNotFound` as "not attached".

@@ -7,12 +7,14 @@ __pycache__/
 !.claude/commands/
 .claude/commands/DataCenterGenerative.md
 .claude/commands/PowerlineFireRisk.md
+.claude/commands/RetailStockroomGenerative.md
 .claude/commands/WindSiting.md
 *.zip
 *.pdf
 01_Scripts/01_Navisworks/00_Workflows/
 01_Scripts/01_Navisworks/07_IFCExport/
 01_Scripts/02_Revit/00_Workflow/
+01_Scripts/03_AutoCAD/00_Workflow/
 01_Scripts/04_QGIS/
 node_modules/
 
@@ -24,4 +26,5 @@ node_modules/
 # Not published yet
 _docbuild/
 01_Scripts/02_Revit/27_DataCenter/
+01_Scripts/02_Revit/28_RetailStockroom/
 01_Scripts/02_Revit/25_QAQC/ModelAudit.txt

@@ -67,6 +67,7 @@ ASSEMBLY_SETS = {
         "AcDbMgd",
         "AecBaseMgd",
         "AeccDbMgd",
+        "AecPropDataMgd",
     ],
 }
 

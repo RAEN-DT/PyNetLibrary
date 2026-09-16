@@ -27,11 +27,6 @@ Scripts are sent to the plugin through the MCP bridge and executed locally insid
 
 > **Timeout rule:** always use a minimum timeout of **60 seconds** when calling `send_command`.
 
-> **MCP bridge:** `pip show pynet-mcp-bridge` (NOT `pynet-bridge`) using Python 3.10 pip at
-> `%LOCALAPPDATA%\Programs\Python\Python310\Scripts\pip.exe`. Installed: **1.5.4**.
-> Note there are two copies on this machine (uv at `~/.local/bin` and pip); uv wins on PATH, so
-> keep both upgraded or a client may silently run the older one.
-
 ---
 
 ## 2. Router — read the matching guide BEFORE writing a script

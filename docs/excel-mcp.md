@@ -9,9 +9,19 @@ Related: [revit.md](revit.md)
 
 ---
 
-## Try openpyxl first; pandas as fallback
+## Try openpyxl first; pandas as fallback — except for matrices
 
-### Option 1 (preferred) — openpyxl
+**If the sheet is a matrix** (rows of entities × columns of attributes/bindings — e.g. a parameter
+matrix, a category/layer binding table) **use pandas (`DataFrame`) directly, not openpyxl.**
+DataFrames give column-aligned access (`df["Nombre"]`, `df.columns`, boolean masks) that matches how
+a matrix is actually consumed — openpyxl's `iter_rows(values_only=True)` forces manual positional
+indexing (`row[2]`, `row[3:]`) that is more error-prone and harder to read for this shape. This is a
+standing preference, not a one-off — do not default back to openpyxl for a matrix sheet.
+
+For anything else (a single lookup, a small non-tabular read), openpyxl first / pandas fallback still
+applies.
+
+### Option 1 (preferred for non-matrix reads) — openpyxl
 
 ```python
 import openpyxl

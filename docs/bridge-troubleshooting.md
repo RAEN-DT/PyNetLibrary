@@ -82,8 +82,7 @@ own. **Reload the VS Code window** (or restart the MCP connection), then confirm
 
 ```powershell
 Get-Process pynet-bridge -ErrorAction SilentlyContinue | Stop-Process -Force -Confirm:$false
-Set-Location "C:\Repos\PyNetBridge"
-uv tool install . --force
+uv tool install pynet-mcp-bridge --force   # or: python -m pip install --upgrade pynet-mcp-bridge
 ```
 
 Killing running processes first is required — they lock the `.exe` shim and the install fails or

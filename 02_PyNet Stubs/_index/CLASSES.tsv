@@ -230,12 +230,14 @@ AnchorEntityToGridAssembly	Autodesk.Aec.DatabaseServices	Autodesk/Aec/DatabaseSe
 AnchorEntityToLayoutCell	Autodesk.Aec.DatabaseServices	Autodesk/Aec/DatabaseServices.py	253	318	AnchorEntityToLayoutNode	62
 AnchorEntityToLayoutNode	Autodesk.Aec.DatabaseServices	Autodesk/Aec/DatabaseServices.py	319	382	AnchorToReference	60
 AnchorEntityToLayoutVolume	Autodesk.Aec.DatabaseServices	Autodesk/Aec/DatabaseServices.py	383	448	AnchorEntityToLayoutCell	62
+AnchorExtendedTagToEntity	Autodesk.Aec.PropertyData.DatabaseServices	Autodesk/Aec/PropertyData/DatabaseServices.py	3	59	AnchorTagToEntity	53
 AnchorInfo	Autodesk.Civil.DatabaseServices	Autodesk/Civil/DatabaseServices/__init__.py	3028	3032		0
 AnchorLeaderToNode	Autodesk.Aec.DatabaseServices	Autodesk/Aec/DatabaseServices.py	449	516	AnchorEntityToLayoutNode	64
 AnchorLeaderToNodeVectorCollection	Autodesk.Aec.DatabaseServices	Autodesk/Aec/DatabaseServices.py	517	531		11
 AnchorLocationType	Autodesk.Civil	Autodesk/Civil/__init__.py	76	80		0
 AnchorPointType	Autodesk.Civil	Autodesk/Civil/__init__.py	81	85		0
 AnchorStyles	System.Windows.Forms	System/Windows/Forms/__init__.py	779	827	Enum, IComparable, IFormattable, IConvertible	0
+AnchorTagToEntity	Autodesk.Aec.PropertyData.DatabaseServices	Autodesk/Aec/PropertyData/DatabaseServices.py	60	112	AnchorToReference	49
 AnchorToCurveX	Autodesk.Aec.DatabaseServices	Autodesk/Aec/DatabaseServices.py	532	545	ImpObject	10
 AnchorToCurveY	Autodesk.Aec.DatabaseServices	Autodesk/Aec/DatabaseServices.py	546	558	ImpObject	9
 AnchorToCurveZ	Autodesk.Aec.DatabaseServices	Autodesk/Aec/DatabaseServices.py	559	571	ImpObject	9
@@ -520,6 +522,7 @@ AutoWideningCriteriaInfo	Autodesk.Civil.DatabaseServices	Autodesk/Civil/Database
 AutoWideningInfo	Autodesk.Civil.DatabaseServices	Autodesk/Civil/DatabaseServices/__init__.py	3796	3802		3
 AutomaticConnectionBehaviorType	Autodesk.Revit.DB	Autodesk/Revit/DB/__init__.py	973	977		0
 AutomaticManual	Autodesk.Civil.Settings	Autodesk/Civil/Settings.py	28	32		0
+AutomaticPropertyData	Autodesk.Aec.PropertyData.DatabaseServices	Autodesk/Aec/PropertyData/DatabaseServices.py	113	118		2
 AutomaticSpaceBoundary	Autodesk.Aec.DatabaseServices	Autodesk/Aec/DatabaseServices.py	667	671		0
 AutomationActionResult	Autodesk.Navisworks.Internal.ApiImplementation	Autodesk/Navisworks/Internal/ApiImplementation/__init__.py	111	115		0
 AxHost	System.Windows.Forms	System/Windows/Forms/__init__.py	6020	8855	Control, IComponent, IDisposable, IOleControl, IOleObject, IOleInPlaceObject, IOleInPlaceActiveObject, IOleWindow, IViewObject, IViewObject2, IPersist, IPersistStreamInit, IPersistPropertyBag, IPersistStorage, IQuickActivate, ISupportOleDropSource, IDropTarget, ISynchronizeInvoke, IWin32Window, IArrangedElement, IBindableComponent, ISupportInitialize, ICustomTypeDescriptor	0
@@ -870,6 +873,7 @@ CapitalizationType	Autodesk.Civil	Autodesk/Civil/__init__.py	166	170		0
 CaptionButton	System.Windows.Forms	System/Windows/Forms/__init__.py	24666	24714	Enum, IComparable, IFormattable, IConvertible	0
 CaseInsensitiveComparer	System.Collections	System/Collections/__init__.py	1207	1270	object, IComparer	0
 CaseInsensitiveHashCodeProvider	System.Collections	System/Collections/__init__.py	1271	1324	object, IHashCodeProvider	0
+CaseType	Autodesk.Aec.PropertyData.DatabaseServices	Autodesk/Aec/PropertyData/DatabaseServices.py	119	123		0
 Catchment	Autodesk.Civil.DatabaseServices	Autodesk/Civil/DatabaseServices/__init__.py	5168	5354	Entity	181
 CatchmentDisplayStylePlanType	Autodesk.Civil.DatabaseServices.Styles	Autodesk/Civil/DatabaseServices/Styles.py	788	792		0
 CatchmentGroup	Autodesk.Civil.DatabaseServices	Autodesk/Civil/DatabaseServices/__init__.py	5355	5412	DBObject	52
@@ -1687,6 +1691,7 @@ DataStorage	Autodesk.Revit.DB.ExtensibleStorage	Autodesk/Revit/DB/ExtensibleStor
 DataTable	Autodesk.AutoCAD.DatabaseServices	Autodesk/AutoCAD/DatabaseServices/__init__.py	5824	5889	DBObject	62
 DataTransferMode	Autodesk.Revit.DB.Events	Autodesk/Revit/DB/Events.py	24	28		0
 DataTransferProgressChangedEventArgs	Autodesk.Revit.DB.Events	Autodesk/Revit/DB/Events.py	29	40	WorksharedOperationProgressChangedEventArgs	8
+DataType	Autodesk.Aec.PropertyData	Autodesk/Aec/PropertyData/__init__.py	3	7		0
 DataType	Autodesk.AutoCAD.DatabaseServices	Autodesk/AutoCAD/DatabaseServices/__init__.py	5890	5894		0
 DataTypeParameter	Autodesk.AutoCAD.DatabaseServices	Autodesk/AutoCAD/DatabaseServices/__init__.py	5895	5902		4
 Database	Autodesk.AutoCAD.DatabaseServices	Autodesk/AutoCAD/DatabaseServices/__init__.py	5903	6309	RXObject	396
@@ -1811,9 +1816,12 @@ DictionaryMaterialDefinition	Autodesk.Aec.DatabaseServices	Autodesk/Aec/Database
 DictionaryMultiViewBlockDefinition	Autodesk.Aec.DatabaseServices	Autodesk/Aec/DatabaseServices.py	1930	1947	Dictionary	13
 DictionaryPolygonStyle	Autodesk.Aec.DatabaseServices	Autodesk/Aec/DatabaseServices.py	1948	1965	Dictionary	13
 DictionaryProfileDefinition	Autodesk.Aec.DatabaseServices	Autodesk/Aec/DatabaseServices.py	1966	1983	Dictionary	13
+DictionaryPropertyDataFormat	Autodesk.Aec.PropertyData.DatabaseServices	Autodesk/Aec/PropertyData/DatabaseServices.py	124	141	Dictionary	13
+DictionaryPropertySetDefinitions	Autodesk.Aec.PropertyData.DatabaseServices	Autodesk/Aec/PropertyData/DatabaseServices.py	142	157	Dictionary	12
 DictionaryRecord	Autodesk.Aec.DatabaseServices	Autodesk/Aec/DatabaseServices.py	1984	2041	DBObject	54
 DictionaryRecordAlternateNameTranslator	Autodesk.Aec.DatabaseServices	Autodesk/Aec/DatabaseServices.py	2042	2050	DictionaryRecordNameTranslator	4
 DictionaryRecordNameTranslator	Autodesk.Aec.DatabaseServices	Autodesk/Aec/DatabaseServices.py	2051	2059	NameTranslator	4
+DictionaryScheduleTableStyle	Autodesk.Aec.PropertyData.DatabaseServices	Autodesk/Aec/PropertyData/DatabaseServices.py	158	175	Dictionary	13
 DictionarySection2dStyle	Autodesk.Aec.DatabaseServices	Autodesk/Aec/DatabaseServices.py	2060	2077	Dictionary	13
 DictionaryWithDefaultDictionary	Autodesk.AutoCAD.DatabaseServices	Autodesk/AutoCAD/DatabaseServices/__init__.py	6950	6998	DBDictionary	45
 DigitGroupingAmount	Autodesk.Revit.DB	Autodesk/Revit/DB/__init__.py	4073	4077		0
@@ -1888,6 +1896,8 @@ DisplayThemeNextNodeOperator	Autodesk.Aec.DatabaseServices	Autodesk/Aec/Database
 DisplayThemeRuleBase	Autodesk.Aec.DatabaseServices	Autodesk/Aec/DatabaseServices.py	2869	2896	ImpObject	24
 DisplayThemeRuleCollection	Autodesk.Aec.DatabaseServices	Autodesk/Aec/DatabaseServices.py	2897	2911		11
 DisplayThemeRuleComparisonOperator	Autodesk.Aec.DatabaseServices	Autodesk/Aec/DatabaseServices.py	2912	2916		0
+DisplayThemeScheduleDataRule	Autodesk.Aec.PropertyData.DatabaseServices	Autodesk/Aec/PropertyData/DatabaseServices.py	176	203	DisplayThemeRuleBase	23
+DisplayThemeScheduleDataRuleParameter	Autodesk.Aec.PropertyData.DatabaseServices	Autodesk/Aec/PropertyData/DatabaseServices.py	204	208		0
 DisplayThemeStyle	Autodesk.Aec.DatabaseServices	Autodesk/Aec/DatabaseServices.py	2917	2978	DictionaryRecord	58
 DisplayUnit	Autodesk.Revit.DB	Autodesk/Revit/DB/__init__.py	4591	4595		0
 DisplayingOptionsDialogEventArgs	Autodesk.Revit.UI.Events	Autodesk/Revit/UI/Events.py	69	76	RevitAPIPreEventArgs	4
@@ -2126,6 +2136,7 @@ DwgFiler	Autodesk.AutoCAD.DatabaseServices	Autodesk/AutoCAD/DatabaseServices/__i
 DwgVersion	Autodesk.AutoCAD.DatabaseServices	Autodesk/AutoCAD/DatabaseServices/__init__.py	7698	7702		0
 DxLegacyBinaryTemplate	Autodesk.AutoCAD.Internal	Autodesk/AutoCAD/Internal/__init__.py	989	995		3
 DxfCode	Autodesk.AutoCAD.DatabaseServices	Autodesk/AutoCAD/DatabaseServices/__init__.py	7703	7707		0
+DxfData	Autodesk.Aec.PropertyData.DatabaseServices	Autodesk/Aec/PropertyData/DatabaseServices.py	209	213		0
 DxfFiler	Autodesk.AutoCAD.DatabaseServices	Autodesk/AutoCAD/DatabaseServices/__init__.py	7708	7758	RXObject	47
 DynamicBlockReferenceProperty	Autodesk.AutoCAD.DatabaseServices	Autodesk/AutoCAD/DatabaseServices/__init__.py	7759	7772		10
 DynamicBlockReferencePropertyCollection	Autodesk.AutoCAD.DatabaseServices	Autodesk/AutoCAD/DatabaseServices/__init__.py	7773	7783	DisposableWrapper	7
@@ -2830,6 +2841,8 @@ FormattedTableData	Autodesk.AutoCAD.DatabaseServices	Autodesk/AutoCAD/DatabaseSe
 FormattedText	Autodesk.Revit.DB	Autodesk/Revit/DB/__init__.py	8639	8669		27
 FormulaEditingEventArgs	Autodesk.Revit.UI.Events	Autodesk/Revit/UI/Events.py	122	131	RevitAPIPreEventArgs	6
 FormulaManager	Autodesk.Revit.DB	Autodesk/Revit/DB/__init__.py	8670	8683		6
+ForwardedType	Autodesk.Aec.PropertyData.DatabaseServices	Autodesk/Aec/PropertyData/DatabaseServices.py	214	218		0
+FractionType	Autodesk.Aec.PropertyData.DatabaseServices	Autodesk/Aec/PropertyData/DatabaseServices.py	219	223		0
 Frame	Autodesk.Revit.DB	Autodesk/Revit/DB/__init__.py	8684	8699		11
 FrameDimension	System.Drawing.Imaging	System/Drawing/Imaging.py	1484	1568	object	0
 FrameSetting	Autodesk.AutoCAD.DatabaseServices	Autodesk/AutoCAD/DatabaseServices/__init__.py	8840	8844		0
@@ -2956,6 +2969,7 @@ GraphStyle	Autodesk.Civil.DatabaseServices.Styles	Autodesk/Civil/DatabaseService
 GraphTitleJustificationType	Autodesk.Civil.DatabaseServices.Styles	Autodesk/Civil/DatabaseServices/Styles.py	1463	1467		0
 GraphTitleLocationType	Autodesk.Civil.DatabaseServices.Styles	Autodesk/Civil/DatabaseServices/Styles.py	1468	1472		0
 GraphTitleStyle	Autodesk.Civil.DatabaseServices.Styles	Autodesk/Civil/DatabaseServices/Styles.py	1473	1485	CivilWrapper<AeccDbGraphStyle>	9
+GraphicType	Autodesk.Aec.PropertyData.DatabaseServices	Autodesk/Aec/PropertyData/DatabaseServices.py	224	228		0
 Graphics	Autodesk.Navisworks.Api	Autodesk/Navisworks/Api/__init__.py	671	726	NativeHandle	50
 Graphics	System.Drawing	System/Drawing/__init__.py	3611	7217	MarshalByRefObject, IDisposable, IDeviceContext	0
 GraphicsContainer	System.Drawing.Drawing2D	System/Drawing/Drawing2D.py	809	811	MarshalByRefObject	0
@@ -3354,6 +3368,7 @@ INamedValue	Autodesk.AutoCAD.Windows.Data	Autodesk/AutoCAD/Windows/Data/__init__
 INavisworksExporter	Autodesk.Revit.DB	Autodesk/Revit/DB/__init__.py	10034	10039		2
 INavisworksFileProtocol	Autodesk.AutoCAD.Internal	Autodesk/AutoCAD/Internal/__init__.py	1248	1256		5
 INavisworksService	Autodesk.AutoCAD.Internal	Autodesk/AutoCAD/Internal/__init__.py	1257	1261		1
+INodeOperation	Autodesk.Aec.PropertyData.DatabaseServices	Autodesk/Aec/PropertyData/DatabaseServices.py	229	244		12
 INotifyCollectionChanged	System.Collections.Specialized	System/Collections/Specialized.py	541	549		0
 INotifyCollectionItemsChanged	Autodesk.AutoCAD.Windows.Data	Autodesk/AutoCAD/Windows/Data/__init__.py	724	728		0
 IOException	Autodesk.Revit.Exceptions	Autodesk/Revit/Exceptions.py	411	424	ApplicationException	10
@@ -3435,6 +3450,9 @@ IRevisionsOnSheetUIServer	Autodesk.Revit.UI	Autodesk/Revit/UI/__init__.py	448	45
 IRootGridEntry	System.Windows.Forms.PropertyGridInternal	System/Windows/Forms/PropertyGridInternal.py	11	53		0
 ISaveSharedCoordinatesCallback	Autodesk.Revit.DB	Autodesk/Revit/DB/__init__.py	10071	10075		1
 ISaveSharedCoordinatesCallbackForUnloadLocally	Autodesk.Revit.DB	Autodesk/Revit/DB/__init__.py	10076	10080		1
+IScheduleTablePageMaxHeightOperation	Autodesk.Aec.PropertyData.DatabaseServices	Autodesk/Aec/PropertyData/DatabaseServices.py	245	256		8
+IScheduleTableSortingOperation	Autodesk.Aec.PropertyData.DatabaseServices	Autodesk/Aec/PropertyData/DatabaseServices.py	257	268		8
+IScheduleTableStyleColumnOperation	Autodesk.Aec.PropertyData.DatabaseServices	Autodesk/Aec/PropertyData/DatabaseServices.py	269	281		9
 ISelectionFilter	Autodesk.Revit.UI.Selection	Autodesk/Revit/UI/Selection.py	3	8		2
 IServiceProvider	System	System/__init__.py	28698	28720		0
 ISet	System.Collections.Generic	System/Collections/Generic.py	941	1151	ICollection[T], IEnumerable[T], IEnumerable	0
@@ -3836,6 +3854,7 @@ ItemFactoryBase	Autodesk.Revit.Creation	Autodesk/Revit/Creation.py	125	141	APIOb
 ItemLocator	Autodesk.AutoCAD.DatabaseServices	Autodesk/AutoCAD/DatabaseServices/__init__.py	10317	10323		3
 ItemSelectionDialogResult	Autodesk.Revit.UI	Autodesk/Revit/UI/__init__.py	466	470		0
 ItemTypeEnum	Autodesk.AutoCAD.Internal	Autodesk/AutoCAD/Internal/__init__.py	1519	1523		0
+IteratorType	Autodesk.Aec.PropertyData	Autodesk/Aec/PropertyData/__init__.py	8	12		0
 JSInteropApplicationAttribute	Autodesk.AutoCAD.Runtime	Autodesk/AutoCAD/Runtime.py	308	313	Attribute	2
 JavaScriptCallableInternalAttribute	Autodesk.AutoCAD.Runtime	Autodesk/AutoCAD/Runtime.py	314	319	Attribute	2
 JavaScriptCallbackAttribute	Autodesk.AutoCAD.Runtime	Autodesk/AutoCAD/Runtime.py	320	325	Attribute	2
@@ -4866,6 +4885,7 @@ Matrix3	Autodesk.Navisworks.Api	Autodesk/Navisworks/Api/__init__.py	1043	1059	Na
 Matrix3d	Autodesk.AutoCAD.Geometry	Autodesk/AutoCAD/Geometry.py	1155	1194		28
 Matrix3dBuilder	Autodesk.AutoCAD.Geometry	Autodesk/AutoCAD/Geometry.py	1195	1200		2
 MatrixOrder	System.Drawing.Drawing2D	System/Drawing/Drawing2D.py	4231	4276	Enum, IComparable, IFormattable, IConvertible	0
+MatrixSymbolType	Autodesk.Aec.PropertyData.DatabaseServices	Autodesk/Aec/PropertyData/DatabaseServices.py	282	286		0
 MdiClient	System.Windows.Forms	System/Windows/Forms/__init__.py	154398	156466	Control, IComponent, IDisposable, IOleControl, IOleObject, IOleInPlaceObject, IOleInPlaceActiveObject, IOleWindow, IViewObject, IViewObject2, IPersist, IPersistStreamInit, IPersistPropertyBag, IPersistStorage, IQuickActivate, ISupportOleDropSource, IDropTarget, ISynchronizeInvoke, IWin32Window, IArrangedElement, IBindableComponent	0
 MdiLayout	System.Windows.Forms	System/Windows/Forms/__init__.py	156467	156514	Enum, IComparable, IFormattable, IConvertible	0
 MeasureItemEventArgs	System.Windows.Forms	System/Windows/Forms/__init__.py	156515	156583	EventArgs	0
@@ -5304,6 +5324,7 @@ PDFExportQualityType	Autodesk.Revit.DB	Autodesk/Revit/DB/__init__.py	13491	13495
 Padding	System.Windows.Forms	System/Windows/Forms/__init__.py	168113	168380	object	0
 PaddingConverter	System.Windows.Forms	System/Windows/Forms/__init__.py	168381	168515	TypeConverter	0
 PageCancelledEventHandler	Autodesk.AutoCAD.PlottingServices	Autodesk/AutoCAD/PlottingServices.py	205	213		5
+PageDirectionType	Autodesk.Aec.PropertyData.DatabaseServices	Autodesk/Aec/PropertyData/DatabaseServices.py	287	291		0
 PageOrientationType	Autodesk.Revit.DB	Autodesk/Revit/DB/__init__.py	13496	13500		0
 PageSettings	System.Drawing.Printing	System/Drawing/Printing.py	426	651	object, ICloneable	0
 PageSetupDialog	System.Windows.Forms	System/Windows/Forms/__init__.py	168516	168864	CommonDialog, IComponent, IDisposable	0
@@ -5812,6 +5833,7 @@ PreProcessControlState	System.Windows.Forms	System/Windows/Forms/__init__.py	171
 PreProcessMessageWinFormsHandler	Autodesk.AutoCAD.ApplicationServices.Core	Autodesk/AutoCAD/ApplicationServices/Core.py	100	108		5
 PreTranslateMessageEventArgs	Autodesk.AutoCAD.ApplicationServices	Autodesk/AutoCAD/ApplicationServices/__init__.py	720	725	EventArgs	2
 PreTranslateMessageEventHandler	Autodesk.AutoCAD.ApplicationServices	Autodesk/AutoCAD/ApplicationServices/__init__.py	726	734		5
+Precision	Autodesk.Aec.PropertyData.DatabaseServices	Autodesk/Aec/PropertyData/DatabaseServices.py	292	296		0
 PrecisionRangeType	Autodesk.Civil.DatabaseServices.Styles	Autodesk/Civil/DatabaseServices/Styles.py	3967	3971		0
 Predicate	System	System/__init__.py	31536	31634	MulticastDelegate, ICloneable, ISerializable	0
 Preferences	Autodesk.Aec.ApplicationServices	Autodesk/Aec/ApplicationServices.py	220	305		50
@@ -5974,6 +5996,7 @@ ProgressVisibilityEventArgs	Autodesk.Navisworks.Api	Autodesk/Navisworks/Api/__in
 ProjecitonPercentageType	Autodesk.Civil	Autodesk/Civil/__init__.py	1035	1039		0
 ProjecitonRule	Autodesk.Civil	Autodesk/Civil/__init__.py	1040	1044		0
 ProjectBrowserOptions	Autodesk.Revit.UI	Autodesk/Revit/UI/__init__.py	593	602		5
+ProjectDataType	Autodesk.Aec.PropertyData.DatabaseServices	Autodesk/Aec/PropertyData/DatabaseServices.py	297	301		0
 ProjectInfo	Autodesk.Revit.DB	Autodesk/Revit/DB/__init__.py	18659	18698	Element	36
 ProjectLocation	Autodesk.Revit.DB	Autodesk/Revit/DB/__init__.py	18699	18737	Instance	33
 ProjectLocationSet	Autodesk.Revit.DB	Autodesk/Revit/DB/__init__.py	18738	18751	APIObject	10
@@ -6076,7 +6099,18 @@ PropertyCategoryId	Autodesk.AutoCAD.Internal.PropertyInspector	Autodesk/AutoCAD/
 PropertyCategoryNames	Autodesk.Navisworks.Api	Autodesk/Navisworks/Api/__init__.py	1554	1568		11
 PropertyCollectable	Autodesk.AutoCAD.Internal.PropertyInspector	Autodesk/AutoCAD/Internal/PropertyInspector.py	115	135	CollectableObject	17
 PropertyColor	Autodesk.Civil	Autodesk/Civil/__init__.py	1197	1207	Property<Autodesk::AutoCAD::Colors::Color ^\,AcCmColor\,Autodesk::Civil::CastOp<Autodesk::AutoCAD::Colors::Color ^\,AcCmColor> >	7
+PropertyDataFormat	Autodesk.Aec.PropertyData.DatabaseServices	Autodesk/Aec/PropertyData/DatabaseServices.py	302	391	DictionaryRecord	83
+PropertyDataServices	Autodesk.Aec.PropertyData.DatabaseServices	Autodesk/Aec/PropertyData/DatabaseServices.py	392	447		26
 PropertyDataType	Autodesk.Aec.DatabaseServices	Autodesk/Aec/DatabaseServices.py	7534	7538		0
+PropertyDefinition	Autodesk.Aec.PropertyData.DatabaseServices	Autodesk/Aec/PropertyData/DatabaseServices.py	448	486	ImpObject	34
+PropertyDefinitionAnchor	Autodesk.Aec.PropertyData.DatabaseServices	Autodesk/Aec/PropertyData/DatabaseServices.py	487	520	PropertyDefinition	29
+PropertyDefinitionClassification	Autodesk.Aec.PropertyData.DatabaseServices	Autodesk/Aec/PropertyData/DatabaseServices.py	521	552	PropertyDefinition	28
+PropertyDefinitionCollection	Autodesk.Aec.PropertyData.DatabaseServices	Autodesk/Aec/PropertyData/DatabaseServices.py	553	567		11
+PropertyDefinitionFormula	Autodesk.Aec.PropertyData.DatabaseServices	Autodesk/Aec/PropertyData/DatabaseServices.py	568	604	PropertyDefinition	33
+PropertyDefinitionFormulaDataItem	Autodesk.Aec.PropertyData.DatabaseServices	Autodesk/Aec/PropertyData/DatabaseServices.py	605	619	ImpObject	11
+PropertyDefinitionGraphic	Autodesk.Aec.PropertyData.DatabaseServices	Autodesk/Aec/PropertyData/DatabaseServices.py	620	657	PropertyDefinition	34
+PropertyDefinitionLocation	Autodesk.Aec.PropertyData.DatabaseServices	Autodesk/Aec/PropertyData/DatabaseServices.py	658	691	PropertyDefinition	30
+PropertyDefinitionProject	Autodesk.Aec.PropertyData.DatabaseServices	Autodesk/Aec/PropertyData/DatabaseServices.py	692	723	PropertyDefinition	28
 PropertyDescriptorBase	Autodesk.AutoCAD.ComponentModel	Autodesk/AutoCAD/ComponentModel.py	19	40	PropertyDescriptor	18
 PropertyDouble	Autodesk.Civil	Autodesk/Civil/__init__.py	1208	1218	Property<double\,double\,Autodesk::Civil::CastOp<double\,double> >	7
 PropertyEnum	Autodesk.Civil	Autodesk/Civil/__init__.py	1219	1230	Property<int\,int\,Autodesk::Civil::CastOp<int\,int> >	8
@@ -6101,6 +6135,10 @@ PropertyObjectId	Autodesk.Civil	Autodesk/Civil/__init__.py	1319	1329	Property<Au
 PropertyObjectName	Autodesk.Civil	Autodesk/Civil/__init__.py	1330	1340	PropertyString	7
 PropertyProviderAttribute	Autodesk.AutoCAD.ComponentModel	Autodesk/AutoCAD/ComponentModel.py	41	46	Attribute	2
 PropertySelectionType	Autodesk.Revit.DB	Autodesk/Revit/DB/__init__.py	18824	18828		0
+PropertySet	Autodesk.Aec.PropertyData.DatabaseServices	Autodesk/Aec/PropertyData/DatabaseServices.py	724	800	DictionaryRecord	71
+PropertySetData	Autodesk.Aec.PropertyData.DatabaseServices	Autodesk/Aec/PropertyData/DatabaseServices.py	801	821	ImpObject	17
+PropertySetDataCollection	Autodesk.Aec.PropertyData.DatabaseServices	Autodesk/Aec/PropertyData/DatabaseServices.py	822	836		11
+PropertySetDefinition	Autodesk.Aec.PropertyData.DatabaseServices	Autodesk/Aec/PropertyData/DatabaseServices.py	837	906	DictionaryRecord	66
 PropertySetElement	Autodesk.Revit.DB	Autodesk/Revit/DB/__init__.py	18829	18868	Element	35
 PropertySetupType	Autodesk.Revit.DB	Autodesk/Revit/DB/__init__.py	18869	18873		0
 PropertySort	System.Windows.Forms	System/Windows/Forms/__init__.py	184142	184189	Enum, IComparable, IFormattable, IConvertible	0
@@ -6118,6 +6156,7 @@ PropertyValueChangedEventHandler	System.Windows.Forms	System/Windows/Forms/__ini
 PropertyValueUIHandler	System.Drawing.Design	System/Drawing/Design.py	745	849	MulticastDelegate, ICloneable, ISerializable	0
 PropertyValueUIItem	System.Drawing.Design	System/Drawing/Design.py	850	905	object	0
 PropertyValueUIItemInvokeHandler	System.Drawing.Design	System/Drawing/Design.py	906	1010	MulticastDelegate, ICloneable, ISerializable	0
+PropertyValueUnitPair	Autodesk.Aec.PropertyData.DatabaseServices	Autodesk/Aec/PropertyData/DatabaseServices.py	907	915	DisposableWrapper	5
 ProxyEntity	Autodesk.AutoCAD.DatabaseServices	Autodesk/AutoCAD/DatabaseServices/__init__.py	15280	15360	Entity	77
 ProxyObject	Autodesk.AutoCAD.DatabaseServices	Autodesk/AutoCAD/DatabaseServices/__init__.py	15361	15411	DBObject	46
 ProxyResurrectionCompletedEventArgs	Autodesk.AutoCAD.DatabaseServices	Autodesk/AutoCAD/DatabaseServices/__init__.py	15412	15417	EventArgs	2
@@ -6512,7 +6551,9 @@ Rotation3D	Autodesk.Navisworks.Api	Autodesk/Navisworks/Api/__init__.py	1599	1625
 RotationAngle	Autodesk.AutoCAD.DatabaseServices	Autodesk/AutoCAD/DatabaseServices/__init__.py	16925	16929		0
 RotationDirType	Autodesk.Civil	Autodesk/Civil/__init__.py	1414	1418		0
 RotationType	Autodesk.Aec.DatabaseServices	Autodesk/Aec/DatabaseServices.py	7644	7648		0
+RotationType	Autodesk.Aec.PropertyData.DatabaseServices	Autodesk/Aec/PropertyData/DatabaseServices.py	916	920		0
 RoundingMethod	Autodesk.Revit.DB	Autodesk/Revit/DB/__init__.py	19868	19872		0
+RoundingType	Autodesk.Aec.PropertyData.DatabaseServices	Autodesk/Aec/PropertyData/DatabaseServices.py	921	925		0
 RoundingType	Autodesk.Civil	Autodesk/Civil/__init__.py	1419	1423		0
 RouteAnalysisSettings	Autodesk.Revit.DB.Analysis	Autodesk/Revit/DB/Analysis.py	1524	1565	Element	37
 RoutingCondition	Autodesk.Revit.DB	Autodesk/Revit/DB/__init__.py	19873	19879		3
@@ -6608,12 +6649,38 @@ ScheduleFieldMultipleValuesDisplayType	Autodesk.Revit.DB	Autodesk/Revit/DB/__ini
 ScheduleFieldType	Autodesk.Revit.DB	Autodesk/Revit/DB/__init__.py	20292	20296		0
 ScheduleFilter	Autodesk.Revit.DB	Autodesk/Revit/DB/__init__.py	20297	20315		15
 ScheduleFilterType	Autodesk.Revit.DB	Autodesk/Revit/DB/__init__.py	20316	20320		0
+ScheduleHeaderPositionNode	Autodesk.Aec.PropertyData	Autodesk/Aec/PropertyData/__init__.py	13	22	DisposableWrapper	6
 ScheduleHeadingOrientation	Autodesk.Revit.DB	Autodesk/Revit/DB/__init__.py	20321	20325		0
 ScheduleHeightsOnSheet	Autodesk.Revit.DB	Autodesk/Revit/DB/__init__.py	20326	20334		5
 ScheduleHorizontalAlignment	Autodesk.Revit.DB	Autodesk/Revit/DB/__init__.py	20335	20339		0
 ScheduleSheetInstance	Autodesk.Revit.DB	Autodesk/Revit/DB/__init__.py	20340	20377	Element	33
 ScheduleSortGroupField	Autodesk.Revit.DB	Autodesk/Revit/DB/__init__.py	20378	20390		9
 ScheduleSortOrder	Autodesk.Revit.DB	Autodesk/Revit/DB/__init__.py	20391	20395		0
+ScheduleTable	Autodesk.Aec.PropertyData.DatabaseServices	Autodesk/Aec/PropertyData/DatabaseServices.py	926	1100	Geo	171
+ScheduleTableCellFormat	Autodesk.Aec.PropertyData.DatabaseServices	Autodesk/Aec/PropertyData/DatabaseServices.py	1101	1126	ImpObject	22
+ScheduleTableCellFormatOverride	Autodesk.Aec.PropertyData.DatabaseServices	Autodesk/Aec/PropertyData/DatabaseServices.py	1127	1162	ScheduleTableCellFormat	32
+ScheduleTableColumn	Autodesk.Aec.PropertyData.DatabaseServices	Autodesk/Aec/PropertyData/DatabaseServices.py	1163	1173	DisposableWrapper	7
+ScheduleTableColumnOrder	Autodesk.Aec.PropertyData	Autodesk/Aec/PropertyData/__init__.py	23	30	DisposableWrapper	4
+ScheduleTableColumnOrderAllColumns	Autodesk.Aec.PropertyData	Autodesk/Aec/PropertyData/__init__.py	31	37	ScheduleTableColumnOrder	3
+ScheduleTableColumnOrderSingleColumn	Autodesk.Aec.PropertyData	Autodesk/Aec/PropertyData/__init__.py	38	44	ScheduleTableColumnOrder	3
+ScheduleTableHeaderPosition	Autodesk.Aec.PropertyData	Autodesk/Aec/PropertyData/__init__.py	45	55	DisposableWrapper	7
+ScheduleTableHeaderPositionIterator	Autodesk.Aec.PropertyData	Autodesk/Aec/PropertyData/__init__.py	56	66	DisposableWrapper	6
+ScheduleTableImage	Autodesk.Aec.PropertyData.DatabaseServices	Autodesk/Aec/PropertyData/DatabaseServices.py	1174	1183	DisposableWrapper	6
+ScheduleTablePageMaxHeightCollection	Autodesk.Aec.PropertyData.DatabaseServices	Autodesk/Aec/PropertyData/DatabaseServices.py	1184	1198		11
+ScheduleTableSorting	Autodesk.Aec.PropertyData.DatabaseServices	Autodesk/Aec/PropertyData/DatabaseServices.py	1199	1216	ImpObject	14
+ScheduleTableSortingCollection	Autodesk.Aec.PropertyData.DatabaseServices	Autodesk/Aec/PropertyData/DatabaseServices.py	1217	1231		11
+ScheduleTableStyle	Autodesk.Aec.PropertyData.DatabaseServices	Autodesk/Aec/PropertyData/DatabaseServices.py	1232	1319	DictionaryRecord	84
+ScheduleTableStyleColumn	Autodesk.Aec.PropertyData.DatabaseServices	Autodesk/Aec/PropertyData/DatabaseServices.py	1320	1352	ScheduleTableStyleHeaderNode	29
+ScheduleTableStyleColumnCollection	Autodesk.Aec.PropertyData.DatabaseServices	Autodesk/Aec/PropertyData/DatabaseServices.py	1353	1368		12
+ScheduleTableStyleColumnType	Autodesk.Aec.PropertyData.DatabaseServices	Autodesk/Aec/PropertyData/DatabaseServices.py	1369	1373		0
+ScheduleTableStyleHeaderNode	Autodesk.Aec.PropertyData.DatabaseServices	Autodesk/Aec/PropertyData/DatabaseServices.py	1374	1388	ImpObject	11
+ScheduleTableStyleHeaderNodeCollection	Autodesk.Aec.PropertyData.DatabaseServices	Autodesk/Aec/PropertyData/DatabaseServices.py	1389	1405		13
+ScheduleTableStyleHeaderTree	Autodesk.Aec.PropertyData.DatabaseServices	Autodesk/Aec/PropertyData/DatabaseServices.py	1406	1423	ImpObject	14
+ScheduleTableStyleHeaderTreeIterator	Autodesk.Aec.PropertyData.DatabaseServices	Autodesk/Aec/PropertyData/DatabaseServices.py	1424	1433	DisposableWrapper	6
+ScheduleTableStyleHeaderTreeNode	Autodesk.Aec.PropertyData.DatabaseServices	Autodesk/Aec/PropertyData/DatabaseServices.py	1434	1447	ScheduleTableStyleHeaderNode	10
+ScheduleTableStyleHeaderTreeParameter	Autodesk.Aec.PropertyData	Autodesk/Aec/PropertyData/__init__.py	67	71		0
+ScheduleTableUniqueVariantCollection	Autodesk.Aec.PropertyData	Autodesk/Aec/PropertyData/__init__.py	72	90	DisposableWrapper	15
+ScheduleTableVariantMatrix	Autodesk.Aec.PropertyData	Autodesk/Aec/PropertyData/__init__.py	91	108	DisposableWrapper	14
 ScheduleVerticalAlignment	Autodesk.Revit.DB	Autodesk/Revit/DB/__init__.py	20396	20400		0
 Schema	Autodesk.Revit.DB.ExtensibleStorage	Autodesk/Revit/DB/ExtensibleStorage.py	98	118		15
 SchemaBuilder	Autodesk.Navisworks.Api.Schema	Autodesk/Navisworks/Api/Schema.py	183	195	NativeHandle	7
@@ -6792,6 +6859,7 @@ SelectionUIOptions	Autodesk.Revit.UI	Autodesk/Revit/UI/__init__.py	807	822		10
 SelectionValueEquals	Autodesk.Navisworks.Api	Autodesk/Navisworks/Api/__init__.py	2022	2027		2
 SendKeys	System.Windows.Forms	System/Windows/Forms/__init__.py	193037	193074	object	0
 SeparatorItem	Autodesk.Revit.UI	Autodesk/Revit/UI/__init__.py	823	827	MenuItem	1
+SeparatorType	Autodesk.Aec.PropertyData.DatabaseServices	Autodesk/Aec/PropertyData/DatabaseServices.py	1448	1452		0
 SequenceEnd	Autodesk.AutoCAD.DatabaseServices	Autodesk/AutoCAD/DatabaseServices/__init__.py	17506	17580	Entity	71
 SerializableAttribute	System	System/__init__.py	32795	32807	Attribute, _Attribute	0
 ServerChangeCause	Autodesk.Revit.DB.ExternalService	Autodesk/Revit/DB/ExternalService.py	123	127		0
@@ -7151,6 +7219,7 @@ SolidSolidCutUtils	Autodesk.Revit.DB	Autodesk/Revit/DB/__init__.py	21052	21073		
 SolidUtils	Autodesk.Revit.DB	Autodesk/Revit/DB/__init__.py	21074	21093		8
 SolidglassBumpEnableType	Autodesk.Revit.DB.Visual	Autodesk/Revit/DB/Visual.py	859	863		0
 SolidglassTransmittanceType	Autodesk.Revit.DB.Visual	Autodesk/Revit/DB/Visual.py	864	868		0
+SortOrder	Autodesk.Aec.PropertyData.DatabaseServices	Autodesk/Aec/PropertyData/DatabaseServices.py	1453	1457		0
 SortOrder	System.Windows.Forms	System/Windows/Forms/__init__.py	193367	193413	Enum, IComparable, IFormattable, IConvertible	0
 SortedDictionary	System.Collections.Generic	System/Collections/Generic.py	2802	3059	object, IDictionary[TKey, TValue], ICollection[KeyValuePair[TKey, TValue]], IEnumerable[KeyValuePair[TKey, TValue]], IEnumerable, IDictionary, ICollection, IReadOnlyDictionary[TKey, TValue], IReadOnlyCollection[KeyValuePair[TKey, TValue]]	0
 SortedList	System.Collections	System/Collections/__init__.py	3411	3879	object, IDictionary, ICollection, IEnumerable, ICloneable	0
@@ -8237,6 +8306,7 @@ UnitVector3D	Autodesk.Navisworks.Api	Autodesk/Navisworks/Api/__init__.py	2203	22
 Units	Autodesk.Navisworks.Api	Autodesk/Navisworks/Api/__init__.py	2237	2241		0
 Units	Autodesk.Revit.DB	Autodesk/Revit/DB/__init__.py	24017	24031		9
 UnitsConverter	Autodesk.AutoCAD.DatabaseServices	Autodesk/AutoCAD/DatabaseServices/__init__.py	20295	20303	TypeConverter	4
+UnitsType	Autodesk.Aec.PropertyData.DatabaseServices	Autodesk/Aec/PropertyData/DatabaseServices.py	1458	1462		0
 UnitsType	Autodesk.AutoCAD.Internal.DatabaseServices	Autodesk/AutoCAD/Internal/DatabaseServices.py	854	858		0
 UnitsValue	Autodesk.AutoCAD.DatabaseServices	Autodesk/AutoCAD/DatabaseServices/__init__.py	20304	20308		0
 UnknownCommandEventArgs	Autodesk.AutoCAD.ApplicationServices	Autodesk/AutoCAD/ApplicationServices/__init__.py	850	854	EventArgs	1

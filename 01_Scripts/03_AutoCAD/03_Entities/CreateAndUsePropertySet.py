@@ -18,12 +18,27 @@ from Autodesk.Aec.PropertyData.DatabaseServices import (
     PropertySet,
 )
 from Autodesk.Aec.PropertyData import DataType
+from Autodesk.AutoCAD.Runtime import Exception as AcadException, ErrorStatus
+from System import Int32
 
 doc = AcadApp.DocumentManager.MdiActiveDocument
 db = doc.Database
 
 PSET_NAME = "PYNET_TEST_PSET"
 NOD_PSET_KEY = "AEC_PROPERTY_SET_DEFS"
+
+
+def has_property_set(entity, pset_def_id):
+    """GetPropertySet() throws eKeyNotFound instead of returning a null id when
+    the set is not attached - also on entities that already carry other sets."""
+    if entity.ExtensionDictionary.IsNull:
+        return False
+    try:
+        return not PropertyDataServices.GetPropertySet(entity, pset_def_id).IsNull
+    except AcadException as ex:
+        if ex.ErrorStatus == ErrorStatus.KeyNotFound:
+            return False
+        raise
 
 # ── 1. Create PropertySetDefinition ─────────────────────────────────────────
 lock = doc.LockDocument()
@@ -40,10 +55,16 @@ try:
             pset_def.Description = "Property set created by PyNET"
             pset_def.AppliesToAll = True
 
+            # DataType members: Integer, Real, Text, TrueFalse, AutoIncrement,
+            # AlphaIncrement, List, Graphic. Integer needs an explicit System.Int32
+            # default - a plain Python int bridges as Int64 and DefaultData rejects it
+            # with "Value does not fall within the expected range".
             for name, dtype, default in [
                 ("Site", DataType.Text, ""),
                 ("Code", DataType.Text, ""),
                 ("Quantity", DataType.Real, 0.0),
+                ("Units", DataType.Integer, Int32(0)),
+                ("Checked", DataType.TrueFalse, False),
             ]:
                 pd = PropertyDefinition()
                 pd.SetToStandard(db)
@@ -83,7 +104,8 @@ try:
             entity = t.GetObject(oid, OpenMode.ForWrite)
             break
 
-        PropertyDataServices.AddPropertySet(entity, pset_def.Id)
+        if not has_property_set(entity, pset_def.Id):
+            PropertyDataServices.AddPropertySet(entity, pset_def.Id)
         pset_id = PropertyDataServices.GetPropertySet(entity, pset_def.Id)
         pset = t.GetObject(pset_id, OpenMode.ForWrite)
 
@@ -111,10 +133,9 @@ try:
 
     for oid in ms:
         entity = t.GetObject(oid, OpenMode.ForRead)
-        pset_id = PropertyDataServices.GetPropertySet(entity, pset_def.Id)
-        if pset_id.IsNull:
+        if not has_property_set(entity, pset_def.Id):
             continue
-        pset = t.GetObject(pset_id, OpenMode.ForRead)
+        pset = t.GetObject(PropertyDataServices.GetPropertySet(entity, pset_def.Id), OpenMode.ForRead)
         values = {d.Name: str(pset.GetAt(pset.PropertyNameToId(d.Name))) for d in pset_def.Definitions}
         print(f"Read values from {type(entity).__name__}: {values}")
         break

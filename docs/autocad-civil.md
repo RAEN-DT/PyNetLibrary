@@ -19,6 +19,7 @@ Related: [navisworks.md](navisworks.md) · [revit.md](revit.md)
 | Opening / editing / saving **another DWG** (background or as a UI tab) | [autocad-external-dwg.md](autocad-external-dwg.md) |
 | **Sample lines, section views, profiles, assemblies, corridors**, cut/fill | [civil-sections.md](civil-sections.md) |
 | **Property Sets** (PSets — the Revit shared-parameter equivalent), attaching data to entities | [civil-propertysets.md](civil-propertysets.md) |
+| **Importing GIS results** (TIN from points, draping, heat maps, parcels, blocks, `paths.json`) | [civil-gis-import.md](civil-gis-import.md) |
 
 > This guide and the topic guides are a base, not final: external Civil 3D findings are expected to be
 > merged in. When they arrive, merge into the matching topic guide — do not duplicate sections.

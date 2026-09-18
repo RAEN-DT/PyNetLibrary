@@ -5,7 +5,7 @@
 
 Read this guide **before writing any Revit script**. For element queries/measurements, also read [RevitApiPatterns](../.claude/commands/RevitApiPatterns.md). For forms/dialogs read [winforms.md](winforms.md).
 
-Related: [navisworks.md](navisworks.md) · [autocad-civil.md](autocad-civil.md) · [excel-mcp.md](excel-mcp.md)
+Related: [revit-cloud-worksharing.md](revit-cloud-worksharing.md) · [revit-geometry-views.md](revit-geometry-views.md) · [pythonnet.md](pythonnet.md) · [excel-mcp.md](excel-mcp.md)
 
 ---
 

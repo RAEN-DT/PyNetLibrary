@@ -5,7 +5,7 @@
 
 Read this guide **before writing any Navisworks script**. It holds the host boilerplate, CastUtils casting, and the saved-script structure convention.
 
-Related: [revit.md](revit.md) · [autocad-civil.md](autocad-civil.md) · [winforms.md](winforms.md)
+Related: [navisworks-properties.md](navisworks-properties.md) · [navisworks-models.md](navisworks-models.md) · [navisworks-views.md](navisworks-views.md) · [pythonnet.md](pythonnet.md) · [winforms.md](winforms.md)
 
 ---
 

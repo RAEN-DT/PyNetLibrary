@@ -156,6 +156,46 @@ class MyForm(Form):
 
 ---
 
+## Standard PyNET form (the template the workflows share)
+
+Eleven workflow forms (Navisworks and Revit) follow the same skeleton — copy it instead of
+starting from a blank `Form`:
+
+| Method | Role |
+|---|---|
+| `ConfigureForm()` | title, icon (running bundle), size **clamped to the screen**, state fields |
+| `GenerateFormLabels()` / `GenerateFormGroups()` | labels and `GroupBox` frames |
+| `GenerateFormSelectionList(data)` | a `DataGridView` (several columns) or `ListBox` (names) |
+| `GenerateTextBox()` → `ApplyFilter` | live name filter (hide rows / rebuild the `DataSource`) |
+| `GenerateFormButtons()` | Browse / Cancel / Run, anchored bottom-right |
+| `Include` | keeps the current selection on `SelectionChanged` |
+| `InputData.ReadJson/CreateJson` | remembers the last Excel path between runs |
+| `TaskdialogResults` / `DialogManager` | "finished" / "cancelled" messages |
+
+**Fit the screen** (low-resolution or scaled laptops pushed the buttons off-screen):
+
+```python
+area = Screen.PrimaryScreen.WorkingArea
+self.Width = min(600, area.Width - 40)
+self.Height = min(650, area.Height - 40)
+self.AutoScroll = True
+self.buttonRowY = self.ClientSize.Height - 32 - 20   # place buttons from the REAL client height
+```
+
+A `TableLayoutPanel` with percent columns is the alternative when the layout must stretch
+(`TransferData.py`).
+
+**Where to remember settings:** one JSON per tool under the user's add-ins/support folder
+(`Path(app.CurrentUserAddinsLocation) / "PyNET" / "Support"` in Revit). Do not write inside the
+plugin bundle — a plugin update replaces it.
+
+**Progress for long work:** a non-modal status form (`Form.Show()`), updated with `DoEvents()` after
+each step, with a Cancel button that only sets a flag checked **between** steps
+(`NavisworksPNT_IFC_Fast.py`). A `Marquee` progress bar does not animate while the script runs
+synchronously — use a `Continuous` bar advanced on every update.
+
+---
+
 ## Reference scripts
 
 - `01_Scripts/02_Revit/16_WindowsForms/OpenModelsCreateWallTest.py` — Revit: confirmation form, full API work after ShowDialog, TaskDialog result.

@@ -36,8 +36,13 @@ Scripts are sent to the plugin through the MCP bridge and executed locally insid
 | If the task is… | Read first (`Read`) |
 |---|---|
 | A **Navisworks** script | [docs/navisworks.md](docs/navisworks.md) |
+| Reading Navisworks **properties** (element id, source file, typed values, locale-safe names) | [docs/navisworks-properties.md](docs/navisworks-properties.md) |
+| Navisworks **models / federations / batch** (open, append, publish, seed, XML review round-trip) | [docs/navisworks-models.md](docs/navisworks-models.md) |
+| Navisworks **viewpoints, isolate, colour** | [docs/navisworks-views.md](docs/navisworks-views.md) |
 | A **Revit** script | [docs/revit.md](docs/revit.md) |
 | A Revit **element query / measurement** | [.claude/commands/RevitApiPatterns.md](.claude/commands/RevitApiPatterns.md) |
+| Revit **cloud models, sync, batch RVT, NWC export, keynotes** | [docs/revit-cloud-worksharing.md](docs/revit-cloud-worksharing.md) |
+| Revit **rooms, DirectShape masses, overrides, groups, views, dimensions, pick filters** | [docs/revit-geometry-views.md](docs/revit-geometry-views.md) |
 | An **AutoCAD / Civil 3D** script (incl. GIS *inside* AutoCAD — Map 3D, `01_Scripts/03_AutoCAD/20_GIS`) | [docs/autocad-civil.md](docs/autocad-civil.md) |
 | A **standalone QGIS / PyQGIS** script (`04_QGIS`, headless, NOT Autodesk-hosted) | [docs/qgis.md](docs/qgis.md) |
 | Any **form / dialog / custom UI** (WinForms) | [docs/winforms.md](docs/winforms.md) |
@@ -48,6 +53,7 @@ Scripts are sent to the plugin through the MCP bridge and executed locally insid
 | Operating the VS Code viewer via **MCP** (`viewer_*` tools — select, isolate, highlight clashes, properties) | [docs/viewer-mcp.md](docs/viewer-mcp.md) |
 | The **bridge is not connected** — `mcp__pynet-bridge__*` tools missing, or `MCP error -32000: Connection closed` | [docs/bridge-troubleshooting.md](docs/bridge-troubleshooting.md) |
 | Full **security** whitelist/blocklist | [docs/security.md](docs/security.md) |
+| A **pythonnet** surprise (out params, `List[T]`, wrappers, enums, buffered prints) | [docs/pythonnet.md](docs/pythonnet.md) |
 
 The Router row above (`RevitApiPatterns`) is a **reference** to read before writing Revit queries —
 it lives in `.claude/commands/` but is consulted, not run.

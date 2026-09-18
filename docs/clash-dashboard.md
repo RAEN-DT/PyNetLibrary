@@ -18,11 +18,13 @@ and a pywebview window, a different pattern.
 | Approved | `#22c55e` (green) |
 | Resolved | `#eab308` (yellow) |
 
-**Test names — two formats in use, parse both:** `CON vs MUR` (ClashDetection skill,
-`CreateClashTest.py`) and `A_CON_vs_MUR` (`00_Workflows/UpdateModels.py`: tolerance letter A/B/C +
-`_vs_`). Split with `re.split(r"\s+vs\s+|_vs_", name)` and drop a leading `^[ABC]_`. Do not rename
-existing tests to unify them: `UpdateModels` skips tests whose name already exists, so a renamed
-convention would duplicate every test on the next federation build.
+**Test names are a project input, not a fixed format.** The ClashDetection skill is a base adapted
+per project: the naming convention comes from the project (asked in the skill, step 5) and the
+dashboard must parse *that* convention. Default when the project defines none: `CON vs MUR`.
+`00_Workflows/UpdateModels.py` is a separate, rigid workflow with its own fixed convention
+(`A_CON_vs_MUR`: tolerance letter + `_vs_`) — never align one to the other. The library's chart and
+dashboard scripts accept both out of the box (`re.split(r"\s+vs\s+|_vs_", name)`, dropping a leading
+`^[ABC]_`); a project with another convention adapts that split.
 
 **Must include:**
 - KPI row: total clashes + one KPI per status present + number of federated models (KPI border-top

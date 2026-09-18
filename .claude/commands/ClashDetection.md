@@ -49,6 +49,8 @@ def mm_to_doc(mm):
     scale = UnitConversion.ScaleFactor(doc.Models.First.Units, Units.Meters)   # metres per doc unit
     return mm * 0.001 / scale
 
+TEST_NAME_FORMAT = "{a} vs {b}"   # the PROJECT's naming convention (step 5) - this is only the default
+
 clashDoc = CastUtils.CastTo[DocumentClash](doc.Clash)   # CastUtils: see docs/navisworks.md
 testsData = clashDoc.TestsData
 ```
@@ -301,6 +303,10 @@ continuing — a missing set makes that discipline invisible in every clash test
 
 **Table 2 — test list:** Test · Selection A · Selection B · Tolerance.
 
+**Test naming is a project input.** Ask how the project names its tests (e.g. `CON vs MUR`,
+`A_CON_vs_MUR`, `ARQ-MUR_x_MEP-CON`…) and use it for every test. Default when the project has none:
+`{A} vs {B}`. The dashboards and reports must then parse that same convention (clash-dashboard.md).
+
 Rule: **never create intra-model tests** (elements of the same NWC do not clash against each other).
 Proceed only after the user confirms the matrix (or requests changes).
 
@@ -321,7 +327,7 @@ source_a = doc.SelectionSets.CreateSelectionSource(find_set(doc.SelectionSets.Ro
 source_b = doc.SelectionSets.CreateSelectionSource(find_set(doc.SelectionSets.RootItem, code_b))
 
 test = ClashTest()                  # a new, detached test — its properties are writable
-test.DisplayName = f"{code_a} vs {code_b}"
+test.DisplayName = TEST_NAME_FORMAT.format(a=code_a, b=code_b)   # project convention, default "{a} vs {b}"
 test.TestType = ClashTestType.Hard
 test.Tolerance = mm_to_doc(10)
 test.SelectionA.Selection.SelectionSources.Add(source_a)

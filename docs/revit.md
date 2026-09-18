@@ -39,6 +39,9 @@ doc = __revit__.ActiveUIDocument.Document
 
 ---
 
+> **PyNET bundle / form icon:** never hardcode the year or the bundle path — resolve them from the
+> running `Raen.Core.Pynet.Engine` (`PYNET_BUNDLE / "Revit.ico"`). See [winforms.md](winforms.md) "Form icon".
+
 ## Transactions (required for any write)
 
 ```python

@@ -48,6 +48,9 @@ Import **only the types the script uses**, by name — never `from … import *`
 and `Autodesk.Civil.DatabaseServices` share type names (e.g. `Entity`) — explicit imports also keep
 the two apart. Resolve the namespace with the stubs index (`CLASSES.tsv`, match the `namespace` column).
 
+> **PyNET bundle / form icon:** never hardcode the year or the bundle path — resolve them from the
+> running `Raen.Core.Pynet.Engine` (`PYNET_BUNDLE / "C3D.ico"`). See [winforms.md](winforms.md) "Form icon".
+
 ## Standard boilerplate — AutoCAD + Civil 3D
 
 Adds the Civil assemblies on top of AutoCAD.

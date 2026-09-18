@@ -144,6 +144,12 @@ do not save one-off scripts to disk just to work around length.
 never `from <namespace> import *`. Resolve the namespace with the stubs index first (§3) — some names
 exist in several namespaces or were removed in newer host versions. Reasons in [docs/navisworks.md](docs/navisworks.md).
 
+**PyNET bundle paths — every host:** never write the host year (`2024`…`2027`) or the
+`…/ApplicationPlugins/Raen.<Host>.Pynet.bundle` path in a script. Take them from the engine that is
+running the script: `Raen.Core.Pynet.Engine` is loaded from `<bundle>/Contents/<year>/`, so its folder
+gives the year (CastUtils, plugin DLLs) and two levels up the bundle root (form icons). Snippet in
+[docs/navisworks.md](docs/navisworks.md) "CastUtils" and [docs/winforms.md](docs/winforms.md) "Form icon".
+
 ---
 
 ## 7. Security (summary)

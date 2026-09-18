@@ -48,20 +48,11 @@ from Autodesk.Navisworks.Api import Application
 clr.AddReference("Autodesk.Navisworks.Clash")
 from Autodesk.Navisworks.Api.Clash import DocumentClash, ClashResultStatus
 
-# ── CastUtils (required for DocumentClash) ────────────────────────────────────
-bundle_base = (
-    Path.home() / "AppData" / "Roaming" / "Autodesk" / "ApplicationPlugins"
-    / "Raen.Navisworks.Pynet.bundle" / "Contents"
-)
-# Resolve the actual year folder (2024 / 2025 / 2026 / 2027)
-bundle_path = next(
-    (d for d in bundle_base.iterdir()
-     if d.is_dir() and (d / "Raen.Core.Pynet.Resources.dll").exists()),
-    None,
-)
-if bundle_path is None:
-    raise RuntimeError("PyNET bundle not found.")
-sys.path.append(str(bundle_path))
+# ── CastUtils (required for DocumentClash) — from the RUNNING plugin, no year hardcoded ──
+from System import AppDomain
+PYNET_BIN = Path(next(a for a in AppDomain.CurrentDomain.GetAssemblies()
+                      if a.GetName().Name == "Raen.Core.Pynet.Engine").Location).parent
+sys.path.append(str(PYNET_BIN))
 clr.AddReference("Raen.Core.Pynet.Resources")
 from Raen.Core.Pynet.Resources import CastUtils  # type: ignore
 
@@ -308,8 +299,8 @@ When running this workflow on a new project:
 
 1. **`TOLERANCE_MM`** — set the target tolerance value (default `15.0`).
 2. **`TARGET_TESTS`** — list specific test names to limit scope, or leave `[]` for all.
-3. **`bundle_path` resolution** — the auto-detect loop (`Raen.Core.Pynet.Resources.dll`) handles
-   all bundle year folders. No manual change needed unless the bundle location is non-standard.
+3. **CastUtils** — resolved from the running plugin (`Raen.Core.Pynet.Engine` location); nothing to
+   change per machine or Navisworks version.
 4. **Output folder** — `model_dir = Path(doc.FileName).parent` places all files next to the model.
    Change to any writable path if needed.
 5. **Approach A vs B** — A overwrites tolerances in-place (best for scenario files); B duplicates

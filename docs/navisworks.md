@@ -66,20 +66,26 @@ script's dependencies obvious. The cost is zero — `clr.AddReference` already l
 pythonnet sometimes returns incorrect types, especially with interfaces (Clash API). The PyNET plugin ships a static utility `CastUtils` to correctly map objects. **Always use it when working with Clash or other interface-heavy APIs.**
 
 ```python
-# The bundle has one folder per Navisworks year — pick the one that actually holds the DLL
-bundle_base = (Path.home() / "AppData" / "Roaming" / "Autodesk" / "ApplicationPlugins"
-               / "Raen.Navisworks.Pynet.bundle" / "Contents")
-bundlePath = next((d for d in bundle_base.iterdir()
-                   if d.is_dir() and (d / "Raen.Core.Pynet.Resources.dll").exists()), None)
-if bundlePath is None:
-    raise RuntimeError("PyNET bundle not found. Check the Navisworks installation.")
-sys.path.append(str(bundlePath))
+from System import AppDomain
+
+# The PyNET plugin already loaded Raen.Core.Pynet.* into this Navisworks process — from the
+# folder of the year that is RUNNING. clr.AddReference resolves an already-loaded assembly
+# first, so no path is needed; the engine's folder is added only as a fallback.
+PYNET_BIN = Path(next(a for a in AppDomain.CurrentDomain.GetAssemblies()
+                      if a.GetName().Name == "Raen.Core.Pynet.Engine").Location).parent
+sys.path.append(str(PYNET_BIN))              # <bundle>/Contents/<year>/
 
 clr.AddReference("Raen.Core.Pynet.Resources")
 from Raen.Core.Pynet.Resources import CastUtils
 ```
 
-> Never hardcode the year folder (`2024`…`2027`) — each user runs a different Navisworks version.
+> **Never write the year (`2024`…`2027`) or the bundle folder name in a script.** Each user runs a
+> different Navisworks version, and the running host already knows which one: the engine
+> executing the script is loaded from `<bundle>/Contents/<year>/`. Verified live (Navisworks 2027):
+> `Raen.Core.Pynet.Resources` is already loaded and `clr.AddReference` works with no path.
+> The year-suffixed plugin assembly is resolved the same way:
+> `clr.AddReference(next(a.GetName().Name for a in AppDomain.CurrentDomain.GetAssemblies() if a.GetName().Name.startswith("Raen.Navisworks.Pynet.")))`.
+> The bundle root (icons) is `PYNET_BIN.parent.parent` — see [winforms.md](winforms.md).
 
 Example — accessing clash tests (use the version-tolerant helper below, not a direct call):
 

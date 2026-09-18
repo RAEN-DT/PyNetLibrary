@@ -120,48 +120,36 @@ The same core rules apply. For opening and saving external DWG files from a form
 
 ---
 
-## Navisworks form icon — standard path
+## Form icon — from the running PyNET bundle (all hosts)
 
-Forms shown in Navisworks should carry the PyNET bundle icon. The **standard location** is the
-bundle root (no longer `Contents/2024/Images/`):
+Each bundle ships its icon at the **bundle root**, next to a common `Pynet.ico`:
+
+| Host | Icon |
+|---|---|
+| Navisworks | `manage.ico` |
+| Revit | `Revit.ico` |
+| AutoCAD / Civil 3D | `C3D.ico` |
+
+Never hardcode `…/ApplicationPlugins/Raen.<Host>.Pynet.bundle/…`: derive the bundle root from the
+engine assembly that is executing the script (it lives in `<bundle>/Contents/<year>/`), so the path
+is right for any year, any install location and any folder-name casing:
 
 ```python
+from pathlib import Path
+from System import AppDomain
 from System.Drawing import Icon
 
-NavisworksIconPath = (Path.home() / "AppData" / "Roaming" / "Autodesk"
-                      / "ApplicationPlugins" / "Raen.Navisworks.Pynet.bundle" / "manage.ico")
+PYNET_BIN = Path(next(a for a in AppDomain.CurrentDomain.GetAssemblies()
+                      if a.GetName().Name == "Raen.Core.Pynet.Engine").Location).parent
+PYNET_BUNDLE = PYNET_BIN.parent.parent
+FORM_ICON = PYNET_BUNDLE / "Revit.ico"          # manage.ico | Revit.ico | C3D.ico
 
 class MyForm(Form):
     def __init__(self):
         super().__init__()
-        if Path(str(NavisworksIconPath)).exists():   # guard — never crash if missing
-            self.Icon = Icon(str(NavisworksIconPath))
+        if FORM_ICON.exists():                   # guard — never crash if missing
+            self.Icon = Icon(str(FORM_ICON))
 ```
-
-Always guard with `.exists()` so a missing icon degrades gracefully instead of throwing. Note the
-bundle folder name casing is `Raen.Navisworks.Pynet.bundle`.
-
----
-
-## AutoCAD / Civil 3D form icon — standard path
-
-Same principle as Navisworks. The Civil 3D bundle ships its own icon (`C3D.ico`) at the bundle root:
-
-```python
-from System.Drawing import Icon
-
-Civil3DIconPath = (Path.home() / "AppData" / "Roaming" / "Autodesk"
-                   / "ApplicationPlugins" / "Raen.Civil3D.Pynet.bundle" / "C3D.ico")
-
-class MyForm(Form):
-    def __init__(self):
-        super().__init__()
-        # ... Text, Size, StartPosition, etc.
-        if Path(str(Civil3DIconPath)).exists():   # guard — never crash if missing
-            self.Icon = Icon(str(Civil3DIconPath))
-```
-
-The four reference forms below all apply this icon. Bundle folder casing: `Raen.Civil3D.Pynet.bundle`.
 
 ---
 

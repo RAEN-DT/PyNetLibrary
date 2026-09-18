@@ -35,7 +35,7 @@ If either condition fails → **Reviewed**.
 
 **How to extract diameter:** read the pipe's `LcRevitData_Element` (display: `"Componente"`) property `"Diámetro"` (exact string with accent). Also available: `"Diámetro exterior"`, `"Diámetro interno"`.
 
-**How to check spatial proximity:** compare `result.Center` (in feet → convert ×304.8 to mm) between the TUB clash and all other MEP clashes. Use 3D Euclidean distance with `math.sqrt`. Flag as Reviewed if any other MEP clash is within 1000 mm.
+**How to check spatial proximity:** compare `result.Center` (document units → mm with `UnitConversion.ScaleFactor`, see docs/navisworks.md) between the TUB clash and all other MEP clashes. Use 3D Euclidean distance with `math.sqrt`. Flag as Reviewed if any other MEP clash is within 1000 mm.
 
 ```python
 import math

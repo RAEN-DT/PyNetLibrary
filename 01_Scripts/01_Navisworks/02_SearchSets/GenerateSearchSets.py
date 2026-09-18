@@ -105,7 +105,7 @@ class SearchSetsManager():
         selectionSets.AddCopy(instance)
 
 sets = SearchSetsManager.GetSets(doc)
-setValues, filePath = None, None
+setsValues, filePath = [], None   # stays empty if the dialog is cancelled
 
 with OpenFileDialog() as openDialog:
     openDialog.InitialDirectory = str(Path.home() / "Desktop")

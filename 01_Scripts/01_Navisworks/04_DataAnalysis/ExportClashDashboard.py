@@ -18,7 +18,7 @@ from pathlib import Path
 from collections import defaultdict
 
 clr.AddReference("Autodesk.Navisworks.Api")
-from Autodesk.Navisworks.Api import Application
+from Autodesk.Navisworks.Api import Application, UnitConversion, Units
 
 clr.AddReference("Autodesk.Navisworks.Clash")
 from Autodesk.Navisworks.Api.Clash import DocumentClash
@@ -126,6 +126,8 @@ class ClashExtractor:
 
         testsData.TestsRunAllTests()
 
+        # result.Distance is in DOCUMENT units (feet only if the model is in feet) -> metres
+        to_m = UnitConversion.ScaleFactor(document.Models.First.Units, Units.Meters)
         allClashes = []
         testsSummary = []
 
@@ -153,7 +155,7 @@ class ClashExtractor:
                 allClashes.append({
                     "Test": testName, "Discipline": discipline,
                     "Clash": result.DisplayName, "Status": str(result.Status),
-                    "Distance (m)": round(result.Distance, 4) if result.Distance else 0,
+                    "Distance (m)": round(result.Distance * to_m, 4) if result.Distance else 0,
                     "X": round(point.X, 3) if point else None,
                     "Y": round(point.Y, 3) if point else None,
                     "Z": round(point.Z, 3) if point else None,

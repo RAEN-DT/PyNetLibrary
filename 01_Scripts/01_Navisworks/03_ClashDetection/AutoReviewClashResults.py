@@ -142,6 +142,10 @@ class ClashGrouper:
         flat = [(hash(r), r) for r in test.Children if not r.IsGroup]
         if len(flat) < 2:
             return 0
+        # Local mirror of the flat-children order; new groups are appended at the end, so they
+        # never shift these indices.
+        order = [rh for rh, r in flat]
+        pos = {rh: i for i, rh in enumerate(order)}
 
         # Map each element hash to the results it appears in
         elem_map = defaultdict(list)
@@ -178,16 +182,17 @@ class ClashGrouper:
             if live_group is None:
                 continue
 
-            # Move each result into the group (re-find index after each move since list shifts)
+            # Move each result into the group. The index is tracked LOCALLY (O(1) per move):
+            # re-scanning test.Children before every move is O(n^2) - docs/clash-review.md.
             for move_idx, (rh, r, _) in enumerate(entries):
-                current_idx = None
-                for j, child in enumerate(test.Children):
-                    if not child.IsGroup and hash(child) == rh:
-                        current_idx = j
-                        break
+                current_idx = pos.get(rh)
                 if current_idx is not None:
                     testsData.TestsMove(test, current_idx, live_group, move_idx)
                     processed.add(rh)
+                    del order[current_idx]
+                    for h in order[current_idx:]:
+                        pos[h] -= 1
+                    del pos[rh]
 
             print(f"  Grouped: '{group_name}'")
             groups_created += 1

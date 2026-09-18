@@ -23,6 +23,7 @@ from Autodesk.AutoCAD.DatabaseServices import (
 from Autodesk.AutoCAD.Colors import Color, ColorMethod
 from Autodesk.AutoCAD.Geometry import Point2d
 from Autodesk.Aec.PropertyData.DatabaseServices import (
+    DictionaryPropertySetDefinitions,
     PropertySetDefinition, PropertyDefinition, PropertyDataServices,
 )
 from Autodesk.Aec.PropertyData import DataType
@@ -72,6 +73,7 @@ try:
             print(f"Capa creada: {LAYER_NAME}")
 
         # Property set definition (create if missing)
+        DictionaryPropertySetDefinitions(db)   # creates AEC_PROPERTY_SET_DEFS if this drawing never had PSets
         nod = t.GetObject(db.NamedObjectsDictionaryId, OpenMode.ForRead)
         pset_dict = t.GetObject(nod[NOD_PSET_KEY], OpenMode.ForWrite)
         if not pset_dict.Contains(PSET_NAME):

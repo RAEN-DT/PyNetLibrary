@@ -4,6 +4,7 @@
 import clr
 import sys
 import json
+import re
 from pathlib import Path
 from datetime import datetime
 import webbrowser
@@ -29,7 +30,7 @@ doc = Application.ActiveDocument
 
 
 sys.path.append(str(Path.home() / "AppData" / "Roaming" / "Pynet" / "Library" / "01_Scripts" / "00_utils"))
-from pynet_clash import get_clash_tests
+from pynet_clash import get_clash_tests, iter_results   # iter_results enters ClashResultGroups
 
 
 class DataExtractor:
@@ -39,7 +40,7 @@ class DataExtractor:
         tests = []
         for test in get_clash_tests(clashDoc):
             counts = {"New": 0, "Active": 0, "Reviewed": 0, "Approved": 0, "Resolved": 0}
-            for r in test.Children:
+            for r in iter_results(test):
                 s = str(r.Status)
                 if s in counts:
                     counts[s] += 1
@@ -60,10 +61,18 @@ class DataExtractor:
 
 class MatrixBuilder:
     @staticmethod
+    def SplitName(name):
+        """'CON vs MUR' (ClashDetection skill) or 'A_CON_vs_MUR' (UpdateModels, tolerance letter prefix)."""
+        parts = re.split(r"\s+vs\s+|_vs_", name)
+        if parts:
+            parts[0] = re.sub(r"^[ABC]_", "", parts[0])
+        return parts
+
+    @staticmethod
     def Build(tests):
         rows, cols = [], []
         for t in tests:
-            parts = t["name"].split(" vs ")
+            parts = MatrixBuilder.SplitName(t["name"])
             if len(parts) != 2:
                 continue
             a, b = parts[0].strip(), parts[1].strip()
@@ -74,15 +83,15 @@ class MatrixBuilder:
         # index: (row, col) -> test data
         index = {}
         for t in tests:
-            parts = t["name"].split(" vs ")
+            parts = MatrixBuilder.SplitName(t["name"])
             if len(parts) == 2:
                 index[(parts[0].strip(), parts[1].strip())] = t
         return rows, cols, index
 
 
 class HtmlGenerator:
-    REVIEWED_COLOR = "#e67e22"
-    APPROVED_COLOR = "#27ae60"
+    REVIEWED_COLOR = "#3b82f6"   # canonical palette: docs/clash-dashboard.md
+    APPROVED_COLOR = "#22c55e"
 
     @staticmethod
     def StatusClass(test):
@@ -206,7 +215,7 @@ class HtmlGenerator:
 <title>Clash Dashboard — {doc_name} · {date_str}</title>
 <style>
   :root {{
-    --reviewed:#e67e22; --approved:#27ae60; --resolved:#3498db;
+    --reviewed:#3b82f6; --approved:#22c55e; --resolved:#eab308;
     --bg:#f4f6f9; --card:#fff; --header:#1a2332; --text:#2c3e50;
     --muted:#7f8c8d; --border:#dde3ec;
   }}

@@ -118,7 +118,7 @@ ia_Result = [{"type": "Wall", "id": 1, "name": "Wall A", "height": 3.2}]
 
 > **Dashboards / reports.** Default: a self-contained HTML string built in Python, saved next to the
 > other output (Desktop / project folder) and opened instantly with `webbrowser.open('file:///...')`
-> from inside the host script — see `ModelAudit.py`, `QuantityTakeoff.py`, `ExportClashDashboard.py`
+> from inside the host script — see `ModelAudit.py`, `QuantityTakeoff.py`, `08_DataAnalysis/ClashDashboard.py`
 > for the pattern (inline CSS, KPI cards, `<details>` for collapsible sections, no external JS). Do
 > **not** publish a Claude Artifact for a report/dashboard unless the user explicitly asks for one —
 > Artifacts add a publish round trip the user doesn't want for this workflow.

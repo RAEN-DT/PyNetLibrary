@@ -118,6 +118,9 @@ unlocked writes are *undefined behaviour, not a reliable error*: in the same ses
 unlocked write scripts (`Alignment.Create`, `SampleLineGroup.Create`) completed fine, which is exactly
 what makes the omission easy to miss.
 
+Opening an object **`ForWrite` needs the lock too, even if nothing is committed** (read-only work on
+a live-wrapper collection) — without it: `eLockViolation` (verified live, `ZoomToSectionViews.py`).
+
 Reminder on which document gets locked: `CivilApplication.ActiveDocument` (Civil objects: alignments,
 surfaces, styles) has **no lock of its own** — it is a typed view over the same drawing. The lock and
 the database belong to the AutoCAD document: `AcadApp.DocumentManager.MdiActiveDocument`.

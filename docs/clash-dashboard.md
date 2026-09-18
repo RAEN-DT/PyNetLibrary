@@ -4,7 +4,9 @@
 # Reference: clash HTML dashboard (Navisworks)
 
 Used by the `ClashDetection` skill, step 13 — after statuses and groups are applied. Reference
-implementation: `01_Scripts/01_Navisworks/04_DataAnalysis/ExportClashDashboard.py`.
+implementation: `01_Scripts/01_Navisworks/08_DataAnalysis/ClashDashboard.py` (static HTML +
+`webbrowser.open`). Not `04_DataAnalysis/ExportClashDashboard.py` — that one launches a Dash server
+and a pywebview window, a different pattern.
 
 **Navisworks status colors — always these, no exceptions:**
 
@@ -15,6 +17,12 @@ implementation: `01_Scripts/01_Navisworks/04_DataAnalysis/ExportClashDashboard.p
 | Reviewed | `#3b82f6` (blue) |
 | Approved | `#22c55e` (green) |
 | Resolved | `#eab308` (yellow) |
+
+**Test names — two formats in use, parse both:** `CON vs MUR` (ClashDetection skill,
+`CreateClashTest.py`) and `A_CON_vs_MUR` (`00_Workflows/UpdateModels.py`: tolerance letter A/B/C +
+`_vs_`). Split with `re.split(r"\s+vs\s+|_vs_", name)` and drop a leading `^[ABC]_`. Do not rename
+existing tests to unify them: `UpdateModels` skips tests whose name already exists, so a renamed
+convention would duplicate every test on the next federation build.
 
 **Must include:**
 - KPI row: total clashes + one KPI per status present + number of federated models (KPI border-top

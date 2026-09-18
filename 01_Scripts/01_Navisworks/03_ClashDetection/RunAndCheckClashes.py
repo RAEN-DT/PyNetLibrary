@@ -23,7 +23,7 @@ from Autodesk.Navisworks.Api import Application
 
 
 sys.path.append(str(Path.home() / "AppData" / "Roaming" / "Pynet" / "Library" / "01_Scripts" / "00_utils"))
-from pynet_clash import get_clash_tests
+from pynet_clash import get_clash_tests, iter_results   # iter_results enters ClashResultGroups
 
 
 class ClashManager:
@@ -49,7 +49,7 @@ class ClashManager:
         results = []
 
         for test in get_clash_tests(clash_document):
-            new_count = sum(1 for c in test.Children if str(c.Status).upper() == str(ClashResultStatus.New).upper())
+            new_count = sum(1 for c in iter_results(test) if str(c.Status).upper() == str(ClashResultStatus.New).upper())
             total_new += new_count
             if new_count > 0:
                 results.append({

@@ -23,6 +23,7 @@ from Autodesk.AutoCAD.DatabaseServices import OpenMode, BlockTableRecord, Solid,
 from Autodesk.AutoCAD.Colors import Color, ColorMethod
 from Autodesk.AutoCAD.Geometry import Point3d
 from Autodesk.Aec.PropertyData.DatabaseServices import (
+    DictionaryPropertySetDefinitions,
     PropertySetDefinition, PropertyDefinition, PropertyDataServices,
 )
 from Autodesk.Aec.PropertyData import DataType
@@ -79,6 +80,8 @@ try:
             ltr.Name = LAYER_NAME
             lt.Add(ltr)
             t.AddNewlyCreatedDBObject(ltr, True)
+
+        DictionaryPropertySetDefinitions(db)   # creates AEC_PROPERTY_SET_DEFS if this drawing never had PSets
 
         nod = t.GetObject(db.NamedObjectsDictionaryId, OpenMode.ForRead)
         pset_dict = t.GetObject(nod[NOD_PSET_KEY], OpenMode.ForWrite)

@@ -15,8 +15,6 @@ clr.AddReference("RevitAPI")
 from Autodesk.Revit.DB import *
 
 doc = __revit__.ActiveUIDocument.Document  # type: ignore
-FT2_TO_M2 = 0.0929
-FT_TO_M   = 0.3048
 AREA_CATS   = {"Suelos", "Techos", "Cubiertas"}
 LENGTH_CATS = {"Muros"}
 
@@ -90,10 +88,10 @@ for cat_name, bic in BIC_MAP.items():
             budget[code] = {**res, "qty": 0.0, "elements": []}
         if cat_name in LENGTH_CATS:
             p = el.GetParameter(ParameterTypeId.CurveElemLength)
-            qty = round(p.AsDouble() * FT_TO_M, 2) if p and p.HasValue else 0.0
+            qty = round(UnitUtils.ConvertFromInternalUnits(p.AsDouble(), UnitTypeId.Meters), 2) if p and p.HasValue else 0.0
         elif cat_name in AREA_CATS:
             p = el.GetParameter(ParameterTypeId.HostAreaComputed)
-            qty = round(p.AsDouble() * FT2_TO_M2, 2) if p and p.HasValue else 0.0
+            qty = round(UnitUtils.ConvertFromInternalUnits(p.AsDouble(), UnitTypeId.SquareMeters), 2) if p and p.HasValue else 0.0
         else:
             qty = 1.0
         budget[code]["qty"] += qty

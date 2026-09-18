@@ -36,7 +36,7 @@ doc = Application.ActiveDocument
 
 
 sys.path.append(str(Path.home() / "AppData" / "Roaming" / "Pynet" / "Library" / "01_Scripts" / "00_utils"))
-from pynet_clash import get_clash_tests
+from pynet_clash import get_clash_tests, iter_results   # iter_results enters ClashResultGroups
 
 
 class ClashResultData:
@@ -152,7 +152,7 @@ class ClashManager:
         for test in tests:
             for data in dataResults:
                 if data.TestName == test.DisplayName:
-                    for children in test.Children:
+                    for children in iter_results(test):
 
                         if str(children.Guid) == data.Guid and str(children.Status).upper() != data.Status.upper():
 

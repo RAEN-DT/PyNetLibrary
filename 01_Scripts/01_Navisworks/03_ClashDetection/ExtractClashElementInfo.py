@@ -31,7 +31,7 @@ doc = Application.ActiveDocument
 
 
 sys.path.append(str(Path.home() / "AppData" / "Roaming" / "Pynet" / "Library" / "01_Scripts" / "00_utils"))
-from pynet_clash import get_clash_tests
+from pynet_clash import get_clash_tests, iter_results   # iter_results enters ClashResultGroups
 
 
 class ElementInfoExtractor:
@@ -75,7 +75,7 @@ class ClashInfoManager:
         results = []
         clash_index = 1
         for test in get_clash_tests(clashDoc):
-            for r in test.Children:
+            for r in iter_results(test):
                 try:
                     depth = round(r.Distance * 304.8, 1)
                 except:

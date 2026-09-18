@@ -20,16 +20,16 @@ There is no rigid column checklist to run. When the user gives an Excel, open it
 spot whether it is actually a parameter-creation matrix — the shape below is the reference for what
 "usable" looks like, not a validator to pass/fail mechanically.
 
-**Sheet `Parametros`** — one row per shared parameter definition:
+**Sheet `Parametros`** — one row per shared parameter definition (read with pandas **by header name**; headers verified on the real `PyNET_Matrix.xlsx`):
 
 | Column (by position) | Meaning |
 |---|---|
 | `Uso` | Free-text note (not used by the automation) |
 | `PSet` | DefinitionGroup name — parameters sharing a `PSet` are grouped together in the shared parameter file |
-| `Nombre` | The parameter name (also the Excel `Matriz` column header that references it) |
+| `Parametro` | The parameter name (also the Excel `Matriz` column header that references it) |
 | `Formato` | Data type key — see the Formato map below |
-| `TipoOEjemplar` | `T` = Type parameter, `E` = Instance parameter |
-| `GrupoRevit` | Revit parameter group (UI grouping) — see the GrupoRevit map below |
+| `Tipo o Ejemplar` | `T` = Type parameter, `E` = Instance parameter |
+| `Grupo_Revit` | Revit parameter group (UI grouping) — see the GrupoRevit map below |
 
 **Sheet `Matriz`** — one row per category, one column per parameter:
 

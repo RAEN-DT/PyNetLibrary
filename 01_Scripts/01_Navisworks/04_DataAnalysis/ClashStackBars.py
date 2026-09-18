@@ -104,9 +104,9 @@ class ChartManager:
     def ShowStackBars(data):
         df = pd.DataFrame([clash.__dict__ for clash in data])
 
-        df["left"] = df["testName"].str.split("_vs_").str[0]
+        df["left"] = df["testName"].str.split(r"\s+vs\s+|_vs_", regex=True).str[0]
         df["left"] = df["left"].str.replace(r"^[ABC]_", "", regex=True)
-        df["right"] = df["testName"].str.split("_vs_").str[1]
+        df["right"] = df["testName"].str.split(r"\s+vs\s+|_vs_", regex=True).str[1]
 
         df["left"] = df["left"].apply(ChartManager.ExtractSubdiscipline)
         df["right"] = df["right"].apply(ChartManager.ExtractSubdiscipline)
@@ -127,7 +127,7 @@ class ChartManager:
 
         stacked_df = stacked_df[stacked_df.sum(axis=1) > 0]
 
-        colors = {"new": "#FF1200", "active": "#FFC500", "reviewed": "#00C4FF"}
+        colors = {"new": "#ef4444", "active": "#f97316", "reviewed": "#3b82f6"}   # docs/clash-dashboard.md
 
         plt.figure(figsize=(10, 5), num="Clashes to Resolve")
         bottom = pd.Series([0]*len(stacked_df), index=stacked_df.index)

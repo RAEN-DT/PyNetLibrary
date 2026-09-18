@@ -48,11 +48,10 @@ except Exception:
 # Never call Application.SetCompatibleTextRenderingDefault() — always throws in the host
 ```
 
-### No host API calls inside form event handlers
+### Host API work and form event handlers
 
-Scripts run inside `IExternalEventHandler.Execute()` (Revit) / a command context (AutoCAD). When `form.ShowDialog()` starts the WinForms message loop, the host context is ambiguous. **Any host API call inside a button click handler will fail or crash.**
-
-**Pattern: form is UI-only; all API work happens after `ShowDialog()` returns.**
+**Preferred pattern — the form is UI-only; the API work runs after `ShowDialog()` returns.** It is the
+simplest to reason about and keeps the handler free of long work:
 
 ```python
 class MyForm(Form):
@@ -63,22 +62,26 @@ class MyForm(Form):
 
     def OnExecute(self, sender, args):
         self.confirmed = True
-        self.Close()   # just close — no API calls here
-
-    def OnCancel(self, sender, args):
-        self.Close()
+        self.Close()   # just close
 
 form = MyForm()
 form.ShowDialog()
-
 if form.confirmed:
-    # All host API work here — still inside ExternalEventHandler.Execute()
-    ...
+    ...            # host API work here
 ```
 
-### No Application.DoEvents()
+**API calls inside a handler of a MODAL form (`ShowDialog()`) do work.** The validated production
+workflows (Revit sync / NWC export / transfer data / keynotes; Navisworks batch export) open,
+transact, synchronise and export from the button handler. The script is still inside the host's
+execution context while the modal dialog runs. What breaks is a **modeless** form (`Show()`): once
+the script returns, its handlers run outside that context — never call the API from a modeless form.
 
-`Application.DoEvents()` inside an ExternalEventHandler causes re-entrancy and crashes. Never use it.
+### `Application.DoEvents()` — only to repaint a status window
+
+`DoEvents()` pumps pending messages so a label or progress bar repaints during synchronous work
+(Navisworks `ProgressWindow` in the IFC exporter, `BatchClashExport` status label). Use it for that
+only: never inside a Revit `IExternalEventHandler` loop that could re-enter the handler, and disable
+the button that started the work first so a second click cannot re-trigger it.
 
 ---
 

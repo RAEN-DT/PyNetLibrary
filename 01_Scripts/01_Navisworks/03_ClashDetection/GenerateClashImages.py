@@ -32,7 +32,7 @@ doc = Application.ActiveDocument
 
 
 sys.path.append(str(Path.home() / "AppData" / "Roaming" / "Pynet" / "Library" / "01_Scripts" / "00_utils"))
-from pynet_clash import get_clash_tests
+from pynet_clash import get_clash_tests, iter_results   # iter_results enters ClashResultGroups
 
 
 class ClashImageExporter:
@@ -68,7 +68,7 @@ class ClashImageExporter:
         saved = 0
         skipped = 0
         for test in get_clash_tests(clashDoc):
-            for r in test.Children:
+            for r in iter_results(test):
                 status = str(r.Status)
                 if ClashImageExporter.TARGET_STATUSES and status not in ClashImageExporter.TARGET_STATUSES:
                     skipped += 1

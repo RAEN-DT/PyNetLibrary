@@ -25,12 +25,15 @@ A plain **ZIP** archive containing:
     └── <model>.ifc        # one or more IFC4 files (the geometry)
 ```
 
-The `classification` array's `basis` field states which parameter was actually measured —
-`"PYNET_Classification"`, or `"Categoría (fallback — PYNET_Classification no encontrado)"` when the
-project doesn't carry that type parameter (e.g. generic/sample models). `ClassificationAnalyzer`
-(`NavisworksPNT_IFC_Fast.py`) tries PYNET_Classification first and only falls back to native Revit
-Category if it finds zero classified types across the whole federation — this avoids a misleading
-"0% coverage" being reported for a parameter the project never used in the first place.
+The `classification` array reports coverage per model. `ClassificationAnalyzer`
+(`NavisworksPNT_IFC_Fast.py`) reuses the **SearchSets that already exist** in the document — whatever
+strategy the project uses (PYNET_Classification, native Category, discipline…) — runs them and measures
+how much geometry they cover; `basis` lists the SearchSets used (`"no SearchSets found"` otherwise).
+
+`properties.json` = `{pnt_id: {"pnt_id", "name", "model", "psets": {...}}}` plus one `"m_<stem>"`
+entry per model root (Navisworks' own Elemento/Proyecto/Identidad tabs) and
+`"__meta__": {"viewRotationDeg": …}` (true north). `manifest.json` = `{version, format: "pnt-ifc",
+project, created, models, element_count, clash_count}`.
 
 `clashes.json` is the entry point (the viewer's `server/pnt_server.py`, in the PyNetVSCode repo,
 extracts the zip and reads it).
@@ -74,11 +77,15 @@ running host, or run a standalone script with a Python that has ifcopenshell. `z
    + `IfcTriangulatedFaceSet`), exactly like `NavisworksPNT_IFC_Fast.py`.
 2. **Colour via `IfcSurfaceStyleRendering`** on the tri-set: `IfcStyledItem(triSet, [IfcSurfaceStyle("BOTH",
    [IfcSurfaceStyleRendering(IfcColourRgb(...), 0.0, ..., "FLAT")])])`. RGB are floats 0..1.
-3. **Double-side every mesh.** web-ifc back-face culls → geometry disappears when orbiting. Emit each
-   triangle twice, once reversed: `faces + [(a, c, b) for (a, b, c) in faces]`.
-4. **ifcopenshell 0.8.5 wants tuples, not lists.** `createIfcCartesianPointList3D(tuple(tuple(floats)))`
-   and the `CoordIndex` as a tuple of tuples — list-of-lists raises a `TypeError` (AGGREGATE OF
-   AGGREGATE OF DOUBLE).
+3. **Double-side OPEN surfaces.** web-ifc back-face culls → an open mesh (terrain, a single plane,
+   a heat-map cell) disappears when orbited from behind. Emit its triangles twice, once reversed:
+   `faces + [(a, c, b) for (a, b, c) in faces]`. Closed solids (every Navisworks-exported element)
+   don't need it — the Navisworks exporter does not double faces.
+4. **Plain Python floats / ints.** `createIfcCartesianPointList3D` and `CoordIndex` accept nested
+   lists of Python `float` / `int` (the Navisworks exporter passes lists). The `TypeError`
+   *AGGREGATE OF AGGREGATE OF DOUBLE* comes from other item types (numpy scalars, .NET doubles, mixed
+   ints) — `tuple(tuple(float(c) for c in v) for v in verts)` is the always-safe form.
+   **`CoordIndex` is 1-based** (`[f[0] + 1, f[1] + 1, f[2] + 1]`).
 5. **Subtract a local origin.** Keep coordinates near 0 (subtract the min X/Y/Z). Real UTM values
    (~6.3e5 / 4.6e6) overflow float32 precision on the GPU → vertex jitter. Real *scale* (a 7 km
    extent) is fine as long as the origin is local.
@@ -127,8 +134,8 @@ origin-subtracted (requirement 5) to avoid float32 jitter.
 
 - [ ] IFC built with `IfcTriangulatedFaceSet` + `"Tessellation"` (never SweptSolid)
 - [ ] Colour via `IfcSurfaceStyleRendering`, RGB 0..1
-- [ ] Every mesh double-sided (reversed faces appended)
-- [ ] Tuples (not lists) into `createIfcCartesianPointList3D` / `CoordIndex`
+- [ ] Open surfaces double-sided (reversed faces appended)
+- [ ] Plain Python floats into `createIfcCartesianPointList3D`; `CoordIndex` 1-based
 - [ ] Coordinates origin-subtracted (near 0)
 - [ ] `clashes.json` with `models[].fileName`; IFC under `models/`
 - [ ] Load with `viewer_load_package` → `viewer_fit`

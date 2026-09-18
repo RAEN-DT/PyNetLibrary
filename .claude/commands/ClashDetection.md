@@ -14,7 +14,8 @@ Full Clash Detection workflow for the PyNET platform on Autodesk Navisworks.
 ## Context
 
 - Classification parameter: `PYNET_Classification` — a **type parameter** that appears at multiple hierarchy levels
-- Navisworks API uses **feet** internally for tolerances → always convert with `mm / 1000 / 0.3048`
+- Tolerances, centers and distances are in **document units** (feet only if the model is in feet) → convert with
+  `UnitConversion.ScaleFactor` (`mm_to_doc` below), never a fixed `0.3048`
 - Clash tests must reference **dynamic SearchSets**, never static snapshots via `CopyFrom(FindAll(...))`
 - Iterate tests/results only through `get_clash_tests(clashDoc)` / `iter_results(test)` — never
   `testsData.Tests` or `testsData.Value.TestsRoot.Children` directly (API changed between versions)
@@ -38,13 +39,15 @@ to geometry — measured, not assumed (see step 4).
 ```python
 clr.AddReference("Autodesk.Navisworks.Api")
 from Autodesk.Navisworks.Api import (Application, Search, SearchCondition, SearchLocations,
-                                     SelectionSet, VariantData)
+                                     SelectionSet, UnitConversion, Units, VariantData)
 clr.AddReference("Autodesk.Navisworks.Clash")
 from Autodesk.Navisworks.Api.Clash import DocumentClash, ClashTest, ClashTestType
 from System.Collections.Generic import List
 
-def mm_to_ft(mm):
-    return mm / 1000 / 0.3048
+def mm_to_doc(mm):
+    """Millimetres -> document units (what ClashTest.Tolerance expects)."""
+    scale = UnitConversion.ScaleFactor(doc.Models.First.Units, Units.Meters)   # metres per doc unit
+    return mm * 0.001 / scale
 
 clashDoc = CastUtils.CastTo[DocumentClash](doc.Clash)   # CastUtils: see docs/navisworks.md
 testsData = clashDoc.TestsData
@@ -320,7 +323,7 @@ source_b = doc.SelectionSets.CreateSelectionSource(find_set(doc.SelectionSets.Ro
 test = ClashTest()                  # a new, detached test — its properties are writable
 test.DisplayName = f"{code_a} vs {code_b}"
 test.TestType = ClashTestType.Hard
-test.Tolerance = mm_to_ft(10)
+test.Tolerance = mm_to_doc(10)
 test.SelectionA.Selection.SelectionSources.Add(source_a)
 test.SelectionB.Selection.SelectionSources.Add(source_b)
 testsData.TestsAddCopy(None, test)  # None = root level
@@ -335,7 +338,7 @@ A live test is read-only (`test.Tolerance = x` raises `NotSupportedException`). 
 
 ```python
 new_test = live_test.CreateCopy()
-new_test.set_Tolerance(mm_to_ft(50))   # pattern verified in ClashToleranceComparison
+new_test.set_Tolerance(mm_to_doc(50))   # pattern verified in ClashToleranceComparison
 testsData.TestsEditTestFromCopy(live_test, new_test)
 ```
 

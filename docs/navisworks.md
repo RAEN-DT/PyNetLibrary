@@ -221,7 +221,10 @@ Combine both helpers in a clash script: `for test in get_clash_tests(clashDoc): 
 
 ## Key API patterns (this project)
 
-- **Tolerances are in feet** when configuring clash tests.
+- **Lengths are in document units** — `ClashTest.Tolerance`, `result.Center`, `result.Distance`. They are
+  feet only when the model is in feet. Convert with `UnitConversion.ScaleFactor(doc.Models.First.Units,
+  Units.Meters)` (metres per document unit): `tol = mm * 0.001 / scale`, `mm = value * scale * 1000`.
+  Validated in `00_Workflows/UpdateModels.py`.
 - Create **SearchSets before clash tests** so the tests stay dynamic.
 - See `01_Scripts/01_Navisworks/` for validated examples by use case:
   - `01_ModelManagement/` — open, append, list, publish NWD

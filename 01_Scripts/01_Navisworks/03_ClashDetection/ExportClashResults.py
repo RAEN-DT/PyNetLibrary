@@ -146,9 +146,9 @@ class DataManager():
         df = pd.DataFrame([clash.__dict__ for clash in data])
         df["clashes"] = df["active"] + df["new"] + df["reviewed"]
 
-        df["left"] = df["testName"].str.split("_vs_").str[0]
+        df["left"] = df["testName"].str.split(r"\s+vs\s+|_vs_", regex=True).str[0]
         df["left"] = df["left"].str.replace(r"^[ABC]_", "", regex=True)
-        df["right"] = df["testName"].str.split("_vs_").str[1]
+        df["right"] = df["testName"].str.split(r"\s+vs\s+|_vs_", regex=True).str[1]
 
         def extract_subdiscipline(name: str) -> str:
             name = re.sub(r"^[^_]+_", "", name)
@@ -198,9 +198,9 @@ class DataManager():
     def AnalizeStackBars(data):
         df = pd.DataFrame([clash.__dict__ for clash in data])
 
-        df["left"] = df["testName"].str.split(" vs ").str[0]
+        df["left"] = df["testName"].str.split(r"\s+vs\s+|_vs_", regex=True).str[0]
         df["left"] = df["left"].str.replace(r"^[ABC]_", "", regex=True)
-        df["right"] = df["testName"].str.split(" vs ").str[1]
+        df["right"] = df["testName"].str.split(r"\s+vs\s+|_vs_", regex=True).str[1]
 
         def extract_subdiscipline(name: str) -> str:
             if pd.isna(name):
@@ -228,7 +228,7 @@ class DataManager():
 
         stacked_df = stacked_df[stacked_df.sum(axis=1) > 0]
 
-        colors = {"new": "#FF1200", "active": "#FFC500", "reviewed": "#00C4FF", "approved": "#00FF00"}
+        colors = {"new": "#ef4444", "active": "#f97316", "reviewed": "#3b82f6", "approved": "#22c55e"}   # docs/clash-dashboard.md
 
         plt.figure(figsize=(10, 5), num="Clashes to Resolve")
         bottom = pd.Series([0]*len(stacked_df), index=stacked_df.index)

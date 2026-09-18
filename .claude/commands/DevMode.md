@@ -1,6 +1,5 @@
 # Skill: DevMode
 
-Start the conversation in english. If the user request to change you can use the user language.
 Switches the interaction style for the current session between Developer Mode and Production Mode.
 
 ## Usage
@@ -44,18 +43,13 @@ Behavior when `production` is active:
 
 When the user asks to create a button or save a script:
 
-1. **Save the script** to the best-fit folder under `01_Scripts/01_Navisworks/` using the class-based structure and informative `print` statements (per CLAUDE.md conventions). The script must be self-contained and user-friendly.
+1. **Save the script** in the best-fit numbered folder of the host — `01_Scripts/01_Navisworks/`,
+   `02_Revit/` or `03_AutoCAD/` (list the host folder with `Glob` and pick the closest topic, e.g.
+   `03_ClashDetection/`, `25_QAQC/`, `20_GIS/`) — using the class-based structure and informative
+   `print` statements (CLAUDE.md conventions). Never `00_Workflow(s)/` (git-ignored, production
+   workflows only) unless the user asks for it.
 
-2. **Folder selection guide:**
-
-   | Script purpose | Folder |
-   |---|---|
-   | Open, append, publish, list NWD/NWC files | `01_ModelManagement/` |
-   | Create or manage SearchSets | `02_SearchSets/` |
-   | Clash tests: create, run, export, rename, tolerance | `03_ClashDetection/` |
-   | Charts, dashboards, data exports | `04_DataAnalysis/` |
-   | Query, filter, isolate, measure elements | `05_QueryElements/` |
-   | Multi-step combined workflows | `06_Workflows/` |
+2. The script must be self-contained and user-friendly.
 
 3. **Deploy the button** via `deploy_script_button` referencing the saved file path.
 

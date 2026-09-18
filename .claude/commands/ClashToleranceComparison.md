@@ -19,7 +19,7 @@ side-by-side Excel comparison.
   - **Via duplicate** — `DuplicateTest()` creates an independent sibling test
 - NWF files are **binary** (LcUStream format) — cannot be edited as XML. Copy with
   `pathlib` bytes read/write; modify tolerances via the API after opening.
-- Correct path to tests: `testsData.Value.TestsRoot.Children` — never `testsData.Tests`.
+- Iterate tests only through `get_clash_tests(clash_doc)` (the `pynet_clash` helper — see docs/navisworks.md); the API changed between versions.
 - `DocumentClash` requires `CastUtils.CastTo[DocumentClash](doc.Clash)` — direct cast fails.
 
 ---
@@ -51,7 +51,7 @@ from Autodesk.Navisworks.Api.Clash import DocumentClash, ClashResultStatus
 # ── CastUtils (required for DocumentClash) ────────────────────────────────────
 bundle_base = (
     Path.home() / "AppData" / "Roaming" / "Autodesk" / "ApplicationPlugins"
-    / "RAEN.Navisworks.PyNET.bundle" / "Contents"
+    / "Raen.Navisworks.Pynet.bundle" / "Contents"
 )
 # Resolve the actual year folder (2024 / 2025 / 2026 / 2027)
 bundle_path = next(
@@ -64,6 +64,9 @@ if bundle_path is None:
 sys.path.append(str(bundle_path))
 clr.AddReference("Raen.Core.Pynet.Resources")
 from Raen.Core.Pynet.Resources import CastUtils  # type: ignore
+
+sys.path.append(str(Path.home() / "AppData" / "Roaming" / "Pynet" / "Library" / "01_Scripts" / "00_utils"))
+from pynet_clash import get_clash_tests
 
 import openpyxl
 from openpyxl.styles import Font, PatternFill, Alignment
@@ -95,7 +98,7 @@ def export_results_to_excel(tests_data, out_path: Path, sheet_title: str, header
         cell.font = Font(bold=True, color="FFFFFF")
         cell.alignment = Alignment(horizontal="center")
     summary = []
-    for test in tests_data.Value.TestsRoot.Children:
+    for test in get_clash_tests(clash_doc):
         tol_mm = round(test.Tolerance * 0.3048 * 1000, 2)
         clashes = list(test.Children)
         summary.append({"test": test.DisplayName, "tolerance_mm": tol_mm, "total": len(clashes)})
@@ -148,7 +151,7 @@ TARGET_TESTS: list[str] = []
 clash_doc = CastUtils.CastTo[DocumentClash](doc.Clash)
 tests_data = clash_doc.TestsData
 
-for test in tests_data.Value.TestsRoot.Children:
+for test in get_clash_tests(clash_doc):
     if TARGET_TESTS and test.DisplayName not in TARGET_TESTS:
         continue
     copy = test.CreateCopy()
@@ -171,7 +174,7 @@ comparisons without overwriting the source configuration.
 def duplicate_test_with_tolerance(tests_data, source_name: str, new_name: str, tolerance_mm: float):
     tolerance_ft = tolerance_mm / 1000 / 0.3048
     source = next(
-        (t for t in tests_data.Value.TestsRoot.Children if t.DisplayName == source_name),
+        (t for t in get_clash_tests(clash_doc) if t.DisplayName == source_name),
         None,
     )
     if source is None:
@@ -189,7 +192,7 @@ def duplicate_test_with_tolerance(tests_data, source_name: str, new_name: str, t
 # Example — duplicate every test with a "_15mm" suffix
 results_b = []
 # Snapshot the list first — iterating while DuplicateTest adds siblings is unsafe
-original_tests = list(tests_data.Value.TestsRoot.Children)
+original_tests = get_clash_tests(clash_doc)   # already a snapshot list
 for test in original_tests:
     r = duplicate_test_with_tolerance(tests_data, test.DisplayName, f"{test.DisplayName}_15mm", 15.0)
     results_b.append(r)
@@ -324,7 +327,7 @@ When running this workflow on a new project:
 | `AttributeError: 'Document' object has no attribute 'GetClash'` | Using `doc.GetClash()` (COM pattern) | Use `CastUtils.CastTo[DocumentClash](doc.Clash)` |
 | `name 'Autodesk' is not defined` | Missing explicit `AddReference` before import | Add `clr.AddReference("Autodesk.Navisworks.Clash")` before `from Autodesk.Navisworks.Api.Clash import …` |
 | `TestsEditTestFromCopy` applies nothing | Copy mutated after passing to the method | Mutate the copy **before** passing it; the method reads all fields at call time |
-| Iterating while duplicating adds siblings mid-loop | `DuplicateTest` appends to `TestsRoot.Children` | Snapshot the list first: `original_tests = list(tests_data.Value.TestsRoot.Children)` |
+| Iterating while duplicating adds siblings mid-loop | `DuplicateTest` appends a sibling test | Snapshot first — `get_clash_tests()` already returns a list |
 | NWF XML edit produces unreadable file | NWF is LcUStream binary, not XML | Use `pathlib` bytes copy + API tolerance edit after `OpenFile` |
 
 ---

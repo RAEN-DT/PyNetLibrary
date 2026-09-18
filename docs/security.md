@@ -6,6 +6,11 @@
 Full whitelists/blocklists. The summary lives in `CLAUDE.md`; this is the complete reference. It mirrors the
 validator in `PyNetBridge/pynet_mcp/server.py` — keep both in sync.
 
+> **If this doc and the validator disagree, the validator wins.** Fix the doc, never widen the
+> validator to match it. When the validator changes, run **every** script in `01_Scripts` (excluding
+> `04_QGIS`) through `validate_script` instead of only the suspected one — that batch pass is what
+> surfaced the real false rejections (e.g. a UTF-8 BOM breaking `ast.parse`, fixed in 1.5.4).
+
 > **Scope:** this static analyzer only runs for scripts sent through the **MCP bridge** into an Autodesk
 > host (Navisworks / Revit / AutoCAD). **Standalone QGIS scripts** (`04_QGIS`) run in QGIS's own Python and
 > do **not** pass through it — see [qgis.md](qgis.md). Scripts a user writes/saves and runs from a button

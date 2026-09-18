@@ -23,7 +23,9 @@ Scripts are sent to the plugin through the MCP bridge and executed locally insid
 > bridge-hosted and lives under [docs/autocad-civil.md](docs/autocad-civil.md).
 
 > **Always check `list_active_instances` first** to identify the running host and PID — boilerplate
-> and APIs differ per host. Civil 3D appears as **"AutoCAD"** in the instance list.
+> and APIs differ per host. Civil 3D appears as **"AutoCAD"** in the instance list. If several
+> sessions of the same host are open, never ask the user to pick by PID alone — run a cheap query per
+> PID (open file / document name) and present "PID 17652 — ModelR_Federated.nwf".
 
 > **Timeout rule:** always use a minimum timeout of **60 seconds** when calling `send_command`.
 
@@ -71,9 +73,9 @@ Be efficient: check existing context before writing from scratch.
 3. **API stubs** — the authority on **what the API offers**: does this class exist, what is the
    exact signature, what is the import line. Two cheap steps, so reach for them *before* probing
    the live model or inferring a call:
-   - `Grep` `02_PyNet Stubs/_index/CLASSES.tsv` (942 KB, 8,788 classes) for the class name → it
+   - `Grep` `02_PyNet Stubs/_index/CLASSES.tsv` (~950 KB, ~8,900 classes) for the class name → it
      returns the namespace, the file and the exact line range.
-   - `Read` that file with `offset`/`limit` → you get that class alone (median 16 lines).
+   - `Read` that file with `offset`/`limit` → you get that class alone (median 12 lines).
 
    Never read a stub file whole (a namespace can be 25k lines) and never grep the corpus just to
    locate a class. Do grep the stub files to find *which* class declares a given method. Match on
@@ -100,7 +102,9 @@ list of dicts or a single dict). If absent, no data output is generated.
 
 - **During development** (scripts via `send_command`): use `ia_Result` as the primary channel for
   structured data back to the AI. Keep `print` minimal (brief status only) — do NOT flood the
-  Navisworks Output Window with per-element prints.
+  Navisworks Output Window with per-element prints. **Exception:** any loop over a large collection
+  or any script that may run more than a few seconds prints progress every ~10% / N items, so a
+  timeout can be told apart from a hang (see [docs/navisworks.md](docs/navisworks.md)).
 - **When saving a script for the user** (button / source): add informative `print` statements
   (progress, summary, results). `ia_Result` is then optional.
 
@@ -136,6 +140,10 @@ past ~150 lines or after its first successful run as a recurring workflow (much 
 Write short, optimized scripts (< ~80 lines inline). If a script grows too long, fix the design —
 do not save one-off scripts to disk just to work around length.
 
+**Imports — every host:** import each .NET type by name (`from Autodesk.Revit.DB import Wall, Transaction`),
+never `from <namespace> import *`. Resolve the namespace with the stubs index first (§3) — some names
+exist in several namespaces or were removed in newer host versions. Reasons in [docs/navisworks.md](docs/navisworks.md).
+
 ---
 
 ## 7. Security (summary)
@@ -170,6 +178,12 @@ alternative within scope.
   first execution.
 - If a confirmed script fails and you fix it, **re-execute immediately without asking again** — the
   user already approved the intent.
+- **Heavy queries on a large model** (read-only included): what matters is the size of the model the
+  script walks, not the length of the script. Measure scope first with a cheap count (models,
+  elements). If the real run will take long — or you cannot estimate it — **warn the user that a long
+  query is about to run** (estimated time, and that it cannot be cancelled mid-run) and wait for their
+  confirmation. Quick queries run directly. Details in [docs/navisworks.md](docs/navisworks.md)
+  "Heavy models".
 
 ---
 

@@ -13,14 +13,18 @@ Related: [navisworks.md](navisworks.md) · [autocad-civil.md](autocad-civil.md) 
 
 The plugin injects a `__revit__` global. **Do not use `Application` from the Navisworks namespace — it does not exist in Revit.**
 
+Import **only the types the script uses**, by name — never `from Autodesk.Revit.DB import *` (same
+rule and reasons as [navisworks.md](navisworks.md#-never-use-from-namespace-import-)). Check an
+uncertain name against the stubs index (`CLASSES.tsv`) before importing it: several legacy types
+(`ParameterType`, `BuiltInParameterGroup`) no longer exist in Revit 2025+ — their replacements are
+`SpecTypeId` / `GroupTypeId`.
+
 ```python
 import clr
-import System
-from System import Enum, Environment
 from pathlib import Path
 
 clr.AddReference("RevitAPI")
-from Autodesk.Revit.DB import *
+from Autodesk.Revit.DB import BuiltInCategory, FilteredElementCollector, Transaction  # what you use
 
 # __revit__ is injected by the plugin — always use this to get the document
 doc = __revit__.ActiveUIDocument.Document
@@ -74,31 +78,15 @@ for bic in Enum.GetValues(BuiltInCategory):
 
 ---
 
-## Python.NET runtime contamination (critical)
+## The Python.NET runtime is persistent
 
-The Python runtime inside Revit is **persistent and shared** across all executions (both `send_command` and button). A failed import can leave a broken module in `sys.modules` that affects every subsequent script in the session.
+The Python runtime inside Revit is **persistent and shared** across all executions (`send_command` and
+buttons). A failed import can leave a broken module in `sys.modules` that affects every later script in
+the session.
 
-### Never modify imports to diagnose an environment error
+**Diagnosing a button that fails:**
 
-The standard boilerplate (`clr.AddReference("RevitAPI")` + `from Autodesk.Revit.DB import *`) is correct and matches all working scripts. Changing it to specific imports causes real import errors (`ParameterType`, `BuiltInParameterGroup` do not exist in Revit 2025+) and contaminates the runtime.
-
-### Diagnosis flow for button execution errors
-
-1. **Does the same script work via `send_command`?** If yes, the script is correct.
-2. **Is it a .NET assembly load failure** (e.g. `DesktopConnectorInterop`, `AcWebServices`)? That is an environment/session issue, not a script issue.
-3. **Do not touch imports.** Tell the user the session is contaminated and ask them to restart Revit.
-
-### Known: AcWebServices / DesktopConnectorInterop
-
-```
-Python.Runtime.InternalPythonnetException: Failed to create Python type for AcWebServices
----> System.IO.FileNotFoundException: Could not load file or assembly 'DesktopConnectorInterop'
-```
-
-Caused by Revit loading `AcWebServices.dll` (references `DesktopConnectorInterop`, only present if Autodesk Desktop Connector is installed), triggered by `clr.AddReference` enumerating AppDomain assemblies. **Not our script.**
-
-This error sometimes occurs only on the **first** `send_command` of a session and clears on the second attempt — **always retry once** before asking for a restart.
-
-### Known: `module 'clr' has no attribute '_available_namespaces'`
-
-Corrupted Python.NET state from startup — **not fixable at script level**. Only fix is restarting the host. Do not attempt workarounds (fake numpy injection, sys.meta_path manipulation). See [excel-mcp.md](excel-mcp.md), where this most often appears.
+1. **Does the same script work via `send_command`?** If yes, the script is correct — the session state
+   is the problem; ask the user to restart Revit.
+2. **Import error on a type name?** Check the name in the stubs index — it may have been removed or
+   renamed in this Revit version (see the boilerplate note above).

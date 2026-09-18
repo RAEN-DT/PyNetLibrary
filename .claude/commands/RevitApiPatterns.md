@@ -31,13 +31,13 @@ for el in instances:
 
 ## Rule #2 — ElementId in Revit 2024+
 
-In Revit 2024+ `ElementId.IntegerValue` (Int32) no longer exists. Use `ElementId.Value` (Int64).
+Since Revit 2024 use `ElementId.Value` (Int64). `ElementId.IntegerValue` (Int32) was deprecated in 2024 and is gone in current versions.
 
 ```python
 # CORRECT — works in Revit 2024+
 type_id = int(type_el.Id.Value)
 
-# WRONG — raises AttributeError in Revit 2024+
+# WRONG — raises AttributeError on current Revit versions
 type_id = type_el.Id.IntegerValue
 ```
 
@@ -70,7 +70,7 @@ p = el.GetParameter(ParameterTypeId.WallTopOffset)
 |---|---|---|
 | Method | `element.get_Parameter(...)` | `element.GetParameter(...)` |
 | Argument | `BuiltInParameter` enum member | `ForgeTypeId` from `ParameterTypeId` |
-| Import | `BuiltInParameter` (in `Autodesk.Revit.DB import *`) | `ParameterTypeId` (same import) |
+| Import | `from Autodesk.Revit.DB import BuiltInParameter` | `from Autodesk.Revit.DB import ParameterTypeId` |
 | Status | Legacy, still functional | Current direction of the API |
 
 The two spellings are not always 1:1 — check `ParameterTypeId` has a matching member before assuming

@@ -66,15 +66,20 @@ script's dependencies obvious. The cost is zero — `clr.AddReference` already l
 pythonnet sometimes returns incorrect types, especially with interfaces (Clash API). The PyNET plugin ships a static utility `CastUtils` to correctly map objects. **Always use it when working with Clash or other interface-heavy APIs.**
 
 ```python
-bundlePath = (Path.home() / "AppData" / "Roaming" / "Autodesk" / "ApplicationPlugins"
-              / "RAEN.Navisworks.PyNET.bundle" / "Contents" / "2027")
+# The bundle has one folder per Navisworks year — pick the one that actually holds the DLL
+bundle_base = (Path.home() / "AppData" / "Roaming" / "Autodesk" / "ApplicationPlugins"
+               / "Raen.Navisworks.Pynet.bundle" / "Contents")
+bundlePath = next((d for d in bundle_base.iterdir()
+                   if d.is_dir() and (d / "Raen.Core.Pynet.Resources.dll").exists()), None)
+if bundlePath is None:
+    raise RuntimeError("PyNET bundle not found. Check the Navisworks installation.")
 sys.path.append(str(bundlePath))
 
 clr.AddReference("Raen.Core.Pynet.Resources")
 from Raen.Core.Pynet.Resources import CastUtils
 ```
 
-> **Version note:** this machine has Navisworks **2027** installed — use the `2027` folder, not `2024`. If `clr.AddReference` fails, detect the real version by reading `asm.Location` via reflection instead of hardcoding.
+> Never hardcode the year folder (`2024`…`2027`) — each user runs a different Navisworks version.
 
 Example — accessing clash tests (use the version-tolerant helper below, not a direct call):
 
@@ -101,6 +106,8 @@ per-item property/category iteration:
 1. **Measure scope first, with a cheap read-only query**: how many models are loaded
    (`len(list(doc.Models))`), and a rough element count per model (e.g. `sum(1 for _ in
    model.RootItem.Descendants)` on one model, or `HasGeometry` counts) — before touching properties.
+   If the measurement says the real run will be long (or it can't be estimated), **warn the user and
+   wait for confirmation** before launching it — `CLAUDE.md` §8, even for read-only scripts.
 2. **Go smallest-to-largest ("de menos a más")**: run the real scan on the smallest/lightest model
    first, confirm it completes and the result shape is right, then scale up to the rest — never all
    models at once on the first attempt.
@@ -133,8 +140,6 @@ genuinely was still running past that timeout (confirmed complete only once the 
 in the Navisworks UI) — the lesson isn't "it hung," it's "there was no way for either the AI or the user
 to tell the difference between hung and genuinely busy," which is exactly what points 4 and 5 above fix.
 
-This mirrors the general rule in `CLAUDE.md` §9 ("no heavy script without prior analysis and explicit
-permission") — applied specifically to scans and bulk writes over federated models here.
 
 ---
 
@@ -175,13 +180,13 @@ for test in get_clash_tests(clashDoc):          # version-tolerant (2025 vs 2026
         ...
 ```
 
-`get_clash_tests` tries the old `.Tests` API and falls back to walking `Value.TestsRoot` (EAFP — *try it,
-catch the failure*), so the **same script runs unchanged on any Navisworks version**. You don't need to
-know *which* version removed `.Tests`; if it exists it's used, otherwise the folder-tree path runs
-(recursing into `ClashTestFolder`, so tests organised in folders are still found).
+`get_clash_tests` tries the old `.Tests` API and falls back to `Value.TestsRoot.Children` (EAFP — *try
+it, catch the failure*), so the **same script runs unchanged on any Navisworks version**. It returns a
+list (a snapshot — safe to iterate while adding tests). **Limitation:** it reads the root level only —
+tests organised inside clash-test folders are not returned.
 
-> Do **not** use `getattr` / `hasattr` to probe for `.Tests` — both are **blocked by the MCP sandbox**.
-> The helper uses `try / except AttributeError`, the sandbox-safe way to feature-detect a member.
+> Feature-detect with `try / except AttributeError`, as the helper does. `getattr` is **blocked by the
+> MCP sandbox**; `hasattr` is allowed, but `try/except` is the pattern used across the library.
 
 > The module also exposes `iter_results(test)` — see the next section.
 

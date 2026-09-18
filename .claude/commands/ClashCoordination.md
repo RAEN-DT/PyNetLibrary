@@ -1,10 +1,10 @@
 # Skill: ClashCoordination
 
-Start the conversation in english. If the user request to change you can use the user language.
-
 Cross-application coordination workflow: reads **Reviewed** clash results from Navisworks and creates the corresponding floor openings in Revit.
 
-> **Always read [ClashDetection.md](ClashDetection.md) alongside this skill.** It contains the full Navisworks API patterns, CastUtils boilerplate, iteration helpers, property reading utilities, and clash approval criteria that this workflow depends on.
+> **Read first:** [docs/navisworks.md](../../docs/navisworks.md) (Navisworks boilerplate, `CastUtils`, the
+> `pynet_clash` helpers `get_clash_tests` / `iter_results`), [docs/revit.md](../../docs/revit.md) and
+> [clash-approval-criteria.md](../../docs/clash-approval-criteria.md) (why a clash ended up Reviewed).
 
 ---
 
@@ -13,7 +13,7 @@ Cross-application coordination workflow: reads **Reviewed** clash results from N
 - Two active PyNET instances are required: one in **Navisworks** and one in **Revit**
 - Use `list_active_instances` to identify both PIDs before starting
 - Navisworks coordinates and Revit internal coordinates share the same origin when the model was exported with shared coordinates — always verify by comparing a known floor Z with `bb.Min.Z * 304.8`
-- Revit API uses **feet** internally — always convert with `mm / 304.8`
+- Revit API uses **feet** internally — convert with `UnitUtils.ConvertToInternalUnits(mm, UnitTypeId.Millimeters)` / `ConvertFromInternalUnits`, never a hardcoded factor (see RevitApiPatterns). Navisworks has no `UnitUtils`: there `ft * 304.8` is the conversion.
 - `StructuralType` is in `Autodesk.Revit.DB.Structure`, not in the main `Autodesk.Revit.DB` namespace — always import it explicitly
 
 ### Revit boilerplate
@@ -21,9 +21,9 @@ Cross-application coordination workflow: reads **Reviewed** clash results from N
 ```python
 import clr
 clr.AddReference('RevitAPI')
-from Autodesk.Revit.DB import *
+from Autodesk.Revit.DB import (ElementId, ElementTransformUtils, Family, FilteredElementCollector,
+                               Line, LocationCurve, Transaction, UnitTypeId, UnitUtils, XYZ)
 from Autodesk.Revit.DB.Structure import StructuralType
-from System.Collections.Generic import List
 
 uidoc = __revit__.ActiveUIDocument
 doc = uidoc.Document
@@ -61,8 +61,8 @@ def get_source_file(item):
     return None
 
 # Sample any clash item — Item1 or Item2 both carry the property
-first_test = next(iter(testsData.Value.TestsRoot.Children))
-first_result = next(iter_all_results(first_test))
+first_test = get_clash_tests(clashDoc)[0]
+first_result = next(iter_results(first_test))
 nwc_source = get_source_file(first_result.Item1) or get_source_file(first_result.Item2)
 ```
 
@@ -84,17 +84,9 @@ if nwc_source and Path(nwc_source).stem.lower() != Path(revit_filename).stem.low
 
 ### 2. Read Reviewed clashes from Navisworks
 
-Use the CastUtils + DocumentClash pattern from ClashDetection. Filter by `ClashResultStatus.Reviewed` and collect position + geometry for each result:
+Use `CastUtils` + `get_clash_tests` / `iter_results` (docs/navisworks.md). Filter by `ClashResultStatus.Reviewed` and collect position + geometry for each result:
 
 ```python
-def iter_all_results(test):
-    for child in test.Children:
-        if child.IsGroup:
-            for r in child.Children:
-                yield r
-        else:
-            yield child
-
 def ft_to_mm(ft):
     return round(ft * 304.8, 1)
 
@@ -107,8 +99,8 @@ def bbox_to_dict(bb):
     }
 
 results = []
-for test in testsData.Value.TestsRoot.Children:
-    for result in iter_all_results(test):
+for test in get_clash_tests(clashDoc):
+    for result in iter_results(test):
         if result.Status != ClashResultStatus.Reviewed:
             continue
         center = result.Center
@@ -296,9 +288,7 @@ if not hueco_rect_sym or not hueco_circ_sym:
     raise RuntimeError("Family not found in document. Load it first.")
 ```
 
-**Family names confirmed in ModeloR project:** `Hueco_Suelos` (rectangular) and `Hueco_Suelos_Circular`.
-
-**Instance parameters:**
+**Example — families used in a validated project** (`Hueco_Suelos` rectangular, `Hueco_Suelos_Circular`); always confirm the real names per project (step 6b). Their instance parameters:
 
 | Family | Parameter | Type | Description |
 |---|---|---|---|
@@ -332,8 +322,6 @@ The rotation is not a simple parameter — it lives in the connector's `Coordina
 
 ```python
 import math
-clr.AddReference('RevitAPI')
-from Autodesk.Revit.DB import *
 
 def get_mep_rotation_deg(document, revit_element_id):
     elem = document.GetElement(ElementId(revit_element_id))
@@ -363,7 +351,7 @@ For shared holes (multiple elements), use the rotation of the dominant element (
 import math
 
 def mm_to_ft(mm):
-    return mm / 304.8
+    return UnitUtils.ConvertToInternalUnits(mm, UnitTypeId.Millimeters)
 
 t = Transaction(doc, "Colocar Huecos de Coordinacion")
 t.Start()
@@ -445,11 +433,11 @@ Ask the user to verify in Revit that:
 - **Geometry nodes vs instance nodes:** Clash result `Item1`/`Item2` point to geometry solid nodes. The Revit element ID is NOT there — it is at the parent instance node. Always walk up via `.Parent` to find `"ID de elemento"`.
 - **One floor, multiple z-values:** A single thick floor will generate clash results at both its top face (z=0) and bottom face (z=−thickness). These are the SAME element — deduplicate by Revit element ID before creating holes.
 - **Shared holes:** When the clash comments mention a nearby MEP element, or when `clash_distance_mm` < 1000mm between a TUB and CON clash on the same floor zone, always use a single shared rectangular hole — never individual holes. Failing to do this is the most common mistake.
-- **Family names:** The actual families in this project are `Hueco_Suelos` and `Hueco_Suelos_Circular` (with trailing "s"). Always confirm family names with `FilteredElementCollector(doc).OfClass(Family)` before assuming.
-- **StructuralType import:** Must be imported from `Autodesk.Revit.DB.Structure` explicitly — it is not included in the `from Autodesk.Revit.DB import *` wildcard.
+- **Family names:** never assume them (the validated example was `Hueco_Suelos` with a trailing "s") — confirm with `FilteredElementCollector(doc).OfClass(Family)`.
+- **StructuralType import:** it lives in `Autodesk.Revit.DB.Structure`, not `Autodesk.Revit.DB`.
 - **Duct rotation — always read from Revit, never from Navisworks:** The NWC can be stale — a duct may have been rotated in Revit after the last export without regenerating the NWC. The Navisworks bbox reflects the old geometry while Revit holds the current state. Always call `get_mep_rotation_deg()` on the live Revit element and apply the result to every rectangular hole. The Navisworks bbox is only valid for sizing, never for rotation.
-- **`testsData.Tests` does not exist — use `testsData.Value.TestsRoot.Children`.** Using `.Tests` directly on `DocumentClashTests` raises `AttributeError`. This applies to every script that iterates clash tests, both in Navisworks and when reading Reviewed results for coordination.
-- **`ElementId.IntegerValue` removed in Revit 2024+.** Use `ElementId.Value` instead (returns a `long`). Wrap in a helper to stay compatible: `int(eid.Value)` or fall back with a try/except on `eid.IntegerValue`.
+- **Clash tests:** iterate only through `get_clash_tests` / `iter_results` — the API changed between Navisworks versions (docs/navisworks.md).
+- **`ElementId`:** use `ElementId.Value` (Int64, Revit 2024+); `IntegerValue` is deprecated and gone in current versions — `eid_val()` in RevitApiPatterns covers both.
 
 ---
 

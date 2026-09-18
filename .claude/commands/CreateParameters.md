@@ -1,7 +1,5 @@
 # Skill: CreateParameters
 
-Start the conversation in english. If the user requests to change you can use the user language.
-
 Creates Revit **shared parameters** from an Excel matrix and binds them as **project parameters**
 (Type or Instance) to the categories the matrix marks, in a single transaction. Re-runnable: existing
 definitions and bindings are reused/`ReInsert`-ed, not duplicated.
@@ -79,7 +77,7 @@ Implemented in `get_group_map()`, same extend-as-needed rule:
 | `Fases` | `Phasing` | `PG_PHASING` |
 | `Datos` | `Data` | `PG_DATA` |
 | `Geometria` | `Geometry` | `PG_GEOMETRY` |
-| `Materiales y acabados` | `MaterialsAndFinishes` | `PG_MATERIALS` |
+| `Materiales y acabados` | `Materials` | `PG_MATERIALS` |
 | `Construccion` | `Construction` | `PG_CONSTRUCTION` |
 | `Mecanico` | `Mechanical` | `PG_MECHANICAL` |
 | `Electrico` | `Electrical` | `PG_ELECTRICAL` |

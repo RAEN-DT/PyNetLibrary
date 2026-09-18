@@ -63,8 +63,8 @@ first, then `models/` — so putting the IFC under `models/` works. `properties.
 
 Build IFC4 with **ifcopenshell**. It is **not** in the QGIS Python — it IS on the **PyNET host**
 (Civil 3D / Navisworks CPython 3.10, `ifcopenshell 0.8.5`). So generate via `send_command` on the
-running host, or run a standalone script with a Python that has ifcopenshell. `zipfile` is
-whitelisted; `numpy`/`getattr` are **not** (validator), though numpy is installed.
+running host, or run a standalone script with a Python that has ifcopenshell. `zipfile` and
+`numpy` are whitelisted (numpy since bridge 1.5.4); `getattr` is **not** (validator).
 
 ### Hard requirements (or nothing renders)
 
@@ -110,29 +110,16 @@ Reads the QGIS outputs in `04_QGIS/output/<slug>/` (`prioridad_segmentos.json`,
 - **Terrain**: sample `TinSurface.FindElevationAtXY` on a ~70 m grid → one tessellated mesh.
 - **AT line / heatmap / turbines**: draped on the terrain (z from the surface), as coloured boxes
   (risk → green/yellow/orange/red; turbines → priority colour).
-- Generated inline via `send_command` (not yet saved to disk — TODO: save as a reusable script; it
-  runs on the host, not QGIS, so it does **not** belong in `04_QGIS`).
+- Generated via `send_command` on the Civil 3D host (it needs ifcopenshell and the live TIN), so a
+  saved version belongs under `03_AutoCAD`, **not** `04_QGIS`.
 
 ---
 
-## Known limitation — viewer far-plane (TODO before real-scale)
+## Large (geographic) models
 
-The viewer camera (`viewer/src/main.ts` in the PyNetVSCode repo, ~line 61) sets
-`threePersp.near = 0.01` and leaves the
-default `far` (**2000**). A geographic model (~7 km) is clipped beyond 2 km → geometry "disappears
-when moving". Current stop-gap was scaling the model ×0.1 (a navigable "maquette" — but loses real
-scale/measurement).
-
-**Proper fix** (no performance cost — `far` doesn't add draw calls; raising `near` improves depth
-precision; origin-subtracted coords avoid jitter):
-
-```ts
-world.camera.threePersp.near = 1;        // was 0.01
-world.camera.threePersp.far  = 200000;   // was default 2000 → 200 km
-world.camera.threePersp.updateProjectionMatrix();
-```
-
-Then rebuild the viewer (vite → `dist/`) and regenerate the `.pnt` at **real scale (S = 1)**, no ×0.1.
+The viewer sets the camera `near`/`far` planes from the loaded models' bounding box, so a
+multi-km model renders at **real scale (S = 1)** — no scaling tricks. Keep coordinates
+origin-subtracted (requirement 5) to avoid float32 jitter.
 
 ---
 

@@ -11,15 +11,18 @@ Related: [revit.md](revit.md) · [autocad-civil.md](autocad-civil.md)
 
 ## Core rules (all hosts)
 
-### Import order — critical
+### Explicit imports — never `import *`
 
-`System.Windows.Forms` has its own `TaskDialog` (.NET 6+). If `from System.Windows.Forms import *` runs **after** the Revit UI import, the WinForms `TaskDialog` silently overwrites the Revit one. **Always import WinForms before Revit UI:**
+`System.Windows.Forms` has its own `TaskDialog` (.NET 6+). A `from System.Windows.Forms import *`
+silently shadows (or is shadowed by) the Revit `TaskDialog`, depending on import order. Import each
+type by name and the collision cannot happen:
 
 ```python
-from Autodesk.Revit.DB import *
-from System.Windows.Forms import *      # WinForms first
-from System.Drawing import *
-from Autodesk.Revit.UI import TaskDialog, TaskDialogCommonButtons, TaskDialogIcon  # Revit UI last — wins
+clr.AddReference("System.Windows.Forms")
+clr.AddReference("System.Drawing")
+from System.Windows.Forms import Application, Button, DialogResult, Form, Label
+from System.Drawing import Point, Size
+from Autodesk.Revit.UI import TaskDialog, TaskDialogCommonButtons, TaskDialogIcon
 ```
 
 ### super().__init__() is mandatory
@@ -98,9 +101,6 @@ dlg.MainInstruction = "Done!"
 Full working pattern:
 
 ```python
-from Autodesk.Revit.DB import *
-from System.Windows.Forms import *
-from System.Drawing import *
 from Autodesk.Revit.UI import TaskDialog, TaskDialogCommonButtons, TaskDialogIcon
 
 dlg = TaskDialog("PyNET")
@@ -116,7 +116,7 @@ dlg.Show()
 
 ## AutoCAD / Civil 3D specifics
 
-The same core rules apply. For opening and saving external DWG files from a form, see the two validated patterns (Background / UI) in [autocad-civil.md](autocad-civil.md).
+The same core rules apply. For opening and saving external DWG files from a form, see the two validated patterns (Background / UI) in [autocad-external-dwg.md](autocad-external-dwg.md).
 
 ---
 

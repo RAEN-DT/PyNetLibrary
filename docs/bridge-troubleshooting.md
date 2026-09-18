@@ -82,7 +82,7 @@ own. **Reload the VS Code window** (or restart the MCP connection), then confirm
 
 ```powershell
 Get-Process pynet-bridge -ErrorAction SilentlyContinue | Stop-Process -Force -Confirm:$false
-uv tool install pynet-mcp-bridge --force   # or: python -m pip install --upgrade pynet-mcp-bridge
+uv tool install pynet-mcp-bridge --force   # uv only — never pip (see "The dual-install trap")
 ```
 
 Killing running processes first is required — they lock the `.exe` shim and the install fails or

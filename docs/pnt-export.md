@@ -122,6 +122,26 @@ Reads the QGIS outputs in `04_QGIS/output/<slug>/` (`prioridad_segmentos.json`,
 
 ---
 
+## Navisworks exporter — repeated links and properties
+
+- **Repeated links are tessellated once.** When the same file is linked N times (e.g. a
+  Revit model placed three times: `ModeloR.rvt : 1/2/3 : ubicación`), `IFCElementExtractor`
+  groups the links by their XRef path (`LcOaXRefAttribute` / `LcOaXRefAttributePath`) and, when the
+  subtrees are identical, reuses the first copy's meshes for the others through the relative link
+  transform (`ModelItem.Transform`, row-vector, native units, accumulated up to the root). Each
+  replica element is checked against its own bounding box; a mismatch falls back to real
+  tessellation. Every copy keeps its own properties, `pnt_id` and bbox center (clash lookup).
+- **`PNT_Origin` pset** (`Link`, `LinkFile`) says which link instance an element belongs to: the
+  copies share Element ID and IfcGUID, so without it they are indistinguishable.
+- **Typed property values.** `VariantData.ToDisplayString()` throws for anything that is not a
+  DisplayString; property values are formatted by type (lengths/areas/volumes converted with the
+  geometry scale, `Level "Nivel 1", #355` → `Nivel 1`). Empty parameters are kept (value `""`).
+  From Navisworks' own `LcOaNode` tab only GUID, Layer and Source File are kept.
+- **Same file loaded as several models** (not links): model names get `_2`, `_3`... so each one
+  writes its own IFC and `m_<stem>` root entry.
+
+---
+
 ## Large (geographic) models
 
 The viewer sets the camera `near`/`far` planes from the loaded models' bounding box, so a

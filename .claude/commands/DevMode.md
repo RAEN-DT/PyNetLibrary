@@ -46,7 +46,7 @@ When the user asks to create a button or save a script:
 1. **Save the script** in the best-fit numbered folder of the host — `01_Scripts/01_Navisworks/`,
    `02_Revit/` or `03_AutoCAD/` (list the host folder with `Glob` and pick the closest topic, e.g.
    `03_ClashDetection/`, `25_QAQC/`, `20_GIS/`) — using the class-based structure and informative
-   `print` statements (CLAUDE.md conventions). Never `00_Workflow(s)/` (git-ignored, production
+   `print` statements (AGENTS.md conventions). Never `00_Workflow(s)/` (git-ignored, production
    workflows only) unless the user asks for it.
 
 2. The script must be self-contained and user-friendly.

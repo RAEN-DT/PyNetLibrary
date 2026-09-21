@@ -8,7 +8,7 @@ definitions and bindings are reused/`ReInsert`-ed, not duplicated.
 
 - **Host:** Revit only (uses `__revit__` global)
 - **Write script** — creates shared parameter definitions and binds project parameters. Follows
-  the standard confirmation policy (CLAUDE.md §8): confirm once before the first execution.
+  the standard confirmation policy (AGENTS.md §8): confirm once before the first execution.
 - **Input Excel:** always asked to the user, every run — never hardcoded, never reused silently
   from a previous session.
 
@@ -117,7 +117,7 @@ before running.
 > (if it does — check first). Reuse it (keep existing definitions, add/update on top) or start a new
 > one (existing definitions in that file are discarded)?"
 
-**Check existence via `send_command` (MCP), never via PowerShell/Bash.** This is a CLAUDE.md §9 rule
+**Check existence via `send_command` (MCP), never via PowerShell/Bash.** This is a AGENTS.md §9 rule
 in general, but it bit us specifically here: a PowerShell `Test-Path` on this same path returned
 `False` while the file did exist — checking from inside the Revit host process via `send_command`
 (`Path.home() / "AppData" / "Roaming" / "Pynet" / "Revit" / "PyNET_SharedParameters.txt"`, `.exists()`)
@@ -130,7 +130,7 @@ Set `REUSE_SHARED_FILE = True/False` in the script accordingly.
 
 ### 5. Confirm before executing
 
-This is a write script — confirm once before the first run (CLAUDE.md §8). Show the user:
+This is a write script — confirm once before the first run (AGENTS.md §8). Show the user:
 - Excel path
 - Parameters found / categories found (counts, not the raw script output)
 - Shared parameter file path and reuse/new choice
@@ -165,7 +165,7 @@ marked in the matrix).
 ### 8. If it fails and you fix it (unmapped Formato/GrupoRevit key, etc.)
 
 Fix the map in the script and **re-execute immediately without asking again** — the user already
-approved the intent (CLAUDE.md §8, "confirmed script fails and you fix it").
+approved the intent (AGENTS.md §8, "confirmed script fails and you fix it").
 
 ---
 
@@ -185,7 +185,7 @@ approved the intent (CLAUDE.md §8, "confirmed script fails and you fix it").
 
 ### No `getattr`/`setattr`
 `build_category_lookup()` builds the `BuiltInCategory` name → enum lookup via `Enum.GetValues`, per
-the bridge's blocked-calls list (CLAUDE.md §7) — do not reintroduce `getattr(BuiltInCategory, name)`.
+the bridge's blocked-calls list (AGENTS.md §7) — do not reintroduce `getattr(BuiltInCategory, name)`.
 
 ---
 

@@ -113,7 +113,7 @@ per-item property/category iteration:
    (`len(list(doc.Models))`), and a rough element count per model (e.g. `sum(1 for _ in
    model.RootItem.Descendants)` on one model, or `HasGeometry` counts) — before touching properties.
    If the measurement says the real run will be long (or it can't be estimated), **warn the user and
-   wait for confirmation** before launching it — `CLAUDE.md` §8, even for read-only scripts.
+   wait for confirmation** before launching it — `AGENTS.md` §8, even for read-only scripts.
 2. **Go smallest-to-largest ("de menos a más")**: run the real scan on the smallest/lightest model
    first, confirm it completes and the result shape is right, then scale up to the rest — never all
    models at once on the first attempt.
@@ -131,7 +131,7 @@ per-item property/category iteration:
    and restarted Navisworks) before sending anything else to that session.
 5. **Add `print()` progress statements to any script with a loop over more than a few dozen items or an
    uncertain duration — even inline scripts sent via `send_command` that will never be saved.** The
-   default of keeping prints minimal during development (see §5 in `CLAUDE.md`) assumes a short script;
+   default of keeping prints minimal during development (see §5 in `AGENTS.md`) assumes a short script;
    it does not apply once a script might run long enough that the user needs to see it's alive in the
    Navisworks Output Window. Print every N iterations or once per logical chunk (e.g. once per clash
    test in a loop over tests), not only a final summary.

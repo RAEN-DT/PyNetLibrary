@@ -3,7 +3,7 @@
 
 # Reference: Security & execution restrictions
 
-Full whitelists/blocklists. The summary lives in `CLAUDE.md`; this is the complete reference. It mirrors the
+Full whitelists/blocklists. The summary lives in `AGENTS.md`; this is the complete reference. It mirrors the
 validator in `PyNetBridge/pynet_mcp/server.py` — keep both in sync.
 
 > **If this doc and the validator disagree, the validator wins.** Fix the doc, never widen the

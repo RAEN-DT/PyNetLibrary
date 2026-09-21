@@ -20,7 +20,7 @@ Applies to every host. Each item was hit in a real script.
 | Feature-detect a member | — | `try/except AttributeError` (`hasattr` is allowed, `getattr` is not) |
 | `str()` of a Navisworks `VariantData` | debug text `"DisplayString:…"` | typed accessors — see [navisworks-properties.md](navisworks-properties.md) |
 | Stubs show one overload / no constructor | the generator keeps one signature | reflection: `clr.GetClrType(T).GetMethods()` / `.GetConstructors()` |
-| Loading a PyNET assembly | `clr.AddReference` finds an **already-loaded** assembly first | no path needed for `Raen.Core.Pynet.*`; never hardcode the bundle year — see CLAUDE.md §6 |
+| Loading a PyNET assembly | `clr.AddReference` finds an **already-loaded** assembly first | no path needed for `Raen.Core.Pynet.*`; never hardcode the bundle year — see AGENTS.md §6 |
 | Enumerating thousands of .NET items from Python | ~ms per crossing | filter early; heavy geometry work belongs in the C# helpers of the plugin |
 
 The runtime is **persistent** across executions in the same host session: a failed import can leave a

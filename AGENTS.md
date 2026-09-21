@@ -1,27 +1,242 @@
 <!-- SPDX-License-Identifier: MIT -->
 <!-- Copyright (c) 2024-2026 RAEN Digital Tools SL - PyNET Platform -->
 
-# PyNET Library — Codex Instructions
+# Project Context — PyNET Platform (Navisworks · Revit · AutoCAD/Civil 3D)
 
-## Required startup context
+This file is the **single source of truth** for every coding agent in this repository (Claude Code,
+Codex, …) and the **always-loaded core**: rules that apply to every interaction. Host-specific
+boilerplate, WinForms, stubs, Excel, security lists and UI deployment live in `docs/` and are
+loaded **on demand** — see the Router below. Read the matching guide *before* writing a script.
+Do not create a second copy of these rules elsewhere; other agent files (e.g.
+`.github/copilot-instructions.md`) only point here.
 
-Before analysing, answering, editing, or running anything in this repository, read these files in full:
+---
 
-1. `CLAUDE.md` — canonical authority for project workflow, Autodesk/PyNET rules, security, execution, and approval policy.
-2. `README.md` — repository purpose, supported Autodesk hosts, Python.NET environment, examples, and API-stub usage.
+## 1. Execution environment
 
-If they conflict, `CLAUDE.md` takes precedence. Do not create a second source of truth by duplicating their detailed guidance here.
+PyNET runs Python scripts inside three Autodesk hosts: **Navisworks**, **Revit**, and
+**AutoCAD / Civil 3D**. All execute via **Python.NET** (CPython 3.10+ with `pythonnet` — not
+IronPython). Full Python 3 syntax plus the `clr` bridge to .NET and the Autodesk APIs.
 
-## Project scope
+Scripts are sent to the plugin through the MCP bridge and executed locally inside the host process.
 
-This repository is the PyNET Library: production reference scripts and Python-style Autodesk .NET API stubs for automation in Navisworks, Revit, and AutoCAD/Civil 3D through the PyNET Platform and its embedded Python.NET engine.
+> **QGIS is a separate environment.** Standalone **PyQGIS** scripts (`04_QGIS`) are NOT PyNET-hosted —
+> they run headless in QGIS's own Python launcher, outside the bridge and its validator
+> ([docs/qgis.md](docs/qgis.md)). GIS *inside* AutoCAD (Map 3D / Civil, `01_Scripts/03_AutoCAD/20_GIS`) **is**
+> bridge-hosted and lives under [docs/autocad-civil.md](docs/autocad-civil.md).
 
-## Autodesk work
+> **Always check `list_active_instances` first** to identify the running host and PID — boilerplate
+> and APIs differ per host. Civil 3D appears as **"AutoCAD"** in the instance list. If several
+> sessions of the same host are open, never ask the user to pick by PID alone — run a cheap query per
+> PID (open file / document name) and present "PID 17652 — ModelR_Federated.nwf".
 
-Follow the Router in `CLAUDE.md` before writing a script. Read the host-specific guide and use the relevant example scripts and API stubs before inferring an Autodesk API call. Identify the active host before execution; Navisworks, Revit, and AutoCAD/Civil 3D have different entry points and transaction requirements.
+> **Timeout rule:** always use a minimum timeout of **60 seconds** when calling `send_command`.
 
-## Codex role
+---
 
-- Implement user-requested changes, review code, and assist with repository maintenance and focused technical work.
+## 2. Router — read the matching guide BEFORE writing a script
+
+| If the task is… | Read first (`Read`) |
+|---|---|
+| A **Navisworks** script | [docs/navisworks.md](docs/navisworks.md) |
+| Reading Navisworks **properties** (element id, source file, typed values, locale-safe names) | [docs/navisworks-properties.md](docs/navisworks-properties.md) |
+| Navisworks **models / federations / batch** (open, append, publish, seed, XML review round-trip) | [docs/navisworks-models.md](docs/navisworks-models.md) |
+| Navisworks **viewpoints, isolate, colour** | [docs/navisworks-views.md](docs/navisworks-views.md) |
+| A **Revit** script | [docs/revit.md](docs/revit.md) |
+| A Revit **element query / measurement** | [.claude/commands/RevitApiPatterns.md](.claude/commands/RevitApiPatterns.md) |
+| Revit **cloud models, sync, batch RVT, NWC export, keynotes** | [docs/revit-cloud-worksharing.md](docs/revit-cloud-worksharing.md) |
+| Revit **rooms, DirectShape masses, overrides, groups, views, dimensions, pick filters** | [docs/revit-geometry-views.md](docs/revit-geometry-views.md) |
+| An **AutoCAD / Civil 3D** script (incl. GIS *inside* AutoCAD — Map 3D, `01_Scripts/03_AutoCAD/20_GIS`) | [docs/autocad-civil.md](docs/autocad-civil.md) |
+| A **standalone QGIS / PyQGIS** script (`04_QGIS`, headless, NOT Autodesk-hosted) | [docs/qgis.md](docs/qgis.md) |
+| Any **form / dialog / custom UI** (WinForms) | [docs/winforms.md](docs/winforms.md) |
+| Reading an **Excel** file | [docs/excel-mcp.md](docs/excel-mcp.md) |
+| **Generating stubs** / VS Code IntelliSense | [docs/stubs.md](docs/stubs.md) |
+| **Deploying buttons / modules / Output Window** | [docs/ui-deployment.md](docs/ui-deployment.md) |
+| Exporting a **`.pnt`** package for the VS Code viewer | [docs/pnt-export.md](docs/pnt-export.md) |
+| Operating the VS Code viewer via **MCP** (`viewer_*` tools — select, isolate, highlight clashes, properties) | [docs/viewer-mcp.md](docs/viewer-mcp.md) |
+| The **bridge is not connected** — `mcp__pynet-bridge__*` tools missing, or `MCP error -32000: Connection closed` | [docs/bridge-troubleshooting.md](docs/bridge-troubleshooting.md) |
+| Full **security** whitelist/blocklist | [docs/security.md](docs/security.md) |
+| A **pythonnet** surprise (out params, `List[T]`, wrappers, enums, buffered prints) | [docs/pythonnet.md](docs/pythonnet.md) |
+
+The Router row above (`RevitApiPatterns`) is a **reference** to read before writing Revit queries —
+it lives in `.claude/commands/` but is consulted, not run.
+
+Everything else in `.claude/commands/` is a **workflow Skill** the *user* invokes via slash command:
+`/ClashDetection`, `/ClashCoordination`, `/ClashToleranceComparison`, `/QCModelAudit`, `/QuantityTakeoff`, `/WindSiting`, `/PowerlineFireRisk`, `/CreateParameters`, `/DevMode`. They are
+self-contained and auto-load when invoked — do not duplicate their content here. Suggest the matching
+one when the user describes its task (e.g. a clash run, a QC audit, a 5D takeoff, a GIS/wind-farm siting study,
+a powerline wildfire-risk / vegetation-management study, creating/binding shared or project parameters from an Excel matrix).
+
+---
+
+## 3. Context sources — use in this order
+
+Be efficient: check existing context before writing from scratch.
+
+1. **`AI_History/`** (check first) — full log of every script run through the bridge.
+   `Requests/` (sent scripts), `Responses/` (results/errors), `Pipe_Session_*.log`. If a similar
+   problem was already solved, reuse the validated pattern.
+2. **Example scripts (MANDATORY before writing from scratch)** — `01_Scripts/01_Navisworks/`,
+   `01_Scripts/02_Revit/`, `01_Scripts/03_AutoCAD/`. Use `Glob` to list the relevant folder, then
+   `Read` the closest match. The library is validated and production-ready.
+3. **API stubs** — the authority on **what the API offers**: does this class exist, what is the
+   exact signature, what is the import line. Two cheap steps, so reach for them *before* probing
+   the live model or inferring a call:
+   - `Grep` `02_PyNet Stubs/_index/CLASSES.tsv` (~950 KB, ~8,900 classes) for the class name → it
+     returns the namespace, the file and the exact line range.
+   - `Read` that file with `offset`/`limit` → you get that class alone (median 12 lines).
+
+   Never read a stub file whole (a namespace can be 25k lines) and never grep the corpus just to
+   locate a class. Do grep the stub files to find *which* class declares a given method. Match on
+   the `namespace` column — 163 class names are repeated. See [docs/stubs.md](docs/stubs.md).
+4. **Live API exploration** — a short `send_command` script against the running host. This answers
+   what a **specific model contains** (populated categories, real parameter values, how many
+   elements match) — questions the stubs cannot answer. It costs a round trip and needs the host
+   open, so use the stubs to get the call right first, then run it.
+
+---
+
+## 4. Execution responses
+
+Scripts return JSON. On **Success**, `Status: "Success"` with `PrintMessages` and `Data`.
+On **Error**, `Status: "Error"` with `Message` carrying the `Python.Runtime.PythonException` and
+stack trace — analyze `Message` to auto-correct and retry.
+
+---
+
+## 5. Script output — `ia_Result` vs `print`
+
+The plugin collects a global variable named **`ia_Result`** after execution (JSON-serializable:
+list of dicts or a single dict). If absent, no data output is generated.
+
+- **During development** (scripts via `send_command`): use `ia_Result` as the primary channel for
+  structured data back to the AI. Keep `print` minimal (brief status only) — do NOT flood the
+  Navisworks Output Window with per-element prints. **Exception:** any loop over a large collection
+  or any script that may run more than a few seconds prints progress every ~10% / N items, so a
+  timeout can be told apart from a hang (see [docs/navisworks.md](docs/navisworks.md)).
+- **When saving a script for the user** (button / source): add informative `print` statements
+  (progress, summary, results). `ia_Result` is then optional.
+
+Rules: serializable values only (numbers, strings, lists, dicts); never return complex objects —
+convert to `dict` first; always include a `"type"` field per object; keep structure consistent
+across scripts. Do not abbreviate or transform output values unless explicitly asked.
+
+```python
+ia_Result = [{"type": "Wall", "id": 1, "name": "Wall A", "height": 3.2}]
+```
+
+> **Dashboards / reports.** Default: a self-contained HTML string built in Python, saved next to the
+> other output (Desktop / project folder) and opened instantly with `webbrowser.open('file:///...')`
+> from inside the host script — see `ModelAudit.py`, `QuantityTakeoff.py`, `08_DataAnalysis/ClashDashboard.py`
+> for the pattern (inline CSS, KPI cards, `<details>` for collapsible sections, no external JS). Do
+> **not** publish a Claude Artifact for a report/dashboard unless the user explicitly asks for one —
+> Artifacts add a publish round trip the user doesn't want for this workflow.
+
+---
+
+## 6. Script creation & execution
+
+Scripts are an iterative process — **not saved to source until the user explicitly says so**.
+Prepare and send directly via `send_command`.
+
+| | `send_command` | `send_command_by_path` |
+|---|---|---|
+| Use for | All development, one-off actions, fixes, analysis | Production scripts run repeatedly |
+| Script lives | Inline in the MCP call | Already saved in the repo |
+
+**Default is `send_command`.** Save to disk + switch to `send_command_by_path` when a script grows
+past ~150 lines or after its first successful run as a recurring workflow (much faster: ~215s → ~0s).
+Write short, optimized scripts (< ~80 lines inline). If a script grows too long, fix the design —
+do not save one-off scripts to disk just to work around length.
+
+**Imports — every host:** import each .NET type by name (`from Autodesk.Revit.DB import Wall, Transaction`),
+never `from <namespace> import *`. Resolve the namespace with the stubs index first (§3) — some names
+exist in several namespaces or were removed in newer host versions. Reasons in [docs/navisworks.md](docs/navisworks.md).
+
+**PyNET bundle paths — every host:** never write the host year (`2024`…`2027`) or the
+`…/ApplicationPlugins/Raen.<Host>.Pynet.bundle` path in a script. Take them from the engine that is
+running the script: `Raen.Core.Pynet.Engine` is loaded from `<bundle>/Contents/<year>/`, so its folder
+gives the year (CastUtils, plugin DLLs) and two levels up the bundle root (form icons). Snippet in
+[docs/navisworks.md](docs/navisworks.md) "CastUtils" and [docs/winforms.md](docs/winforms.md) "Form icon".
+
+---
+
+## 7. Security (summary)
+
+The static validator only runs for scripts sent through the **MCP bridge** (`send_command`) into an
+Autodesk host. Scripts run by their own launcher — **standalone QGIS** (`04_QGIS`, see
+[docs/qgis.md](docs/qgis.md)) or a user-saved button — do NOT pass through it. Use `pathlib.Path`,
+never `os.path`.
+
+Quick reference (full lists in [docs/security.md](docs/security.md)):
+- **Allowed imports:** `clr`, `sys`, `json`, `re`, `time`, `datetime`, `pathlib`, `typing`,
+  `threading`, `collections`, `xml`, `math`, `functools`, `pandas`, `plotly`, `matplotlib`, `dash`,
+  `webbrowser`, `psutil`, `openpyxl`, `uuid`, `zipfile`, `io`, `mimetypes`, `difflib`, `csv`,
+  `ifcopenshell`, `numpy`, `shapely`, `qgis`, `processing`. Submodules: `http.server` (only).
+- **Blocked imports:** `os`, `subprocess`, `shutil`, `socket`, `urllib`, `glob`, `inspect`, …
+- **The sandbox is closed on purpose — no network, no local server.** `urllib` is blocked at the
+  root, and `flask` / `webview` are not whitelisted. The code that legitimately needs them (GIS
+  fetches in `04_QGIS`, the viewer and dashboard servers) runs through its own launcher, outside
+  the validator — so the bridge never has to open. Do not "fix" this by widening the whitelist.
+- **Blocked calls:** `eval`, `exec`, `compile`, `__import__`, `getattr`, `setattr`, … (blocked for MCP
+  only; user-authored scripts may use them).
+
+Do NOT attempt to bypass these. If a script needs something blocked, tell the user and suggest an
+alternative within scope.
+
+---
+
+## 8. Execution confirmation policy
+
+- **Read-only scripts** (query, export, list): execute directly, no confirmation.
+- **Write scripts** (modify, create, delete, update the model): ask the user **once** before the
+  first execution.
+- If a confirmed script fails and you fix it, **re-execute immediately without asking again** — the
+  user already approved the intent.
+- **Heavy queries on a large model** (read-only included): what matters is the size of the model the
+  script walks, not the length of the script. Measure scope first with a cheap count (models,
+  elements). If the real run will take long — or you cannot estimate it — **warn the user that a long
+  query is about to run** (estimated time, and that it cannot be cancelled mid-run) and wait for their
+  confirmation. Quick queries run directly. Details in [docs/navisworks.md](docs/navisworks.md)
+  "Heavy models".
+
+---
+
+## 9. Running Python — use MCP, always
+
+The MCP bridge (`send_command`) is the right tool for any Python task — file generation, data
+processing, Excel, API queries. The plugin runs CPython 3.10 with pandas, openpyxl, matplotlib, etc.
+Only fall back to Bash/PowerShell for genuine OS operations (pip install, git). If a whitelisted
+library is missing and needed regularly, flag it so it can be added.
+
+> **Be scrupulous with arithmetic — never compute by hand.** Quantities, tolerances, sums, areas,
+> coordinates and any figure reported to the user must be calculated in Python (via the MCP bridge),
+> not estimated mentally. Even a "trivial" sum gets verified in code. A single wrong number erodes
+> trust in the whole analysis — double-check totals before reporting them.
+
+---
+
+## 10. Interaction mode
+
+**Default: Production.** Unless `/DevMode developer` was invoked this session, behave in Production:
+- Act as an AI integrated into the software — no mention of scripts, Python, JSON, MCP, PIDs, API
+  names, or internals.
+- Describe actions and results in natural language ("I scanned the models and found 7 element
+  groups").
+- Explain failures in user-friendly terms.
+
+Use **Developer Mode** (full scripts, JSON, stack traces) only when activated with `/DevMode developer`.
+See the `DevMode` skill for the full spec.
+
+> **Language:** match the user's conversation language (Spanish ↔ Spanish, English ↔ English).
+> All persistent repo AI artifacts (this file, `docs/`, skills) stay in **English**.
+
+---
+
+## 11. Agent role
+
+- Implement user-requested changes, review code, and assist with repository maintenance and focused
+  technical work.
 - Reuse validated project patterns rather than inventing parallel workflows.
-- Keep internal repository AI configuration and persistent documentation in English; reply to users in their language.
+- Agents without slash-command support (e.g. Codex) can still use the workflow Skills: `Read` the
+  matching file in `.claude/commands/` and follow it.

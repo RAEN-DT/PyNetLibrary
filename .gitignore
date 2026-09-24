@@ -13,6 +13,7 @@ __pycache__/
 *.pdf
 01_Scripts/01_Navisworks/00_Workflows/
 01_Scripts/01_Navisworks/07_IFCExport/
+01_Scripts/02_Revit/22_Exportations/RevitPNT_IFC.py
 01_Scripts/02_Revit/00_Workflow/
 01_Scripts/03_AutoCAD/00_Workflow/
 01_Scripts/04_QGIS/

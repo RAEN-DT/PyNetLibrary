@@ -17,6 +17,10 @@ error at startup. The client does not retry, so the tools stay absent for the re
 > **Do not conclude "the viewer/host is unavailable" and stop.** The viewer and the Autodesk host are
 > separate processes and are usually alive and fine. Work the ladder below first.
 
+It also covers the two Python environments in play (bridge vs host) and what to do when a
+whitelisted library is **missing inside the host** — a different failure from a dead bridge, and one
+that is fixed by installing the package, not by rewriting the script.
+
 Source of truth for the bridge itself: the **`PyNetBridge`** repo (`pynet_mcp/server.py`,
 `pyproject.toml`). See [docs/viewer-mcp.md](viewer-mcp.md) for the `viewer_*` tools once connected.
 
@@ -101,6 +105,55 @@ the environment that actually runs is broken.
 uses (`Get-CimInstance Win32_Process`, inspect `CommandLine`) before assuming a reload will fix
 anything. Do not edit the copy under `AppData\Roaming\uv\tools\...\site-packages` — it is
 overwritten on every `uv tool install`.
+
+---
+
+## Two Python environments — never pip-install into the wrong one
+
+| Interpreter | What runs there | Where |
+|---|---|---|
+| **The host's CPython 3.10** | every script sent with `send_command` / `send_command_by_path` | embedded in Navisworks / Revit / AutoCAD by pythonnet; ask the host for its `sys.prefix` |
+| **The bridge's uv environment** | only the MCP server (`pynet_mcp/server.py`) | `%APPDATA%\uv\tools\pynet-mcp-bridge` |
+| **QGIS's own Python** | standalone `04_QGIS` scripts, outside the bridge | installed from the OSGeo4W shell — see [qgis.md](qgis.md) |
+
+`pandas`, `openpyxl`, `matplotlib`, `numpy`, `shapely`, `ifcopenshell` … belong to the **host**
+interpreter. Installing them into the uv environment changes nothing for scripts.
+
+## A whitelisted library is missing in the host (`No module named 'pandas'`)
+
+Being on the security whitelist means the validator *lets the import through*, not that the package
+is installed. Missing packages are one of the most common script failures. **This is not a dead end
+and not a reason to rewrite the script without pandas — install it and re-run.**
+
+1. Ask the running host which interpreter it is (read-only, no confirmation needed):
+
+   ```python
+   import sys
+   ia_Result = [{"type": "env", "prefix": sys.prefix, "version": sys.version,
+                 "site": [p for p in sys.path if "site-packages" in p]}]
+   ```
+
+2. Install into **that** interpreter from PowerShell (the one genuine OS fallback, AGENTS.md §9):
+
+   ```powershell
+   & "<sys.prefix>\python.exe" -m pip install pandas
+   ```
+
+   If `<sys.prefix>` has no `python.exe` (embedded layout), target the site-packages folder reported
+   in step 1 instead: `py -3.10 -m pip install --target "<site-packages>" pandas`.
+
+3. Re-run the script. The host interpreter is persistent but `site-packages` is already on
+   `sys.path`, so a fresh `import` normally picks the package up with no restart. If it still fails,
+   restart the host.
+
+**Rules:**
+- Only install packages already on the whitelist ([security.md](security.md)) — the validator rejects
+  the import of anything else on the next send, so installing it is wasted work. If a script really
+  needs a new package, say so and let the user decide; widening the whitelist is a bridge change.
+- Installing is a write on the user's machine: tell the user what you are installing and why before
+  running pip.
+- If pip fails with a locked-file / permission error while *upgrading* a package the host already
+  loaded (typical with `numpy`), close the Autodesk host, install, reopen.
 
 ---
 

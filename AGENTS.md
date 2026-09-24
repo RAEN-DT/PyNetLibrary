@@ -54,7 +54,7 @@ Scripts are sent to the plugin through the MCP bridge and executed locally insid
 | **Deploying buttons / modules / Output Window** | [docs/ui-deployment.md](docs/ui-deployment.md) |
 | Exporting a **`.pnt`** package for the VS Code viewer | [docs/pnt-export.md](docs/pnt-export.md) |
 | Operating the VS Code viewer via **MCP** (`viewer_*` tools — select, isolate, highlight clashes, properties) | [docs/viewer-mcp.md](docs/viewer-mcp.md) |
-| The **bridge is not connected** — `mcp__pynet-bridge__*` tools missing, or `MCP error -32000: Connection closed` | [docs/bridge-troubleshooting.md](docs/bridge-troubleshooting.md) |
+| The **bridge is not connected** (`mcp__pynet-bridge__*` missing, `MCP error -32000`) or a whitelisted library is **missing in the host** (`No module named 'pandas'`) | [docs/bridge-troubleshooting.md](docs/bridge-troubleshooting.md) |
 | Full **security** whitelist/blocklist | [docs/security.md](docs/security.md) |
 | A **pythonnet** surprise (out params, `List[T]`, wrappers, enums, buffered prints) | [docs/pythonnet.md](docs/pythonnet.md) |
 
@@ -101,6 +101,16 @@ Be efficient: check existing context before writing from scratch.
 Scripts return JSON. On **Success**, `Status: "Success"` with `PrintMessages` and `Data`.
 On **Error**, `Status: "Error"` with `Message` carrying the `Python.Runtime.PythonException` and
 stack trace — analyze `Message` to auto-correct and retry.
+
+> **Own every bridge / MCP failure — "it doesn't work" is never an answer.** When a
+> `mcp__pynet-bridge__*` call fails or the tools are missing (`MCP error -32000`, timeout, no
+> instances listed, `No module named …`, validator rejection), take charge immediately: read
+> [docs/bridge-troubleshooting.md](docs/bridge-troubleshooting.md), run its diagnostic ladder
+> yourself (read-only checks need no confirmation), find the real cause, fix it and retry. Only stop
+> for what the user alone can do — open the host or a model, reload the VS Code window, approve an
+> install or reinstall — and then say exactly which one action is needed and why. Do not end a turn
+> with a bare failure; report the cause found and the step taken (in Production mode, in plain
+> language — §10).
 
 ---
 
@@ -206,8 +216,15 @@ alternative within scope.
 
 The MCP bridge (`send_command`) is the right tool for any Python task — file generation, data
 processing, Excel, API queries. The plugin runs CPython 3.10 with pandas, openpyxl, matplotlib, etc.
-Only fall back to Bash/PowerShell for genuine OS operations (pip install, git). If a whitelisted
-library is missing and needed regularly, flag it so it can be added.
+Only fall back to Bash/PowerShell for genuine OS operations (pip install, git).
+
+> **A missing library is not a dead end — install it.** `No module named 'pandas'` means the package
+> is not installed in the host's interpreter, not that it is forbidden. Do **not** rewrite the script
+> to avoid it: get `sys.prefix` from the running host and `pip install` into **that** interpreter
+> (never into the bridge's own uv environment), tell the user what you are installing, and re-run.
+> Only packages already on the whitelist (§7) — anything else the validator rejects on the next send,
+> so it needs a bridge change instead. Procedure in
+> [docs/bridge-troubleshooting.md](docs/bridge-troubleshooting.md).
 
 > **Be scrupulous with arithmetic — never compute by hand.** Quantities, tolerances, sums, areas,
 > coordinates and any figure reported to the user must be calculated in Python (via the MCP bridge),

@@ -40,6 +40,11 @@ These are not third-party packages — they sit next to the script being run. `C
 is imported by `CoordinationWorkflow.py`, which runs through `send_command_by_path` and therefore
 **does** pass the validator.
 
+> **Whitelisted ≠ installed.** This list only says what the validator lets through. If a script
+> fails with `No module named 'pandas'`, the package is simply absent from the host's interpreter —
+> install it there instead of rewriting the script, see
+> [bridge-troubleshooting.md](bridge-troubleshooting.md).
+
 - `openpyxl` requires bridge **≥ 1.4.7** (not whitelisted in 1.4.6).
 - `numpy` / `shapely` require bridge **≥ 1.5.4** (generative design).
 

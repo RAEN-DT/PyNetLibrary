@@ -18,7 +18,7 @@ __pycache__/
 01_Scripts/03_AutoCAD/00_Workflow/
 01_Scripts/04_QGIS/
 node_modules/
-
+.atl/
 # The viewer moved to the PyNetVSCode repo (viewer/). Ignored so a leftover local
 # checkout here does not resurface as untracked files.
 03_Viewer/

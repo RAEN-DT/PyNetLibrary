@@ -42,6 +42,7 @@ Scripts are sent to the plugin through the MCP bridge and executed locally insid
 | Reading Navisworks **properties** (element id, source file, typed values, locale-safe names) | [docs/navisworks-properties.md](docs/navisworks-properties.md) |
 | Navisworks **models / federations / batch** (open, append, publish, seed, XML review round-trip) | [docs/navisworks-models.md](docs/navisworks-models.md) |
 | Navisworks **viewpoints, isolate, colour** | [docs/navisworks-views.md](docs/navisworks-views.md) |
+| Navisworks **TimeLiner** (4D tasks, link to geometry, feed a schedule from a Primavera **P6 XER**) | [docs/navisworks-timeliner.md](docs/navisworks-timeliner.md) |
 | A **Revit** script | [docs/revit.md](docs/revit.md) |
 | A Revit **element query / measurement** | [.claude/commands/RevitApiPatterns.md](.claude/commands/RevitApiPatterns.md) |
 | Revit **cloud models, sync, batch RVT, NWC export, keynotes** | [docs/revit-cloud-worksharing.md](docs/revit-cloud-worksharing.md) |

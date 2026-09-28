@@ -17,6 +17,11 @@ error at startup. The client does not retry, so the tools stay absent for the re
 > **Do not conclude "the viewer/host is unavailable" and stop.** The viewer and the Autodesk host are
 > separate processes and are usually alive and fine. Work the ladder below first.
 
+> **Never work around missing tools by running the bridge yourself.** Do not launch `pynet-bridge` as
+> a separate stdio server, write your own JSON-RPC client, or import `pynet_mcp` from a script — the
+> fix is always to repair the client's connection so the real MCP tools come back. Full rule in
+> [bridge-install.md](bridge-install.md#rule-the-bridge-is-reached-only-through-the-clients-mcp-tools).
+
 It also covers the two Python environments in play (bridge vs host) and what to do when a
 whitelisted library is **missing inside the host** — a different failure from a dead bridge, and one
 that is fixed by installing the package, not by rewriting the script.
@@ -69,8 +74,9 @@ Fix: reinstall from the repo (step 6).
 only** — it was removed in `mcp` 2.0. If `pyproject.toml` leaves `mcp[cli]` unpinned, any reinstall
 can silently resolve to 2.x and break every subsequent launch.
 
-The dependency is pinned to `"mcp[cli]>=1.2,<2"`. If you find it unpinned again (e.g. after a merge),
-re-pin it before reinstalling — otherwise the fix does not survive the next install. Verify:
+Releases up to **1.5.4** declare `mcp[cli]` unpinned, so a fresh install of them resolves `mcp` 2.x
+and is broken out of the box. **1.5.5** pins `mcp[cli]>=1.2,<2`; keep installing with
+`--with "mcp[cli]>=1.2,<2"` (step 6) anyway — it is harmless and covers older releases. Verify:
 
 ```powershell
 & "$env:APPDATA\uv\tools\pynet-mcp-bridge\Scripts\python.exe" -c "import mcp.server.fastmcp; print('OK')"
@@ -84,9 +90,11 @@ own. **Reload the VS Code window** (or restart the MCP connection), then confirm
 
 ### 6. Reinstall
 
+Follow [bridge-install.md](bridge-install.md) — uv only, never pip, with the `mcp<2` pin:
+
 ```powershell
 Get-Process pynet-bridge -ErrorAction SilentlyContinue | Stop-Process -Force -Confirm:$false
-uv tool install pynet-mcp-bridge --force   # uv only — never pip (see "The dual-install trap")
+uv tool install pynet-mcp-bridge --force --with "mcp[cli]>=1.2,<2"
 ```
 
 Killing running processes first is required — they lock the `.exe` shim and the install fails or
@@ -157,10 +165,28 @@ and not a reason to rewrite the script without pandas — install it and re-run.
 
 ---
 
+## The host is open but PyNET never loaded (no ribbon, no error)
+
+If `list_active_instances` does not show the host, or the PyNET tab is missing in it, the bridge may
+be fine and **the plugin never started**. The most treacherous cause: **another vendor's add-in
+breaks the host's start-up chain and every add-in queued after it — PyNET included — silently never
+starts**, with no dialog and nothing in PyNET's own log. Do not debug the PyNET build or the host
+version first. Follow [plugin-troubleshooting.md](plugin-troubleshooting.md):
+
+1. Add-ins Manager / `AddInsSettings.json` — PyNET enabled, third-party add-ins not disabled.
+2. `%APPDATA%\Raen\Pynet\error.log` — empty means PyNET's code never ran.
+3. The **main** journal `journal.NNNN.txt` (not `*.worker1.log`), read as a file, not pasted.
+4. Order of `Starting External Application` lines: the last third-party add-in that started is the
+   suspect; add-ins after it show `NoError, 0.000000` in the `[Jrn.AddInManifest]` summary.
+5. Disable the suspect, restart, confirm **all** the missing add-ins come back.
+
 ## Known incidents
 
 - **2026-08-04 — `mcp` 2.0.0 broke every launch.** A reinstall pulled unpinned `mcp` 2.0.0, which
   removed `mcp.server.fastmcp`; the bridge crashed on import and the client reported
   `-32000: Connection closed`. The failed install also left `site-packages` empty. Fixed by pinning
-  `mcp[cli]>=1.2,<2` in `PyNetBridge/pyproject.toml` and reinstalling with `uv tool install . --force`.
+  `mcp[cli]>=1.2,<2` locally and reinstalling with `uv tool install . --force`. The pin was never
+  released: as of 2026-09-28 a fresh `uv tool install pynet-mcp-bridge` still resolves `mcp` 2.2.0,
+  hence the `--with` pin in [bridge-install.md](bridge-install.md). Bridge 1.5.5 ships the pin and
+  drops the unused `fastmcp` dependency.
   The viewer's `pnt_server` was healthy throughout — the outage was entirely the bridge.

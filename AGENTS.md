@@ -56,6 +56,8 @@ Scripts are sent to the plugin through the MCP bridge and executed locally insid
 | Exporting a **`.pnt`** package for the VS Code viewer | [docs/pnt-export.md](docs/pnt-export.md) |
 | Operating the VS Code viewer via **MCP** (`viewer_*` tools — select, isolate, highlight clashes, properties) | [docs/viewer-mcp.md](docs/viewer-mcp.md) |
 | The **bridge is not connected** (`mcp__pynet-bridge__*` missing, `MCP error -32000`) or a whitelisted library is **missing in the host** (`No module named 'pandas'`) | [docs/bridge-troubleshooting.md](docs/bridge-troubleshooting.md) |
+| **Installing / reinstalling the bridge** (uv only, never pip) | [docs/bridge-install.md](docs/bridge-install.md) |
+| The **PyNET ribbon does not appear** in the host (add-in not loading, no error shown) | [docs/plugin-troubleshooting.md](docs/plugin-troubleshooting.md) |
 | Full **security** whitelist/blocklist | [docs/security.md](docs/security.md) |
 | A **pythonnet** surprise (out params, `List[T]`, wrappers, enums, buffered prints) | [docs/pythonnet.md](docs/pythonnet.md) |
 
@@ -112,6 +114,12 @@ stack trace — analyze `Message` to auto-correct and retry.
 > install or reinstall — and then say exactly which one action is needed and why. Do not end a turn
 > with a bare failure; report the cause found and the step taken (in Production mode, in plain
 > language — §10).
+>
+> **Never bypass the MCP tools.** The bridge is reached only through the client's own
+> `mcp__pynet-bridge__*` tools. Do not start `pynet-bridge` as a separate stdio server, write your own
+> JSON-RPC client, or import `pynet_mcp` from a script to "get the tools working" — a second bridge
+> fights the client's for the host connection and its results never reach the session. If the tools
+> are missing, repair and reconnect the client ([docs/bridge-install.md](docs/bridge-install.md)).
 
 ---
 

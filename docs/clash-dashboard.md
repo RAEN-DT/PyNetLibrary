@@ -3,6 +3,10 @@
 
 # Reference: clash HTML dashboard (Navisworks)
 
+For the general HTML/Plotly report pattern (static report vs. live Dash app, the flex-container
+chart-resize bug) see [dashboards.md](dashboards.md) first. This page only covers what's specific
+to the clash dashboard: colors, structure, test-naming.
+
 Used by the `ClashDetection` skill, step 13 — after statuses and groups are applied. Reference
 implementation: `01_Scripts/01_Navisworks/08_DataAnalysis/ClashDashboard.py` (static HTML +
 `webbrowser.open`). Not `04_DataAnalysis/ExportClashDashboard.py` — that one launches a Dash server

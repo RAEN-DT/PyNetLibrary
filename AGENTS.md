@@ -53,6 +53,7 @@ Scripts are sent to the plugin through the MCP bridge and executed locally insid
 | Reading an **Excel** file | [docs/excel-mcp.md](docs/excel-mcp.md) |
 | Reading a **PDF** file | [docs/pdf-mcp.md](docs/pdf-mcp.md) |
 | Reading or writing a **Word (.docx)** file | [docs/word-mcp.md](docs/word-mcp.md) |
+| Building an **HTML/Plotly dashboard or report** (static report vs. live Dash app, chart layout bugs) | [docs/dashboards.md](docs/dashboards.md) |
 | **Generating stubs** / VS Code IntelliSense | [docs/stubs.md](docs/stubs.md) |
 | **Deploying buttons / modules / Output Window** | [docs/ui-deployment.md](docs/ui-deployment.md) |
 | Exporting a **`.pnt`** package for the VS Code viewer | [docs/pnt-export.md](docs/pnt-export.md) |

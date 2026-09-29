@@ -75,12 +75,32 @@ only** — it was removed in `mcp` 2.0. If `pyproject.toml` leaves `mcp[cli]` un
 can silently resolve to 2.x and break every subsequent launch.
 
 Releases up to **1.5.4** declare `mcp[cli]` unpinned, so a fresh install of them resolves `mcp` 2.x
-and is broken out of the box. **1.5.5** pins `mcp[cli]>=1.2,<2`; keep installing with
-`--with "mcp[cli]>=1.2,<2"` (step 6) anyway — it is harmless and covers older releases. Verify:
+and is broken out of the box. **1.5.5** pins `mcp[cli]>=1.2,<2`, but it is not yet published to the
+package index — so until it ships, always reinstall with `--with "mcp[cli]>=1.2,<2"` (step 6)
+regardless of which release you land on; it is harmless and covers older releases too. Verify:
 
 ```powershell
 & "$env:APPDATA\uv\tools\pynet-mcp-bridge\Scripts\python.exe" -c "import mcp.server.fastmcp; print('OK')"
 ```
+
+### 4b. `pynet-bridge was installed but its executable is not on PATH`
+
+Reported by the VS Code command **PyNET: Install / Repair MCP Bridge**. The install fell back to
+`pip`, which drops `pynet-bridge.exe` into the interpreter's `Scripts` folder (e.g.
+`%LOCALAPPDATA%\Python\pythoncore-3.14-64\Scripts`). That folder is usually **not** on PATH — with
+the Python Install Manager, PATH only holds the `WindowsApps` aliases, which resolve `python` but not
+pip-installed executables. It also means `uv` is missing (no `~\.local\bin`, no `%APPDATA%\uv\tools`).
+
+Do not add the pip `Scripts` folder to PATH — that creates the dual-install trap below. Move to uv:
+
+```powershell
+powershell -ExecutionPolicy ByPass -c "irm https://astral.sh/uv/install.ps1 | iex"   # adds ~\.local\bin to user PATH
+$env:Path = "$env:USERPROFILE\.local\bin;$env:Path"                                   # current shell only
+uv tool install pynet-mcp-bridge --force --with "mcp[cli]>=1.2,<2"
+python -m pip uninstall -y pynet-mcp-bridge                                           # drop the pip copy
+```
+
+Verify with step 2, then **fully restart VS Code** — a window reload does not pick up the new PATH.
 
 ### 5. The bridge runs fine but the tools are still absent
 
@@ -94,8 +114,11 @@ Follow [bridge-install.md](bridge-install.md) — uv only, never pip, with the `
 
 ```powershell
 Get-Process pynet-bridge -ErrorAction SilentlyContinue | Stop-Process -Force -Confirm:$false
-uv tool install pynet-mcp-bridge --force --with "mcp[cli]>=1.2,<2"
+uv tool install pynet-mcp-bridge --force --with "mcp[cli]>=1.2,<2"   # uv only — never pip (see "The dual-install trap")
 ```
+
+The `--with` pin is required while the published package leaves `mcp` unpinned (step 4) — without it
+the install resolves `mcp` 2.x and the bridge crashes on launch.
 
 Killing running processes first is required — they lock the `.exe` shim and the install fails or
 half-completes (which is how you get step 3). Then re-run step 2 to verify `exit=0`.
@@ -190,3 +213,8 @@ version first. Follow [plugin-troubleshooting.md](plugin-troubleshooting.md):
   hence the `--with` pin in [bridge-install.md](bridge-install.md). Bridge 1.5.5 ships the pin and
   drops the unused `fastmcp` dependency.
   The viewer's `pnt_server` was healthy throughout — the outage was entirely the bridge.
+- **2026-09-28 — `executable is not on PATH` after Install / Repair.** No `uv` on the machine, so the
+  bridge was pip-installed into Python 3.14, whose `Scripts` folder was not on PATH. Fixed by
+  installing uv and `uv tool install pynet-mcp-bridge --force`; the first attempt pulled `mcp` 2.x
+  again because the **published** `pynet-mcp-bridge` 1.5.4 is still unpinned, so it was reinstalled
+  with `--with "mcp[cli]>=1.2,<2"` and the pip copy was uninstalled (step 4b).

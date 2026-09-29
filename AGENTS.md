@@ -51,6 +51,8 @@ Scripts are sent to the plugin through the MCP bridge and executed locally insid
 | A **standalone QGIS / PyQGIS** script (`04_QGIS`, headless, NOT Autodesk-hosted) | [docs/qgis.md](docs/qgis.md) |
 | Any **form / dialog / custom UI** (WinForms) | [docs/winforms.md](docs/winforms.md) |
 | Reading an **Excel** file | [docs/excel-mcp.md](docs/excel-mcp.md) |
+| Reading a **PDF** file | [docs/pdf-mcp.md](docs/pdf-mcp.md) |
+| Reading or writing a **Word (.docx)** file | [docs/word-mcp.md](docs/word-mcp.md) |
 | **Generating stubs** / VS Code IntelliSense | [docs/stubs.md](docs/stubs.md) |
 | **Deploying buttons / modules / Output Window** | [docs/ui-deployment.md](docs/ui-deployment.md) |
 | Exporting a **`.pnt`** package for the VS Code viewer | [docs/pnt-export.md](docs/pnt-export.md) |
@@ -65,10 +67,11 @@ The Router row above (`RevitApiPatterns`) is a **reference** to read before writ
 it lives in `.claude/commands/` but is consulted, not run.
 
 Everything else in `.claude/commands/` is a **workflow Skill** the *user* invokes via slash command:
-`/ClashDetection`, `/ClashCoordination`, `/ClashToleranceComparison`, `/QCModelAudit`, `/QuantityTakeoff`, `/WindSiting`, `/PowerlineFireRisk`, `/CreateParameters`, `/DevMode`. They are
+`/ClashDetection`, `/ClashCoordination`, `/ClashToleranceComparison`, `/QCModelAudit`, `/QuantityTakeoff`, `/WindSiting`, `/PowerlineFireRisk`, `/CreateParameters`, `/TimelinerImport`, `/DevMode`. They are
 self-contained and auto-load when invoked — do not duplicate their content here. Suggest the matching
 one when the user describes its task (e.g. a clash run, a QC audit, a 5D takeoff, a GIS/wind-farm siting study,
-a powerline wildfire-risk / vegetation-management study, creating/binding shared or project parameters from an Excel matrix).
+a powerline wildfire-risk / vegetation-management study, creating/binding shared or project parameters from an Excel matrix,
+importing a Primavera P6 schedule into TimeLiner).
 
 ---
 

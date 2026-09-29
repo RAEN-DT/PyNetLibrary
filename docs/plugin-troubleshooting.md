@@ -74,6 +74,27 @@ sorts before the offender) — untested, offer it only as a last resort.
 
 ---
 
+## `Could not load file or assembly 'Python.Runtime, Version=3.1.1.0' ... (0x80131621)`
+
+A PyNET error dialog at the **first script execution**, not at start-up. `0x80131621` means an
+assembly with the same name is **already loaded in another version**. PyNET ships `Python.Runtime`
+**3.1.1.0**; Autodesk ships **3.1.0.0** with Dynamo's Python engine (`PythonNet3Engine`) in both
+Civil 3D and Revit 2027. Whichever loads first in the shared context wins, and the other fails.
+
+- **Trigger:** Dynamo (or Dynamo Player, or any graph with a Python node) ran in that session before
+  PyNET executed its first script. AutoCAD / Civil 3D has no per-add-in isolation, so it always
+  shares; in Revit, PyNET and Dynamo both load in the `DEFAULT` context.
+- **Immediate fix:** restart the host and run a PyNET action **before** opening Dynamo. Tell the user
+  that Dynamo's Python nodes may then fail in that same session — the conflict is mutual.
+- **Not the cause:** the AI client (Codex, Claude …) or the bridge. Do not reinstall the bridge.
+- **Permanent fix (plugin side):** from `Raen.PynetRuntime.Nuget` 3.1.2 / `Raen.Core.Pynet` 1.0.14 the
+  patched runtime is renamed **`Raen.Python.Runtime.dll`**, so it no longer shares an identity with
+  Dynamo's and both load side by side. The engine also sets `Runtime.PythonDLL` instead of the
+  process-wide `PYTHONNET_PYDLL`, which used to steer Dynamo's Python too. A bundle that still has
+  `Python.Runtime.dll` in `Contents\<year>\` is a pre-fix build.
+
+---
+
 ## Known incidents
 
 - **2026-09-28 — Revit 2027.2, NonicaTab FREE + PRO installed together.** The ribbon was missing with

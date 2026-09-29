@@ -194,7 +194,8 @@ Quick reference (full lists in [docs/security.md](docs/security.md)):
 - **Allowed imports:** `clr`, `sys`, `json`, `re`, `time`, `datetime`, `pathlib`, `typing`,
   `threading`, `collections`, `xml`, `math`, `functools`, `pandas`, `plotly`, `matplotlib`, `dash`,
   `webbrowser`, `psutil`, `openpyxl`, `uuid`, `zipfile`, `io`, `mimetypes`, `difflib`, `csv`,
-  `ifcopenshell`, `numpy`, `shapely`, `qgis`, `processing`. Submodules: `http.server` (only).
+  `ifcopenshell`, `numpy`, `shapely`, `qgis`, `processing`, `pypdf` (≥ 1.5.6), `docx` (≥ 1.5.6).
+  Submodules: `http.server` (only).
 - **Blocked imports:** `os`, `subprocess`, `shutil`, `socket`, `urllib`, `glob`, `inspect`, …
 - **The sandbox is closed on purpose — no network, no local server.** `urllib` is blocked at the
   root, and `flask` / `webview` are not whitelisted. The code that legitimately needs them (GIS

@@ -13,11 +13,10 @@ Related: [word-mcp.md](word-mcp.md) · [excel-mcp.md](excel-mcp.md) · [security
 
 ## Status and prerequisites
 
-> **`pypdf` is not yet in the validator whitelist.** Until the bridge ships it (update this line with
-> the minimum bridge version and add it to [security.md](security.md) and `AGENTS.md` §7 in the same
-> commit), a script with `import pypdf` is rejected. There is **no standard-library fallback**: PDF
-> content streams are compressed and font-encoded. Tell the user reading PDFs needs a bridge update —
-> do not retry the rejected script.
+> **`pypdf` is whitelisted from bridge ≥ 1.5.6.** On an older bridge a script with `import pypdf` is
+> rejected — there is **no standard-library fallback** (PDF content streams are compressed and
+> font-encoded), so tell the user reading PDFs needs a bridge update, do not retry the rejected
+> script. Check the running bridge's version if unsure.
 
 - **Package:** `pip install pypdf`, import `pypdf`. **Never `PyPDF2`, `PyPDF3` or `PyPDF4`** — those are
   the deprecated predecessors (`PdfFileReader`, `getPage`, `extractText`). Agents trained on older code

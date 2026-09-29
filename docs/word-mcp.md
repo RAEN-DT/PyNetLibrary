@@ -13,10 +13,9 @@ Related: [excel-mcp.md](excel-mcp.md) · [pdf-mcp.md](pdf-mcp.md) · [security.m
 
 ## Status and prerequisites
 
-> **`docx` is not yet in the validator whitelist.** Until the bridge ships it (update this line with
-> the minimum bridge version and add it to [security.md](security.md) and `AGENTS.md` §7 in the same
-> commit), a script with `import docx` is rejected and there is no Word support. Tell the user it
-> needs a bridge update — do not retry the rejected script.
+> **`docx` is whitelisted from bridge ≥ 1.5.6.** On an older bridge a script with `import docx` is
+> rejected and there is no Word support — tell the user it needs a bridge update, do not retry the
+> rejected script. Check the running bridge's version if unsure.
 
 - **Package:** install `python-docx`, import `docx`. **Never `pip install docx`** — that is a different,
   abandoned Python 2 package that the validator would let through under the same import name.

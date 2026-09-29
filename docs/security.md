@@ -33,7 +33,7 @@ whitelisted. Any other assembly / root is rejected.
 
 ## Allowed Python imports
 
-`clr`, `sys`, `json`, `re`, `time`, `datetime`, `pathlib`, `typing`, `threading`, `collections`, `xml`, `math`, `functools`, `pandas`, `plotly`, `matplotlib`, `dash`, `webbrowser`, `psutil`, `openpyxl`, `uuid`, `zipfile`, `io`, `mimetypes`, `difflib`, `csv`, `ifcopenshell`, `numpy`, `shapely`, `qgis`, `processing`
+`clr`, `sys`, `json`, `re`, `time`, `datetime`, `pathlib`, `typing`, `threading`, `collections`, `xml`, `math`, `functools`, `pandas`, `plotly`, `matplotlib`, `dash`, `webbrowser`, `psutil`, `openpyxl`, `uuid`, `zipfile`, `io`, `mimetypes`, `difflib`, `csv`, `ifcopenshell`, `numpy`, `shapely`, `qgis`, `processing`, `pypdf` (≥ 1.5.6), `docx` (≥ 1.5.6)
 
 Project-local shared modules also allowed: `pynet_clash`, `CoordinationDashboard` (≥ 1.5.4).
 These are not third-party packages — they sit next to the script being run. `CoordinationDashboard`

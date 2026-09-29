@@ -15,6 +15,7 @@ project, same as the ClashDetection skill's test-naming convention (docs/clash-d
   CON, TUB) to TimeLiner task groups. Update both for another project's codes and task names.
 """
 
+import re
 import sys
 from pathlib import Path
 from datetime import date, datetime
@@ -102,11 +103,12 @@ all_tests = get_clash_tests(clashDoc)
 
 rows = []
 for test in all_tests:
-    parts = test.DisplayName.split("_vs_")
+    # Accepts both this project's "PIL vs FAC" and a compound "EST_PIL_vs_ARQ_FAC" convention
+    # (docs/clash-dashboard.md: test naming is a project input, not a fixed format).
+    parts = re.split(r"\s+vs\s+|_vs_", test.DisplayName)
     if len(parts) != 2:
         continue
-    left, right = parts[0].split("_"), parts[1].split("_")
-    code_a, code_b = left[-1], right[-1]
+    code_a, code_b = parts[0].strip().split("_")[-1], parts[1].strip().split("_")[-1]
     group_a, group_b = GROUP_OF_CODE.get(code_a), GROUP_OF_CODE.get(code_b)
     if not group_a or not group_b:
         continue

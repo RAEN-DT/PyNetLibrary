@@ -167,34 +167,77 @@ def clash_distance_mm(c1, c2):
 
 > **Critical rule:** If a TUB clash and a CON clash are within 1000mm of each other on the same floor zone, they must share a **single rectangular hole**. Do NOT create a circular hole for the pipe. The comments from the clash review session will explicitly mention the distance to the nearby element — read them carefully.
 
-### 5. Calculate opening dimensions
+### 5. Calculate opening dimensions and position — from the REAL Revit solid, in the duct's local frame
 
-#### Rectangular opening (single element)
-- Width (X) = element bbox size_x + 100mm (50mm clearance each side)
-- Length (Y) = element bbox size_y + 100mm
+> ⚠ **Three traps here cost a full session (2026-09-29). Read this before writing any sizing code.**
+>
+> 1. **Never size from `elem.get_BoundingBox(None)`.** That box is axis-aligned to the *global* X/Y.
+>    For any element not aligned to those axes it is inflated and tends to a square: a 600×500 duct
+>    rotated 55° measured **853×878** → an oversized "diamond" hole. It only works by luck at 0°/90°.
+> 2. **Never position from the Navisworks clash center.** `result.Center` is the intersection point,
+>    **not** the element's center. Measured offset on a real case: **377mm** — enough that the duct
+>    stuck out of its own hole by 300mm while every "size" number looked right.
+> 3. **Never derive direction from `LocationCurve.Direction` without checking Z.** MEP crossing a slab
+>    is usually a **vertical riser**: both curve endpoints share X/Y, so `atan2(d.Y, d.X)` is pure
+>    floating-point noise that can coincidentally look like a plausible angle. Verify with the
+>    connector origins (`conn.Origin`) — if they differ only in Z, the element is vertical.
 
-#### Rectangular opening (shared — multiple elements)
-Use the combined bounding box of all involved elements:
+**The method that is correct by construction:** take the real solid's vertices, project them into the
+duct's local frame, wrap them. No parameters, no bounding boxes, no clash coordinates.
 
 ```python
-# Left edge = min of all bbox min.x values
-# Right edge = max of all bbox max.x values
-# Same for Y
-combined_min_x = min(e["bbox"]["min"]["x"] for e in elements)
-combined_max_x = max(e["bbox"]["max"]["x"] for e in elements)
-combined_min_y = min(e["bbox"]["min"]["y"] for e in elements)
-combined_max_y = max(e["bbox"]["max"]["y"] for e in elements)
+def solid_vertices_xy(elem):
+    """Real (X,Y) mm vertices of the element's solid - the only source that cannot lie."""
+    opts = Options(); opts.ComputeReferences = False; opts.DetailLevel = ViewDetailLevel.Fine
+    pts = []
+    def collect(geo):
+        for g in geo:
+            if isinstance(g, Solid) and g.Volume > 0:
+                for face in g.Faces:
+                    for v in face.Triangulate().Vertices:
+                        pts.append((ft_to_mm(v.X), ft_to_mm(v.Y)))
+            elif isinstance(g, GeometryInstance):
+                collect(g.GetInstanceGeometry())
+    collect(elem.get_Geometry(opts))
+    return pts
 
-width_mm  = (combined_max_x - combined_min_x) + 100.0
-length_mm = (combined_max_y - combined_min_y) + 100.0
+rot = math.radians(duct_rotation_deg(duct))       # connector BasisX, see step 8
+c, s = math.cos(rot), math.sin(rot)
 
-center_x = (combined_min_x + combined_max_x) / 2.0
-center_y = (combined_min_y + combined_max_y) / 2.0
+pts = []                                           # every element this hole must cover
+for eid in duct_ids + pipe_ids:                    # shared hole: just add the pipe's vertices
+    pts.extend(solid_vertices_xy(doc.GetElement(ElementId(eid))))
+
+loc_x = [p[0] * c + p[1] * s for p in pts]         # project into the duct's local frame
+loc_y = [-p[0] * s + p[1] * c for p in pts]
+lx0, lx1, ly0, ly1 = min(loc_x), max(loc_x), min(loc_y), max(loc_y)
+
+width_mm  = (lx1 - lx0) + 100.0                    # 50 mm clearance per side
+length_mm = (ly1 - ly0) + 100.0
+lcx, lcy  = (lx0 + lx1) / 2.0, (ly0 + ly1) / 2.0
+center_x  = lcx * c - lcy * s                      # local center back to world
+center_y  = lcx * s + lcy * c
 ```
 
+This handles the single-element and the shared case with the same code — a shared hole is just more
+vertices in `pts`. It is immune to rotation, to vertical vs horizontal runs, and to stale NWC data.
+
 #### Circular opening
-- Radius = (pipe OD / 2) + 50mm clearance
-- Pipe OD = bbox size_x (the bounding box of a vertical circular pipe has equal X and Y matching the outer diameter)
+- Radius = (pipe OD / 2) + 50mm clearance, with OD read from
+  `BuiltInParameter.RBS_PIPE_DIAMETER_PARAM` — **not** from a bounding box.
+
+#### Mandatory verification before reporting success
+
+Re-project each covered element's vertices into the same local frame and confirm every one sits
+inside the placed hole. Report the **minimum margin**; it must come out at the clearance you asked
+for (50mm), never less:
+
+```python
+margins = [min(lx) - hx0, hx1 - max(lx), min(ly) - hy0, hy1 - max(ly)]   # per element
+```
+
+A hole whose numbers "look right" but whose margin is negative is exactly the failure mode that got
+shipped three times in a row. Do not skip this check.
 
 ### 6. Identify opening families in Revit
 
@@ -343,6 +386,24 @@ def get_mep_rotation_deg(document, revit_element_id):
     return 0.0
 ```
 
+> **For a vertical riser — the usual case when MEP crosses a slab — `BasisX` and `BasisY` are BOTH
+> horizontal**: they are the two cross-section axes, and the flow direction is `BasisZ` (vertical).
+> Do not reason about "which one is the run direction": there isn't one in plan. Use `BasisX` and
+> verify it, as below.
+>
+> **Verify the angle against the real solid instead of trusting the convention.** A rectangle of
+> `Width`×`Height` rotated by θ has a world bbox of `|W·cosθ|+|H·sinθ|` by `|W·sinθ|+|H·cosθ|`.
+> Compare that against the solid's measured bbox — if they match, θ is right:
+>
+> ```python
+> pred_x = abs(width * math.cos(rot)) + abs(height * math.sin(rot))
+> pred_y = abs(width * math.sin(rot)) + abs(height * math.cos(rot))
+> # measured 753.7 x 778.3 vs predicted 753.7 x 778.3 -> rotation confirmed
+> ```
+>
+> The ±180° ambiguity between the two connectors of a segment is harmless (a rectangle maps onto
+> itself under 180°), so do not "fix" it by switching to `BasisY` — that introduces a real 90° error.
+
 For shared holes (multiple elements), use the rotation of the dominant element (the duct, not the pipe).
 
 ### 9. Place and configure instances
@@ -430,6 +491,16 @@ Ask the user to verify in Revit that:
 
 ## Key lessons learned
 
+- **Size and position from the real solid, never from a bounding box or a clash center** (2026-09-29,
+  three failed attempts in a row on the same six holes). The global-axis bbox inflates with rotation
+  (600×500 duct at 55° measured 853×878); the Navisworks clash center sat 377mm off the duct's real
+  center, so the duct stuck out of its own hole. Both produce numbers that *look* plausible in a
+  results table — the only way to catch it is the containment check in step 5.
+- **A duct crossing a slab is normally a vertical riser.** Check `conn.Origin` on both connectors: if
+  they differ only in Z, any XY direction derived from `LocationCurve.Direction` is noise. Chasing
+  that noise is what turned one real bug (sizing) into two more (wrong rotation axis).
+- **Verify, then report.** Every "fixed" claim made without re-measuring against the solid was wrong.
+  The check costs one extra script and is the difference between a fix and a guess.
 - **Geometry nodes vs instance nodes:** Clash result `Item1`/`Item2` point to geometry solid nodes. The Revit element ID is NOT there — it is at the parent instance node. Always walk up via `.Parent` to find `"ID de elemento"`.
 - **One floor, multiple z-values:** A single thick floor will generate clash results at both its top face (z=0) and bottom face (z=−thickness). These are the SAME element — deduplicate by Revit element ID before creating holes.
 - **Shared holes:** When the clash comments mention a nearby MEP element, or when `clash_distance_mm` < 1000mm between a TUB and CON clash on the same floor zone, always use a single shared rectangular hole — never individual holes. Failing to do this is the most common mistake.

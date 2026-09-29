@@ -352,7 +352,7 @@ Working scripts organized by use case:
 - **Clash Detection** (`03_ClashDetection/`) — export, import, rename, run and auto-review clash tests; add comments; extract element info; generate clash images. Works with `doc.Clash.TestsData.Tests` via `CastUtils`.
 - **Data Analysis** (`04_DataAnalysis/`, `08_DataAnalysis/`) — chart generation from clash data (bar charts, pie charts, stacked bars); interactive clash dashboard with IFC viewer integration.
 - **Query Elements** (`05_QueryElements/`) — isolate and measure elements by property filters (foundations, panels, wall linear meters, unique parameter values); export clashes to JSON.
-- **IFC Export** (`07_IFCExport/`) — geometry extraction and export to IFC/PNT format; includes a fast instanced-node exporter (`NavisworksPNT_IFC_Fast`) with per-category routing (FAST/INSTNODE/DIRECT).
+- **IFC Export** (`07_IFCExport/`) — geometry extraction and export to IFC/PNT format; includes a fast instanced-node exporter (`NavisworksToPNT`) with per-category routing (FAST/INSTNODE/DIRECT).
 
 ### Revit — 01_Scripts/02_Revit/
 
@@ -374,6 +374,7 @@ Working scripts organized by use case:
 - **Windows Forms** (`16_WindowsForms/`) — WinForms inside Revit: view filter forms, multi-model open/create/save workflow with full `Transaction` handling and `TaskDialog` confirmation.
 - **Location and Coordinates** (`18_Location and Coordinates/`) — read and write `ProjectPosition` (origin, angle to true north).
 - **Worksharing** (`20_Worksharing/`) — read Autodesk user login info from a workshared model.
+- **Exportations** (`22_Exportations/`) — export a 3D view (host + visible links) to a `.pnt` package for the PyNET viewer (`RevitToPNT`): tessellated IFC4 per document, properties and levels. Pro licence.
 - **Structure** (`23_Structure/`) — create structural beams, columns, wall foundations, and trusses using `NewFamilyInstance` and `NewBeam`.
 - **MEP** (`24_MEP/`) — create ducts (`Duct.Create`) and electrical wires (`Wire.Create`) with connectors and curve endpoints.
 - **QA/QC** (`25_QAQC/`) — model audit against BEP standards with HTML + Excel scored report (`ModelAudit.py`); type renaming to fix nomenclature.

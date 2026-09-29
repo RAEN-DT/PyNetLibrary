@@ -7,7 +7,7 @@ How to generate a `.pnt` package that the PyNET viewer (ThatOpen / web-ifc fragm
 the VS Code extension) loads and renders. Written while building the fire-risk digital-twin `.pnt`
 (see the `PowerlineFireRisk` / `WindSiting` skills and `04_QGIS`).
 
-Canonical reference producer: `01_Scripts/01_Navisworks/07_IFCExport/NavisworksPNT_IFC_Fast.py`
+Canonical reference producer: `01_Scripts/01_Navisworks/07_IFCExport/NavisworksToPNT.py`
 (the Navisworks → IFC → `.pnt` exporter). Copy its conventions — they are known to render.
 
 ---
@@ -26,7 +26,7 @@ A plain **ZIP** archive containing:
 ```
 
 The `classification` array reports coverage per model. `ClassificationAnalyzer`
-(`NavisworksPNT_IFC_Fast.py`) reuses the **SearchSets that already exist** in the document — whatever
+(`NavisworksToPNT.py`) reuses the **SearchSets that already exist** in the document — whatever
 strategy the project uses (PYNET_Classification, native Category, discipline…) — runs them and measures
 how much geometry they cover; `basis` lists the SearchSets used (`"no SearchSets found"` otherwise).
 
@@ -74,7 +74,7 @@ running host, or run a standalone script with a Python that has ifcopenshell. `z
 1. **Tessellated geometry only.** The viewer renders `IfcTriangulatedFaceSet` with representation
    type **`"Tessellation"`**. `IfcExtrudedAreaSolid` / `"SweptSolid"` does **NOT** render — this was
    the root cause of "no geometry". Build every shape as triangle meshes (`IfcCartesianPointList3D`
-   + `IfcTriangulatedFaceSet`), exactly like `NavisworksPNT_IFC_Fast.py`.
+   + `IfcTriangulatedFaceSet`), exactly like `NavisworksToPNT.py`.
 2. **Colour via `IfcSurfaceStyleRendering`** on the tri-set: `IfcStyledItem(triSet, [IfcSurfaceStyle("BOTH",
    [IfcSurfaceStyleRendering(IfcColourRgb(...), 0.0, ..., "FLAT")])])`. RGB are floats 0..1.
 3. **Double-side OPEN surfaces.** web-ifc back-face culls → an open mesh (terrain, a single plane,

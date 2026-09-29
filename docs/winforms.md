@@ -191,7 +191,7 @@ plugin bundle — a plugin update replaces it.
 
 **Progress for long work:** a non-modal status form (`Form.Show()`), updated with `DoEvents()` after
 each step, with a Cancel button that only sets a flag checked **between** steps
-(`NavisworksPNT_IFC_Fast.py`). A `Marquee` progress bar does not animate while the script runs
+(`NavisworksToPNT.py`). A `Marquee` progress bar does not animate while the script runs
 synchronously — use a `Continuous` bar advanced on every update.
 
 ---

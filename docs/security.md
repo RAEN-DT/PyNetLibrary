@@ -3,8 +3,13 @@
 
 # Reference: Security & execution restrictions
 
-Full whitelists/blocklists. The summary lives in `CLAUDE.md`; this is the complete reference. It mirrors the
+Full whitelists/blocklists. The summary lives in `AGENTS.md`; this is the complete reference. It mirrors the
 validator in `PyNetBridge/pynet_mcp/server.py` — keep both in sync.
+
+> **If this doc and the validator disagree, the validator wins.** Fix the doc, never widen the
+> validator to match it. When the validator changes, run **every** script in `01_Scripts` (excluding
+> `04_QGIS`) through `validate_script` instead of only the suspected one — that batch pass is what
+> surfaced the real false rejections (e.g. a UTF-8 BOM breaking `ast.parse`, fixed in 1.5.4).
 
 > **Scope:** this static analyzer only runs for scripts sent through the **MCP bridge** into an Autodesk
 > host (Navisworks / Revit / AutoCAD). **Standalone QGIS scripts** (`04_QGIS`) run in QGIS's own Python and
@@ -28,12 +33,17 @@ whitelisted. Any other assembly / root is rejected.
 
 ## Allowed Python imports
 
-`clr`, `sys`, `json`, `re`, `time`, `datetime`, `pathlib`, `typing`, `threading`, `collections`, `xml`, `math`, `functools`, `pandas`, `plotly`, `matplotlib`, `dash`, `webbrowser`, `psutil`, `openpyxl`, `uuid`, `zipfile`, `io`, `mimetypes`, `difflib`, `csv`, `ifcopenshell`, `numpy`, `shapely`, `qgis`, `processing`
+`clr`, `sys`, `json`, `re`, `time`, `datetime`, `pathlib`, `typing`, `threading`, `collections`, `xml`, `math`, `functools`, `pandas`, `plotly`, `matplotlib`, `dash`, `webbrowser`, `psutil`, `openpyxl`, `uuid`, `zipfile`, `io`, `mimetypes`, `difflib`, `csv`, `ifcopenshell`, `numpy`, `shapely`, `qgis`, `processing`, `pypdf` (≥ 1.5.6), `docx` (≥ 1.5.6)
 
 Project-local shared modules also allowed: `pynet_clash`, `CoordinationDashboard` (≥ 1.5.4).
 These are not third-party packages — they sit next to the script being run. `CoordinationDashboard`
 is imported by `CoordinationWorkflow.py`, which runs through `send_command_by_path` and therefore
 **does** pass the validator.
+
+> **Whitelisted ≠ installed.** This list only says what the validator lets through. If a script
+> fails with `No module named 'pandas'`, the package is simply absent from the host's interpreter —
+> install it there instead of rewriting the script, see
+> [bridge-troubleshooting.md](bridge-troubleshooting.md).
 
 - `openpyxl` requires bridge **≥ 1.4.7** (not whitelisted in 1.4.6).
 - `numpy` / `shapely` require bridge **≥ 1.5.4** (generative design).

@@ -85,9 +85,15 @@ HOST_NS_ROOT = {
     "Civil":     "Civil3D",
 }
 HOST_AUTODESK_DIR = STUBS_ROOT / "Autodesk" / HOST_NS_ROOT.get(HOST, HOST)
+# Folders this host actually writes (namespace roots). Civil 3D spans three of them - cleaning only
+# "Autodesk/Civil3D" (which is never written) left the real Civil stubs stale on every regeneration.
+HOST_DIRS = {
+    "Revit": ["Revit"],
+    "Navisworks": ["Navisworks"],
+    "Civil": ["AutoCAD", "Civil", "Aec"],
+}
 
 print(f"Stubs root:  {STUBS_ROOT}")
-print(f"Cleaning:    {HOST_AUTODESK_DIR}\n")
 
 # ── Clean only the host subtree ────────────────────────────────────────────────
 def remove_tree(p: Path):
@@ -98,8 +104,11 @@ def remove_tree(p: Path):
     elif p.exists():
         p.unlink()
 
-if HOST_AUTODESK_DIR.exists():
-    remove_tree(HOST_AUTODESK_DIR)
+for _sub in HOST_DIRS.get(HOST, [HOST_NS_ROOT.get(HOST, HOST)]):
+    _dir = STUBS_ROOT / "Autodesk" / _sub
+    if _dir.exists():
+        print(f"Cleaning:    {_dir}")
+        remove_tree(_dir)
 
 # ── Type map ───────────────────────────────────────────────────────────────────
 TYPE_MAP = {

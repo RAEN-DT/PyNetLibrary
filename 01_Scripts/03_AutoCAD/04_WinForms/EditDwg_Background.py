@@ -27,8 +27,13 @@ from System.Windows.Forms import (
 )
 from System.Drawing import Size, Point, Icon
 
-Civil3DIconPath = (Path.home() / "AppData" / "Roaming" / "Autodesk"
-                   / "ApplicationPlugins" / "Raen.Civil3D.Pynet.bundle" / "C3D.ico")
+# PyNET bundle of the RUNNING host (any year, any install location): the engine assembly
+# executing this script lives in <bundle>/Contents/<year>/. See docs/winforms.md "Form icon".
+from System import AppDomain
+PYNET_BIN = Path(next(a for a in AppDomain.CurrentDomain.GetAssemblies()
+                      if a.GetName().Name == "Raen.Core.Pynet.Engine").Location).parent
+PYNET_BUNDLE = PYNET_BIN.parent.parent
+Civil3DIconPath = PYNET_BUNDLE / "C3D.ico"
 
 # Edit these paths to point at your own drawings.
 FILES = [

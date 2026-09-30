@@ -10,7 +10,11 @@ from Autodesk.Navisworks.Api import Application
 
 clr.AddReference("Autodesk.Navisworks.Clash")
 from Autodesk.Navisworks.Api.Clash import DocumentClash, ClashResultStatus
-bundlePath = (Path.home() / "AppData" / "Roaming" / "Autodesk" / "ApplicationPlugins" / "RAEN.Navisworks.PyNET.bundle" / "Contents" / "2024")
+# PyNET bundle folder of the RUNNING Navisworks (right year, never hardcoded): the folder
+# of the engine assembly executing this script. See docs/navisworks.md "CastUtils".
+from System import AppDomain
+bundlePath = Path(next(a for a in AppDomain.CurrentDomain.GetAssemblies()
+               if a.GetName().Name == "Raen.Core.Pynet.Engine").Location).parent
 sys.path.append(str(bundlePath))
 clr.AddReference("Raen.Core.Pynet.Resources")
 from Raen.Core.Pynet.Resources import CastUtils  # type: ignore
@@ -19,7 +23,7 @@ from Autodesk.Navisworks.Api import Application
 
 
 sys.path.append(str(Path.home() / "AppData" / "Roaming" / "Pynet" / "Library" / "01_Scripts" / "00_utils"))
-from pynet_clash import get_clash_tests
+from pynet_clash import get_clash_tests, iter_results   # iter_results enters ClashResultGroups
 
 
 class ClashManager:
@@ -45,7 +49,7 @@ class ClashManager:
         results = []
 
         for test in get_clash_tests(clash_document):
-            new_count = sum(1 for c in test.Children if str(c.Status).upper() == str(ClashResultStatus.New).upper())
+            new_count = sum(1 for c in iter_results(test) if str(c.Status).upper() == str(ClashResultStatus.New).upper())
             total_new += new_count
             if new_count > 0:
                 results.append({

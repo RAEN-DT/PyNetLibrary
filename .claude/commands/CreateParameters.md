@@ -1,7 +1,5 @@
 # Skill: CreateParameters
 
-Start the conversation in english. If the user requests to change you can use the user language.
-
 Creates Revit **shared parameters** from an Excel matrix and binds them as **project parameters**
 (Type or Instance) to the categories the matrix marks, in a single transaction. Re-runnable: existing
 definitions and bindings are reused/`ReInsert`-ed, not duplicated.
@@ -10,7 +8,7 @@ definitions and bindings are reused/`ReInsert`-ed, not duplicated.
 
 - **Host:** Revit only (uses `__revit__` global)
 - **Write script** — creates shared parameter definitions and binds project parameters. Follows
-  the standard confirmation policy (CLAUDE.md §8): confirm once before the first execution.
+  the standard confirmation policy (AGENTS.md §8): confirm once before the first execution.
 - **Input Excel:** always asked to the user, every run — never hardcoded, never reused silently
   from a previous session.
 
@@ -22,16 +20,16 @@ There is no rigid column checklist to run. When the user gives an Excel, open it
 spot whether it is actually a parameter-creation matrix — the shape below is the reference for what
 "usable" looks like, not a validator to pass/fail mechanically.
 
-**Sheet `Parametros`** — one row per shared parameter definition:
+**Sheet `Parametros`** — one row per shared parameter definition (read with pandas **by header name**; headers verified on the real `PyNET_Matrix.xlsx`):
 
 | Column (by position) | Meaning |
 |---|---|
 | `Uso` | Free-text note (not used by the automation) |
 | `PSet` | DefinitionGroup name — parameters sharing a `PSet` are grouped together in the shared parameter file |
-| `Nombre` | The parameter name (also the Excel `Matriz` column header that references it) |
+| `Parametro` | The parameter name (also the Excel `Matriz` column header that references it) |
 | `Formato` | Data type key — see the Formato map below |
-| `TipoOEjemplar` | `T` = Type parameter, `E` = Instance parameter |
-| `GrupoRevit` | Revit parameter group (UI grouping) — see the GrupoRevit map below |
+| `Tipo o Ejemplar` | `T` = Type parameter, `E` = Instance parameter |
+| `Grupo_Revit` | Revit parameter group (UI grouping) — see the GrupoRevit map below |
 
 **Sheet `Matriz`** — one row per category, one column per parameter:
 
@@ -79,7 +77,7 @@ Implemented in `get_group_map()`, same extend-as-needed rule:
 | `Fases` | `Phasing` | `PG_PHASING` |
 | `Datos` | `Data` | `PG_DATA` |
 | `Geometria` | `Geometry` | `PG_GEOMETRY` |
-| `Materiales y acabados` | `MaterialsAndFinishes` | `PG_MATERIALS` |
+| `Materiales y acabados` | `Materials` | `PG_MATERIALS` |
 | `Construccion` | `Construction` | `PG_CONSTRUCTION` |
 | `Mecanico` | `Mechanical` | `PG_MECHANICAL` |
 | `Electrico` | `Electrical` | `PG_ELECTRICAL` |
@@ -119,7 +117,7 @@ before running.
 > (if it does — check first). Reuse it (keep existing definitions, add/update on top) or start a new
 > one (existing definitions in that file are discarded)?"
 
-**Check existence via `send_command` (MCP), never via PowerShell/Bash.** This is a CLAUDE.md §9 rule
+**Check existence via `send_command` (MCP), never via PowerShell/Bash.** This is a AGENTS.md §9 rule
 in general, but it bit us specifically here: a PowerShell `Test-Path` on this same path returned
 `False` while the file did exist — checking from inside the Revit host process via `send_command`
 (`Path.home() / "AppData" / "Roaming" / "Pynet" / "Revit" / "PyNET_SharedParameters.txt"`, `.exists()`)
@@ -132,7 +130,7 @@ Set `REUSE_SHARED_FILE = True/False` in the script accordingly.
 
 ### 5. Confirm before executing
 
-This is a write script — confirm once before the first run (CLAUDE.md §8). Show the user:
+This is a write script — confirm once before the first run (AGENTS.md §8). Show the user:
 - Excel path
 - Parameters found / categories found (counts, not the raw script output)
 - Shared parameter file path and reuse/new choice
@@ -167,7 +165,7 @@ marked in the matrix).
 ### 8. If it fails and you fix it (unmapped Formato/GrupoRevit key, etc.)
 
 Fix the map in the script and **re-execute immediately without asking again** — the user already
-approved the intent (CLAUDE.md §8, "confirmed script fails and you fix it").
+approved the intent (AGENTS.md §8, "confirmed script fails and you fix it").
 
 ---
 
@@ -187,7 +185,7 @@ approved the intent (CLAUDE.md §8, "confirmed script fails and you fix it").
 
 ### No `getattr`/`setattr`
 `build_category_lookup()` builds the `BuiltInCategory` name → enum lookup via `Enum.GetValues`, per
-the bridge's blocked-calls list (CLAUDE.md §7) — do not reintroduce `getattr(BuiltInCategory, name)`.
+the bridge's blocked-calls list (AGENTS.md §7) — do not reintroduce `getattr(BuiltInCategory, name)`.
 
 ---
 

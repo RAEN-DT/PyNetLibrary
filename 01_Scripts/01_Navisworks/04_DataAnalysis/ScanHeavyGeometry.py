@@ -36,22 +36,16 @@ from Autodesk.Navisworks.Api.ComApi import ComApiBridge
 from Autodesk.Navisworks.Api.Interop.ComApi import InwOaFragment3
 from System.Windows.Forms import MessageBox, MessageBoxButtons, MessageBoxIcon
 
-_bundle_root = (Path.home() / "AppData" / "Roaming" / "Autodesk" / "ApplicationPlugins"
-                / "RAEN.Navisworks.PyNET.bundle" / "Contents")
-for _year in ("2027", "2026", "2025", "2024"):
-    _candidate = _bundle_root / _year
-    if _candidate.exists():
-        sys.path.append(str(_candidate))
+# PyNET bundle folder of the RUNNING Navisworks (right year, never hardcoded): the folder
+# of the engine assembly executing this script. See docs/navisworks.md "CastUtils".
+from System import AppDomain
+_bundle = Path(next(a for a in AppDomain.CurrentDomain.GetAssemblies()
+               if a.GetName().Name == "Raen.Core.Pynet.Engine").Location).parent
+sys.path.append(str(_bundle))
 
-for _asm in ("Raen.Core.Pynet.Resources",
-             "Raen.Navisworks.Pynet.2027",
-             "Raen.Navisworks.Pynet.2026",
-             "Raen.Navisworks.Pynet.2025",
-             "Raen.Navisworks.Pynet.2024"):
-    try:
-        clr.AddReference(_asm)
-    except Exception:
-        pass
+clr.AddReference("Raen.Core.Pynet.Resources")
+clr.AddReference(next(a.GetName().Name for a in AppDomain.CurrentDomain.GetAssemblies()
+                      if a.GetName().Name.startswith("Raen.Navisworks.Pynet.")))  # year-suffixed plugin
 
 from Raen.Core.Pynet.Resources import CastUtils  # type: ignore
 from Raen.Navisworks.Pynet.Utils import TriangleMeshCollector  # type: ignore

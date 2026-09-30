@@ -5,7 +5,7 @@
 
 Read this guide **before writing any Navisworks script**. It holds the host boilerplate, CastUtils casting, and the saved-script structure convention.
 
-Related: [revit.md](revit.md) · [autocad-civil.md](autocad-civil.md) · [winforms.md](winforms.md)
+Related: [navisworks-properties.md](navisworks-properties.md) · [navisworks-models.md](navisworks-models.md) · [navisworks-views.md](navisworks-views.md) · [pythonnet.md](pythonnet.md) · [winforms.md](winforms.md)
 
 ---
 
@@ -66,15 +66,26 @@ script's dependencies obvious. The cost is zero — `clr.AddReference` already l
 pythonnet sometimes returns incorrect types, especially with interfaces (Clash API). The PyNET plugin ships a static utility `CastUtils` to correctly map objects. **Always use it when working with Clash or other interface-heavy APIs.**
 
 ```python
-bundlePath = (Path.home() / "AppData" / "Roaming" / "Autodesk" / "ApplicationPlugins"
-              / "RAEN.Navisworks.PyNET.bundle" / "Contents" / "2027")
-sys.path.append(str(bundlePath))
+from System import AppDomain
+
+# The PyNET plugin already loaded Raen.Core.Pynet.* into this Navisworks process — from the
+# folder of the year that is RUNNING. clr.AddReference resolves an already-loaded assembly
+# first, so no path is needed; the engine's folder is added only as a fallback.
+PYNET_BIN = Path(next(a for a in AppDomain.CurrentDomain.GetAssemblies()
+                      if a.GetName().Name == "Raen.Core.Pynet.Engine").Location).parent
+sys.path.append(str(PYNET_BIN))              # <bundle>/Contents/<year>/
 
 clr.AddReference("Raen.Core.Pynet.Resources")
 from Raen.Core.Pynet.Resources import CastUtils
 ```
 
-> **Version note:** this machine has Navisworks **2027** installed — use the `2027` folder, not `2024`. If `clr.AddReference` fails, detect the real version by reading `asm.Location` via reflection instead of hardcoding.
+> **Never write the year (`2024`…`2027`) or the bundle folder name in a script.** Each user runs a
+> different Navisworks version, and the running host already knows which one: the engine
+> executing the script is loaded from `<bundle>/Contents/<year>/`. Verified live (Navisworks 2027):
+> `Raen.Core.Pynet.Resources` is already loaded and `clr.AddReference` works with no path.
+> The year-suffixed plugin assembly is resolved the same way:
+> `clr.AddReference(next(a.GetName().Name for a in AppDomain.CurrentDomain.GetAssemblies() if a.GetName().Name.startswith("Raen.Navisworks.Pynet.")))`.
+> The bundle root (icons) is `PYNET_BIN.parent.parent` — see [winforms.md](winforms.md).
 
 Example — accessing clash tests (use the version-tolerant helper below, not a direct call):
 
@@ -101,6 +112,8 @@ per-item property/category iteration:
 1. **Measure scope first, with a cheap read-only query**: how many models are loaded
    (`len(list(doc.Models))`), and a rough element count per model (e.g. `sum(1 for _ in
    model.RootItem.Descendants)` on one model, or `HasGeometry` counts) — before touching properties.
+   If the measurement says the real run will be long (or it can't be estimated), **warn the user and
+   wait for confirmation** before launching it — `AGENTS.md` §8, even for read-only scripts.
 2. **Go smallest-to-largest ("de menos a más")**: run the real scan on the smallest/lightest model
    first, confirm it completes and the result shape is right, then scale up to the rest — never all
    models at once on the first attempt.
@@ -118,7 +131,7 @@ per-item property/category iteration:
    and restarted Navisworks) before sending anything else to that session.
 5. **Add `print()` progress statements to any script with a loop over more than a few dozen items or an
    uncertain duration — even inline scripts sent via `send_command` that will never be saved.** The
-   default of keeping prints minimal during development (see §5 in `CLAUDE.md`) assumes a short script;
+   default of keeping prints minimal during development (see §5 in `AGENTS.md`) assumes a short script;
    it does not apply once a script might run long enough that the user needs to see it's alive in the
    Navisworks Output Window. Print every N iterations or once per logical chunk (e.g. once per clash
    test in a loop over tests), not only a final summary.
@@ -133,8 +146,6 @@ genuinely was still running past that timeout (confirmed complete only once the 
 in the Navisworks UI) — the lesson isn't "it hung," it's "there was no way for either the AI or the user
 to tell the difference between hung and genuinely busy," which is exactly what points 4 and 5 above fix.
 
-This mirrors the general rule in `CLAUDE.md` §9 ("no heavy script without prior analysis and explicit
-permission") — applied specifically to scans and bulk writes over federated models here.
 
 ---
 
@@ -175,13 +186,13 @@ for test in get_clash_tests(clashDoc):          # version-tolerant (2025 vs 2026
         ...
 ```
 
-`get_clash_tests` tries the old `.Tests` API and falls back to walking `Value.TestsRoot` (EAFP — *try it,
-catch the failure*), so the **same script runs unchanged on any Navisworks version**. You don't need to
-know *which* version removed `.Tests`; if it exists it's used, otherwise the folder-tree path runs
-(recursing into `ClashTestFolder`, so tests organised in folders are still found).
+`get_clash_tests` tries the old `.Tests` API and falls back to `Value.TestsRoot.Children` (EAFP — *try
+it, catch the failure*), so the **same script runs unchanged on any Navisworks version**. It returns a
+list (a snapshot — safe to iterate while adding tests). **Limitation:** it reads the root level only —
+tests organised inside clash-test folders are not returned.
 
-> Do **not** use `getattr` / `hasattr` to probe for `.Tests` — both are **blocked by the MCP sandbox**.
-> The helper uses `try / except AttributeError`, the sandbox-safe way to feature-detect a member.
+> Feature-detect with `try / except AttributeError`, as the helper does. `getattr` is **blocked by the
+> MCP sandbox**; `hasattr` is allowed, but `try/except` is the pattern used across the library.
 
 > The module also exposes `iter_results(test)` — see the next section.
 
@@ -210,7 +221,10 @@ Combine both helpers in a clash script: `for test in get_clash_tests(clashDoc): 
 
 ## Key API patterns (this project)
 
-- **Tolerances are in feet** when configuring clash tests.
+- **Lengths are in document units** — `ClashTest.Tolerance`, `result.Center`, `result.Distance`. They are
+  feet only when the model is in feet. Convert with `UnitConversion.ScaleFactor(doc.Models.First.Units,
+  Units.Meters)` (metres per document unit): `tol = mm * 0.001 / scale`, `mm = value * scale * 1000`.
+  Validated in `00_Workflows/UpdateModels.py`.
 - Create **SearchSets before clash tests** so the tests stay dynamic.
 - See `01_Scripts/01_Navisworks/` for validated examples by use case:
   - `01_ModelManagement/` — open, append, list, publish NWD

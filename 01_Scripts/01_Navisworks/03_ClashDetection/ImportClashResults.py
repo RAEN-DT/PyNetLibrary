@@ -16,8 +16,12 @@ from Autodesk.Navisworks.Api.Clash import DocumentClash, ClashResultStatus
 clr.AddReference("System.Windows.Forms")
 from System.Windows.Forms import OpenFileDialog, DialogResult, MessageBox, MessageBoxButtons, MessageBoxIcon
 
-bundlePath = (Path.home()/ "AppData"/ "Roaming"/ "Autodesk"/ "ApplicationPlugins"/ "RAEN.Navisworks.PyNET.bundle"/ "Contents"/ "2024")
-NavisworksinconPath = (Path.home() / "AppData" / "Roaming" / "Autodesk" / "ApplicationPlugins" / "Raen.Navisworks.Pynet.bundle" / "manage.ico")
+# PyNET bundle folder of the RUNNING Navisworks (right year, never hardcoded): the folder
+# of the engine assembly executing this script. See docs/navisworks.md "CastUtils".
+from System import AppDomain
+bundlePath = Path(next(a for a in AppDomain.CurrentDomain.GetAssemblies()
+               if a.GetName().Name == "Raen.Core.Pynet.Engine").Location).parent
+NavisworksinconPath = bundlePath.parent.parent / "manage.ico"   # <bundle>/manage.ico
 
 sys.path.append(str(bundlePath))
 
@@ -32,7 +36,7 @@ doc = Application.ActiveDocument
 
 
 sys.path.append(str(Path.home() / "AppData" / "Roaming" / "Pynet" / "Library" / "01_Scripts" / "00_utils"))
-from pynet_clash import get_clash_tests
+from pynet_clash import get_clash_tests, iter_results   # iter_results enters ClashResultGroups
 
 
 class ClashResultData:
@@ -148,7 +152,7 @@ class ClashManager:
         for test in tests:
             for data in dataResults:
                 if data.TestName == test.DisplayName:
-                    for children in test.Children:
+                    for children in iter_results(test):
 
                         if str(children.Guid) == data.Guid and str(children.Status).upper() != data.Status.upper():
 

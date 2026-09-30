@@ -8,8 +8,11 @@ from pathlib import Path
 clr.AddReference("Autodesk.Navisworks.Api")
 from Autodesk.Navisworks.Api import Application
 
-bundle_base = Path.home() / "AppData" / "Roaming" / "Autodesk" / "ApplicationPlugins" / "Raen.Navisworks.Pynet.bundle" / "Contents"
-bundlePath = next((d for d in bundle_base.iterdir() if d.is_dir() and (d / "Raen.Core.Pynet.Resources.dll").exists()), None)
+# PyNET bundle folder of the RUNNING Navisworks (right year, never hardcoded): the folder
+# of the engine assembly executing this script. See docs/navisworks.md "CastUtils".
+from System import AppDomain
+bundlePath = Path(next(a for a in AppDomain.CurrentDomain.GetAssemblies()
+               if a.GetName().Name == "Raen.Core.Pynet.Engine").Location).parent
 sys.path.append(str(bundlePath))
 
 doc = Application.ActiveDocument

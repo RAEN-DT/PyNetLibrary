@@ -90,47 +90,48 @@ def find_style_id(t, style_collection, name):
     return None
 
 
-t = db.TransactionManager.StartTransaction()
-try:
-    segs = collect_lines_on_layer(t, LAYER_NAME)
-    ordered, leftover = chain_segments(segs)
-    print("Lines found on '{}': {} | chained: {} | leftover: {}".format(
-        LAYER_NAME, len(segs), len(ordered), leftover))
-    if leftover:
-        print("  WARNING: the chain has a gap - check the leftover segments' layer/geometry.")
+with doc.LockDocument():   # every write inside the document lock (autocad-civil.md, hard crash #1)
+    t = db.TransactionManager.StartTransaction()
+    try:
+        segs = collect_lines_on_layer(t, LAYER_NAME)
+        ordered, leftover = chain_segments(segs)
+        print("Lines found on '{}': {} | chained: {} | leftover: {}".format(
+            LAYER_NAME, len(segs), len(ordered), leftover))
+        if leftover:
+            print("  WARNING: the chain has a gap - check the leftover segments' layer/geometry.")
 
-    lt = t.GetObject(db.LayerTableId, OpenMode.ForRead)
-    layer0_id = lt["0"]
+        lt = t.GetObject(db.LayerTableId, OpenMode.ForRead)
+        layer0_id = lt["0"]
 
-    style_id = find_style_id(t, civil_doc.Styles.AlignmentStyles, STYLE_NAME)
-    labelset_id = find_style_id(t, civil_doc.Styles.LabelSetStyles.AlignmentLabelSetStyles, LABELSET_NAME)
-    if style_id is None or labelset_id is None:
-        raise ValueError("Alignment style '{}' or label set '{}' not found in this drawing".format(
-            STYLE_NAME, LABELSET_NAME))
+        style_id = find_style_id(t, civil_doc.Styles.AlignmentStyles, STYLE_NAME)
+        labelset_id = find_style_id(t, civil_doc.Styles.LabelSetStyles.AlignmentLabelSetStyles, LABELSET_NAME)
+        if style_id is None or labelset_id is None:
+            raise ValueError("Alignment style '{}' or label set '{}' not found in this drawing".format(
+                STYLE_NAME, LABELSET_NAME))
 
-    align_id = Alignment.Create(civil_doc, ALIGNMENT_NAME, ObjectId.Null, layer0_id,
-                                 style_id, labelset_id, AlignmentType.Centerline)
-    alignment = t.GetObject(align_id, OpenMode.ForWrite)
+        align_id = Alignment.Create(civil_doc, ALIGNMENT_NAME, ObjectId.Null, layer0_id,
+                                     style_id, labelset_id, AlignmentType.Centerline)
+        alignment = t.GetObject(align_id, OpenMode.ForWrite)
 
-    prev_id = -1
-    for a, b in ordered:
-        line = alignment.Entities.AddFixedLine(prev_id, a, b)
-        prev_id = line.EntityId
+        prev_id = -1
+        for a, b in ordered:
+            line = alignment.Entities.AddFixedLine(prev_id, a, b)
+            prev_id = line.EntityId
 
-    alignment.Update()
-    print("Alignment created: {} | length: {} m | stations: {} - {}".format(
-        alignment.Name, round(alignment.Length, 2), alignment.StartingStation, alignment.EndingStation))
+        alignment.Update()
+        print("Alignment created: {} | length: {} m | stations: {} - {}".format(
+            alignment.Name, round(alignment.Length, 2), alignment.StartingStation, alignment.EndingStation))
+        ia_Result = {
+            "type": "Alignment",
+            "name": alignment.Name,
+            "length": round(alignment.Length, 2),
+            "startStation": alignment.StartingStation,
+            "endStation": alignment.EndingStation,
+            "segmentsChained": len(ordered),
+            "segmentsLeftover": leftover,
+        }
 
-    t.Commit()
-    ia_Result = {
-        "type": "Alignment",
-        "name": alignment.Name,
-        "length": round(alignment.Length, 2),
-        "startStation": alignment.StartingStation,
-        "endStation": alignment.EndingStation,
-        "segmentsChained": len(ordered),
-        "segmentsLeftover": leftover,
-    }
-except Exception:
-    t.Abort()
-    raise
+        t.Commit()   # read everything above BEFORE committing
+    except Exception:
+        t.Abort()
+        raise

@@ -11,7 +11,7 @@ app = __revit__.Application #type:ignore
 doc = __revit__.ActiveUIDocument.Document #type:ignore
 
 
-class EditecaSharedParamCreator:
+class PyNETSharedParamCreator:
 
     PARAMS = [
         # (pset, name, type_key, is_type, dim)
@@ -117,7 +117,7 @@ class EditecaSharedParamCreator:
     def create_definitions(def_file, spec_map):
         groups      = {}
         definitions = {}
-        for pset, name, type_key, is_type, dim in EditecaSharedParamCreator.PARAMS:
+        for pset, name, type_key, is_type, dim in PyNETSharedParamCreator.PARAMS:
             if pset not in groups:
                 grp = next((g for g in def_file.Groups if g.Name == pset), None)
                 groups[pset] = grp or def_file.Groups.Create(pset)
@@ -130,15 +130,15 @@ class EditecaSharedParamCreator:
     @staticmethod
     def bind_to_categories(definitions):
         bmap        = doc.ParameterBindings
-        cat_set_all = EditecaSharedParamCreator.build_cat_set(EditecaSharedParamCreator.BICS_ALL)
-        cat_set_prv = EditecaSharedParamCreator.build_cat_set(EditecaSharedParamCreator.BICS_PROVEEDOR)
+        cat_set_all = PyNETSharedParamCreator.build_cat_set(PyNETSharedParamCreator.BICS_ALL)
+        cat_set_prv = PyNETSharedParamCreator.build_cat_set(PyNETSharedParamCreator.BICS_PROVEEDOR)
         ok = 0
 
-        for pset, name, type_key, is_type, dim in EditecaSharedParamCreator.PARAMS:
+        for pset, name, type_key, is_type, dim in PyNETSharedParamCreator.PARAMS:
             defn    = definitions[name]
             cat_set = cat_set_prv if name == "PyNET_5D_Proveedor" else cat_set_all
             binding = app.Create.NewTypeBinding(cat_set) if is_type else app.Create.NewInstanceBinding(cat_set)
-            pg      = EditecaSharedParamCreator.get_param_group(dim)
+            pg      = PyNETSharedParamCreator.get_param_group(dim)
             try:
                 if bmap.Contains(defn):
                     bmap.ReInsert(defn, binding, pg)
@@ -152,23 +152,26 @@ class EditecaSharedParamCreator:
 
     @staticmethod
     def Run():
-        spec_map = EditecaSharedParamCreator.get_spec_map()
+        user_shared_file = app.SharedParametersFilename   # restored in finally
+        spec_map = PyNETSharedParamCreator.get_spec_map()
 
-        def_file, sp_path = EditecaSharedParamCreator.create_shared_param_file()
+        def_file, sp_path = PyNETSharedParamCreator.create_shared_param_file()
         print(f"Fichero creado: {sp_path}")
 
-        definitions = EditecaSharedParamCreator.create_definitions(def_file, spec_map)
+        definitions = PyNETSharedParamCreator.create_definitions(def_file, spec_map)
         print(f"Parametros compartidos creados: {len(definitions)}")
 
-        t = Transaction(doc, "Editeca - Crear parametros de proyecto")
+        t = Transaction(doc, "PyNET - Crear parametros de proyecto")
         t.Start()
         try:
-            ok = EditecaSharedParamCreator.bind_to_categories(definitions)
+            ok = PyNETSharedParamCreator.bind_to_categories(definitions)
             t.Commit()
             print(f"Parametros de proyecto vinculados: {ok}/{len(definitions)}")
         except Exception as e:
             t.RollBack()
             raise
+        finally:
+            app.SharedParametersFilename = user_shared_file or ""
 
 
-EditecaSharedParamCreator.Run()
+PyNETSharedParamCreator.Run()

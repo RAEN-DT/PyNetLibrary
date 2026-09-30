@@ -17,6 +17,15 @@ error at startup. The client does not retry, so the tools stay absent for the re
 > **Do not conclude "the viewer/host is unavailable" and stop.** The viewer and the Autodesk host are
 > separate processes and are usually alive and fine. Work the ladder below first.
 
+> **Never work around missing tools by running the bridge yourself.** Do not launch `pynet-bridge` as
+> a separate stdio server, write your own JSON-RPC client, or import `pynet_mcp` from a script — the
+> fix is always to repair the client's connection so the real MCP tools come back. Full rule in
+> [bridge-install.md](bridge-install.md#rule-the-bridge-is-reached-only-through-the-clients-mcp-tools).
+
+It also covers the two Python environments in play (bridge vs host) and what to do when a
+whitelisted library is **missing inside the host** — a different failure from a dead bridge, and one
+that is fixed by installing the package, not by rewriting the script.
+
 Source of truth for the bridge itself: the **`PyNetBridge`** repo (`pynet_mcp/server.py`,
 `pyproject.toml`). See [docs/viewer-mcp.md](viewer-mcp.md) for the `viewer_*` tools once connected.
 
@@ -65,12 +74,33 @@ Fix: reinstall from the repo (step 6).
 only** — it was removed in `mcp` 2.0. If `pyproject.toml` leaves `mcp[cli]` unpinned, any reinstall
 can silently resolve to 2.x and break every subsequent launch.
 
-The dependency is pinned to `"mcp[cli]>=1.2,<2"`. If you find it unpinned again (e.g. after a merge),
-re-pin it before reinstalling — otherwise the fix does not survive the next install. Verify:
+Releases up to **1.5.4** declare `mcp[cli]` unpinned, so a fresh install of them resolves `mcp` 2.x
+and is broken out of the box. **1.5.5** pins `mcp[cli]>=1.2,<2`, but it is not yet published to the
+package index — so until it ships, always reinstall with `--with "mcp[cli]>=1.2,<2"` (step 6)
+regardless of which release you land on; it is harmless and covers older releases too. Verify:
 
 ```powershell
 & "$env:APPDATA\uv\tools\pynet-mcp-bridge\Scripts\python.exe" -c "import mcp.server.fastmcp; print('OK')"
 ```
+
+### 4b. `pynet-bridge was installed but its executable is not on PATH`
+
+Reported by the VS Code command **PyNET: Install / Repair MCP Bridge**. The install fell back to
+`pip`, which drops `pynet-bridge.exe` into the interpreter's `Scripts` folder (e.g.
+`%LOCALAPPDATA%\Python\pythoncore-3.14-64\Scripts`). That folder is usually **not** on PATH — with
+the Python Install Manager, PATH only holds the `WindowsApps` aliases, which resolve `python` but not
+pip-installed executables. It also means `uv` is missing (no `~\.local\bin`, no `%APPDATA%\uv\tools`).
+
+Do not add the pip `Scripts` folder to PATH — that creates the dual-install trap below. Move to uv:
+
+```powershell
+powershell -ExecutionPolicy ByPass -c "irm https://astral.sh/uv/install.ps1 | iex"   # adds ~\.local\bin to user PATH
+$env:Path = "$env:USERPROFILE\.local\bin;$env:Path"                                   # current shell only
+uv tool install pynet-mcp-bridge --force --with "mcp[cli]>=1.2,<2"
+python -m pip uninstall -y pynet-mcp-bridge                                           # drop the pip copy
+```
+
+Verify with step 2, then **fully restart VS Code** — a window reload does not pick up the new PATH.
 
 ### 5. The bridge runs fine but the tools are still absent
 
@@ -80,10 +110,15 @@ own. **Reload the VS Code window** (or restart the MCP connection), then confirm
 
 ### 6. Reinstall
 
+Follow [bridge-install.md](bridge-install.md) — uv only, never pip, with the `mcp<2` pin:
+
 ```powershell
 Get-Process pynet-bridge -ErrorAction SilentlyContinue | Stop-Process -Force -Confirm:$false
-uv tool install pynet-mcp-bridge --force   # or: python -m pip install --upgrade pynet-mcp-bridge
+uv tool install pynet-mcp-bridge --force --with "mcp[cli]>=1.2,<2"   # uv only — never pip (see "The dual-install trap")
 ```
+
+The `--with` pin is required while the published package leaves `mcp` unpinned (step 4) — without it
+the install resolves `mcp` 2.x and the bridge crashes on launch.
 
 Killing running processes first is required — they lock the `.exe` shim and the install fails or
 half-completes (which is how you get step 3). Then re-run step 2 to verify `exit=0`.
@@ -104,10 +139,82 @@ overwritten on every `uv tool install`.
 
 ---
 
+## Two Python environments — never pip-install into the wrong one
+
+| Interpreter | What runs there | Where |
+|---|---|---|
+| **The host's CPython 3.10** | every script sent with `send_command` / `send_command_by_path` | embedded in Navisworks / Revit / AutoCAD by pythonnet; ask the host for its `sys.prefix` |
+| **The bridge's uv environment** | only the MCP server (`pynet_mcp/server.py`) | `%APPDATA%\uv\tools\pynet-mcp-bridge` |
+| **QGIS's own Python** | standalone `04_QGIS` scripts, outside the bridge | installed from the OSGeo4W shell — see [qgis.md](qgis.md) |
+
+`pandas`, `openpyxl`, `matplotlib`, `numpy`, `shapely`, `ifcopenshell` … belong to the **host**
+interpreter. Installing them into the uv environment changes nothing for scripts.
+
+## A whitelisted library is missing in the host (`No module named 'pandas'`)
+
+Being on the security whitelist means the validator *lets the import through*, not that the package
+is installed. Missing packages are one of the most common script failures. **This is not a dead end
+and not a reason to rewrite the script without pandas — install it and re-run.**
+
+1. Ask the running host which interpreter it is (read-only, no confirmation needed):
+
+   ```python
+   import sys
+   ia_Result = [{"type": "env", "prefix": sys.prefix, "version": sys.version,
+                 "site": [p for p in sys.path if "site-packages" in p]}]
+   ```
+
+2. Install into **that** interpreter from PowerShell (the one genuine OS fallback, AGENTS.md §9):
+
+   ```powershell
+   & "<sys.prefix>\python.exe" -m pip install pandas
+   ```
+
+   If `<sys.prefix>` has no `python.exe` (embedded layout), target the site-packages folder reported
+   in step 1 instead: `py -3.10 -m pip install --target "<site-packages>" pandas`.
+
+3. Re-run the script. The host interpreter is persistent but `site-packages` is already on
+   `sys.path`, so a fresh `import` normally picks the package up with no restart. If it still fails,
+   restart the host.
+
+**Rules:**
+- Only install packages already on the whitelist ([security.md](security.md)) — the validator rejects
+  the import of anything else on the next send, so installing it is wasted work. If a script really
+  needs a new package, say so and let the user decide; widening the whitelist is a bridge change.
+- Installing is a write on the user's machine: tell the user what you are installing and why before
+  running pip.
+- If pip fails with a locked-file / permission error while *upgrading* a package the host already
+  loaded (typical with `numpy`), close the Autodesk host, install, reopen.
+
+---
+
+## The host is open but PyNET never loaded (no ribbon, no error)
+
+If `list_active_instances` does not show the host, or the PyNET tab is missing in it, the bridge may
+be fine and **the plugin never started**. The most treacherous cause: **another vendor's add-in
+breaks the host's start-up chain and every add-in queued after it — PyNET included — silently never
+starts**, with no dialog and nothing in PyNET's own log. Do not debug the PyNET build or the host
+version first. Follow [plugin-troubleshooting.md](plugin-troubleshooting.md):
+
+1. Add-ins Manager / `AddInsSettings.json` — PyNET enabled, third-party add-ins not disabled.
+2. `%APPDATA%\Raen\Pynet\error.log` — empty means PyNET's code never ran.
+3. The **main** journal `journal.NNNN.txt` (not `*.worker1.log`), read as a file, not pasted.
+4. Order of `Starting External Application` lines: the last third-party add-in that started is the
+   suspect; add-ins after it show `NoError, 0.000000` in the `[Jrn.AddInManifest]` summary.
+5. Disable the suspect, restart, confirm **all** the missing add-ins come back.
+
 ## Known incidents
 
 - **2026-08-04 — `mcp` 2.0.0 broke every launch.** A reinstall pulled unpinned `mcp` 2.0.0, which
   removed `mcp.server.fastmcp`; the bridge crashed on import and the client reported
   `-32000: Connection closed`. The failed install also left `site-packages` empty. Fixed by pinning
-  `mcp[cli]>=1.2,<2` in `PyNetBridge/pyproject.toml` and reinstalling with `uv tool install . --force`.
+  `mcp[cli]>=1.2,<2` locally and reinstalling with `uv tool install . --force`. The pin was never
+  released: as of 2026-09-28 a fresh `uv tool install pynet-mcp-bridge` still resolves `mcp` 2.2.0,
+  hence the `--with` pin in [bridge-install.md](bridge-install.md). Bridge 1.5.5 ships the pin and
+  drops the unused `fastmcp` dependency.
   The viewer's `pnt_server` was healthy throughout — the outage was entirely the bridge.
+- **2026-09-28 — `executable is not on PATH` after Install / Repair.** No `uv` on the machine, so the
+  bridge was pip-installed into Python 3.14, whose `Scripts` folder was not on PATH. Fixed by
+  installing uv and `uv tool install pynet-mcp-bridge --force`; the first attempt pulled `mcp` 2.x
+  again because the **published** `pynet-mcp-bridge` 1.5.4 is still unpinned, so it was reinstalled
+  with `--with "mcp[cli]>=1.2,<2"` and the pip copy was uninstalled (step 4b).

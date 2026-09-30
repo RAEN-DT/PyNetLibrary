@@ -18,7 +18,7 @@ from pathlib import Path
 from collections import defaultdict
 
 clr.AddReference("Autodesk.Navisworks.Api")
-from Autodesk.Navisworks.Api import Application
+from Autodesk.Navisworks.Api import Application, UnitConversion, Units
 
 clr.AddReference("Autodesk.Navisworks.Clash")
 from Autodesk.Navisworks.Api.Clash import DocumentClash
@@ -33,8 +33,12 @@ from System.Windows.Forms import (
 )
 from System.Drawing import Point, Size, Color, Icon
 
-bundlePath = (Path.home() / "AppData" / "Roaming" / "Autodesk" / "ApplicationPlugins" / "RAEN.Navisworks.PyNET.bundle" / "Contents" / "2024")
-NavisworksIconPath = (Path.home() / "AppData" / "Roaming" / "Autodesk" / "ApplicationPlugins" / "Raen.Navisworks.Pynet.bundle" / "manage.ico")
+# PyNET bundle folder of the RUNNING Navisworks (right year, never hardcoded): the folder
+# of the engine assembly executing this script. See docs/navisworks.md "CastUtils".
+from System import AppDomain
+bundlePath = Path(next(a for a in AppDomain.CurrentDomain.GetAssemblies()
+               if a.GetName().Name == "Raen.Core.Pynet.Engine").Location).parent
+NavisworksIconPath = bundlePath.parent.parent / "manage.ico"   # <bundle>/manage.ico
 sys.path.append(str(bundlePath))
 clr.AddReference("Raen.Core.Pynet.Resources")
 from Raen.Core.Pynet.Resources import CastUtils #type:ignore
@@ -122,6 +126,8 @@ class ClashExtractor:
 
         testsData.TestsRunAllTests()
 
+        # result.Distance is in DOCUMENT units (feet only if the model is in feet) -> metres
+        to_m = UnitConversion.ScaleFactor(document.Models.First.Units, Units.Meters)
         allClashes = []
         testsSummary = []
 
@@ -149,7 +155,7 @@ class ClashExtractor:
                 allClashes.append({
                     "Test": testName, "Discipline": discipline,
                     "Clash": result.DisplayName, "Status": str(result.Status),
-                    "Distance (m)": round(result.Distance, 4) if result.Distance else 0,
+                    "Distance (m)": round(result.Distance * to_m, 4) if result.Distance else 0,
                     "X": round(point.X, 3) if point else None,
                     "Y": round(point.Y, 3) if point else None,
                     "Z": round(point.Z, 3) if point else None,

@@ -38,4 +38,4 @@ The Navisworks plugin has a visible Output Window showing every `print()` in rea
 
 - `configure_output_window(pid, is_available=True/False)` — toggle visibility, useful for debugging.
 
-See `CLAUDE.md` for the `print` vs `ia_Result` policy (quiet prints during development, informative prints in saved scripts).
+See `AGENTS.md` for the `print` vs `ia_Result` policy (quiet prints during development, informative prints in saved scripts).

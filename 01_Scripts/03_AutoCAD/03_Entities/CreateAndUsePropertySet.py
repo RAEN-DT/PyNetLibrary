@@ -12,6 +12,7 @@ clr.AddReference("AecPropDataMgd")
 from Autodesk.AutoCAD.ApplicationServices import Application as AcadApp
 from Autodesk.AutoCAD.DatabaseServices import OpenMode, DBDictionary, BlockTable, BlockTableRecord
 from Autodesk.Aec.PropertyData.DatabaseServices import (
+    DictionaryPropertySetDefinitions,
     PropertySetDefinition,
     PropertyDefinition,
     PropertyDataServices,
@@ -45,6 +46,7 @@ lock = doc.LockDocument()
 try:
     t = db.TransactionManager.StartTransaction()
     try:
+        DictionaryPropertySetDefinitions(db)   # creates AEC_PROPERTY_SET_DEFS if this drawing never had PSets
         nod = t.GetObject(db.NamedObjectsDictionaryId, OpenMode.ForRead)
         pset_dict = t.GetObject(nod[NOD_PSET_KEY], OpenMode.ForWrite)
 

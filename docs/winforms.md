@@ -11,15 +11,18 @@ Related: [revit.md](revit.md) · [autocad-civil.md](autocad-civil.md)
 
 ## Core rules (all hosts)
 
-### Import order — critical
+### Explicit imports — never `import *`
 
-`System.Windows.Forms` has its own `TaskDialog` (.NET 6+). If `from System.Windows.Forms import *` runs **after** the Revit UI import, the WinForms `TaskDialog` silently overwrites the Revit one. **Always import WinForms before Revit UI:**
+`System.Windows.Forms` has its own `TaskDialog` (.NET 6+). A `from System.Windows.Forms import *`
+silently shadows (or is shadowed by) the Revit `TaskDialog`, depending on import order. Import each
+type by name and the collision cannot happen:
 
 ```python
-from Autodesk.Revit.DB import *
-from System.Windows.Forms import *      # WinForms first
-from System.Drawing import *
-from Autodesk.Revit.UI import TaskDialog, TaskDialogCommonButtons, TaskDialogIcon  # Revit UI last — wins
+clr.AddReference("System.Windows.Forms")
+clr.AddReference("System.Drawing")
+from System.Windows.Forms import Application, Button, DialogResult, Form, Label
+from System.Drawing import Point, Size
+from Autodesk.Revit.UI import TaskDialog, TaskDialogCommonButtons, TaskDialogIcon
 ```
 
 ### super().__init__() is mandatory
@@ -45,11 +48,10 @@ except Exception:
 # Never call Application.SetCompatibleTextRenderingDefault() — always throws in the host
 ```
 
-### No host API calls inside form event handlers
+### Host API work and form event handlers
 
-Scripts run inside `IExternalEventHandler.Execute()` (Revit) / a command context (AutoCAD). When `form.ShowDialog()` starts the WinForms message loop, the host context is ambiguous. **Any host API call inside a button click handler will fail or crash.**
-
-**Pattern: form is UI-only; all API work happens after `ShowDialog()` returns.**
+**Preferred pattern — the form is UI-only; the API work runs after `ShowDialog()` returns.** It is the
+simplest to reason about and keeps the handler free of long work:
 
 ```python
 class MyForm(Form):
@@ -60,22 +62,26 @@ class MyForm(Form):
 
     def OnExecute(self, sender, args):
         self.confirmed = True
-        self.Close()   # just close — no API calls here
-
-    def OnCancel(self, sender, args):
-        self.Close()
+        self.Close()   # just close
 
 form = MyForm()
 form.ShowDialog()
-
 if form.confirmed:
-    # All host API work here — still inside ExternalEventHandler.Execute()
-    ...
+    ...            # host API work here
 ```
 
-### No Application.DoEvents()
+**API calls inside a handler of a MODAL form (`ShowDialog()`) do work.** The validated production
+workflows (Revit sync / NWC export / transfer data / keynotes; Navisworks batch export) open,
+transact, synchronise and export from the button handler. The script is still inside the host's
+execution context while the modal dialog runs. What breaks is a **modeless** form (`Show()`): once
+the script returns, its handlers run outside that context — never call the API from a modeless form.
 
-`Application.DoEvents()` inside an ExternalEventHandler causes re-entrancy and crashes. Never use it.
+### `Application.DoEvents()` — only to repaint a status window
+
+`DoEvents()` pumps pending messages so a label or progress bar repaints during synchronous work
+(Navisworks `ProgressWindow` in the IFC exporter, `BatchClashExport` status label). Use it for that
+only: never inside a Revit `IExternalEventHandler` loop that could re-enter the handler, and disable
+the button that started the work first so a second click cannot re-trigger it.
 
 ---
 
@@ -98,9 +104,6 @@ dlg.MainInstruction = "Done!"
 Full working pattern:
 
 ```python
-from Autodesk.Revit.DB import *
-from System.Windows.Forms import *
-from System.Drawing import *
 from Autodesk.Revit.UI import TaskDialog, TaskDialogCommonButtons, TaskDialogIcon
 
 dlg = TaskDialog("PyNET")
@@ -116,52 +119,80 @@ dlg.Show()
 
 ## AutoCAD / Civil 3D specifics
 
-The same core rules apply. For opening and saving external DWG files from a form, see the two validated patterns (Background / UI) in [autocad-civil.md](autocad-civil.md).
+The same core rules apply. For opening and saving external DWG files from a form, see the two validated patterns (Background / UI) in [autocad-external-dwg.md](autocad-external-dwg.md).
 
 ---
 
-## Navisworks form icon — standard path
+## Form icon — from the running PyNET bundle (all hosts)
 
-Forms shown in Navisworks should carry the PyNET bundle icon. The **standard location** is the
-bundle root (no longer `Contents/2024/Images/`):
+Each bundle ships its icon at the **bundle root**, next to a common `Pynet.ico`:
+
+| Host | Icon |
+|---|---|
+| Navisworks | `manage.ico` |
+| Revit | `Revit.ico` |
+| AutoCAD / Civil 3D | `C3D.ico` |
+
+Never hardcode `…/ApplicationPlugins/Raen.<Host>.Pynet.bundle/…`: derive the bundle root from the
+engine assembly that is executing the script (it lives in `<bundle>/Contents/<year>/`), so the path
+is right for any year, any install location and any folder-name casing:
 
 ```python
+from pathlib import Path
+from System import AppDomain
 from System.Drawing import Icon
 
-NavisworksIconPath = (Path.home() / "AppData" / "Roaming" / "Autodesk"
-                      / "ApplicationPlugins" / "Raen.Navisworks.Pynet.bundle" / "manage.ico")
+PYNET_BIN = Path(next(a for a in AppDomain.CurrentDomain.GetAssemblies()
+                      if a.GetName().Name == "Raen.Core.Pynet.Engine").Location).parent
+PYNET_BUNDLE = PYNET_BIN.parent.parent
+FORM_ICON = PYNET_BUNDLE / "Revit.ico"          # manage.ico | Revit.ico | C3D.ico
 
 class MyForm(Form):
     def __init__(self):
         super().__init__()
-        if Path(str(NavisworksIconPath)).exists():   # guard — never crash if missing
-            self.Icon = Icon(str(NavisworksIconPath))
+        if FORM_ICON.exists():                   # guard — never crash if missing
+            self.Icon = Icon(str(FORM_ICON))
 ```
-
-Always guard with `.exists()` so a missing icon degrades gracefully instead of throwing. Note the
-bundle folder name casing is `Raen.Navisworks.Pynet.bundle`.
 
 ---
 
-## AutoCAD / Civil 3D form icon — standard path
+## Standard PyNET form (the template the workflows share)
 
-Same principle as Navisworks. The Civil 3D bundle ships its own icon (`C3D.ico`) at the bundle root:
+Eleven workflow forms (Navisworks and Revit) follow the same skeleton — copy it instead of
+starting from a blank `Form`:
+
+| Method | Role |
+|---|---|
+| `ConfigureForm()` | title, icon (running bundle), size **clamped to the screen**, state fields |
+| `GenerateFormLabels()` / `GenerateFormGroups()` | labels and `GroupBox` frames |
+| `GenerateFormSelectionList(data)` | a `DataGridView` (several columns) or `ListBox` (names) |
+| `GenerateTextBox()` → `ApplyFilter` | live name filter (hide rows / rebuild the `DataSource`) |
+| `GenerateFormButtons()` | Browse / Cancel / Run, anchored bottom-right |
+| `Include` | keeps the current selection on `SelectionChanged` |
+| `InputData.ReadJson/CreateJson` | remembers the last Excel path between runs |
+| `TaskdialogResults` / `DialogManager` | "finished" / "cancelled" messages |
+
+**Fit the screen** (low-resolution or scaled laptops pushed the buttons off-screen):
 
 ```python
-from System.Drawing import Icon
-
-Civil3DIconPath = (Path.home() / "AppData" / "Roaming" / "Autodesk"
-                   / "ApplicationPlugins" / "Raen.Civil3D.Pynet.bundle" / "C3D.ico")
-
-class MyForm(Form):
-    def __init__(self):
-        super().__init__()
-        # ... Text, Size, StartPosition, etc.
-        if Path(str(Civil3DIconPath)).exists():   # guard — never crash if missing
-            self.Icon = Icon(str(Civil3DIconPath))
+area = Screen.PrimaryScreen.WorkingArea
+self.Width = min(600, area.Width - 40)
+self.Height = min(650, area.Height - 40)
+self.AutoScroll = True
+self.buttonRowY = self.ClientSize.Height - 32 - 20   # place buttons from the REAL client height
 ```
 
-The four reference forms below all apply this icon. Bundle folder casing: `Raen.Civil3D.Pynet.bundle`.
+A `TableLayoutPanel` with percent columns is the alternative when the layout must stretch
+(`TransferData.py`).
+
+**Where to remember settings:** one JSON per tool under the user's add-ins/support folder
+(`Path(app.CurrentUserAddinsLocation) / "PyNET" / "Support"` in Revit). Do not write inside the
+plugin bundle — a plugin update replaces it.
+
+**Progress for long work:** a non-modal status form (`Form.Show()`), updated with `DoEvents()` after
+each step, with a Cancel button that only sets a flag checked **between** steps
+(`NavisworksToPNT.py`). A `Marquee` progress bar does not animate while the script runs
+synchronously — use a `Continuous` bar advanced on every update.
 
 ---
 

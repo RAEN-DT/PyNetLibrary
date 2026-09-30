@@ -54,7 +54,7 @@ class StructuralColumnCreateScript:
                 col_symbol.Activate()
             column = doc.Create.NewFamilyInstance(
                 insertion_point, col_symbol, base_level, StructuralType.Column)
-            column.LookupParameter("Top Level").Set(top_level.Id)
+            column.get_Parameter(BuiltInParameter.FAMILY_TOP_LEVEL_PARAM).Set(top_level.Id)   # "Top Level", any UI language
             t.Commit()
         except:
             t.RollBack()

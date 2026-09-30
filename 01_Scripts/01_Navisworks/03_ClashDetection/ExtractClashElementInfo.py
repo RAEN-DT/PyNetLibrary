@@ -14,7 +14,11 @@ from Autodesk.Navisworks.Api.Clash import DocumentClash
 clr.AddReference("System.Windows.Forms")
 from System.Windows.Forms import MessageBox, MessageBoxButtons, MessageBoxIcon
 
-bundlePath = (Path.home() / "AppData" / "Roaming" / "Autodesk" / "ApplicationPlugins" / "RAEN.Navisworks.PyNET.bundle" / "Contents" / "2024")
+# PyNET bundle folder of the RUNNING Navisworks (right year, never hardcoded): the folder
+# of the engine assembly executing this script. See docs/navisworks.md "CastUtils".
+from System import AppDomain
+bundlePath = Path(next(a for a in AppDomain.CurrentDomain.GetAssemblies()
+               if a.GetName().Name == "Raen.Core.Pynet.Engine").Location).parent
 sys.path.append(str(bundlePath))
 
 clr.AddReference("Raen.Core.Pynet.Resources")
@@ -27,7 +31,7 @@ doc = Application.ActiveDocument
 
 
 sys.path.append(str(Path.home() / "AppData" / "Roaming" / "Pynet" / "Library" / "01_Scripts" / "00_utils"))
-from pynet_clash import get_clash_tests
+from pynet_clash import get_clash_tests, iter_results   # iter_results enters ClashResultGroups
 
 
 class ElementInfoExtractor:
@@ -71,7 +75,7 @@ class ClashInfoManager:
         results = []
         clash_index = 1
         for test in get_clash_tests(clashDoc):
-            for r in test.Children:
+            for r in iter_results(test):
                 try:
                     depth = round(r.Distance * 304.8, 1)
                 except:

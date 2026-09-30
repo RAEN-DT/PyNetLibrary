@@ -1,7 +1,5 @@
 # Skill: QCModelAudit
 
-Start the conversation in english. If the user request to change you can use the user language.
-
 Quality Control audit workflow for Revit models on the PyNET platform. Reads a configuration Excel, checks the model against BEP standards, and generates an HTML + Excel report with score and grade.
 
 > **Read first:** [RevitApiPatterns.md](RevitApiPatterns.md) — all element/type querying patterns used here (collector queries, ElementId, area BIPs) follow those rules.
@@ -11,8 +9,7 @@ Quality Control audit workflow for Revit models on the PyNET platform. Reads a c
 - **Host:** Revit only (uses `__revit__` global)
 - **Config Excel:** defined by the user — path hardcoded in `EXCEL_PATH`. Contains all rules.
 - **Output:** timestamped HTML and Excel in the same folder as the config Excel.
-- **Guard required:** always include the `_available_namespaces` guard before `import openpyxl` (or rely on plugin v1.4.8+ which sets the guard in C# before any script executes).
-- **Coordinate units:** Excel stores E/O, N/S, Elevation in **tenths of mm** (0.1 mm). Divide by 10 before comparing with Revit values (in mm via `ft * 304.8`).
+- **Coordinate units:** Excel stores E/O, N/S, Elevation in **tenths of mm** (0.1 mm). Divide by 10 before comparing with Revit values (converted to mm with `UnitUtils`).
 
 ---
 
@@ -79,7 +76,7 @@ If not provided, check `AI_History` for a recent run and reuse the path. The Exc
 
 **Do NOT skip this step.** Open the Excel file and verify:
 - All 8 required sheets exist: `Fichero`, `Modelo`, `Coordenadas`, `Disciplinas`, `Clasificaciones`, `Matriz`, `Planos`, `Proyecto`
-- Each sheet contains at least the key columns listed above (see "Validate Excel format" section)
+- Each sheet contains at least the key columns in the "Excel structure" table above
 - No missing rows or malformed structure
 
 If the Excel is incomplete or corrupt, the audit will fail or produce meaningless results. Ask the user to fix the Excel before proceeding.
@@ -92,7 +89,7 @@ Use the production script directly by path. Update only the `EXCEL_PATH` variabl
 send_command_by_path(
     pid=<pid>,
     script_name="QC_ModelAudit",
-    file_path=r"C:\Users\34655\source\repos\GithubRNM\PyNetLibrary\01_Scripts\02_Revit\25_QAQC\ModelAudit.py",
+    file_path=r"<repo>\01_Scripts\02_Revit\25_QAQC\ModelAudit.py",
     timeout=120
 )
 ```
@@ -125,11 +122,6 @@ def eid_val(eid):
     except: return int(eid.IntegerValue)  # older versions
 ```
 
-### No `import System`
-When using the `_available_namespaces` guard, do not import `System`. Substitutions:
-- `Environment.GetFolderPath` → use the Excel folder as output dir
-- `Enum.Parse(BuiltInCategory, ...)` → use a `BIC_MAP` dict literal
-
 ### grouped_tbl — Check column
 In Parametros / Nomenclatura sections, the table shows a **Parametro** column extracted from `r['Check'].split('/')[-1]`. The full Check field format is `CategoryName/ParameterName` and `CategoryName/Resumen`.
 
@@ -142,23 +134,6 @@ In Parametros / Nomenclatura sections, the table shows a **Parametro** column ex
 - **Always execute via `send_command_by_path`** pointing to this path — never copy the content inline.
 - Only change before running: update `EXCEL_PATH` inside the file to point to the correct QC config Excel for the project.
 - The script auto-derives `OUTPUT_DIR` from the Excel path.
-
-### Before running: Validate Excel format
-
-**CRITICAL:** Before executing, verify the config Excel has the correct structure:
-
-| Sheet | Required | Columns |
-|---|---|---|
-| `Fichero` | ✓ | `Tamanio_Max_MB`, `Version_Min_Revit` |
-| `Modelo` | ✓ | `Max_Advertencias`, `Parametros_Compartidos` |
-| `Coordenadas` | ✓ | `Tolerancia_PBP_Survey_mm`, `E/O`, `N/S`, `Elevacion` (tenths mm), `Angulo Norte real` |
-| `Disciplinas` | ✓ | Group code → discipline code (ARQ, EST, MEP, etc.) |
-| `Clasificaciones` | ✓ | BIC_STR, Group, category_name, classification_code pairs |
-| `Matriz` | ✓ | BIC_STR, Group, Category, then param columns flagged `T` (type) or `E` (instance) |
-| `Planos` | ✓ | Sheet param names, obligation flag (True/False), expected values |
-| `Proyecto` | ✓ | ProjectInformation param names, obligation flag, expected values |
-
-**If any sheet is missing or malformed, the script will fail or produce incomplete results.**
 
 ### BIC_MAP (36 categories — do not modify)
 ```python
@@ -191,26 +166,6 @@ All improvements go directly on `ModelAudit.py`. Workflow:
 1. Edit the file with the improvement
 2. Re-run via `send_command_by_path` to validate
 3. Repeat — no versioned copies, no inline content
-
----
-
-## Excel validation checklist
-
-Before launching QC audit, use this checklist to verify the config Excel:
-
-- [ ] File exists and is readable
-- [ ] Sheet `Fichero` exists with `Tamanio_Max_MB` and `Version_Min_Revit` 
-- [ ] Sheet `Modelo` exists with `Max_Advertencias` and `Parametros_Compartidos`
-- [ ] Sheet `Coordenadas` exists with tolerance and BEP coords (in tenths of mm)
-- [ ] Sheet `Disciplinas` exists with Group codes (ARQ, EST, MEP, GEN, etc.)
-- [ ] Sheet `Clasificaciones` exists with BIC_STR, Group, category_name, code pairs
-- [ ] Sheet `Matriz` exists with BIC_STR, Group, Category, and param columns (T/E flags)
-- [ ] Sheet `Planos` exists with sheet param names and obligation flags
-- [ ] Sheet `Proyecto` exists with ProjectInformation param names and flags
-- [ ] No broken formulas or blank key columns
-- [ ] All numeric values in correct format (no text in number fields)
-
-**If any check fails:** ask the user to fix the Excel before running the audit.
 
 ---
 
@@ -264,14 +219,12 @@ for el in FilteredElementCollector(doc).OfCategory(bic).WhereElementIsElementTyp
 
 | Symptom | Cause | Fix |
 |---|---|---|
-| Script fails immediately | Missing or malformed Excel sheet | Validate Excel format (see checklist above) |
+| Script fails immediately | Missing or malformed Excel sheet | Validate the Excel against the "Excel structure" table |
 | Score unrealistically high/low | Wrong Excel config for the model | Verify Excel has correct BEP values and rules |
 | Parametros section empty | Matriz sheet missing BIC entries | Check Matriz sheet contains category rows |
 | Nomenclatura shows no errors | Disciplinas/Clasificaciones incomplete | Verify both sheets have required code mappings |
 | `NullReferenceException` in `WriteError` | `_actionResult` null before GIL block | Fixed in plugin — update to latest build |
-| `_available_namespaces` crash on openpyxl | AcWebServices.dll init failure | Add guard or update plugin |
 | Coordinate comparison always ERROR | Excel stores tenths of mm, not mm | Divide Excel value by 10 |
-| `System` import fails with guard | Empty namespace dict blocks .NET hook | Don't import System; use BIC_MAP and Excel path for output |
 | Rename script misses some types | Used `OfClass(X)` instead of `OfCategory(bic).WhereElementIsElementType()` | Always use the category-based query to match auditor coverage |
 
 ---

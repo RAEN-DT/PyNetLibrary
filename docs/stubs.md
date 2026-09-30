@@ -33,7 +33,7 @@ imports, so a missing subtree cannot break another one; Pylance simply offers no
 ## Looking up a class — do this, not a blind grep
 
 A single namespace file can be 25k lines, so never `Read` one whole and never grep the corpus to
-find *where* something is. `_index/CLASSES.tsv` (942 KB, 8,788 classes) makes them addressable:
+find *where* something is. `_index/CLASSES.tsv` (~950 KB, ~8,900 classes) makes them addressable:
 
 ```
 class      namespace             file                            start   end   base        members
@@ -45,7 +45,8 @@ Wall       Autodesk.Revit.DB     Autodesk/Revit/DB/__init__.py   25358   25421 H
 1. `Grep` the index for the class name → gives the namespace (so you know the import line), the
    file, and the exact line range.
 2. `Read` that file with `offset=start`, `limit=end-start` → you get the class and nothing else.
-   The median class is 16 lines; the 90th percentile is 142.
+   The median class is 12 lines; the 90th percentile is 86. A few enums run to thousands of
+   lines — check `end-start` before reading and `Grep` inside the range when it is large.
 
 **163 class names exist in more than one namespace** (`Application` is in six, `Entity` in five).
 Always match on the `namespace` column — never assume the first hit is the right one.

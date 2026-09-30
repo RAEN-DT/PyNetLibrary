@@ -10,7 +10,7 @@ clr.AddReference('System.Drawing')
 from Autodesk.Revit.DB import ElementId
 from System.Windows.Forms import (Form, Label, TextBox, Button, DialogResult,
                                    MessageBox, MessageBoxButtons, MessageBoxIcon,
-                                   FormStartPosition, BorderStyle)
+                                   FormStartPosition, FormBorderStyle)
 from System.Drawing import Size, Point, Font, FontStyle
 from System.Collections.Generic import List
 
@@ -27,10 +27,11 @@ def get_element_id(raw_id):
 
 class GetByIdForm(Form):
     def __init__(self):
+        super().__init__()   # mandatory for .NET subclasses (winforms.md)
         self.Text = "Get Element by ID"
         self.Size = Size(320, 150)
         self.StartPosition = FormStartPosition.CenterScreen
-        self.FormBorderStyle = BorderStyle.FixedDialog
+        self.FormBorderStyle = FormBorderStyle.FixedDialog
         self.MaximizeBox = False
 
         lbl = Label()

@@ -61,7 +61,7 @@ def GenerateWalls(document, arrays, wallTypeId, levels):
                 wall = Wall.Create(document, curve, wallTypeId, level.Id, 1, 0, False, False)
                 if levels.index(level) + 1 < len(levels):
                     topLevel = levels[levels.index(level) + 1]
-                    wall.LookupParameter("Top Constraint").Set(topLevel.Id)
+                    wall.get_Parameter(BuiltInParameter.WALL_HEIGHT_TYPE).Set(topLevel.Id)   # "Top Constraint", any UI language
                 walls.append(wall)
         except:
             pass

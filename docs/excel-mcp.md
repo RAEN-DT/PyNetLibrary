@@ -55,17 +55,3 @@ for sheet in xl.sheet_names:
 
 ia_Result = result
 ```
-
----
-
-## Known issue: `module 'clr' has no attribute '_available_namespaces'`
-
-The host has a corrupted Python.NET state from startup. **Not fixable at script level** — do not attempt workarounds (fake numpy injection, sys.meta_path manipulation, etc.). Only fix is restarting the host.
-
-**Decision flow:**
-1. Send the script above.
-2. Success → done.
-3. Fails with `_available_namespaces` → tell the user the session needs a restart (happens once per bad startup), ask them to reopen the host.
-4. After restart, send the exact same script — it works.
-
-> Never use Bash/PowerShell to read Excel. Never try openpyxl alone if the runtime is already broken (it also imports numpy). Never patch `sys.modules` / `sys.meta_path`. Just the scripts above, and if broken — restart.

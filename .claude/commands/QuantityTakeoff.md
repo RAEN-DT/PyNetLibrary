@@ -9,9 +9,9 @@
 ## Context
 
 - **Host:** Revit only (uses `__revit__` global)
-- **Parameters in model:** `{PREFIX}_5D_CodigoRecurso`, `{PREFIX}_5D_CapituloPresupuesto`, `{PREFIX}_5D_CosteUnitario`, `{PREFIX}_5D_Proveedor` — bound to all main architectural and MEP categories
+- **Parameters in model:** `{PREFIX}5D_CodigoRecurso`, `{PREFIX}5D_CapituloPresupuesto`, `{PREFIX}5D_CosteUnitario`, `{PREFIX}5D_Proveedor` (`PREFIX` includes its trailing `_`, e.g. `PyNET_`) — bound to all main architectural and MEP categories
 
-  > ⚠️ **The prefix is project-specific — always ask the user for it before running.** It is defined in the project's MIDP (Master Information Delivery Plan). Examples seen: `PyNET_` (default platform prefix), `Test_` (dev/testing). Never hardcode a prefix — the user will provide it at the start of each session.
+  > ⚠️ **The prefix is project-specific — always ask the user for it before running.** It is defined in the project's MIDP (Master Information Delivery Plan). Examples seen: `PyNET_` (default platform prefix), `Test_` (dev/testing). Never assume a prefix — the user provides it at the start of each session. The production script reads the parameter name from the `PARAM_RECURSO` constant at its top (currently `"PyNET_5D_CodigoRecurso"`) — set it from the prefix before running.
 - **Reference Excel:** `5D_Recursos_Referencia.xlsx` on the user's Desktop
 - **Production script:** `01_Scripts/02_Revit/26_5D/QuantityTakeoff.py` — always run via `send_command_by_path`
 - **Output:** Desktop `5D_Presupuesto_<YYYYMMDD_HHMMSS>.xlsx` + `.html` — both opened automatically
@@ -32,7 +32,9 @@ File: `5D_Recursos_Referencia.xlsx` (Desktop)
 | `RevitCategoria` | Revit category name in Spanish (e.g. `Muros`) |
 | `RevitTipoFamilia` | **Exact** Revit type name — must match `type_el.Name` character-for-character |
 
-Matching key: `(RevitCategoria, RevitTipoFamilia)` → resource definition.
+Two lookups, two moments:
+- **Budget run** (production script): the type's `{PREFIX}5D_CodigoRecurso` value → resource row by `CodigoRecurso` (columns A:E).
+- **Phase 1 — filling the codes** (below): `(RevitCategoria, RevitTipoFamilia)` → `CodigoRecurso` (columns F:G), because the types have no code yet.
 
 ### Standard chapters and colors
 
@@ -67,16 +69,16 @@ Matching key: `(RevitCategoria, RevitTipoFamilia)` → resource definition.
 
 | Category | Unit | ParameterTypeId | Legacy BuiltInParameter | Conversion |
 |---|---|---|---|---|
-| Muros | ml | `ParameterTypeId.CurveElemLength` | `CURVE_ELEM_LENGTH` | ft × 0.3048 |
-| Suelos | m² | `ParameterTypeId.HostAreaComputed` | `HOST_AREA_COMPUTED` | ft² × 0.0929 |
-| Techos | m² | `ParameterTypeId.HostAreaComputed` | `HOST_AREA_COMPUTED` | ft² × 0.0929 |
-| Cubiertas | m² | `ParameterTypeId.HostAreaComputed` | `HOST_AREA_COMPUTED` | ft² × 0.0929 |
+| Muros | ml | `ParameterTypeId.CurveElemLength` | `CURVE_ELEM_LENGTH` | `UnitTypeId.Meters` |
+| Suelos | m² | `ParameterTypeId.HostAreaComputed` | `HOST_AREA_COMPUTED` | `UnitTypeId.SquareMeters` |
+| Techos | m² | `ParameterTypeId.HostAreaComputed` | `HOST_AREA_COMPUTED` | `UnitTypeId.SquareMeters` |
+| Cubiertas | m² | `ParameterTypeId.HostAreaComputed` | `HOST_AREA_COMPUTED` | `UnitTypeId.SquareMeters` |
 | Puertas | ud | — | count = 1 per instance |
 | Ventanas | ud | — | count = 1 per instance |
 | Luminarias | ud | — | count = 1 per instance |
 | Aparatos sanitarios | ud | — | count = 1 per instance |
 
-Area/length parameters live on **instances**, not types. Always query instances for quantities.
+Area/length parameters live on **instances**, not types. Always query instances for quantities. Convert with `UnitUtils.ConvertFromInternalUnits(value, UnitTypeId.X)` — never a hardcoded factor (RevitApiPatterns).
 
 ---
 
@@ -95,7 +97,7 @@ Default path: Desktop `5D_Recursos_Referencia.xlsx`. If it doesn't exist, create
 send_command_by_path(
     pid=<pid>,
     script_name="QuantityTakeoff",
-    file_path=r"C:\Users\34655\source\repos\GithubRNM\PyNetLibrary\01_Scripts\02_Revit\26_5D\QuantityTakeoff.py",
+    file_path=r"<repo>\01_Scripts\02_Revit\26_5D\QuantityTakeoff.py",
     timeout=120
 )
 ```
@@ -155,9 +157,8 @@ The donut uses multi-segment SVG (one `<circle>` per chapter with cumulative `st
 
 ```python
 import pandas as pd
+from Autodesk.Revit.DB import UnitUtils, UnitTypeId
 
-FT2_TO_M2 = 0.0929
-FT_TO_M   = 0.3048
 AREA_CATS   = {"Suelos", "Techos", "Cubiertas"}
 LENGTH_CATS = {"Muros"}
 
@@ -192,10 +193,10 @@ for cat_name, bic in BIC_MAP.items():
 
         if cat_name in LENGTH_CATS:
             p = el.GetParameter(ParameterTypeId.CurveElemLength)
-            qty = round(p.AsDouble() * FT_TO_M, 2) if p and p.HasValue else 0.0
+            qty = round(UnitUtils.ConvertFromInternalUnits(p.AsDouble(), UnitTypeId.Meters), 2) if p and p.HasValue else 0.0
         elif cat_name in AREA_CATS:
             p = el.GetParameter(ParameterTypeId.HostAreaComputed)
-            qty = round(p.AsDouble() * FT2_TO_M2, 2) if p and p.HasValue else 0.0
+            qty = round(UnitUtils.ConvertFromInternalUnits(p.AsDouble(), UnitTypeId.SquareMeters), 2) if p and p.HasValue else 0.0
         else:
             qty = 1.0
 
@@ -277,7 +278,6 @@ for param_name, key, as_float in [
 | `Permission denied` on Excel | File open in Excel | Ask user to close it |
 | Area returns 0 | `WALL_ATTR_AREA_PARAM` doesn't exist | Use `HOST_AREA_COMPUTED` for area, `CURVE_ELEM_LENGTH` for length |
 | `AttributeError: IntegerValue` | Revit 2024+ | Use `el.Id.Value` (Int64) |
-| `openpyxl`/`pandas` import fails | `_available_namespaces` session error (numpy-backed libs) | Retry once; if persists, restart Revit |
 | Type map empty (0 types) | Used `WhereElementIsNotElementType()` | Switch to `WhereElementIsElementType()` |
 
 ---

@@ -9,8 +9,8 @@ itself is built; this file is about **operating an already-loaded package** — 
 highlighting clashes, reading properties.
 
 Source of truth for the tool signatures: `pynet_mcp/server.py` in the **`PyNetBridge`** repo
-(installed via `uv tool` — see the "dual install" gotcha below; do not edit the copy under
-`AppData\Roaming\uv\tools\...\site-packages`, it gets overwritten on every `uv tool install`).
+(installed via `uv tool` — see [bridge-troubleshooting.md](bridge-troubleshooting.md); never edit
+the copy under `AppData\Roaming\uv\tools\...\site-packages`).
 Source of truth for viewer behaviour: `viewer/src/main.ts` in the **PyNetVSCode** repo.
 
 > If the `viewer_*` tools are **missing from the session** or a call returns
@@ -27,7 +27,7 @@ Source of truth for viewer behaviour: `viewer/src/main.ts` in the **PyNetVSCode*
 | `viewer_status` | Reports whether a viewer is open (port, package, dataDir). | Call first — everything else needs a running viewer. |
 | `viewer_load_package(pnt_path)` | Loads a `.pnt` into the open viewer. | Returns a summary read from `clashes.json`. |
 | `viewer_get_state` | Reads the viewer's last reported state: `{"models": [...], "selected": <pnt_id or null>}`. | `selected` is whatever currently has the "select" highlight — a click in the 3D view, the tree panel, or the last `viewer_select` call. `null` if nothing is selected. |
-| `viewer_list_clashes` | Reads the loaded package's `clashes.json` (the data source, not live IFC). | **Can be huge** — this Snowdon Towers model returns ~3.7k clash rows (~960 KB). Prefer filtering client-side (see "Filtering clashes" below) over dumping the whole list into a response. |
+| `viewer_list_clashes` | Reads the loaded package's `clashes.json` (the data source, not live IFC). | **Can be huge** — a federated model can return thousands of clash rows (~1 MB). Prefer filtering client-side (see "Filtering clashes" below) over dumping the whole list into a response. |
 | `viewer_get_properties(pnt_ids?, model?, search?, limit?, offset?)` | Reads element properties from `properties.json`. | Pass `pnt_ids` for full properties (psets included). With no `pnt_ids`, returns a **paginated** lightweight index (`pnt_id`, `name`, `model`) — narrow with `model` (exact discipline name) and/or `search` (substring of the name), page with `limit`/`offset` (default 200, capped at 500). |
 | `viewer_select(pnt_ids, pnt_ids_b?)` | Highlights one or two groups of elements by pnt_id, **neutral colours** (yellow `select` / blue `select-b`), nothing hidden. | Distinct channel from clash highlighting — does not isolate, does not use clash red/green. |
 | `viewer_highlight_clash(pnt_id_a?, pnt_id_b?)` | Highlights a clash (A red, B green) and **isolates** the pair (hides everything else). | Separate style/channel from `viewer_select` (fixed 2026-07-14 — they used to collide). Either side accepts a **list** (fixed 2026-07-14) — e.g. one element (A) against every counterpart it clashes with (B), all shown at once. |
@@ -87,50 +87,20 @@ viewer_fit
 directly (PowerShell `ConvertFrom-Json` / `Where-Object`, or a short Python/Node script) instead
 of going through the MCP tool when you need a subset; it has no `model=`/`search` filter of its
 own the way `viewer_get_properties` now does. The raw `clashes[]` rows carry `Test`, `Status`,
-`Element A`/`Element B` (display names) and `pnt_id_a`/`pnt_id_b`. Useful discipline-code prefixes
-seen in this project's test names: `EST` structural, `ARQ` architectural, `HVA` HVAC, `ELE`
+`Element A`/`Element B` (display names) and `pnt_id_a`/`pnt_id_b`. Example discipline-code prefixes
+from a validated project's test names: `EST` structural, `ARQ` architectural, `HVA` HVAC, `ELE`
 electrical, `PLU` plumbing; `PIL` columns, `ARM` framing/joists, `LOS` slabs (`Suelo` in
 `Element A/B`), `MUR` walls (`Muro básico`), `CON` ducts (`Conducto redondo`), `TUB` pipes.
 
 ---
 
-## Fixed 2026-07-13 / 2026-07-14
+## Behaviour notes
 
-- **`viewer_highlight_clash` showed only one element of the pair.** `Hider.isolate()` in
-  `@thatopen/components` hides-all and shows-selection concurrently (`Promise.all`), racing when
-  both sides share a model. Fixed in `main.ts` (`_highlightClash`, `_isolatePntIds`) by sequencing
-  `hider.set(false)` then `hider.set(true, map)` instead of calling `isolate()`.
-- **Dual bridge install.** `pynet-mcp-bridge` was installed both via `pip` (Python 3.10) and via
-  `uv tool`, at different versions — the real launcher (`~/.local/bin/pynet-bridge.exe`) runs the
-  **uv** environment, so updating the pip copy alone did nothing. The pip copy was removed; `uv
-  tool` is now the only install. If new tools ever stop showing up despite the right version being
-  reported, check which process is actually running
-  (`Get-CimInstance Win32_Process -Filter "Name='python.exe'"`, inspect `CommandLine`) before
-  assuming a reload will fix it. To ship a `server.py` change: bump `version` in
-  `PyNetBridge/pyproject.toml`, kill any running `pynet-bridge` processes (they lock the exe
-  shim), then `uv tool install . --force` from the `PyNetBridge` repo root.
-- **"PyNet: loading model…" closed before the federated IFCs finished loading.** It only wrapped
-  the `/api/load-pnt-path` call (zip extraction), not the actual in-browser IFC parse. `main.ts`
-  now posts a `modelsLoaded`/`loadError` event to the parent on completion/failure; `viewerPanel.ts`
-  relays it to the extension host, and `extension.ts`'s progress notification awaits it (120 s
-  safety timeout in case the webview never gets to post anything at all).
-- **Load failures inside the webview were silently swallowed.** `loadAllModels(...).then(...)` had
-  no `.catch()` — an IFC/WASM/library failure became an invisible unhandled rejection. Now reported
-  via the same `loadError` event → `vscode.window.showErrorMessage` + output channel log.
-- **Tree view (`spatial-tree-panel.ts`) only showed 1 of 5 federated models.** `_buildTrees()`
-  snapshots `modelIds` at call-start and drops re-entrant calls while already building (so a model
-  finishing mid-build never got picked up, and nothing ever retried). Fixed with a
-  `_rebuildQueued` flag: a call that arrives mid-build is queued instead of dropped, and the
-  `finally` block re-runs `_buildTrees()` once if one was queued.
-- **`viewer_select` reused the clash channel** (red/green + isolate). Now has its own neutral
-  styles (`select` yellow, `select-b` blue) via a new `_selectPntIds()` in `main.ts` and a new
-  `select_ids` control action — `viewer_highlight_clash` still goes through `select` →
-  `_highlightClash` unchanged.
-- **`viewer_get_properties()` with no `pnt_ids` didn't scale** (13 425 elements ≈ 1.77 M chars on
-  this model, blew the MCP response limit). Added `model`/`search` filters and `limit`/`offset`
-  pagination (default 200/page, capped at 500).
-- **No "what did the user click" tool.** `main.ts`'s `highlighter.events.select.onHighlight` /
-  `.onClear` now set a module-level `_lastSelectedPntId` and call `_reportViewerState()`, which
-  includes it as `selected` in the `/api/state` payload `viewer_get_state` reads back.
-- **`viewer_isolate`'s docstring said the frontend ignored it.** Stale — removed; the frontend
-  handler (`_isolatePntIds`) has worked since the 2026-07-13 `isolate()` race fix.
+- `viewer_highlight_clash` and `viewer_select` use separate channels (red/green + isolate vs neutral
+  yellow/blue, no isolate). Both sides of either accept a list.
+- `viewer_get_properties()` without `pnt_ids` is paginated (`limit`/`offset`, max 500) — a federated
+  model has ~13k elements; never request it unfiltered in one call.
+- Load failures inside the webview surface in VS Code (error message + output channel) — if a model
+  "never appears", check there before retrying.
+- Tools missing or a new tool not showing up after an update → [bridge-troubleshooting.md](bridge-troubleshooting.md)
+  (dual install, reinstall, reload).

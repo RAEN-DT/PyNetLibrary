@@ -43,9 +43,10 @@ class FloorCreateScript:
         try:
             floors = []
             for room in rooms:
-                array = GetRoomPerimeter(room, opts)
+                array = GetRoomPerimeter(room, opts, use_curve_array=False)   # IList<CurveLoop>
                 if array is not None:
-                    floor = doc.Create.NewFloor(array, doc.GetElement(floorTypeId), room.Level, False)
+                    # doc.Create.NewFloor was removed in Revit 2022 -> Floor.Create with CurveLoops
+                    floor = Floor.Create(doc, array, floorTypeId, room.LevelId)
                     floors.append(floor)
             t.Commit()
         except:

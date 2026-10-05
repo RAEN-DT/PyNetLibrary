@@ -1,0 +1,6 @@
+# Auto-generated — Tekla 2026 — Tekla.Structures.ModelInternal.BimModelDataProduct.Types
+
+class BimModelDataApiRegion:
+    """.NET: Tekla.Structures.ModelInternal.BimModelDataProduct.Types.BimModelDataApiRegion"""
+    def __init__(self, *args) -> None: ...
+    ...

@@ -20,6 +20,8 @@ Stubs live in `02_PyNet Stubs/` (committed). Pylance resolves them via `python.a
     Navisworks/   <- generated from the open Navisworks version
     Revit/        <- generated from the open Revit version
     Aec/ AutoCAD/ Civil/   <- AutoCAD / Civil 3D
+  Rhino/ Eto/     <- generated from the open Rhino version
+  Tekla/          <- generated from the open Tekla Structures version (Tekla.Structures.*)
   System/         <- only what PyNET imports: Windows.Forms, Drawing, Collections
 ```
 
@@ -103,9 +105,10 @@ Then add the path. Create `settings.json` if absent; never modify other existing
 
 Run `01_Scripts/00_utils/GenerateStubs.py` from the active host via `send_command`. It:
 
-1. Auto-detects the host (Revit `__revit__` global present, else Navisworks/AutoCAD).
+1. Auto-detects the host (`__revit__` → Revit, `__rhinodoc__` → Rhino, `__teklamodel__` → Tekla, else
+   Civil 3D / Navisworks).
 2. Loads the relevant assemblies for that host.
-3. Deletes only `Autodesk/<Host>/` — hosts coexist.
+3. Deletes only that host's folders (`Autodesk/<Host>/`, `Rhino/` + `Eto/`, `Tekla/`) — hosts coexist.
 4. Regenerates with valid Python syntax.
 5. Writes directly to `02_PyNet Stubs/`.
 
@@ -118,6 +121,8 @@ Run `01_Scripts/00_utils/GenerateStubs.py` from the active host via `send_comman
 | Navisworks | `Autodesk.Navisworks.Api`, `.ComApi`, `.Interop.ComApi`, `.Clash` |
 | Revit | `RevitAPI`, `RevitAPIUI` |
 | Civil 3D | `AcMgd`, `AcCoreMgd`, `AcDbMgd`, `AecBaseMgd`, `AeccDbMgd`, `AecPropDataMgd` |
+| Rhino | `RhinoCommon`, `Rhino.UI`, `Eto` |
+| Tekla | `Tekla.Structures`, `.Model`, `.Drawing`, `.Datatype`, `.Catalogs`, `.Dialog`, `.Plugins` |
 
 ### Type mappings
 

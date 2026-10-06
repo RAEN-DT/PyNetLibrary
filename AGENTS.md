@@ -15,10 +15,13 @@ Do not create a second copy of these rules elsewhere; other agent files (e.g.
 ## 1. Execution environment
 
 PyNET runs Python scripts inside three Autodesk hosts: **Navisworks**, **Revit**, and
-**AutoCAD / Civil 3D**. All execute via **Python.NET** (CPython 3.10+ with `pythonnet` — not
-IronPython). Full Python 3 syntax plus the `clr` bridge to .NET and the Autodesk APIs.
+**AutoCAD / Civil 3D** — plus **Rhino** (7/8/9, RhinoCommon) and **Tekla Structures** (2023-2026, Open API). All execute via **Python.NET**
+(CPython 3.10+ with `pythonnet` — not IronPython). Full Python 3 syntax plus the `clr` bridge to
+.NET and the host APIs.
 
 Scripts are sent to the plugin through the MCP bridge and executed locally inside the host process.
+Tekla is the exception: PyNET runs in its own exe connected to Tekla, and closes when Tekla closes
+([docs/tekla.md](docs/tekla.md)).
 
 > **QGIS is a separate environment.** Standalone **PyQGIS** scripts (`04_QGIS`) are NOT PyNET-hosted —
 > they run headless in QGIS's own Python launcher, outside the bridge and its validator
@@ -26,7 +29,7 @@ Scripts are sent to the plugin through the MCP bridge and executed locally insid
 > bridge-hosted and lives under [docs/autocad-civil.md](docs/autocad-civil.md).
 
 > **Always check `list_active_instances` first** to identify the running host and PID — boilerplate
-> and APIs differ per host. Civil 3D appears as **"AutoCAD"** in the instance list. If several
+> and APIs differ per host. Civil 3D appears as **"AutoCAD"** in the instance list; Rhino appears as **"Rhino"** (bridge >= 1.5.6); Tekla as **"Tekla Structures <year>"** (PID of the PyNET exe). If several
 > sessions of the same host are open, never ask the user to pick by PID alone — run a cheap query per
 > PID (open file / document name) and present "PID 17652 — ModelR_Federated.nwf".
 
@@ -48,6 +51,10 @@ Scripts are sent to the plugin through the MCP bridge and executed locally insid
 | Revit **cloud models, sync, batch RVT, NWC export, keynotes** | [docs/revit-cloud-worksharing.md](docs/revit-cloud-worksharing.md) |
 | Revit **rooms, DirectShape masses, overrides, groups, views, dimensions, pick filters** | [docs/revit-geometry-views.md](docs/revit-geometry-views.md) |
 | An **AutoCAD / Civil 3D** script (incl. GIS *inside* AutoCAD — Map 3D, `01_Scripts/03_AutoCAD/20_GIS`) | [docs/autocad-civil.md](docs/autocad-civil.md) |
+| A **Rhino** script | [docs/rhino.md](docs/rhino.md) |
+| A Rhino **object query / measurement** (inventory, blocks, units, user text, booleans) | [.claude/commands/RhinoApiPatterns.md](.claude/commands/RhinoApiPatterns.md) |
+| A **Tekla Structures** script | [docs/tekla.md](docs/tekla.md) |
+| A Tekla **model query / measurement / modification** (selectors, report properties, UDAs, catalogs, identity) | [.claude/commands/TeklaApiPatterns.md](.claude/commands/TeklaApiPatterns.md) |
 | A **standalone QGIS / PyQGIS** script (`04_QGIS`, headless, NOT Autodesk-hosted) | [docs/qgis.md](docs/qgis.md) |
 | Any **form / dialog / custom UI** (WinForms) | [docs/winforms.md](docs/winforms.md) |
 | Reading an **Excel** file | [docs/excel-mcp.md](docs/excel-mcp.md) |
@@ -64,8 +71,8 @@ Scripts are sent to the plugin through the MCP bridge and executed locally insid
 | Full **security** whitelist/blocklist | [docs/security.md](docs/security.md) |
 | A **pythonnet** surprise (out params, `List[T]`, wrappers, enums, buffered prints) | [docs/pythonnet.md](docs/pythonnet.md) |
 
-The Router row above (`RevitApiPatterns`) is a **reference** to read before writing Revit queries —
-it lives in `.claude/commands/` but is consulted, not run.
+The Router rows above (`RevitApiPatterns`, `RhinoApiPatterns`, `TeklaApiPatterns`) are **references** to read before writing
+Revit / Rhino / Tekla queries — they live in `.claude/commands/` but are consulted, not run.
 
 Everything else in `.claude/commands/` is a **workflow Skill** the *user* invokes via slash command:
 `/ClashDetection`, `/ClashCoordination`, `/ClashToleranceComparison`, `/QCModelAudit`, `/QuantityTakeoff`, `/WindSiting`, `/PowerlineFireRisk`, `/CreateParameters`, `/TimelinerImport`, `/DevMode`. They are
@@ -84,7 +91,7 @@ Be efficient: check existing context before writing from scratch.
    `Requests/` (sent scripts), `Responses/` (results/errors), `Pipe_Session_*.log`. If a similar
    problem was already solved, reuse the validated pattern.
 2. **Example scripts (MANDATORY before writing from scratch)** — `01_Scripts/01_Navisworks/`,
-   `01_Scripts/02_Revit/`, `01_Scripts/03_AutoCAD/`. Use `Glob` to list the relevant folder, then
+   `01_Scripts/02_Revit/`, `01_Scripts/03_AutoCAD/`, `01_Scripts/04_Rhino/`, `01_Scripts/05_Tekla/`. Use `Glob` to list the relevant folder, then
    `Read` the closest match. The library is validated and production-ready.
 3. **API stubs** — the authority on **what the API offers**: does this class exist, what is the
    exact signature, what is the import line. Two cheap steps, so reach for them *before* probing

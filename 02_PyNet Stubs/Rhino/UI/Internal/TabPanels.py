@@ -1,0 +1,6 @@
+# Auto-generated — Rhino 8 — Rhino.UI.Internal.TabPanels
+
+class ControlBarResizeMode:
+    """.NET: Rhino.UI.Internal.TabPanels.ControlBarResizeMode"""
+    def __init__(self, *args) -> None: ...
+    ...

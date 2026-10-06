@@ -21,11 +21,43 @@ def safe_name(name):
     return name + "_" if name in PYTHON_KEYWORDS else name
 
 # ── Host detection ─────────────────────────────────────────────────────────────
+HOST = None
 try:
     _revit = __revit__  # type:ignore
     HOST = "Revit"
     VERSION = _revit.Application.VersionNumber
 except NameError:
+    pass
+
+if HOST is None:
+    # Rhino injects the active document as __rhinodoc__; check it before the Autodesk hosts.
+    try:
+        _rhinodoc = __rhinodoc__  # type:ignore
+        HOST = "Rhino"
+        try:
+            clr.AddReference("RhinoCommon")
+            from Rhino import RhinoApp as _RhinoApp
+            VERSION = _RhinoApp.ExeVersion
+        except Exception:
+            VERSION = "unknown"
+    except NameError:
+        pass
+
+if HOST is None:
+    # PyNET for Tekla injects the connected model as __teklamodel__.
+    try:
+        _teklamodel = __teklamodel__  # type:ignore
+        HOST = "Tekla"
+        try:
+            clr.AddReference("Tekla.Structures")
+            from Tekla.Structures import TeklaStructuresInfo as _TeklaInfo
+            VERSION = _TeklaInfo.GetCurrentProgramVersion()
+        except Exception:
+            VERSION = "unknown"
+    except NameError:
+        pass
+
+if HOST is None:
     # Try Civil 3D before Navisworks
     try:
         clr.AddReference("AeccDbMgd")
@@ -69,6 +101,23 @@ ASSEMBLY_SETS = {
         "AeccDbMgd",
         "AecPropDataMgd",
     ],
+    "Rhino": [
+        "RhinoCommon",
+        "Rhino.UI",
+        "Eto",
+    ],
+    # Open API assemblies as PyNET for Tekla resolves them: from the running Tekla's
+    # bin\Net48Runtime (Tekla 2026+), then bin. Model also holds Model.UI/Operations, Drawing
+    # holds Drawing.UI; Geometry3d lives in Tekla.Structures.
+    "Tekla": [
+        "Tekla.Structures",
+        "Tekla.Structures.Model",
+        "Tekla.Structures.Drawing",
+        "Tekla.Structures.Datatype",
+        "Tekla.Structures.Catalogs",
+        "Tekla.Structures.Dialog",
+        "Tekla.Structures.Plugins",
+    ],
 }
 
 ASSEMBLIES = ASSEMBLY_SETS.get(HOST, ASSEMBLY_SETS["Navisworks"])
@@ -76,6 +125,9 @@ ASSEMBLIES = ASSEMBLY_SETS.get(HOST, ASSEMBLY_SETS["Navisworks"])
 # ── Output: repo stubs folder (committed to GitHub) ───────────────────────────
 # Cleans only the Autodesk\<Host> subtree so Navisworks and Revit stubs coexist.
 STUBS_ROOT = Path.home() / "source" / "repos" / "GithubRNM" / "PyNetLibrary" / "02_PyNet Stubs"
+if not STUBS_ROOT.parent.exists():
+    # Clones under repos\Github instead of repos\GithubRNM.
+    STUBS_ROOT = Path.home() / "source" / "repos" / "Github" / "PyNetLibrary" / "02_PyNet Stubs"
 STUBS_ROOT.mkdir(parents=True, exist_ok=True)
 
 # Host root inside Autodesk\ (e.g. Autodesk\Revit or Autodesk\Navisworks)
@@ -85,12 +137,16 @@ HOST_NS_ROOT = {
     "Civil":     "Civil3D",
 }
 HOST_AUTODESK_DIR = STUBS_ROOT / "Autodesk" / HOST_NS_ROOT.get(HOST, HOST)
-# Folders this host actually writes (namespace roots). Civil 3D spans three of them - cleaning only
-# "Autodesk/Civil3D" (which is never written) left the real Civil stubs stale on every regeneration.
+# Folders this host actually writes (namespace roots), relative to STUBS_ROOT. Civil 3D spans three
+# of them - cleaning only "Autodesk/Civil3D" (which is never written) left the real Civil stubs stale
+# on every regeneration. Rhino's namespaces (Rhino.*, Eto.*) and Tekla's (Tekla.*) live at the
+# root, not under Autodesk.
 HOST_DIRS = {
-    "Revit": ["Revit"],
-    "Navisworks": ["Navisworks"],
-    "Civil": ["AutoCAD", "Civil", "Aec"],
+    "Revit": ["Autodesk/Revit"],
+    "Navisworks": ["Autodesk/Navisworks"],
+    "Civil": ["Autodesk/AutoCAD", "Autodesk/Civil", "Autodesk/Aec"],
+    "Rhino": ["Rhino", "Eto"],
+    "Tekla": ["Tekla"],
 }
 
 print(f"Stubs root:  {STUBS_ROOT}")
@@ -104,8 +160,8 @@ def remove_tree(p: Path):
     elif p.exists():
         p.unlink()
 
-for _sub in HOST_DIRS.get(HOST, [HOST_NS_ROOT.get(HOST, HOST)]):
-    _dir = STUBS_ROOT / "Autodesk" / _sub
+for _sub in HOST_DIRS.get(HOST, ["Autodesk/" + HOST_NS_ROOT.get(HOST, HOST)]):
+    _dir = STUBS_ROOT / _sub
     if _dir.exists():
         print(f"Cleaning:    {_dir}")
         remove_tree(_dir)
@@ -131,12 +187,13 @@ def map_type(t):
         return "object"
 
 # ── Code generators ────────────────────────────────────────────────────────────
-def gen_methods(methods, declaring_type):
+def gen_methods(types, flags):
     grouped = defaultdict(list)
-    for m in methods:
-        if m.IsSpecialName or m.DeclaringType != declaring_type:
-            continue
-        grouped[m.Name].append(m)
+    for t in types:
+        for m in t.GetMethods(flags):
+            if m.IsSpecialName or m.DeclaringType != t:
+                continue
+            grouped[m.Name].append(m)
 
     lines = []
     for name, overloads in sorted(grouped.items()):
@@ -154,16 +211,25 @@ def gen_methods(methods, declaring_type):
             continue
     return lines
 
-def gen_class(t):
+def gen_class(types):
+    """One Python class per .NET name. Generic arities share a Python name (Dialog and Dialog`1 are
+    both `Dialog`, as pythonnet exposes them), so they are merged into a single class: emitting them
+    separately made the later definition silently shadow the earlier one."""
     try:
-        if not t.IsPublic:
+        types = [t for t in types if t.IsPublic]
+        if not types:
             return None
+        # Non-generic first: its base class and member order win.
+        types = sorted(types, key=lambda x: (x.IsGenericTypeDefinition, x.Name))
+        t = types[0]
         name = t.Name.split("`")[0]
         bases = []
         if t.BaseType and t.BaseType.FullName not in (
                 "System.Object", "System.ValueType",
                 "System.Enum", "System.MulticastDelegate"):
-            bases.append(map_type(t.BaseType))
+            base = map_type(t.BaseType)
+            if base != name:  # Dialog`1 derives from Dialog: never a self-reference
+                bases.append(base)
         base_str = f"({', '.join(bases)})" if bases else ""
 
         flags = (BindingFlags.Public | BindingFlags.Instance |
@@ -171,15 +237,20 @@ def gen_class(t):
 
         body = [
             f'class {name}{base_str}:',
-            f'    """.NET: {t.FullName}"""',
+            f'    """.NET: {" | ".join(x.FullName for x in types)}"""',
             f'    def __init__(self, *args) -> None: ...',
         ]
-        for p in t.GetProperties():
-            try:
-                body.append(f"    {p.Name}: {map_type(p.PropertyType)}")
-            except Exception:
-                continue
-        body.extend(gen_methods(t.GetMethods(flags), t))
+        seen_props = set()
+        for x in types:
+            for p in x.GetProperties():
+                try:
+                    if p.Name in seen_props:
+                        continue
+                    seen_props.add(p.Name)
+                    body.append(f"    {p.Name}: {map_type(p.PropertyType)}")
+                except Exception:
+                    continue
+        body.extend(gen_methods(types, flags))
         if len(body) == 3:
             body.append("    ...")
         return "\n".join(body)
@@ -241,8 +312,11 @@ for ns, types in sorted(ns_types.items()):
         ensure_inits(out, STUBS_ROOT)
 
         lines = [f"# Auto-generated — {HOST} {VERSION} — {ns}", ""]
-        for t in sorted(types, key=lambda x: x.Name):
-            code = gen_class(t)
+        by_name = defaultdict(list)
+        for t in types:
+            by_name[t.Name.split("`")[0]].append(t)
+        for _name, group in sorted(by_name.items()):
+            code = gen_class(group)
             if code:
                 lines.append(code)
                 lines.append("")

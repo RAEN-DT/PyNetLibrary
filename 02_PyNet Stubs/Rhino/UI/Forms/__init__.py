@@ -1,0 +1,470 @@
+# Auto-generated — Rhino 8 — Rhino.UI.Forms
+
+class BaseDialog(Dialog):
+    """.NET: Rhino.UI.Forms.BaseDialog"""
+    def __init__(self, *args) -> None: ...
+    Content: Control
+    Message: str
+    Result: bool
+    DisplayMode: DialogDisplayMode
+    AbortButton: Button
+    DefaultButton: Button
+    PositiveButtons: Collection
+    NegativeButtons: Collection
+    Title: str
+    Location: Point
+    Bounds: Rectangle
+    ToolBar: ToolBar
+    Opacity: float
+    Owner: Window
+    Screen: Screen
+    Menu: MenuBar
+    Icon: Icon
+    Resizable: bool
+    Maximizable: bool
+    Minimizable: bool
+    Closeable: bool
+    ShowInTaskbar: bool
+    Topmost: bool
+    WindowState: WindowState
+    RestoreBounds: Rectangle
+    WindowStyle: WindowStyle
+    LogicalPixelSize: float
+    MovableByWindowBackground: bool
+    AutoSize: bool
+    Controls: IEnumerable
+    Padding: Padding
+    MinimumSize: Size
+    ContextMenu: ContextMenu
+    ClientSize: Size
+    Children: IEnumerable
+    VisualChildren: IEnumerable
+    StyleProvider: IStyleProvider
+    Styles: DefaultStyleProvider
+    Loaded: bool
+    VisualControls: IEnumerable
+    Tag: object
+    LogicalParent: Container
+    IsVisualControl: bool
+    Size: Size
+    IsMouseCaptured: bool
+    Width: int
+    Height: int
+    Enabled: bool
+    Visible: bool
+    Parent: Container
+    VisualParent: Container
+    IsAttached: bool
+    BackgroundColor: Color
+    HasFocus: bool
+    IsSuspended: bool
+    ParentWindow: Window
+    SupportedPlatformCommands: IEnumerable
+    Cursor: Cursor
+    ToolTip: str
+    TabIndex: int
+    AllowDrop: bool
+    Parents: IEnumerable
+    DataContext: object
+    Bindings: BindingCollection
+    IsDataContextChanging: bool
+    Platform: Platform
+    Handler: object
+    NativeHandle: IntPtr
+    Properties: PropertyStore
+    ID: str
+    Style: str
+    ControlObject: object
+    IsDisposed: bool
+
+class ColorList(List):
+    """.NET: Rhino.UI.Forms.ColorList"""
+    def __init__(self, *args) -> None: ...
+    Name: str
+    Default: ColorList
+    Capacity: int
+    Count: int
+    Item: ColorListEntry
+
+class ColorListDialog(ColorDialog):
+    """.NET: Rhino.UI.Forms.ColorListDialog"""
+    def __init__(self, *args) -> None: ...
+    AutoDetatch: bool
+    ColorList: ColorList
+    SelectedEntry: ColorListEntry
+    IsActive: bool
+    Color: Color
+    AllowAlpha: bool
+    SupportsAllowAlpha: bool
+    Platform: Platform
+    Handler: object
+    NativeHandle: IntPtr
+    Properties: PropertyStore
+    ID: str
+    Style: str
+    ControlObject: object
+    IsDisposed: bool
+    def Deactivate(self, ) -> None: ...
+    def ShowDialog(self, parent: Control) -> DialogResult: ...
+
+class ColorListEntry:
+    """.NET: Rhino.UI.Forms.ColorListEntry"""
+    def __init__(self, *args) -> None: ...
+    Name: str
+    Color: Color
+
+class CommandDialog(Dialog):
+    """.NET: Rhino.UI.Forms.CommandDialog"""
+    def __init__(self, *args) -> None: ...
+    Content: Control
+    ButtonOptions: Control
+    ShowHelpButton: bool
+    SavePosition: bool
+    UpdateSourceOnApply: bool
+    Buttons: ShowButtons
+    DefaultShowButtons: ShowButtons
+    FocusDefaultButtonOnLoad: bool
+    Result: Result
+    DisplayMode: DialogDisplayMode
+    AbortButton: Button
+    DefaultButton: Button
+    PositiveButtons: Collection
+    NegativeButtons: Collection
+    Title: str
+    Location: Point
+    Bounds: Rectangle
+    ToolBar: ToolBar
+    Opacity: float
+    Owner: Window
+    Screen: Screen
+    Menu: MenuBar
+    Icon: Icon
+    Resizable: bool
+    Maximizable: bool
+    Minimizable: bool
+    Closeable: bool
+    ShowInTaskbar: bool
+    Topmost: bool
+    WindowState: WindowState
+    RestoreBounds: Rectangle
+    WindowStyle: WindowStyle
+    LogicalPixelSize: float
+    MovableByWindowBackground: bool
+    AutoSize: bool
+    Controls: IEnumerable
+    Padding: Padding
+    MinimumSize: Size
+    ContextMenu: ContextMenu
+    ClientSize: Size
+    Children: IEnumerable
+    VisualChildren: IEnumerable
+    StyleProvider: IStyleProvider
+    Styles: DefaultStyleProvider
+    Loaded: bool
+    VisualControls: IEnumerable
+    Tag: object
+    LogicalParent: Container
+    IsVisualControl: bool
+    Size: Size
+    IsMouseCaptured: bool
+    Width: int
+    Height: int
+    Enabled: bool
+    Visible: bool
+    Parent: Container
+    VisualParent: Container
+    IsAttached: bool
+    BackgroundColor: Color
+    HasFocus: bool
+    IsSuspended: bool
+    ParentWindow: Window
+    SupportedPlatformCommands: IEnumerable
+    Cursor: Cursor
+    ToolTip: str
+    TabIndex: int
+    AllowDrop: bool
+    Parents: IEnumerable
+    DataContext: object
+    Bindings: BindingCollection
+    IsDataContextChanging: bool
+    Platform: Platform
+    Handler: object
+    NativeHandle: IntPtr
+    Properties: PropertyStore
+    ID: str
+    Style: str
+    ControlObject: object
+    IsDisposed: bool
+
+class PrintDialogUi:
+    """.NET: Rhino.UI.Forms.PrintDialogUi"""
+    def __init__(self, *args) -> None: ...
+    @staticmethod
+    def EtoExportPdf(documentRuntimeSerialNumber: int, settings: PersistentSettings, selectedObjectsOnly: bool) -> List: ...
+    @staticmethod
+    def EtoExportPdfPrintOptions(documentRuntimeSerialNumber: int, settings: PersistentSettings, selectedObjectsOnly: bool) -> List: ...
+    @staticmethod
+    def EtoExportSvg(documentRuntimeSerialNumber: int, settings: PersistentSettings) -> ViewCaptureSettings: ...
+    @staticmethod
+    def EtoExportSvgArray(documentRuntimeSerialNumber: int, settings: PersistentSettings, options: FileWriteOptions) -> list: ...
+    @staticmethod
+    def IsFileInUse(filePath: str) -> bool: ...
+    @staticmethod
+    def IsPdfInUse(path: str) -> bool: ...
+    @staticmethod
+    def ShowPrintDialog(dialogTitle: str, documentRuntimeSerialNumber: int, settings: PersistentSettings, selectedObjectsOnly: bool, showPrinterDestinations: bool) -> Result: ...
+    @staticmethod
+    def ShowSavePdfFileDialog(documentName: str, documentRuntimeSerial: int, path: str) -> DialogResult: ...
+
+class PrintWidthDialog(BaseDialog):
+    """.NET: Rhino.UI.Forms.PrintWidthDialog"""
+    def __init__(self, *args) -> None: ...
+    SelectedWidth: float
+    StartingValue: float
+    Content: Control
+    Message: str
+    Result: bool
+    DisplayMode: DialogDisplayMode
+    AbortButton: Button
+    DefaultButton: Button
+    PositiveButtons: Collection
+    NegativeButtons: Collection
+    Title: str
+    Location: Point
+    Bounds: Rectangle
+    ToolBar: ToolBar
+    Opacity: float
+    Owner: Window
+    Screen: Screen
+    Menu: MenuBar
+    Icon: Icon
+    Resizable: bool
+    Maximizable: bool
+    Minimizable: bool
+    Closeable: bool
+    ShowInTaskbar: bool
+    Topmost: bool
+    WindowState: WindowState
+    RestoreBounds: Rectangle
+    WindowStyle: WindowStyle
+    LogicalPixelSize: float
+    MovableByWindowBackground: bool
+    AutoSize: bool
+    Controls: IEnumerable
+    Padding: Padding
+    MinimumSize: Size
+    ContextMenu: ContextMenu
+    ClientSize: Size
+    Children: IEnumerable
+    VisualChildren: IEnumerable
+    StyleProvider: IStyleProvider
+    Styles: DefaultStyleProvider
+    Loaded: bool
+    VisualControls: IEnumerable
+    Tag: object
+    LogicalParent: Container
+    IsVisualControl: bool
+    Size: Size
+    IsMouseCaptured: bool
+    Width: int
+    Height: int
+    Enabled: bool
+    Visible: bool
+    Parent: Container
+    VisualParent: Container
+    IsAttached: bool
+    BackgroundColor: Color
+    HasFocus: bool
+    IsSuspended: bool
+    ParentWindow: Window
+    SupportedPlatformCommands: IEnumerable
+    Cursor: Cursor
+    ToolTip: str
+    TabIndex: int
+    AllowDrop: bool
+    Parents: IEnumerable
+    DataContext: object
+    Bindings: BindingCollection
+    IsDataContextChanging: bool
+    Platform: Platform
+    Handler: object
+    NativeHandle: IntPtr
+    Properties: PropertyStore
+    ID: str
+    Style: str
+    ControlObject: object
+    IsDisposed: bool
+
+class PropertyListBoxDialog(BaseDialog):
+    """.NET: Rhino.UI.Forms.PropertyListBoxDialog"""
+    def __init__(self, *args) -> None: ...
+    Values: list
+    Collection: ObservableCollection
+    Content: Control
+    Message: str
+    Result: bool
+    DisplayMode: DialogDisplayMode
+    AbortButton: Button
+    DefaultButton: Button
+    PositiveButtons: Collection
+    NegativeButtons: Collection
+    Title: str
+    Location: Point
+    Bounds: Rectangle
+    ToolBar: ToolBar
+    Opacity: float
+    Owner: Window
+    Screen: Screen
+    Menu: MenuBar
+    Icon: Icon
+    Resizable: bool
+    Maximizable: bool
+    Minimizable: bool
+    Closeable: bool
+    ShowInTaskbar: bool
+    Topmost: bool
+    WindowState: WindowState
+    RestoreBounds: Rectangle
+    WindowStyle: WindowStyle
+    LogicalPixelSize: float
+    MovableByWindowBackground: bool
+    AutoSize: bool
+    Controls: IEnumerable
+    Padding: Padding
+    MinimumSize: Size
+    ContextMenu: ContextMenu
+    ClientSize: Size
+    Children: IEnumerable
+    VisualChildren: IEnumerable
+    StyleProvider: IStyleProvider
+    Styles: DefaultStyleProvider
+    Loaded: bool
+    VisualControls: IEnumerable
+    Tag: object
+    LogicalParent: Container
+    IsVisualControl: bool
+    Size: Size
+    IsMouseCaptured: bool
+    Width: int
+    Height: int
+    Enabled: bool
+    Visible: bool
+    Parent: Container
+    VisualParent: Container
+    IsAttached: bool
+    BackgroundColor: Color
+    HasFocus: bool
+    IsSuspended: bool
+    ParentWindow: Window
+    SupportedPlatformCommands: IEnumerable
+    Cursor: Cursor
+    ToolTip: str
+    TabIndex: int
+    AllowDrop: bool
+    Parents: IEnumerable
+    DataContext: object
+    Bindings: BindingCollection
+    IsDataContextChanging: bool
+    Platform: Platform
+    Handler: object
+    NativeHandle: IntPtr
+    Properties: PropertyStore
+    ID: str
+    Style: str
+    ControlObject: object
+    IsDisposed: bool
+
+class SectionSource:
+    """.NET: Rhino.UI.Forms.SectionSource"""
+    def __init__(self, *args) -> None: ...
+    ...
+
+class SectionStyleDialog(CommandDialog):
+    """.NET: Rhino.UI.Forms.SectionStyleDialog"""
+    def __init__(self, *args) -> None: ...
+    SectionSource: SectionSource
+    HatchIndex: int
+    RotationDegrees: float
+    RotationRadians: float
+    Scale: float
+    SectionFillRule: ObjectSectionFillRule
+    BackfillColor: Color
+    ShowBoundary: bool
+    Content: Control
+    ButtonOptions: Control
+    ShowHelpButton: bool
+    SavePosition: bool
+    UpdateSourceOnApply: bool
+    Buttons: ShowButtons
+    FocusDefaultButtonOnLoad: bool
+    Result: Result
+    DisplayMode: DialogDisplayMode
+    AbortButton: Button
+    DefaultButton: Button
+    PositiveButtons: Collection
+    NegativeButtons: Collection
+    Title: str
+    Location: Point
+    Bounds: Rectangle
+    ToolBar: ToolBar
+    Opacity: float
+    Owner: Window
+    Screen: Screen
+    Menu: MenuBar
+    Icon: Icon
+    Resizable: bool
+    Maximizable: bool
+    Minimizable: bool
+    Closeable: bool
+    ShowInTaskbar: bool
+    Topmost: bool
+    WindowState: WindowState
+    RestoreBounds: Rectangle
+    WindowStyle: WindowStyle
+    LogicalPixelSize: float
+    MovableByWindowBackground: bool
+    AutoSize: bool
+    Controls: IEnumerable
+    Padding: Padding
+    MinimumSize: Size
+    ContextMenu: ContextMenu
+    ClientSize: Size
+    Children: IEnumerable
+    VisualChildren: IEnumerable
+    StyleProvider: IStyleProvider
+    Styles: DefaultStyleProvider
+    Loaded: bool
+    VisualControls: IEnumerable
+    Tag: object
+    LogicalParent: Container
+    IsVisualControl: bool
+    Size: Size
+    IsMouseCaptured: bool
+    Width: int
+    Height: int
+    Enabled: bool
+    Visible: bool
+    Parent: Container
+    VisualParent: Container
+    IsAttached: bool
+    BackgroundColor: Color
+    HasFocus: bool
+    IsSuspended: bool
+    ParentWindow: Window
+    SupportedPlatformCommands: IEnumerable
+    Cursor: Cursor
+    ToolTip: str
+    TabIndex: int
+    AllowDrop: bool
+    Parents: IEnumerable
+    DataContext: object
+    Bindings: BindingCollection
+    IsDataContextChanging: bool
+    Platform: Platform
+    Handler: object
+    NativeHandle: IntPtr
+    Properties: PropertyStore
+    ID: str
+    Style: str
+    ControlObject: object
+    IsDisposed: bool

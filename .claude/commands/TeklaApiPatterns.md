@@ -6,7 +6,8 @@ any script that queries, iterates, measures or modifies objects in a Tekla Struc
 catalogs and how PyNET runs out of process.
 
 > Verified in Tekla Structures 2026 (CPython 3 + pythonnet) unless marked ⏳ (written from the API,
-> not yet run in a session). Validated examples: `01_Scripts/05_Tekla/`.
+> not yet run in a session). Validated examples: `01_Scripts/05_Tekla/` (index with ✅/⏳ per script
+> in [docs/tekla.md](../../docs/tekla.md)).
 
 ---
 
@@ -85,7 +86,7 @@ To get an object back:
 from Tekla.Structures import Identifier
 
 fresh = Beam()
-fresh.Identifier = Identifier(guid)        # ⏳ or model.SelectModelObject(Identifier(guid))
+fresh.Identifier = Identifier(guid)        # ⏳ this form; ✅ model.SelectModelObject(model.GetIdentifierByGUID(guid)) (SelectByGuid.py)
 if fresh.Select():                         # False = deleted / not found
     ...
 ```
@@ -104,10 +105,14 @@ Tekla's property data comes in two kinds:
 | **Report properties** | computed by Tekla: `LENGTH`, `WEIGHT`, `VOLUME`, `AREA`, `PROFILE`, `MATERIAL`, `ASSEMBLY_POS`, `PART_POS`, `PHASE`… | `GetReportProperty(name, default)` | never (computed) |
 | **UDAs** (user-defined attributes) | values stored on the object, defined in `objects.inp` | `GetUserProperty(name, default)` | `SetUserProperty(name, value)` |
 
-Both C# methods use a `ref` argument; pythonnet passes the default in and ⏳ returns a
+Both C# methods use a `ref` argument; pythonnet passes the default in and ✅ returns a
 `(found, value)` tuple. **The type of the default picks the overload** — `""` for strings, `0.0`
-for doubles, `0` for integers. Asking `LENGTH` with `""` or `PROFILE` with `0.0` gives
-`found = False`.
+for doubles, **`Int32(0)` for integers** (`from System import Int32`). A plain Python `0` picks the
+**Double** overload (✅ verified: `PHASE` with `0` → `(False, 0.0)`, with `Int32(0)` → `(True, 1)`).
+Asking `LENGTH` with `""` or `PROFILE` with `0.0` gives `found = False`.
+
+The phase as a name: `GetReportProperty("PHASE.NAME", "")` ✅, or `part.GetPhase()` → `(True, Phase)`
+with `.PhaseNumber` / `.PhaseName` ✅.
 
 ```python
 found, length_mm = part.GetReportProperty("LENGTH", 0.0)
@@ -117,10 +122,10 @@ found, comment = part.GetUserProperty("comment", "")
 
 **`found = False` means "not available for this object", not zero** — treat it as missing, not 0.
 
-Report-property units (⏳ confirm on first use): `LENGTH` mm, `AREA` mm², `VOLUME` mm³,
-`WEIGHT` kg. Convert explicitly (`/ 1000`, `/ 1e6`, `/ 1e9`) and say the unit in the output.
+Report-property units: `LENGTH` mm, `VOLUME` mm³, `WEIGHT` kg (✅ 570 parts, ExportTakeoffForPresto.py),
+`AREA` mm² (⏳). Convert explicitly (`/ 1000`, `/ 1e6`, `/ 1e9`) and say the unit in the output.
 
-Writing UDAs (⏳): `part.SetUserProperty("comment", "OK")` returns `bool`; then
+Writing UDAs (✅ SetUdaOnSelection.py, string and `Int32` values; ⏳ float): `part.SetUserProperty("comment", "OK")` returns `bool`; then
 `model.CommitChanges()`. The UDA must exist in the environment's `objects.inp` to show in the
 dialog — undefined names can still be stored but nobody sees them.
 
@@ -134,7 +139,7 @@ dialog — undefined names can still be stored but nobody sees them.
 | Weight | `GetReportProperty("WEIGHT", 0.0)` | kg, from profile × length × density |
 | Volume / area | `"VOLUME"` / `"AREA"` with `0.0` | mm³ / mm² |
 | Bounding box | `part.GetSolid().MinimumPoint` / `.MaximumPoint` | ✅ verified; global coordinates, mm |
-| Assembly totals | `part.GetAssembly()` then report properties on the assembly | ⏳ |
+| Assembly totals | `part.GetAssembly()` then report properties on the assembly | ✅ `GetAssembly` + `ASSEMBLY_POS` (ReadSelection.py); ⏳ weight/volume totals |
 
 Group quantities by `Profile.ProfileString`, `Material.MaterialString`, `Name`, `Class` or
 `PHASE` — these are plain properties on parts (after `Select()`), cheaper than report properties.
@@ -146,6 +151,31 @@ s = beam.GetSolid()
 print(beam.StartPoint.Z, round(s.MinimumPoint.Z, 1), round(s.MaximumPoint.Z, 1))
 # BEHIND on a level line at Z=3600 should give max Z = 3600 (hanging below)
 ```
+
+---
+
+## IFC GlobalId, IFC class and takeoff quantities (✅ Tekla 2026, IFC4 export)
+
+Full notes and the compression function: [docs/tekla.md → IFC identity](../../docs/tekla.md#ifc-identity-class-and-quantities-for-bim-takeoffs).
+Example: `01_Scripts/05_Tekla/06_Export/ExportTakeoffForPresto.py`.
+
+```python
+guid = str(part.Identifier.GUID)
+global_id = ifc_guid(guid)                                  # 22 chars, matches the IFC export
+found, ifc_class = part.GetUserProperty("proIfcEntityOvrd", "")     # "" -> no override (class is Tekla's choice)
+found, predefined = part.GetUserProperty("proIfcEntityPreDef", "")  # "SHEAR", "FLOOR", "LANDING"...
+found, volume = part.GetReportProperty("VOLUME", 0.0)       # mm3; 0 -> no solid (out of catalog)
+found, thickness = part.GetReportProperty("WIDTH", 0.0)     # ContourPlate: WIDTH = thickness
+found, side = part.GetReportProperty("LENGTH", 0.0)         # ContourPlate: longest side; HEIGHT = the other
+```
+
+| Fact | |
+|---|---|
+| `IFC_GUID` report property is empty before an IFC export | compute the GlobalId from `Identifier.GUID` |
+| UDA `IFC_ENTITY` is ignored by the export | use `proIfcEntityOvrd` / `proIfcEntityPreDef` |
+| Concrete beam `"H*W"` | `LENGTH × W × H = VOLUME` (first number = height) |
+| Profile/material out of catalog | no solid: `VOLUME`/`WEIGHT`/`LENGTH` = 0, box = 0 → flag, use `StartPoint`/`EndPoint` |
+| Storeys `Unknown` in the IFC | organizer without storeys → compute the storey from Z |
 
 ---
 
@@ -162,7 +192,7 @@ while selected.MoveNext():
 Two classes share the name `ModelObjectSelector`: `Tekla.Structures.Model.ModelObjectSelector`
 (from `model.GetModelObjectSelector()`, the whole model) and
 `Tekla.Structures.Model.UI.ModelObjectSelector` (the user's selection). Alias the UI one on import.
-To select objects for the user: `UISelector().Select(ArrayList_of_objects)` (⏳).
+To select objects for the user: `UISelector().Select(ArrayList_of_objects)` (✅ with `False` as 2nd argument, SelectByGuid.py).
 
 ---
 
@@ -200,15 +230,20 @@ Report object ids as `str(obj.Identifier.GUID)`.
 | Inventory has 4× more objects than parts | `GetAllObjects()` includes assemblies, control points, grid planes, organizer | `GetAllObjectsWithType(Type[])` or `isinstance` whitelist (Rule #1) |
 | `AttributeError: PART` on `ModelObjectEnum` | no such member | `Type[]` overload / `isinstance(obj, Part)` |
 | Script is slow on a big model | thousands of round trips | `SelectInstances = False`, one `CommitChanges`, fewer report-property calls (Rule #2) |
+| `PHASE` (or any integer report property / UDA) reads `found = False` | Python `0` picks the Double overload | `Int32(0)`; for the phase name `"PHASE.NAME"` or `part.GetPhase()` |
+| `send_command` times out on a script with a confirmation dialog | MessageBox opened behind Tekla, waiting | warn the user first; never queue another script meanwhile (see tekla.md Gotchas) |
 | Changes not in the model | no `CommitChanges()` | call it once at the end |
 | User lost the changes | `CommitChanges` doesn't save | tell the user to save (Ctrl+S) |
 | `Insert()` returned `False`, no exception | Tekla rejected the object | always check the `bool`; check profile/material in the catalog |
 | Profile `HEB300` "missing" in a US model | catalogs depend on the environment | enumerate the catalog, pick from candidates (tekla.md) |
-| Report property always `found = False` | default of the wrong type picked the wrong overload | `0.0` for numbers, `""` for text, `0` for integers |
+| Report property always `found = False` | default of the wrong type picked the wrong overload | `0.0` for numbers, `""` for text, `Int32(0)` for integers (a Python `0` picks Double) |
 | Report value read as 0 and summed | `found = False` treated as zero | skip / flag missing values |
 | Got the user's selection from the wrong class | `Model.ModelObjectSelector` vs `Model.UI.ModelObjectSelector` | import the UI one with an alias |
 | Ids don't match after model sharing / IFC | stored `Identifier.ID` | store `Identifier.GUID` |
 | `PyNet Instance not found` mid-session | the user closed Tekla, PyNET exited with it | reopen Tekla and click a PyNET macro |
+| `IFC_GUID` empty | filled only by an IFC export | compress `Identifier.GUID` (tekla.md "IFC identity") |
+| Part has `VOLUME`/`WEIGHT` = 0 | profile/material not in the catalog → no solid | `LibraryProfileItem().Select` / `MaterialItem().Select` to flag; nominal kg/m × axis length |
+| IFC class unchanged after setting UDA `IFC_ENTITY` | ignored by the export | `proIfcEntityOvrd` + `proIfcEntityPreDef` |
 
 ---
 

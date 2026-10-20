@@ -6,6 +6,24 @@
 Read this guide **before writing any Tekla script**. For model queries/measurements, also read
 [TeklaApiPatterns](../.claude/commands/TeklaApiPatterns.md). For forms/dialogs read [winforms.md](winforms.md).
 Validated examples live in `01_Scripts/05_Tekla/` — read the closest one first.
+Each script's header says what is ✅ verified and what is ⏳ not run yet. All of them were run on
+Tekla 2026 on 2026-10-16 (model with beams, columns, plates, bolts, welds; no drawings) unless marked:
+
+| Script | What it shows |
+|---|---|
+| `01_Model/DeleteAllGeometry.py` | ✅ `GetAllObjects` + `SelectInstances=False` + `isinstance` whitelist, MessageBox confirm, `Delete`, one `CommitChanges` |
+| `01_Model/ModelInfo.py` | ✅ model name/path, Tekla version, project info, phases, counts per object kind |
+| `02_Query/ListParts.py` | ✅ part inventory via `GetAllObjectsWithType(Type[])`, `LENGTH`/`WEIGHT` report properties (missing = `None`) |
+| `02_Query/ReadSelection.py` | ✅ UI `ModelObjectSelector` alias, part properties + `ASSEMBLY_POS`; bolt group / component branches ⏳ |
+| `02_Query/SelectByGuid.py` | ✅ `GetIdentifierByGUID` → `SelectModelObject` (unknown GUID reported as missing), UI `Select(ArrayList, False)` |
+| `02_Query/BoundingBoxes.py` | ✅ `GetSolid()` min/max per part, union box, `ZoomToBoundingBox` on visible views |
+| `03_Create/CreateColumnsOnGrid.py` | catalog lookup with candidates, columns ⏳ `BeamTypeEnum.COLUMN` + beams, `Position` ⏳, `Insert()` bool, confirm |
+| `03_Create/CreateApartmentBuilding.py` | ✅ (2026-10-20) concrete residential block: `H*W` profiles, Beam / ContourPlate depth semantics, IFC class override UDAs; `Picker.PickPoint` ⏳ |
+| `04_Properties/SetUdaOnSelection.py` | ✅ `GetUserProperty`/`SetUserProperty` (string UDA; int values wrapped in `Int32`), confirm, one `CommitChanges` |
+| `05_Quantities/QuantitiesByProfile.py` | ✅ length (m) / weight (kg, t) grouped by profile + material, missing values flagged |
+| `06_Export/ExportPartsToExcel.py` | ✅ openpyxl export (`Tabla_1`, `None` for empty, Desktop via `Environment`), position/phase report properties (`PHASE` needs `Int32(0)`) |
+| `06_Export/ExportTakeoffForPresto.py` | ✅ whole script (Tekla 2026, 2026-10-20: 570 parts, 0 skipped with `NOMINAL_KG_PER_M` for out-of-catalog profiles; fed the Presto pipeline, all checks passed): JSON takeoff for RIB Presto, one measurement line per part with its IFC GlobalId (✅ compression), IFC class override UDAs, storeys from Z, parts out of catalog — see [IFC identity](#ifc-identity-class-and-quantities-for-bim-takeoffs) |
+| `07_Drawings/ListDrawings.py` | `DrawingHandler().GetDrawings()` ✅ (empty model only); drawing type/mark/status ⏳ |
 
 Related: [revit.md](revit.md) · [pythonnet.md](pythonnet.md) · [stubs.md](stubs.md)
 
@@ -178,6 +196,53 @@ column_profile = pick(profiles, "HEB300", "W310X97")
 
 ---
 
+## IFC identity, class and quantities for BIM takeoffs
+
+What a takeoff (e.g. to RIB Presto, [presto.md](presto.md#measurement-lines-and-bim-traceability-iso-19650))
+needs to stay traceable to the IFC exported from the same model. ✅ Tekla 2026, 2026-10-20, checked
+against a Tekla IFC4 export of 570 parts.
+
+- **IFC GlobalId** = the standard IFC 22-character base64 compression of `str(part.Identifier.GUID)`
+  (hex taken in string order). It matched every part of the IFC export. The report property
+  `IFC_GUID` is **empty until the model has been exported** — don't rely on it.
+
+  ```python
+  CH64 = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz_$"
+
+  def ifc_guid(guid):
+      h = str(guid).replace("-", "")
+      bs = [int(h[i:i + 2], 16) for i in range(0, 32, 2)]
+      def b64(v, n):
+          s = ""
+          for _ in range(n):
+              s = CH64[v % 64] + s
+              v //= 64
+          return s
+      # 2 chars from byte 0, then 5 groups of 3 bytes -> 4 chars
+      return b64(bs[0], 2) + "".join(b64((bs[i] << 16) + (bs[i + 1] << 8) + bs[i + 2], 4) for i in range(1, 16, 3))
+  ```
+
+- **IFC class override**: UDAs **`proIfcEntityOvrd`** (`"IfcWall"`, `"IfcSlab"`, `"IfcStairFlight"`…)
+  and **`proIfcEntityPreDef`** (`"SHEAR"`, `"FLOOR"`, `"ROOF"`, `"LANDING"`, `"STRAIGHT"`,
+  `"SOLIDWALL"`…). The UDA `IFC_ENTITY` is **ignored** by the export. Without override the export
+  gave: column `Beam` → `IfcColumn`, `Beam` → `IfcBeam`, `ContourPlate` → `IfcPlate`, steel beams
+  named `BRACE` → `IfcMember`, plates named `SLAB` → `IfcSlab` — Tekla decides some by name/class, so
+  a script that has no override can only **guess** the class (and should say so).
+- **Report properties for quantities**: `VOLUME` mm³, `WEIGHT` kg, `LENGTH` mm (beam: along the
+  part; **plate: longest side**), `WIDTH` / `HEIGHT` mm (**plate: `WIDTH` = thickness**, `HEIGHT` =
+  the other side). Concrete beam profile `"H*W"` (first = height): `LENGTH × W × H = VOLUME`.
+  Walls/plates with openings or irregular contours don't match the box: use `VOLUME`.
+- **Parts whose profile/material is not in the environment catalog have no solid**: `VOLUME`,
+  `WEIGHT`, `LENGTH` = 0 and `GetSolid()` box = 0. Flag them (`LibraryProfileItem().Select(name)` /
+  `MaterialItem().Select(name)` → `False`) and use `StartPoint`/`EndPoint` distance for the length.
+- **Storeys**: the IFC export writes storeys `Unknown` when the project organizer has none —
+  compute the storey from Z (levels from column bases, beam lines, slab tops).
+- Model file: `model.GetInfo().ModelPath` / `.ModelName`. Numbering:
+  `Tekla.Structures.Model.Operations.Operation.IsNumberingUpToDateAll()`; `PART_POS` reads
+  `"P0(?)"` when the model is not numbered.
+
+---
+
 ## The Python.NET runtime is persistent
 
 Same as the other hosts: the Python runtime inside PyNET for Tekla is persistent and shared across
@@ -204,3 +269,12 @@ Never hardcode `Path.home() / "Desktop"` (OneDrive redirects it):
 | `Non-whitelisted assembly: Tekla.Structures.Catalogs` | bridge older than the Catalogs whitelist entry | update the bridge |
 | Passing a Python `list` where the API wants `Type[]` / `ArrayList` | no conversion | `Array[Type]([...])`; for `ArrayList` build it and `.Add()` |
 | Confirmation before destructive scripts | — | `System.Windows.Forms.MessageBox.Show(..., MessageBoxButtons.YesNo, ...)` — see `01_Scripts/05_Tekla/01_Model/DeleteAllGeometry.py` |
+| A script with a `MessageBox` "hangs" and `send_command` times out | the box has no owner window: it often opens **behind Tekla**, and the script waits for the click (verified 2026-10-16) | tell the user to look for the PyNET dialog (taskbar / behind Tekla) **before** sending the script; use a long timeout (≥ 300 s) |
+| Results of two scripts mixed in one response | while a `MessageBox` is open its modal loop keeps pumping, so the **next** bridge script runs inside it; the waiting script's `ia_Result` ends up in that later response (verified) | never send another script while a confirmation dialog is pending; after a timeout, read `AI_History/Responses` or re-query the model to learn whether the write happened |
+| `No module named 'openpyxl'` (or pandas…) | the library is whitelisted but not installed in the Python PyNET for Tekla uses (`sys.prefix`, e.g. the user's `pythoncore-3.14-64`) | install it into that interpreter — [bridge-troubleshooting.md](bridge-troubleshooting.md#a-whitelisted-library-is-missing-in-the-host-no-module-named-pandas) |
+| Integer report property (`PHASE`) always `found = False` | a Python `0` default picks the **Double** overload | `Int32(0)` (`from System import Int32`) — TeklaApiPatterns |
+| `list_active_instances` shows no Tekla although Tekla is open | the PyNET exe is not running (no PyNET macro clicked yet) | start `C:\Program Files\RAEN\PyNet Platform for Tekla Structures\<year>\Raen.Tekla.Pynet.<year>.exe` — it attaches to the running Tekla |
+| `PrintMessages` empty in the response | Tekla host does not return prints through the bridge | put everything you need in `ia_Result` |
+| `IFC_GUID` report property empty | only filled after an IFC export | compute the GlobalId from `Identifier.GUID` ([IFC identity](#ifc-identity-class-and-quantities-for-bim-takeoffs)) |
+| UDA `IFC_ENTITY` set but the IFC class did not change | the export ignores it | `proIfcEntityOvrd` + `proIfcEntityPreDef` |
+| `VOLUME` / `WEIGHT` / `LENGTH` = 0, `GetSolid()` box at the origin | profile or material not in the environment catalog: no solid | flag the part; length from `StartPoint`/`EndPoint`, weight from a nominal kg/m |

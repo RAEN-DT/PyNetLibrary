@@ -378,7 +378,7 @@ Working scripts organized by use case:
 - **Structure** (`23_Structure/`) — create structural beams, columns, wall foundations, and trusses using `NewFamilyInstance` and `NewBeam`.
 - **MEP** (`24_MEP/`) — create ducts (`Duct.Create`) and electrical wires (`Wire.Create`) with connectors and curve endpoints.
 - **QA/QC** (`25_QAQC/`) — model audit against BEP standards with HTML + Excel scored report (`ModelAudit.py`); type renaming to fix nomenclature.
-- **5D** (`26_5D/`) — quantity takeoff / budget extraction: matches model quantities to a reference Excel and generates a measurement breakdown + interactive HTML report (`QuantityTakeoff.py`).
+- **5D** (`26_5D/`) — quantity takeoff / budget extraction: matches model quantities to a reference Excel and generates a measurement breakdown + interactive HTML report (`QuantityTakeoff.py`); JSON takeoff for RIB Presto with one measurement line per element and its IFC GlobalId (`ExportTakeoffForPresto.py`, same JSON as the Tekla / Rhino / Navisworks / Civil 3D exporters — see `docs/presto.md`).
 
 ### AutoCAD / Civil 3D — 01_Scripts/03_AutoCAD/
 

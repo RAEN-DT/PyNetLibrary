@@ -232,6 +232,10 @@ To write a value back into internal units, use the inverse: `UnitUtils.ConvertTo
 
 **Note:** area parameters live on **instances**, not types. To get total area per type, iterate instances and accumulate.
 
+Per-element takeoff with volume / area / length, type thickness, level and IFC GlobalId for Presto:
+`01_Scripts/02_Revit/26_5D/ExportTakeoffForPresto.py` (✅ Revit 2025: 84 elements / 33 partidas, GlobalId from the
+`IfcGUID` parameter; ⏳ the `ExportUtils.GetExportId` fallback, not needed by that model).
+
 ---
 
 ## Count-based measurements

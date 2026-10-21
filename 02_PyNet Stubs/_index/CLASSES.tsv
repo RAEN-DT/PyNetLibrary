@@ -1433,6 +1433,7 @@ ColumnsCollection	Autodesk.AutoCAD.DatabaseServices	Autodesk/AutoCAD/DatabaseSer
 ColumnsSettingsDialogCommand	Autodesk.AutoCAD.Windows.Data	Autodesk/AutoCAD/Windows/Data/__init__.py	233	237	IPECommandBase	1
 Com2Variant	System.Windows.Forms.ComponentModel.Com2Interop	System/Windows/Forms/ComponentModel/Com2Interop.py	11	19	object	0
 ComApiBridge	Autodesk.Navisworks.Api.ComApi	Autodesk/Navisworks/Api/ComApi.py	3	19		7
+ComPrmDllFunction	Presto.PrmCom	Presto/PrmCom.py	8	48		32
 CombinableElement	Autodesk.Revit.DB	Autodesk/Revit/DB/__init__.py	2177	2208	Element	28
 CombinableElementArray	Autodesk.Revit.DB	Autodesk/Revit/DB/__init__.py	2209	2222	APIObject	10
 CombinableElementArrayIterator	Autodesk.Revit.DB	Autodesk/Revit/DB/__init__.py	2223	2230	APIObject	4
@@ -7788,6 +7789,7 @@ PreserveEnd	Rhino.Geometry	Rhino/Geometry/__init__.py	3467	3471		0
 PreserveIsoCurveMethod	Rhino.Geometry	Rhino/Geometry/__init__.py	3472	3476		0
 PresetInitialColor	Autodesk.Revit.DB.Lighting	Autodesk/Revit/DB/Lighting.py	213	219	InitialColor	3
 PressureUnitType	Autodesk.Civil	Autodesk/Civil/__init__.py	950	954		0
+PrestoApplication	Presto	Presto/__init__.py	22	205		90
 PreviewAppearance	Rhino.Render	Rhino/Render/__init__.py	518	539		18
 PreviewBackground	Rhino.Render	Rhino/Render/__init__.py	540	548		5
 PreviewControl	Autodesk.AutoCAD.Internal	Autodesk/AutoCAD/Internal/__init__.py	2054	2140	ControlWrapper	83

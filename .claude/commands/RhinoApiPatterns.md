@@ -137,6 +137,10 @@ if getattr(geom, "IsSolid", False) or getattr(geom, "IsClosed", False):
 `Compute` returns `None` for geometry it cannot evaluate — always guard. Mass properties are slow on
 large models (~22 s for 254 Breps): print progress every ~10 %.
 
+Takeoff to RIB Presto (one line per object, IFC GlobalId, storeys, box dims per line):
+`01_Scripts/04_Rhino/07_Export/ExportTakeoffForPresto.py` (✅ Rhino 8: 238 closed solids; units = the document's,
+stops if the geometry does not fit them; ⏳ blocks "explode", SubD, curves, GUID/class from user text) — see [docs/rhino.md](../../docs/rhino.md#quantity-takeoff-to-rib-presto).
+
 ---
 
 ## Grouping by layer

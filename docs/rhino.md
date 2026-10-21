@@ -154,6 +154,15 @@ Convert `Extrusion` first (`extrusion.ToBrep(True)`), compute volume only for cl
 (`brep.IsSolid`, `mesh.IsClosed`). This is slow on large models (~22 s for 254 Breps) — print progress
 every ~10 %. Bounding box: `geom.GetBoundingBox(True)`.
 
+## Quantity takeoff to RIB Presto
+
+`07_Export/ExportTakeoffForPresto.py` — ✅ run on Rhino 8 (238 solids). Units are always the Rhino document's (m → m, mm → mm); when the geometry does not fit that unit (a file that says mm but is drawn in m) it stops before writing and asks to fix the unit in Rhino (`ABORT_ON_UNIT_MISMATCH = False` only warns):
+read-only JSON takeoff for Presto in the same format as the Tekla one, one measurement line per
+object (m3 closed / m2 open / m curves / u points and blocks) with an IFC GlobalId from user text
+(`IfcGUID`, `GlobalId`…) or compressed from `obj.Id`, IFC class from user text or a layer-name map,
+storeys from user text / layer path / Z, units = the document's, scaled to metres with `RhinoMath.UnitScale`. Then run the Presto scripts — see
+[presto.md](presto.md#measurement-lines-and-bim-traceability-iso-19650).
+
 ## Gotchas (verified in Rhino 8, CPython 3 + pythonnet)
 
 | Situation | What happens | Do this |

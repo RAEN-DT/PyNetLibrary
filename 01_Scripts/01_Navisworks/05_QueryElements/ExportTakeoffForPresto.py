@@ -4,10 +4,51 @@
 import json
 import re
 from datetime import datetime
-from fnmatch import fnmatch
 from pathlib import Path
 
 import clr
+
+_GLOB_CACHE = {}
+
+
+def glob_match(name, pattern):
+    """fnmatch sobre `re`: el modulo fnmatch no esta en el whitelist del bridge de PyNET.
+
+    Misma semantica que fnmatch.fnmatch con las dos cadenas ya en minusculas, que es como
+    llegan aqui: comodines `*`, `?` y clases `[seq]` / `[!seq]`, anclado al texto completo.
+    """
+    rx = _GLOB_CACHE.get(pattern)
+    if rx is None:
+        out, i, n = [], 0, len(pattern)
+        while i < n:
+            c = pattern[i]
+            i += 1
+            if c == "*":
+                out.append(".*")
+            elif c == "?":
+                out.append(".")
+            elif c == "[":
+                j = i
+                if j < n and pattern[j] in "!^":
+                    j += 1
+                if j < n and pattern[j] == "]":
+                    j += 1
+                while j < n and pattern[j] != "]":
+                    j += 1
+                if j >= n:
+                    out.append(re.escape("["))
+                else:
+                    seq = pattern[i:j].replace("\\", "\\\\")
+                    i = j + 1
+                    if seq and seq[0] in "!^":
+                        seq = "^" + seq[1:]
+                    out.append("[" + seq + "]")
+            else:
+                out.append(re.escape(c))
+        rx = re.compile("(?s:" + "".join(out) + ")\Z")
+        _GLOB_CACHE[pattern] = rx
+    return rx.match(name) is not None
+
 
 clr.AddReference("Autodesk.Navisworks.Api")
 from Autodesk.Navisworks.Api import Application, UnitConversion, Units
@@ -114,7 +155,7 @@ LEVEL_TOLERANCE = 0.05         # m
 STOREY_NAME = "Planta {index:02d} ({elevation:+.2f} m)"
 BUILDING = ""                  # Área for every element; "" -> IfcBuilding name or appended model name
 
-# Ordered (category, property) lookups. Category = internal cat.Name or display name (fnmatch, any case).
+# Ordered (category, property) lookups. Category = internal cat.Name or display name (glob wildcards, any case).
 # ("Item", "GUID") = Navisworks InstanceGuid, the last resort.
 GUID_SOURCES = [
     ("IFC", "GlobalId"), ("IFC", "GUID"), ("Element", "GlobalId"), ("Element", "IfcGUID"),
@@ -310,8 +351,8 @@ class PropertyReader:
         if pp != row[2] and pp != row[3]:
             return False
         if row[0].startswith("lcoa"):          # Navisworks Item tab: "Elemento" in ES, never an element tab
-            return fnmatch(row[0], cp) or cp == "item"
-        return fnmatch(row[0], cp) or fnmatch(row[1], cp)
+            return glob_match(row[0], cp) or cp == "item"
+        return glob_match(row[0], cp) or glob_match(row[1], cp)
 
     @staticmethod
     def Text(val):

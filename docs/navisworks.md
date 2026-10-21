@@ -231,7 +231,9 @@ Combine both helpers in a clash script: `for test in get_clash_tests(clashDoc): 
   - `02_SearchSets/` — Search Sets from property conditions
   - `03_ClashDetection/` — export, import, rename, run clash tests
   - `04_DataAnalysis/` / `08_DataAnalysis/` — chart & dashboard generation
-  - `05_QueryElements/` — isolate, query custom category values, measurements
+  - `05_QueryElements/` — isolate, query custom category values, measurements;
+    `ExportTakeoffForPresto.py` = federated-model takeoff JSON for RIB Presto (one line per element with
+    its IFC GlobalId, any source format; same JSON as the Tekla version — see [presto.md](presto.md)) ⏳
   - `07_IFCExport/` — NWC/NWD → IFC export pipeline
 
 ---

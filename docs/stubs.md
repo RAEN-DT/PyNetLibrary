@@ -20,6 +20,9 @@ Stubs live in `02_PyNet Stubs/` (committed). Pylance resolves them via `python.a
     Navisworks/   <- generated from the open Navisworks version
     Revit/        <- generated from the open Revit version
     Aec/ AutoCAD/ Civil/   <- AutoCAD / Civil 3D
+  Rhino/ Eto/     <- generated from the open Rhino version
+  Tekla/          <- generated from the open Tekla Structures version (Tekla.Structures.*)
+  Presto/         <- generated from Presto's COM type library (presto.tlb), not by reflection
   System/         <- only what PyNET imports: Windows.Forms, Drawing, Collections
 ```
 
@@ -74,7 +77,7 @@ grep cannot produce — the line range and the disambiguating namespace.
 python 01_Scripts\00_utils\IndexStubs.py
 ```
 
-Runs with local CPython — no host, no bridge. **Re-run it after every `GenerateStubs.py`**, since
+Runs with local CPython — no host, no bridge. **Re-run it after every `GenerateStubs.py` / `GeneratePrestoStubs.py`**, since
 the line numbers are only valid for the stubs they were built from.
 
 ---
@@ -103,9 +106,10 @@ Then add the path. Create `settings.json` if absent; never modify other existing
 
 Run `01_Scripts/00_utils/GenerateStubs.py` from the active host via `send_command`. It:
 
-1. Auto-detects the host (Revit `__revit__` global present, else Navisworks/AutoCAD).
+1. Auto-detects the host (`__revit__` → Revit, `__rhinodoc__` → Rhino, `__teklamodel__` → Tekla, else
+   Civil 3D / Navisworks).
 2. Loads the relevant assemblies for that host.
-3. Deletes only `Autodesk/<Host>/` — hosts coexist.
+3. Deletes only that host's folders (`Autodesk/<Host>/`, `Rhino/` + `Eto/`, `Tekla/`) — hosts coexist.
 4. Regenerates with valid Python syntax.
 5. Writes directly to `02_PyNet Stubs/`.
 
@@ -118,6 +122,9 @@ Run `01_Scripts/00_utils/GenerateStubs.py` from the active host via `send_comman
 | Navisworks | `Autodesk.Navisworks.Api`, `.ComApi`, `.Interop.ComApi`, `.Clash` |
 | Revit | `RevitAPI`, `RevitAPIUI` |
 | Civil 3D | `AcMgd`, `AcCoreMgd`, `AcDbMgd`, `AecBaseMgd`, `AeccDbMgd`, `AecPropDataMgd` |
+| Rhino | `RhinoCommon`, `Rhino.UI`, `Eto` |
+| Tekla | `Tekla.Structures`, `.Model`, `.Drawing`, `.Datatype`, `.Catalogs`, `.Dialog`, `.Plugins` |
+| Presto | none — COM type libraries `presto.tlb` + `PrestoPrmCom.tlb` (see below) |
 
 ### Type mappings
 
@@ -132,3 +139,35 @@ Run `01_Scripts/00_utils/GenerateStubs.py` from the active host via `send_comman
 | `T&` (by-ref / out) | same as `T` |
 | `T*` (pointer) | same as `T` |
 | Python keyword param names | append `_` (e.g. `type_`, `from_`, `in_`) |
+
+---
+
+## Presto stubs (COM type library)
+
+Presto's API is COM (`Presto.App.18`), not .NET, so `GenerateStubs.py` cannot reflect it. Its stubs
+come from the type library instead, with local CPython — no Presto running, no bridge:
+
+```powershell
+uv run --with comtypes python 01_Scripts\00_utils\GeneratePrestoStubs.py
+python 01_Scripts\00_utils\IndexStubs.py
+```
+
+It finds the newest `C:\Program Files\Presto*\<version>\Bin` (full product over the Demo; or pass
+the `Bin` folder) and rewrites only `02_PyNet Stubs/Presto/`:
+
+| File | Class | What |
+|---|---|---|
+| `Presto/__init__.py` | `PrestoApplication` | the interface scripts get as `__presto__` (90 members) |
+| `Presto/PrmCom.py` | `ComPrmDllFunction` | the interface a parametric-concept DLL implements — Presto calls it, `__presto__` does not expose it |
+
+How they differ from the .NET stubs:
+
+- **Every member is a method**, properties included (`Project()`, `VersionStr()`), because that is
+  how the `__presto__` proxy calls them.
+- **Each method carries RIB's own description** from the type library (Spanish): modes, enum-like
+  codes and return values — e.g. `Calculate` modes, `ReadTableByKey` output formats, `Open` modes.
+  Grep the docstrings when looking for a code's meaning.
+- Optional parameters are marked `= ...`. Parameter names are the type library's (`tabla`, `clave`,
+  `valor`…).
+- **Scripts never import them**: `Presto` is not a module at run time and the validator rejects the
+  import. They are a lookup reference (and Pylance completion when writing outside the bridge).

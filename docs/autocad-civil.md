@@ -20,6 +20,7 @@ Related: [navisworks.md](navisworks.md) · [revit.md](revit.md)
 | **Sample lines, section views, profiles, assemblies, corridors**, cut/fill | [civil-sections.md](civil-sections.md) |
 | **Property Sets** (PSets — the Revit shared-parameter equivalent), attaching data to entities | [civil-propertysets.md](civil-propertysets.md) |
 | **Importing GIS results** (TIN from points, draping, heat maps, parcels, blocks, `paths.json`) | [civil-gis-import.md](civil-gis-import.md) |
+| **Quantity takeoff for RIB Presto** (corridors, volume surfaces, pipe networks, layers → budget JSON) | [§ below](#quantity-takeoff-for-presto) and [presto.md](presto.md#measurement-lines-and-bim-traceability-iso-19650) |
 
 > This guide and the topic guides are a base, not final: external Civil 3D findings are expected to be
 > merged in. When they arrive, merge into the matching topic guide — do not duplicate sections.
@@ -168,3 +169,27 @@ kills the session.
 
 More Civil 3D API notes from the same session (section sources, style collections, section view
 constructors, zooming, extents after commit) are in [civil-sections.md](civil-sections.md).
+
+---
+
+## Quantity takeoff for Presto
+
+`01_Scripts/03_AutoCAD/16_Quantities/ExportTakeoffForPresto.py` (⏳ not run yet) writes
+`<drawing> - Presto takeoff.json` on the Desktop — the same JSON as the Tekla
+`05_Tekla/06_Export/ExportTakeoffForPresto.py`, read by `06_Presto/02_Write/CreateBudgetFromJson.py`
+and `WriteMeasurementLinesFromJson.py`. Read-only; one line per measured object:
+
+| Source | Partidas | Lines |
+|---|---|---|
+| Corridors | per shape code (`Pave1`, `Base`, `SubBase`…), m3, **average end area** of `AppliedAssembly.GetShapesByCode(code)` areas between insertion stations | per station interval (`PK 0+000.00 – 0+020.00`, Longitud × mean area) or per region |
+| `TinVolumeSurface` | cut / fill, m3 (`GetVolumeProperties`, adjusted or not) | one per volume surface |
+| Pipe networks | pipes by size + material (m, 2D/3D length) · structures by family + size (u) | one per part |
+| Layers (`LAYER_MAP`) | plain AutoCAD entities: length (m), closed curve / hatch area (m2), count (u) | one per entity |
+
+- **No IFC GlobalId in a DWG.** `GuidElem` = IFC-compressed `uuid5(drawing FingerprintGuid | Handle |
+  aux)` — stable across runs and saves, unique per line (aux = region / code / station range for
+  corridors, cut / fill for volumes). It is *not* the GlobalId an IFC export would assign.
+- Units: Civil 3D drawing units (else `INSUNITS`) converted to metres; written in `"source"`.
+- Corridor material lists (Compute Materials) are not used: they need sample lines and a write.
+- Corridors are opened `ForWrite` (shape collections are live wrappers — hard crash #2 above) inside a
+  transaction that is never committed.

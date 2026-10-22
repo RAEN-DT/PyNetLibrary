@@ -158,14 +158,23 @@ best = max(cells, key=lambda c: c["score"])
 extra = ""
 if "dist_red" in best:
     extra = f" | red a {best['dist_red']} m, acceso a {best['dist_acceso']} m"
-clr.AddReference("System.Windows.Forms")
-from System.Windows.Forms import MessageBox
-MessageBox.Show(
-    f"Celdas: {len(cells)} (100x100 m) en capa {LAYER_NAME}\n"
-    f"Excluidas (gris): {n_excl} | aptas: {len(valid_scores)}\n"
-    f"Score: {smin} - {smax} | celdas >=70: {sum(1 for s in valid_scores if s >= 70)}\n"
-    f"Mejor celda: score {best['score']} ({best['viento']} m/s, "
-    f"pendiente {best['pendiente']}%{extra})\n"
-    f"Criterios: {data.get('criterios', 'provisional: 70% viento + 30% pendiente')}",
-    f"PyNET - Mapa de calor eolico ({data['zona']})",
-)
+print(f"Celdas: {len(cells)} | excluidas {n_excl} | aptas {len(valid_scores)} | score {smin}-{smax}")
+print(f"Mejor celda: score {best['score']} ({best['viento']} m/s, pendiente {best['pendiente']}%)")
+
+ia_Result = [{
+    "type": "mapa_calor_eolico",
+    "zona": data["zona"],
+    "celdas": len(cells),
+    "excluidas": n_excl,
+    "aptas": len(valid_scores),
+    "score_min": smin,
+    "score_max": smax,
+    "celdas_score_70": sum(1 for s in valid_scores if s >= 70),
+    "mejor_celda": {
+        "score": best["score"],
+        "viento_ms": best["viento"],
+        "pendiente_pct": best["pendiente"],
+    },
+    "criterios": data.get("criterios", "provisional: 70% viento + 30% pendiente"),
+    "capa": LAYER_NAME,
+}]

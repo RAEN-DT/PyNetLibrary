@@ -27,8 +27,6 @@ from Autodesk.AutoCAD.Colors import Color, ColorMethod
 from Autodesk.AutoCAD.Geometry import Point3d, Vector3d
 from Autodesk.Civil.ApplicationServices import CivilApplication
 
-clr.AddReference("System.Windows.Forms")
-from System.Windows.Forms import MessageBox
 
 # Repo location of the standalone PyQGIS engine (01_Scripts/04_QGIS). Set it once per machine in
 # %USERPROFILE%\.pynet\paths.json (not versioned):  {"qgis_dir": "C:\\Repos\\PyNetLibrary\\01_Scripts\\04_QGIS"}
@@ -120,11 +118,19 @@ print(f"Turbinas: {drawn} | radio {rad:.0f} m | entidades previas borradas: {era
 print(f"Generacion del parque: {aep_total} GWh/ano")
 print(f"Prioridad 1: {top['id']} {top['pct_vegetacion']}% combustible, "
       f"{top.get('aep_gwh', 0)} GWh/ano (score {top.get('score_prioridad', 0)})")
-MessageBox.Show(
-    f"Desbroce de aerogeneradores ({CFG['nombre']})\n"
-    f"Turbinas: {drawn} | radio: {rad:.0f} m | parque: {aep_total} GWh/ano\n"
-    f"Prioridad 1: {top['id']} ({top['pct_vegetacion']}% combustible, "
-    f"{top.get('aep_gwh', 0)} GWh)\n"
-    f"Prioridad = vegetacion x generacion | capa: {LAYER}",
-    "PyNET - Desbroce de aerogeneradores",
-)
+print(f"Turbinas: {drawn} | radio {rad:.0f} m | parque {aep_total} GWh/ano")
+print(f"Prioridad 1: {top['id']} ({top['pct_vegetacion']}% combustible, {top.get('aep_gwh', 0)} GWh)")
+
+ia_Result = [{
+    "type": "desbroce_aerogeneradores",
+    "zona": CFG["nombre"],
+    "turbinas": drawn,
+    "radio_m": round(rad, 1),
+    "aep_parque_gwh": aep_total,
+    "prioridad_1": {
+        "id": top["id"],
+        "pct_vegetacion": top["pct_vegetacion"],
+        "aep_gwh": top.get("aep_gwh", 0),
+    },
+    "capa": LAYER,
+}]

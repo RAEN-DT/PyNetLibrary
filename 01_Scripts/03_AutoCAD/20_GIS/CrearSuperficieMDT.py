@@ -136,11 +136,15 @@ finally:
 doc.SendStringToExecute("_.ZOOM _E ", True, False, False)
 
 zs = [p[2] for p in points]
-clr.AddReference("System.Windows.Forms")
-from System.Windows.Forms import MessageBox
-MessageBox.Show(
-    f"Superficie TIN: {SURFACE_NAME} ({len(points)} puntos)\n"
-    f"Elevaciones: {min(zs):.0f} - {max(zs):.0f} m\n"
-    f"Curvas de nivel: {n_pl} en capa {LAYER_CURVAS}",
-    f"PyNET - Topografia {CFG['nombre']} (IGN MDT05)",
-)
+print(f"Elevaciones: {min(zs):.0f} - {max(zs):.0f} m")
+
+ia_Result = [{
+    "type": "mdt",
+    "zona": CFG["nombre"],
+    "superficie": SURFACE_NAME,
+    "puntos": len(points),
+    "z_min": round(min(zs), 2),
+    "z_max": round(max(zs), 2),
+    "curvas": n_pl,
+    "capa_curvas": LAYER_CURVAS,
+}]

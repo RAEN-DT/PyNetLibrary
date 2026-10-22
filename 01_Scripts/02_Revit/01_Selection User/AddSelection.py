@@ -27,7 +27,6 @@ class WallSelectionFilter(ISelectionFilter):
     def AllowReference(self, reference, position):
         return True
 
-
 class AddSelectionScript:
     @staticmethod
     def Run(uidoc, doc):

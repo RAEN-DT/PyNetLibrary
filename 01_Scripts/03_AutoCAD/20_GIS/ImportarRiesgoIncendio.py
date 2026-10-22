@@ -29,8 +29,6 @@ from Autodesk.AutoCAD.Colors import Color, ColorMethod
 from Autodesk.AutoCAD.Geometry import Point3d, Vector3d
 from Autodesk.Civil.ApplicationServices import CivilApplication
 
-clr.AddReference("System.Windows.Forms")
-from System.Windows.Forms import MessageBox
 
 # Repo location of the standalone PyQGIS engine (01_Scripts/04_QGIS). Set it once per machine in
 # %USERPROFILE%\.pynet\paths.json (not versioned):  {"qgis_dir": "C:\\Repos\\PyNetLibrary\\01_Scripts\\04_QGIS"}
@@ -153,10 +151,18 @@ print(f"Riesgo de incendio importado sobre {surface.Name} ({CFG['nombre']})")
 print(f"Tramos: {len(segs)} | heatmap: {drawn} | entidades previas borradas: {erased}")
 print(f"Tramo critico P1: tramo {top['id']} riesgo medio {top['riesgo_medio']} "
       f"max {top['riesgo_max']} ({top['celdas_riesgo_alto']} celdas alto riesgo)")
-MessageBox.Show(
-    f"Linea AT - riesgo de incendio ({CFG['nombre']})\n"
-    f"Tramos: {len(segs)} | puntos de riesgo: {drawn}\n"
-    f"Tramo critico P1: tramo {top['id']} (riesgo medio {top['riesgo_medio']}, max {top['riesgo_max']})\n"
-    f"Capas: GIS_RI_CORREDOR, GIS_RI_LINEA, GIS_RI_HEATMAP",
-    "PyNET - Riesgo de incendio sobre la linea AT",
-)
+print(f"Tramos: {len(segs)} | puntos de riesgo: {drawn}")
+print(f"Tramo critico P1: {top['id']} (riesgo medio {top['riesgo_medio']}, max {top['riesgo_max']})")
+
+ia_Result = [{
+    "type": "riesgo_incendio_linea_at",
+    "zona": CFG["nombre"],
+    "tramos": len(segs),
+    "puntos_riesgo": drawn,
+    "tramo_critico": {
+        "id": top["id"],
+        "riesgo_medio": top["riesgo_medio"],
+        "riesgo_max": top["riesgo_max"],
+    },
+    "capas": ["GIS_RI_CORREDOR", "GIS_RI_LINEA", "GIS_RI_HEATMAP"],
+}]

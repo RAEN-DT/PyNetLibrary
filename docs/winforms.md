@@ -132,6 +132,9 @@ Each bundle ships its icon at the **bundle root**, next to a common `Pynet.ico`:
 | Navisworks | `manage.ico` |
 | Revit | `Revit.ico` |
 | AutoCAD / Civil 3D | `C3D.ico` |
+| Rhino | `Pynet.ico` — no `.bundle`: install root is `PYNET_BIN.parent` (see [rhino.md](rhino.md)) |
+| Tekla | `Pynet.ico` — no `.bundle`: engine in `<install>\<year>\`, icon at the install root `PYNET_BIN.parent` (see [tekla.md](tekla.md)) |
+| Presto | `Pynet.ico` — no `.bundle`, one exe for every version: the installer puts the engine and the icon in the same folder, so `PYNET_BIN / "Pynet.ico"` (⏳ from the installer script, see [presto.md](presto.md)) |
 
 Never hardcode `…/ApplicationPlugins/Raen.<Host>.Pynet.bundle/…`: derive the bundle root from the
 engine assembly that is executing the script (it lives in `<bundle>/Contents/<year>/`), so the path

@@ -81,6 +81,17 @@ for bic in Enum.GetValues(BuiltInCategory):
 
 ---
 
+## 5D: takeoff for RIB Presto (ISO 19650)
+
+`01_Scripts/02_Revit/26_5D/ExportTakeoffForPresto.py` (✅ run on Revit 2025, 84 elements / 33 partidas) — read-only: writes
+`<model> - Presto takeoff.json` on the Desktop, one measurement line per element with its IFC
+GlobalId (`IfcGUID` parameter, else `ExportUtils.GetExportId` compressed to 22 chars), IFC class,
+level, family / type. Same format as the Tekla exporter; consumed by
+`06_Presto/02_Write/CreateBudgetFromJson.py` and `WriteMeasurementLinesFromJson.py` — workflow in
+[presto.md](presto.md#measurement-lines-and-bim-traceability-iso-19650).
+
+---
+
 ## The Python.NET runtime is persistent
 
 The Python runtime inside Revit is **persistent and shared** across all executions (`send_command` and

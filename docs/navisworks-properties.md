@@ -114,4 +114,6 @@ Every property read is a pythonnet ↔ .NET call. Filter nodes first (`ClassDisp
 
 Reference scripts: `05_QueryElements/ExportClashesToJSON.py` (walk-up + internal names),
 `05_QueryElements/WallLinearMeters.py` (IFC-sourced names, typed values),
-`03_ClashDetection/ExtractClashElementInfo.py` (bilingual fallbacks).
+`03_ClashDetection/ExtractClashElementInfo.py` (bilingual fallbacks),
+`05_QueryElements/ExportTakeoffForPresto.py` (configurable ordered (category, property) lookups for
+GUID / IFC class / quantities across Revit, IFC and Tekla sources, quantities converted to m / m2 / m3 ⏳).

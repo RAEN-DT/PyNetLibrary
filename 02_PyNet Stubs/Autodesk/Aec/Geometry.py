@@ -263,15 +263,24 @@ class Profile(ImpObject):
     def UpdateTransientData(self, ) -> None: ...
 
 class ProfileExtrusionDirection:
-    """.NET: Autodesk.Aec.Geometry.ProfileExtrusionDirection"""
+    """.NET enum: Autodesk.Aec.Geometry.ProfileExtrusionDirection"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    ExtrudeInXDir: int  # = 0
+    ExtrudeInYDir: int  # = 1
+    ExtrudeInZDir: int  # = 2
 class ProfileResult:
-    """.NET: Autodesk.Aec.Geometry.ProfileResult"""
+    """.NET enum: Autodesk.Aec.Geometry.ProfileResult"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    PointInProfile: int  # = 0
+    PointOutsideProfile: int  # = 1
+    PointOnRing: int  # = 2
+    PointOnVoidRing: int  # = 3
+    PointInRing: int  # = 4
+    PointOutsideRing: int  # = 5
+    RingInsideProfile: int  # = 6
+    RingCoincidesWithRing: int  # = 7
+    RingCoincidesWithVoidRing: int  # = 8
+    RingOutsideProfile: int  # = 9
 class Ring(CompoundCurve2d):
     """.NET: Autodesk.Aec.Geometry.Ring"""
     def __init__(self, *args) -> None: ...
@@ -387,6 +396,13 @@ class Segment2dCollection(DisposableWrapper):
     def GetEnumerator(self, ) -> IEnumerator: ...
 
 class SegmentPosition:
-    """.NET: Autodesk.Aec.Geometry.SegmentPosition"""
+    """.NET enum: Autodesk.Aec.Geometry.SegmentPosition"""
     def __init__(self, *args) -> None: ...
-    ...
+    None_: int  # = 0
+    Discard: int  # = 1
+    Front: int  # = 2
+    Back: int  # = 3
+    Left: int  # = 4
+    Right: int  # = 5
+    Top: int  # = 6
+    Bottom: int  # = 7

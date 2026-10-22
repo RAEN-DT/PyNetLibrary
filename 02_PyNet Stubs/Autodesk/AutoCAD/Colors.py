@@ -65,10 +65,17 @@ class ColorConverter(TypeConverter):
     def ConvertTo(self, context: ITypeDescriptorContext, culture: CultureInfo, value: object, destinationType: Type) -> object: ...
 
 class ColorMethod:
-    """.NET: Autodesk.AutoCAD.Colors.ColorMethod"""
+    """.NET enum: Autodesk.AutoCAD.Colors.ColorMethod"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    ByLayer: int  # = 192
+    ByBlock: int  # = 193
+    ByColor: int  # = 194
+    ByAci: int  # = 195
+    ByPen: int  # = 196
+    Foreground: int  # = 197
+    LayerOff: int  # = 198
+    LayerFrozen: int  # = 199
+    None_: int  # = 200
 class EntityColor:
     """.NET: Autodesk.AutoCAD.Colors.EntityColor"""
     def __init__(self, *args) -> None: ...
@@ -170,6 +177,9 @@ class TransparencyCollectionEnumerator:
     def Reset(self, ) -> None: ...
 
 class TransparencyMethod:
-    """.NET: Autodesk.AutoCAD.Colors.TransparencyMethod"""
+    """.NET enum: Autodesk.AutoCAD.Colors.TransparencyMethod"""
     def __init__(self, *args) -> None: ...
-    ...
+    ByLayer: int  # = 0
+    ByBlock: int  # = 1
+    ByAlpha: int  # = 2
+    ErrorValue: int  # = 3

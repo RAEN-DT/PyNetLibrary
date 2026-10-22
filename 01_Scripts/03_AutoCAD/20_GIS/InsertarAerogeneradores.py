@@ -125,8 +125,6 @@ _dir = data.get("dir_viento")
 rotation_rad = math.radians((90 - _dir) % 360) if _dir is not None else 0.0
 print(f"Aerogeneradores propuestos: {len(turbinas)} ({data['zona']})")
 
-clr.AddReference("System.Windows.Forms")
-from System.Windows.Forms import MessageBox
 
 lock = doc.LockDocument()
 try:
@@ -226,12 +224,22 @@ finally:
 scores = [tb["score"] for tb in turbinas]
 dir_txt = f"{_dir}° (Cierzo)" if _dir is not None else "no definida"
 bloque_txt = f"'{block_name}' (generado en este dibujo)" if bloque_creado else f"'{block_name}'"
-MessageBox.Show(
-    f"Aerogeneradores: {len(turbinas)} (bloque {bloque_txt} x{escala})\n"
-    f"Potencia estimada: {len(turbinas) * data['potencia_mw']:.0f} MW "
-    f"({data['potencia_mw']} MW/maquina)\n"
-    f"Score: {min(scores)} - {max(scores)} | separacion minima: {data['separacion_m']} m\n"
-    f"Direccion viento: {dir_txt} | rotacion bloque: {math.degrees(rotation_rad):.0f}°\n"
-    f"Capa: {LAYER_NAME} | property set: {PSET_NAME}",
-    f"PyNET - Propuesta de parque eolico ({data['zona']})",
-)
+print(f"Aerogeneradores: {len(turbinas)} (bloque {bloque_txt} x{escala})")
+print(f"Potencia estimada: {len(turbinas) * data['potencia_mw']:.0f} MW | score {min(scores)}-{max(scores)}")
+
+ia_Result = [{
+    "type": "aerogeneradores",
+    "zona": data["zona"],
+    "aerogeneradores": len(turbinas),
+    "bloque": bloque_txt,
+    "escala": escala,
+    "potencia_unitaria_mw": data["potencia_mw"],
+    "potencia_total_mw": round(len(turbinas) * data["potencia_mw"], 1),
+    "score_min": min(scores),
+    "score_max": max(scores),
+    "separacion_min_m": data["separacion_m"],
+    "direccion_viento": dir_txt,
+    "rotacion_bloque_deg": round(math.degrees(rotation_rad), 1),
+    "capa": LAYER_NAME,
+    "property_set": PSET_NAME,
+}]

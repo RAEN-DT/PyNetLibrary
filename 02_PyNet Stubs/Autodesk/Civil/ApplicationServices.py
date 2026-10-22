@@ -52,6 +52,10 @@ class CivilDocument(DisposableWrapper):
     def GetViewFrameGroupIds(self, ) -> ObjectIdCollection: ...
 
 class ProductType:
-    """.NET: Autodesk.Civil.ApplicationServices.ProductType"""
+    """.NET enum: Autodesk.Civil.ApplicationServices.ProductType"""
     def __init__(self, *args) -> None: ...
-    ...
+    Other: int  # = 0
+    Civil3D: int  # = 1
+    Map: int  # = 2
+    Civil: int  # = 3
+    Unknown: int  # = -1

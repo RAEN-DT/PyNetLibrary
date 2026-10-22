@@ -25,10 +25,15 @@ class CategoryCollectable(CollectableObject):
     def ToggleState(self, ) -> int: ...
 
 class CategoryInequalityFlags:
-    """.NET: Autodesk.AutoCAD.Internal.PropertyInspector.CategoryInequalityFlags"""
+    """.NET enum: Autodesk.AutoCAD.Internal.PropertyInspector.CategoryInequalityFlags"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    Name: int  # = 1
+    Description: int  # = 2
+    CategoryCommandButtons: int  # = 4
+    CategoryId: int  # = 8
+    Weight: int  # = 16
+    Parent: int  # = 32
+    Visible: int  # = 64
 class CollectableObject(DisposableWrapper):
     """.NET: Autodesk.AutoCAD.Internal.PropertyInspector.CollectableObject"""
     def __init__(self, *args) -> None: ...
@@ -108,10 +113,34 @@ class ObjectPropertyManagerPropertyUtility:
     def ObjectSupportsNonDBResidency(obj: DBObject) -> bool: ...
 
 class PropertyCategoryId:
-    """.NET: Autodesk.AutoCAD.Internal.PropertyInspector.PropertyCategoryId"""
+    """.NET enum: Autodesk.AutoCAD.Internal.PropertyInspector.PropertyCategoryId"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    Attributes: int  # = 2941
+    Geometry: int  # = -25
+    Table: int  # = -24
+    Tolerances: int  # = -23
+    LinesArrows: int  # = -22
+    Fit: int  # = -21
+    AltUnits: int  # = -20
+    PrimaryUnits: int  # = -19
+    ControlPoints: int  # = -18
+    ImageAdjust: int  # = -17
+    Mesh: int  # = -16
+    DataPoints: int  # = -15
+    Pattern: int  # = -14
+    Mass: int  # = -13
+    General: int  # = -12
+    Dde: int  # = -11
+    Scale: int  # = -10
+    Text: int  # = -9
+    List: int  # = -8
+    Data: int  # = -7
+    Behavior: int  # = -6
+    Appearance: int  # = -5
+    Position: int  # = -4
+    Font: int  # = -3
+    Misc: int  # = -2
+    Nil: int  # = -1
 class PropertyCollectable(CollectableObject):
     """.NET: Autodesk.AutoCAD.Internal.PropertyInspector.PropertyCollectable"""
     def __init__(self, *args) -> None: ...
@@ -134,10 +163,21 @@ class PropertyCollectable(CollectableObject):
     def Sync(self, propertyCollectable: PropertyCollectable, inequalityFlags: int) -> None: ...
 
 class PropertyInequalityFlags:
-    """.NET: Autodesk.AutoCAD.Internal.PropertyInspector.PropertyInequalityFlags"""
+    """.NET enum: Autodesk.AutoCAD.Internal.PropertyInspector.PropertyInequalityFlags"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    Name: int  # = 1
+    PropertyControl: int  # = 2
+    IntegralHeight: int  # = 4
+    FullView: int  # = 8
+    TextColor: int  # = 16
+    Weight: int  # = 32
+    Parent: int  # = 64
+    Enum: int  # = 128
+    Type: int  # = 256
+    Disabled: int  # = 512
+    Ellipses: int  # = 1024
+    ClsidPropPage: int  # = 2048
+    Visible: int  # = 4096
 class PropertyInspectorEventArgs(EventArgs):
     """.NET: Autodesk.AutoCAD.Internal.PropertyInspector.PropertyInspectorEventArgs"""
     def __init__(self, *args) -> None: ...

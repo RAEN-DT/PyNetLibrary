@@ -1,10 +1,19 @@
 # Auto-generated — Civil 26 — Autodesk.AutoCAD.EditorInput
 
 class AddedKeywords:
-    """.NET: Autodesk.AutoCAD.EditorInput.AddedKeywords"""
+    """.NET enum: Autodesk.AutoCAD.EditorInput.AddedKeywords"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    LastAllPrevious: int  # = 1
+    PickImplied: int  # = 2
+    All: int  # = 4
+    WindowCrossingBoxWPolygonCPolygon: int  # = 8
+    Multiple: int  # = 16
+    CrossingCPolygon: int  # = 32
+    Fence: int  # = 64
+    Last: int  # = 128
+    Previous: int  # = 256
+    WindowWPolygon: int  # = 512
+    Group: int  # = 1024
 class Camera(Entity):
     """.NET: Autodesk.AutoCAD.EditorInput.Camera"""
     def __init__(self, *args) -> None: ...
@@ -129,10 +138,21 @@ class CursorBadgeUtilities:
     def SetSupplementalCursorOffset(self, x: int, y: int) -> None: ...
 
 class CursorType:
-    """.NET: Autodesk.AutoCAD.EditorInput.CursorType"""
+    """.NET enum: Autodesk.AutoCAD.EditorInput.CursorType"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    Crosshair: int  # = 0
+    RectangularCursor: int  # = 1
+    RubberBand: int  # = 2
+    NotRotated: int  # = 3
+    TargetBox: int  # = 4
+    RotatedCrosshair: int  # = 5
+    CrosshairNoRotate: int  # = 6
+    Invisible: int  # = 7
+    EntitySelect: int  # = 8
+    Parallelogram: int  # = 9
+    EntitySelectNoPerspective: int  # = 10
+    PickfirstOrGrips: int  # = 11
+    NoSpecialCursor: int  # = -1
 class DeviceInputEventArgs(EventArgs):
     """.NET: Autodesk.AutoCAD.EditorInput.DeviceInputEventArgs"""
     def __init__(self, *args) -> None: ...
@@ -166,10 +186,11 @@ class DragCallback:
     def Invoke(self, current: Point3d, xform: Matrix3d) -> SamplerStatus: ...
 
 class DragCursor:
-    """.NET: Autodesk.AutoCAD.EditorInput.DragCursor"""
+    """.NET enum: Autodesk.AutoCAD.EditorInput.DragCursor"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    Normal: int  # = 0
+    None_: int  # = 1
+    Selection: int  # = 2
 class DraggingEndedEventArgs(EventArgs):
     """.NET: Autodesk.AutoCAD.EditorInput.DraggingEndedEventArgs"""
     def __init__(self, *args) -> None: ...
@@ -518,10 +539,10 @@ class LivePreviewContextProxy:
     def Dispose(self, ) -> None: ...
 
 class LivePreviewContextType:
-    """.NET: Autodesk.AutoCAD.EditorInput.LivePreviewContextType"""
+    """.NET enum: Autodesk.AutoCAD.EditorInput.LivePreviewContextType"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    EndPreview: int  # = 0
+    UpdatePreview: int  # = 1
 class LivePreviewDelegate(LivePreviewActionBase):
     """.NET: Autodesk.AutoCAD.EditorInput.LivePreviewDelegate"""
     def __init__(self, *args) -> None: ...
@@ -543,10 +564,26 @@ class LivePreviewPropertySetting(LivePreviewActionBase):
     def Execute(self, ) -> None: ...
 
 class ObjectSnapMasks:
-    """.NET: Autodesk.AutoCAD.EditorInput.ObjectSnapMasks"""
+    """.NET enum: Autodesk.AutoCAD.EditorInput.ObjectSnapMasks"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    End: int  # = 1
+    Middle: int  # = 2
+    Center: int  # = 4
+    Node: int  # = 8
+    Quadrant: int  # = 16
+    Intersection: int  # = 32
+    Insertion: int  # = 64
+    Perpendicular: int  # = 128
+    Tangent: int  # = 256
+    Near: int  # = 512
+    Quick: int  # = 1024
+    ApparentIntersection: int  # = 2048
+    Immediate: int  # = 65536
+    AllowTangent: int  # = 131072
+    DisablePerpendicular: int  # = 262144
+    RelativeCartesian: int  # = 524288
+    RelativePolar: int  # = 1048576
+    NoneOverride: int  # = 2097152
 class PickPointDescriptor:
     """.NET: Autodesk.AutoCAD.EditorInput.PickPointDescriptor"""
     def __init__(self, *args) -> None: ...
@@ -559,10 +596,11 @@ class PickPointDescriptor:
     def ToString(self, provider: IFormatProvider) -> str: ...
 
 class PickPointKind:
-    """.NET: Autodesk.AutoCAD.EditorInput.PickPointKind"""
+    """.NET enum: Autodesk.AutoCAD.EditorInput.PickPointKind"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    InfiniteLine: int  # = 0
+    Ray: int  # = 1
+    LineSegment: int  # = 2
 class PickPointSelectedObject(SelectedObject):
     """.NET: Autodesk.AutoCAD.EditorInput.PickPointSelectedObject"""
     def __init__(self, *args) -> None: ...
@@ -612,10 +650,31 @@ class PointFilterResult:
     def Dispose(self, ) -> None: ...
 
 class PointHistoryBits:
-    """.NET: Autodesk.AutoCAD.EditorInput.PointHistoryBits"""
+    """.NET enum: Autodesk.AutoCAD.EditorInput.PointHistoryBits"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    DidNotPick: int  # = 0
+    Tablet: int  # = 1
+    NotDigitizer: int  # = 2
+    LastPoint: int  # = 4
+    Gripped: int  # = 8
+    CartSnapped: int  # = 16
+    Ortho: int  # = 32
+    CyclingPoint: int  # = 64
+    ObjectSnapped: int  # = 128
+    PolarAngle: int  # = 256
+    Aligned: int  # = 1024
+    AppFiltered: int  # = 2048
+    ForcedPick: int  # = 4096
+    UsedPickBox: int  # = 8192
+    UsedObjectSnapBox: int  # = 16384
+    PickAborted: int  # = 32768
+    PickMask: int  # = 57344
+    XPending: int  # = 65536
+    YPending: int  # = 131072
+    ZPending: int  # = 262144
+    CoordinatePending: int  # = 458752
+    FromKeyboard: int  # = 524288
+    NotInteractive: int  # = 1048576
 class PointInputEventArgs(EventArgs):
     """.NET: Autodesk.AutoCAD.EditorInput.PointInputEventArgs"""
     def __init__(self, *args) -> None: ...
@@ -1198,10 +1257,15 @@ class PromptSelectionResultEventHandler:
     def Invoke(self, sender: object, e: PromptSelectionResultEventArgs) -> None: ...
 
 class PromptStatus:
-    """.NET: Autodesk.AutoCAD.EditorInput.PromptStatus"""
+    """.NET enum: Autodesk.AutoCAD.EditorInput.PromptStatus"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    None_: int  # = 5000
+    Modeless: int  # = 5027
+    Other: int  # = 5028
+    OK: int  # = 5100
+    Keyword: int  # = -5005
+    Cancel: int  # = -5002
+    Error: int  # = -5001
 class PromptStringOptions(PromptEditorOptions):
     """.NET: Autodesk.AutoCAD.EditorInput.PromptStringOptions"""
     def __init__(self, *args) -> None: ...
@@ -1257,10 +1321,11 @@ class RolloverEventHandler:
     def Invoke(self, sender: object, e: RolloverEventArgs) -> None: ...
 
 class SamplerStatus:
-    """.NET: Autodesk.AutoCAD.EditorInput.SamplerStatus"""
+    """.NET enum: Autodesk.AutoCAD.EditorInput.SamplerStatus"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    OK: int  # = 0
+    NoChange: int  # = 1
+    Cancel: int  # = 2
 class SelectedObject:
     """.NET: Autodesk.AutoCAD.EditorInput.SelectedObject"""
     def __init__(self, *args) -> None: ...
@@ -1317,20 +1382,47 @@ class SelectionFilter:
     def GetFilter(self, ) -> list: ...
 
 class SelectionFlags:
-    """.NET: Autodesk.AutoCAD.EditorInput.SelectionFlags"""
+    """.NET enum: Autodesk.AutoCAD.EditorInput.SelectionFlags"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    Normal: int  # = 0
+    PickPoints: int  # = 1
+    Duplicates: int  # = 2
+    NestedEntities: int  # = 4
+    SubEntities: int  # = 8
+    SinglePick: int  # = 16
+    PickfirstSet: int  # = 32
+    PreviousSet: int  # = 64
+    SubSelection: int  # = 128
+    Undo: int  # = 256
+    FailedPickAuto: int  # = 512
 class SelectionMethod:
-    """.NET: Autodesk.AutoCAD.EditorInput.SelectionMethod"""
+    """.NET enum: Autodesk.AutoCAD.EditorInput.SelectionMethod"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    NonGraphical: int  # = 0
+    PickPoint: int  # = 1
+    Window: int  # = 2
+    Crossing: int  # = 3
+    Fence: int  # = 4
+    SubEntity: int  # = 5
+    Unavailable: int  # = -1
 class SelectionMode:
-    """.NET: Autodesk.AutoCAD.EditorInput.SelectionMode"""
+    """.NET enum: Autodesk.AutoCAD.EditorInput.SelectionMode"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    Window: int  # = 1
+    Crossing: int  # = 2
+    Box: int  # = 3
+    Last: int  # = 4
+    Entity: int  # = 5
+    All: int  # = 6
+    FencePolyline: int  # = 7
+    CrossingPolygon: int  # = 8
+    WindowPolygon: int  # = 9
+    Pick: int  # = 10
+    Every: int  # = 11
+    Extents: int  # = 12
+    Group: int  # = 13
+    Previous: int  # = 14
+    Multiple: int  # = 15
 class SelectionRemovedEventArgs(EventArgs):
     """.NET: Autodesk.AutoCAD.EditorInput.SelectionRemovedEventArgs"""
     def __init__(self, *args) -> None: ...
@@ -1392,10 +1484,20 @@ class SelectionTextInputEventHandler:
     def Invoke(self, sender: object, e: SelectionTextInputEventArgs) -> None: ...
 
 class SubtractedKeywords:
-    """.NET: Autodesk.AutoCAD.EditorInput.SubtractedKeywords"""
+    """.NET enum: Autodesk.AutoCAD.EditorInput.SubtractedKeywords"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    LastAllGroupPrevious: int  # = 1
+    PickImplied: int  # = 2
+    All: int  # = 4
+    BoxAuto: int  # = 8
+    Multiple: int  # = 16
+    CrossingCPolygon: int  # = 32
+    Fence: int  # = 64
+    Last: int  # = 128
+    Previous: int  # = 256
+    WindowWPolygon: int  # = 512
+    Group: int  # = 1024
+    AddRemove: int  # = 2048
 class Transient(Drawable):
     """.NET: Autodesk.AutoCAD.EditorInput.Transient"""
     def __init__(self, *args) -> None: ...
@@ -1410,6 +1512,20 @@ class Transient(Drawable):
     UnmanagedObject: IntPtr
 
 class UserInputControls:
-    """.NET: Autodesk.AutoCAD.EditorInput.UserInputControls"""
+    """.NET enum: Autodesk.AutoCAD.EditorInput.UserInputControls"""
     def __init__(self, *args) -> None: ...
-    ...
+    GovernedByOrthoMode: int  # = 1
+    NullResponseAccepted: int  # = 2
+    DoNotEchoCancelForCtrlC: int  # = 4
+    DoNotUpdateLastPoint: int  # = 8
+    NoDwgLimitsChecking: int  # = 16
+    NoZeroResponseAccepted: int  # = 32
+    NoNegativeResponseAccepted: int  # = 64
+    Accept3dCoordinates: int  # = 128
+    AcceptMouseUpAsPoint: int  # = 256
+    AnyBlankTerminatesInput: int  # = 512
+    InitialBlankTerminatesInput: int  # = 1024
+    AcceptOtherInputString: int  # = 2048
+    GovernedByUCSDetect: int  # = 4096
+    NoZDirectionOrtho: int  # = 8192
+    UseBasePointElevation: int  # = 32768

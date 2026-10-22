@@ -852,11 +852,18 @@ class LookupColumnDescriptorCollection(DisposableWrapper):
     def RemoveAt(self, index: int) -> None: ...
 
 class UnitsType:
-    """.NET: Autodesk.AutoCAD.Internal.DatabaseServices.UnitsType"""
+    """.NET enum: Autodesk.AutoCAD.Internal.DatabaseServices.UnitsType"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    NoUnits: int  # = 0
+    Angular: int  # = 1
+    Distance: int  # = 2
+    Area: int  # = 3
 class UserParameterType:
-    """.NET: Autodesk.AutoCAD.Internal.DatabaseServices.UserParameterType"""
+    """.NET enum: Autodesk.AutoCAD.Internal.DatabaseServices.UserParameterType"""
     def __init__(self, *args) -> None: ...
-    ...
+    Distance: int  # = 0
+    Area: int  # = 1
+    Volume: int  # = 2
+    Scalar: int  # = 3
+    Angle: int  # = 4
+    String: int  # = 5

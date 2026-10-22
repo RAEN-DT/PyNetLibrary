@@ -142,9 +142,12 @@ finally:
 
 doc.SendStringToExecute("_.ZOOM _E ", True, False, False)
 
-clr.AddReference("System.Windows.Forms")
-from System.Windows.Forms import MessageBox
-MessageBox.Show(
-    f"Parcelas importadas: {drawn}\nCapa: {LAYER_NAME}\nProperty set: {PSET_NAME} (RefCatastral, AreaM2)",
-    "PyNET - Importar parcelas Catastro",
-)
+print(f"Parcelas importadas: {drawn} | capa {LAYER_NAME} | property set {PSET_NAME}")
+
+ia_Result = [{
+    "type": "parcelas_catastro",
+    "parcelas": drawn,
+    "capa": LAYER_NAME,
+    "property_set": PSET_NAME,
+    "campos": ["RefCatastral", "AreaM2"],
+}]

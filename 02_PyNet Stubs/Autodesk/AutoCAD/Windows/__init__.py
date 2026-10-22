@@ -17,15 +17,41 @@ class ContextMenuExtension(Menu):
     def Dispose(self, ) -> None: ...
 
 class DefaultPane:
-    """.NET: Autodesk.AutoCAD.Windows.DefaultPane"""
+    """.NET enum: Autodesk.AutoCAD.Windows.DefaultPane"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    ModeMacro: int  # = 0
+    CursorCoordinates: int  # = 1
+    Snap: int  # = 2
+    Grid: int  # = 3
+    Ortho: int  # = 4
+    Polar: int  # = 5
+    ObjectTrack: int  # = 6
+    LineWeight: int  # = 7
+    PaperModel: int  # = 8
+    Paper: int  # = 9
+    Model: int  # = 10
+    ObjectSnap: int  # = 11
+    Float: int  # = 12
+    Table: int  # = 13
+    Spacer: int  # = 14
+    ViewportMaximizePrevious: int  # = 15
+    ViewportMaximize: int  # = 16
+    ViewportMaximizeNext: int  # = 17
+    DynamicInput: int  # = 18
+    DynamicUcs: int  # = 19
+    LayoutModelIcons: int  # = 20
+    ModelIcon: int  # = 21
+    LayoutIcon: int  # = 22
+    LayoutMoreIcon: int  # = 23
+    All: int  # = 24
 class DockSides:
-    """.NET: Autodesk.AutoCAD.Windows.DockSides"""
+    """.NET enum: Autodesk.AutoCAD.Windows.DockSides"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    None_: int  # = 0
+    Left: int  # = 4096
+    Top: int  # = 8192
+    Right: int  # = 16384
+    Bottom: int  # = 32768
 class DocumentWindow(Window):
     """.NET: Autodesk.AutoCAD.Windows.DocumentWindow"""
     def __init__(self, *args) -> None: ...
@@ -94,10 +120,12 @@ class DropTarget:
     def OnDrop(self, e: DragEventArgs) -> None: ...
 
 class IconType:
-    """.NET: Autodesk.AutoCAD.Windows.IconType"""
+    """.NET enum: Autodesk.AutoCAD.Windows.IconType"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    None_: int  # = 0
+    Information: int  # = 1
+    Critical: int  # = 2
+    Warning: int  # = 3
 class InfoCenter:
     """.NET: Autodesk.AutoCAD.Windows.InfoCenter"""
     def __init__(self, *args) -> None: ...
@@ -415,15 +443,26 @@ class PaletteSetStateEventHandler:
     def Invoke(self, sender: object, e: PaletteSetStateEventArgs) -> None: ...
 
 class PaletteSetStyles:
-    """.NET: Autodesk.AutoCAD.Windows.PaletteSetStyles"""
+    """.NET enum: Autodesk.AutoCAD.Windows.PaletteSetStyles"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    ShowAutoHideButton: int  # = 2
+    ShowPropertiesMenu: int  # = 4
+    ShowCloseButton: int  # = 8
+    NameEditable: int  # = 16
+    Snappable: int  # = 32
+    ShowTabForSingle: int  # = 64
+    UsePaletteNameAsTitleForSingle: int  # = 128
+    SingleRowDock: int  # = 512
+    Notify: int  # = 1024
+    SingleRowNoVertResize: int  # = 2048
+    SingleColDock: int  # = 4096
+    NoTitleBar: int  # = 32768
+    PauseAutoRollupForChildModalDialog: int  # = 65536
 class PaletteSetTitleBarLocation:
-    """.NET: Autodesk.AutoCAD.Windows.PaletteSetTitleBarLocation"""
+    """.NET enum: Autodesk.AutoCAD.Windows.PaletteSetTitleBarLocation"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    Left: int  # = 0
+    Right: int  # = 1
 class PaletteSetTitleBarLocationChangeEventHandler:
     """.NET: Autodesk.AutoCAD.Windows.PaletteSetTitleBarLocationChangeEventHandler"""
     def __init__(self, *args) -> None: ...
@@ -471,10 +510,14 @@ class PaneCollection:
     def RemoveAt(self, index: int) -> None: ...
 
 class PaneStyles:
-    """.NET: Autodesk.AutoCAD.Windows.PaneStyles"""
+    """.NET enum: Autodesk.AutoCAD.Windows.PaneStyles"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    NoBorders: int  # = 1
+    PopOut: int  # = 2
+    Stretch: int  # = 4
+    Normal: int  # = 8
+    Command: int  # = 16
+    PopUp: int  # = 32
 class PlotStyleDialog:
     """.NET: Autodesk.AutoCAD.Windows.PlotStyleDialog"""
     def __init__(self, *args) -> None: ...
@@ -491,10 +534,11 @@ class SaveFileDialog:
     def ShowModal(self, ) -> Nullable: ...
 
 class StateEventIndex:
-    """.NET: Autodesk.AutoCAD.Windows.StateEventIndex"""
+    """.NET enum: Autodesk.AutoCAD.Windows.StateEventIndex"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    Hide: int  # = 0
+    Show: int  # = 1
+    ThemeChange: int  # = 4
 class StatusBar:
     """.NET: Autodesk.AutoCAD.Windows.StatusBar"""
     def __init__(self, *args) -> None: ...
@@ -563,10 +607,15 @@ class TrayItemBubbleWindow(DisposableWrapper):
     UnmanagedObject: IntPtr
 
 class TrayItemBubbleWindowCloseReason:
-    """.NET: Autodesk.AutoCAD.Windows.TrayItemBubbleWindowCloseReason"""
+    """.NET enum: Autodesk.AutoCAD.Windows.TrayItemBubbleWindowCloseReason"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    FailedToCreate: int  # = 0
+    NoIcons: int  # = 1
+    NoNotifications: int  # = 2
+    ClosedByUser: int  # = 3
+    TimedOut: int  # = 4
+    HyperlinkClicked: int  # = 5
+    DocumentDeactivated: int  # = 7
 class TrayItemBubbleWindowClosedEventArgs(EventArgs):
     """.NET: Autodesk.AutoCAD.Windows.TrayItemBubbleWindowClosedEventArgs"""
     def __init__(self, *args) -> None: ...

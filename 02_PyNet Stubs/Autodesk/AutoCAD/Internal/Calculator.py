@@ -1,10 +1,14 @@
 # Auto-generated — Civil 26 — Autodesk.AutoCAD.Internal.Calculator
 
 class AngleUnitsEnum:
-    """.NET: Autodesk.AutoCAD.Internal.Calculator.AngleUnitsEnum"""
+    """.NET enum: Autodesk.AutoCAD.Internal.Calculator.AngleUnitsEnum"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    Degree: int  # = 0
+    DegreeMinSec: int  # = 1
+    Grad: int  # = 2
+    Radian: int  # = 3
+    Surveyor: int  # = 4
+    None_: int  # = -1
 class CalcContext(DisposableWrapper):
     """.NET: Autodesk.AutoCAD.Internal.Calculator.CalcContext"""
     def __init__(self, *args) -> None: ...
@@ -150,10 +154,12 @@ class Unit:
     ...
 
 class ValueTypeEnum:
-    """.NET: Autodesk.AutoCAD.Internal.Calculator.ValueTypeEnum"""
+    """.NET enum: Autodesk.AutoCAD.Internal.Calculator.ValueTypeEnum"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    VectorType: int  # = 0
+    RealType: int  # = 1
+    IntType: int  # = 2
+    NoType: int  # = 3
 class XYZPoint:
     """.NET: Autodesk.AutoCAD.Internal.Calculator.XYZPoint"""
     def __init__(self, *args) -> None: ...

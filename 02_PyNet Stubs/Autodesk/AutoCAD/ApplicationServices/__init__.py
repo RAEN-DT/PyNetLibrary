@@ -315,10 +315,15 @@ class DocumentLock:
     def Dispose(self, ) -> None: ...
 
 class DocumentLockMode:
-    """.NET: Autodesk.AutoCAD.ApplicationServices.DocumentLockMode"""
+    """.NET enum: Autodesk.AutoCAD.ApplicationServices.DocumentLockMode"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    None_: int  # = 0
+    AutoWrite: int  # = 1
+    NotLocked: int  # = 2
+    Write: int  # = 4
+    ProtectedAutoWrite: int  # = 20
+    Read: int  # = 32
+    ExclusiveWrite: int  # = 64
 class DocumentLockModeChangeVetoedEventArgs(EventArgs):
     """.NET: Autodesk.AutoCAD.ApplicationServices.DocumentLockModeChangeVetoedEventArgs"""
     def __init__(self, *args) -> None: ...
@@ -386,10 +391,40 @@ class DocumentPinStateChangedEventHandler:
     def Invoke(self, sender: object, e: DocumentPinStateChangedEventArgs) -> None: ...
 
 class DocumentSaveFormat:
-    """.NET: Autodesk.AutoCAD.ApplicationServices.DocumentSaveFormat"""
+    """.NET enum: Autodesk.AutoCAD.ApplicationServices.DocumentSaveFormat"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    R12Dxf: int  # = 1
+    R13Dwg: int  # = 4
+    R13Dxf: int  # = 5
+    R14Dwg: int  # = 8
+    R14Dxf: int  # = 9
+    R2000Dwg: int  # = 12
+    R2000Dxf: int  # = 13
+    R2000Template: int  # = 14
+    R2000Standard: int  # = 15
+    R2000Xml: int  # = 16
+    R2004Dwg: int  # = 24
+    R2004Dxf: int  # = 25
+    R2004Template: int  # = 26
+    R2004Standard: int  # = 27
+    R2007Dwg: int  # = 36
+    R2007Dxf: int  # = 37
+    R2007Template: int  # = 38
+    R2007Standard: int  # = 39
+    R2010Dwg: int  # = 48
+    R2010Dxf: int  # = 49
+    R2010Template: int  # = 50
+    R2010Standard: int  # = 51
+    R2013Dwg: int  # = 60
+    R2013Dxf: int  # = 61
+    R2013Template: int  # = 62
+    R2013Standard: int  # = 63
+    R2018Dwg: int  # = 64
+    Native: int  # = 64
+    R2018Dxf: int  # = 65
+    R2018Template: int  # = 66
+    R2018Standard: int  # = 67
+    Unknown: int  # = -1
 class DocumentWindowActivatedEventArgs(EventArgs):
     """.NET: Autodesk.AutoCAD.ApplicationServices.DocumentWindowActivatedEventArgs"""
     def __init__(self, *args) -> None: ...

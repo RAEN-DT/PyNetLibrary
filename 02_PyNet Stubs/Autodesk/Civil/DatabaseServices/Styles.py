@@ -69,10 +69,16 @@ class AlignmentDesignCheckSetCollection(StyleCollectionBase):
     def Add(self, name: str) -> ObjectId: ...
 
 class AlignmentDisplayStyleType:
-    """.NET: Autodesk.Civil.DatabaseServices.Styles.AlignmentDisplayStyleType"""
+    """.NET enum: Autodesk.Civil.DatabaseServices.Styles.AlignmentDisplayStyleType"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    Line: int  # = 0
+    Curve: int  # = 1
+    Spiral: int  # = 2
+    Arrow: int  # = 3
+    LineExtensions: int  # = 4
+    CurveExtensions: int  # = 5
+    TangentExtensions: int  # = 11
+    WarningSymbol: int  # = 20
 class AlignmentLabelSetItem(BaseLabelSetItem):
     """.NET: Autodesk.Civil.DatabaseServices.Styles.AlignmentLabelSetItem"""
     def __init__(self, *args) -> None: ...
@@ -327,10 +333,14 @@ class AssemblyStyleCollection(StyleCollectionBase):
     def Add(self, name: str) -> ObjectId: ...
 
 class AxisPosition:
-    """.NET: Autodesk.Civil.DatabaseServices.Styles.AxisPosition"""
+    """.NET enum: Autodesk.Civil.DatabaseServices.Styles.AxisPosition"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    Top: int  # = 0
+    Middle: int  # = 1
+    Bottom: int  # = 2
+    Left: int  # = 3
+    Center: int  # = 4
+    Right: int  # = 5
 class AxisStyle(CivilWrapper<AeccDbGraphStyle>):
     """.NET: Autodesk.Civil.DatabaseServices.Styles.AxisStyle"""
     def __init__(self, *args) -> None: ...
@@ -341,10 +351,11 @@ class AxisStyle(CivilWrapper<AeccDbGraphStyle>):
     ShowTickAndLabel: bool
 
 class AxisTickJustificationType:
-    """.NET: Autodesk.Civil.DatabaseServices.Styles.AxisTickJustificationType"""
+    """.NET enum: Autodesk.Civil.DatabaseServices.Styles.AxisTickJustificationType"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    TopOrLeft: int  # = 0
+    BottomOrRight: int  # = 1
+    Center: int  # = 2
 class AxisTickStyle(CivilWrapper<AeccDbGraphStyle>):
     """.NET: Autodesk.Civil.DatabaseServices.Styles.AxisTickStyle"""
     def __init__(self, *args) -> None: ...
@@ -360,15 +371,17 @@ class AxisTickStyle(CivilWrapper<AeccDbGraphStyle>):
     Interval: float
 
 class AxisTickType:
-    """.NET: Autodesk.Civil.DatabaseServices.Styles.AxisTickType"""
+    """.NET enum: Autodesk.Civil.DatabaseServices.Styles.AxisTickType"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    Major: int  # = 0
+    Minor: int  # = 1
+    HorizontalGeometry: int  # = 2
 class AxisTitleLocationType:
-    """.NET: Autodesk.Civil.DatabaseServices.Styles.AxisTitleLocationType"""
+    """.NET enum: Autodesk.Civil.DatabaseServices.Styles.AxisTitleLocationType"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    BottomOrRight: int  # = 0
+    Center: int  # = 1
+    TopOrLeft: int  # = 2
 class AxisTitleStyle(CivilWrapper<AeccDbGraphStyle>):
     """.NET: Autodesk.Civil.DatabaseServices.Styles.AxisTitleStyle"""
     def __init__(self, *args) -> None: ...
@@ -381,10 +394,38 @@ class AxisTitleStyle(CivilWrapper<AeccDbGraphStyle>):
     Text: str
 
 class BandLabelStyleType:
-    """.NET: Autodesk.Civil.DatabaseServices.Styles.BandLabelStyleType"""
+    """.NET enum: Autodesk.Civil.DatabaseServices.Styles.BandLabelStyleType"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    ProfileDataMajorIncrement: int  # = 268546560
+    ProfileDataMinorIncrement: int  # = 268546576
+    ProfileDataHGP: int  # = 268546592
+    ProfileDataVGP: int  # = 268546608
+    ProfileDataStationEquation: int  # = 268546624
+    ProfileDataIncrementalDistance: int  # = 268546640
+    VerticalGeometryUphillTangent: int  # = 268546816
+    VerticalGeometryDownhillTangent: int  # = 268546832
+    VerticalGeometryCrestCurve: int  # = 268546848
+    VerticalGeometrySagCurve: int  # = 268546864
+    HorizontalGeometryTangent: int  # = 268547072
+    HorizontalGeometryCurve: int  # = 268547088
+    HorizontalGeometrySpiral: int  # = 268547104
+    SuperelevationDataNormalCrown: int  # = 268547328
+    SuperelevationDataReverseCrown: int  # = 268547360
+    SuperelevationDataFullSuper: int  # = 268547376
+    SuperelevationDataLevelCrown: int  # = 268547392
+    SuperelevationDataSlopeTransition: int  # = 268547408
+    SuperelevationDataShoulderCritical: int  # = 268547616
+    PipeNetworkStructureLocation: int  # = 268547632
+    PipeNetworkPipeLocation: int  # = 268547648
+    SectionalDataSampleLineLocation: int  # = 268547664
+    SectionalDataIncrementalSectionData: int  # = 268547680
+    SectionDataMajorIncrement: int  # = 268562944
+    SectionDataMinorIncrement: int  # = 268562960
+    SectionDataCenterline: int  # = 268562976
+    SectionDataSampleLineVertices: int  # = 268562992
+    SectionDataGradeBreaks: int  # = 268563008
+    SectionDataIncrementalDistance: int  # = 268563024
+    SectionSegmentSurfaceLabels: int  # = 268563200
 class BandSetItem:
     """.NET: Autodesk.Civil.DatabaseServices.Styles.BandSetItem"""
     def __init__(self, *args) -> None: ...
@@ -568,15 +609,16 @@ class BandTickStyle(CivilWrapper<AeccDbGraphStyleBands>):
     IncrementTicksToFullHeight: bool
 
 class BandTitleBoxPosition:
-    """.NET: Autodesk.Civil.DatabaseServices.Styles.BandTitleBoxPosition"""
+    """.NET enum: Autodesk.Civil.DatabaseServices.Styles.BandTitleBoxPosition"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    LeftOfBand: int  # = 0
+    RightOfBand: int  # = 1
 class BandTitleTextLocation:
-    """.NET: Autodesk.Civil.DatabaseServices.Styles.BandTitleTextLocation"""
+    """.NET enum: Autodesk.Civil.DatabaseServices.Styles.BandTitleTextLocation"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    Right: int  # = 0
+    Center: int  # = 1
+    Left: int  # = 2
 class BaseLabelSetItem(CivilWrapper<AeccDbAlignStnLabelsDlgTemplate>):
     """.NET: Autodesk.Civil.DatabaseServices.Styles.BaseLabelSetItem"""
     def __init__(self, *args) -> None: ...
@@ -641,10 +683,13 @@ class BaseLabelSetStyle(StyleBase):
     def RemoveAt(self, index: int) -> None: ...
 
 class BuildingSiteDisplayStyleType:
-    """.NET: Autodesk.Civil.DatabaseServices.Styles.BuildingSiteDisplayStyleType"""
+    """.NET enum: Autodesk.Civil.DatabaseServices.Styles.BuildingSiteDisplayStyleType"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    BuildingFootprint: int  # = 0
+    PropertyLines: int  # = 1
+    Utilities: int  # = 2
+    SiteModel: int  # = 3
+    BuildingModel: int  # = 4
 class BuildingSiteStyle(StyleBase):
     """.NET: Autodesk.Civil.DatabaseServices.Styles.BuildingSiteStyle"""
     def __init__(self, *args) -> None: ...
@@ -786,10 +831,10 @@ class CantViewStyleCollection(StyleCollectionBase):
     def Add(self, name: str) -> ObjectId: ...
 
 class CatchmentDisplayStylePlanType:
-    """.NET: Autodesk.Civil.DatabaseServices.Styles.CatchmentDisplayStylePlanType"""
+    """.NET enum: Autodesk.Civil.DatabaseServices.Styles.CatchmentDisplayStylePlanType"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    CatchmentBoundary: int  # = 0
+    CatchmentFlowPath: int  # = 1
 class CatchmentStyle(StyleBase):
     """.NET: Autodesk.Civil.DatabaseServices.Styles.CatchmentStyle"""
     def __init__(self, *args) -> None: ...
@@ -859,10 +904,11 @@ class CatchmentStyleCollection(StyleCollectionBase):
     def Add(self, name: str) -> ObjectId: ...
 
 class CenterMarkerSizeType:
-    """.NET: Autodesk.Civil.DatabaseServices.Styles.CenterMarkerSizeType"""
+    """.NET enum: Autodesk.Civil.DatabaseServices.Styles.CenterMarkerSizeType"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    PercentageOfScreen: int  # = 0
+    Plotted: int  # = 1
+    Fixed: int  # = 2
 class CodeSetStyle(StyleBase):
     """.NET: Autodesk.Civil.DatabaseServices.Styles.CodeSetStyle"""
     def __init__(self, *args) -> None: ...
@@ -958,15 +1004,21 @@ class CodeSetStyleItem(CivilWrapper<AeccDbRoadwayStyleSet>):
     Code: str
 
 class CodeSetStyleItemType:
-    """.NET: Autodesk.Civil.DatabaseServices.Styles.CodeSetStyleItemType"""
+    """.NET enum: Autodesk.Civil.DatabaseServices.Styles.CodeSetStyleItemType"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    NormalItemType: int  # = 0
+    DefaultItemType: int  # = 1
+    NoCodeItemType: int  # = 2
 class ColorSchemeType:
-    """.NET: Autodesk.Civil.DatabaseServices.Styles.ColorSchemeType"""
+    """.NET enum: Autodesk.Civil.DatabaseServices.Styles.ColorSchemeType"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    Blues: int  # = 0
+    Greens: int  # = 1
+    Hydro: int  # = 2
+    Land: int  # = 3
+    Pastels: int  # = 4
+    Rainbow: int  # = 5
+    Reds: int  # = 6
 class ColumnStyle(CivilWrapper<AeccDbScheduleTableStyle>):
     """.NET: Autodesk.Civil.DatabaseServices.Styles.ColumnStyle"""
     def __init__(self, *args) -> None: ...
@@ -989,10 +1041,10 @@ class ColumnStyleCollection(CivilWrapper<AeccDbScheduleTableStyle>):
     def RemoveAt(self, index: int) -> None: ...
 
 class ContourSmoothingType:
-    """.NET: Autodesk.Civil.DatabaseServices.Styles.ContourSmoothingType"""
+    """.NET enum: Autodesk.Civil.DatabaseServices.Styles.ContourSmoothingType"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    AddVertices: int  # = 0
+    SplineCurve: int  # = 1
 class ContourValues:
     """.NET: Autodesk.Civil.DatabaseServices.Styles.ContourValues"""
     def __init__(self, *args) -> None: ...
@@ -1004,10 +1056,12 @@ class ContourValues:
     MajorColor: Color
 
 class CorridorDisplayStyleType:
-    """.NET: Autodesk.Civil.DatabaseServices.Styles.CorridorDisplayStyleType"""
+    """.NET enum: Autodesk.Civil.DatabaseServices.Styles.CorridorDisplayStyleType"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    RegionBoundaries: int  # = 0
+    ParameterOverrideStations: int  # = 1
+    GeometricOverrideStations: int  # = 2
+    AssemblyInsertionStations: int  # = 3
 class CorridorStyle(StyleBase):
     """.NET: Autodesk.Civil.DatabaseServices.Styles.CorridorStyle"""
     def __init__(self, *args) -> None: ...
@@ -1075,20 +1129,26 @@ class CorridorStyleCollection(StyleCollectionBase):
     def Add(self, name: str) -> ObjectId: ...
 
 class CustomMarkerSuperimposeType:
-    """.NET: Autodesk.Civil.DatabaseServices.Styles.CustomMarkerSuperimposeType"""
+    """.NET enum: Autodesk.Civil.DatabaseServices.Styles.CustomMarkerSuperimposeType"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    None_: int  # = 0
+    Square: int  # = 1
+    Circle: int  # = 2
+    SquareCircle: int  # = 3
 class CustomMarkerType:
-    """.NET: Autodesk.Civil.DatabaseServices.Styles.CustomMarkerType"""
+    """.NET enum: Autodesk.Civil.DatabaseServices.Styles.CustomMarkerType"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    CustomMarkerDot: int  # = 0
+    CustomMarkerBlank: int  # = 1
+    CustomMarkerPlus: int  # = 2
+    CustomMarkerX: int  # = 3
+    CustomMarkerVLine: int  # = 4
 class DataBandingType:
-    """.NET: Autodesk.Civil.DatabaseServices.Styles.DataBandingType"""
+    """.NET enum: Autodesk.Civil.DatabaseServices.Styles.DataBandingType"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    NumberOfRanges: int  # = 0
+    RangesInterval: int  # = 1
+    RangesIntervalWithDatum: int  # = 2
 class DataPartFamily:
     """.NET: Autodesk.Civil.DatabaseServices.Styles.DataPartFamily"""
     def __init__(self, *args) -> None: ...
@@ -1132,15 +1192,30 @@ class ExpressionCollection:
     def RemoveAt(self, index: int) -> None: ...
 
 class ExpressionFormatedType:
-    """.NET: Autodesk.Civil.DatabaseServices.Styles.ExpressionFormatedType"""
+    """.NET enum: Autodesk.Civil.DatabaseServices.Styles.ExpressionFormatedType"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    Angle: int  # = 0
+    Area: int  # = 1
+    Azimuth: int  # = 2
+    Coordinate: int  # = 3
+    Dimension: int  # = 4
+    Direction: int  # = 5
+    Distance: int  # = 6
+    Double: int  # = 7
+    Elevation: int  # = 8
+    GradeSlope: int  # = 9
+    Latitude: int  # = 10
+    Longitude: int  # = 11
+    Percent: int  # = 12
+    Station: int  # = 13
+    Volume: int  # = 14
 class FeatureLineDisplayStyleProfileType:
-    """.NET: Autodesk.Civil.DatabaseServices.Styles.FeatureLineDisplayStyleProfileType"""
+    """.NET enum: Autodesk.Civil.DatabaseServices.Styles.FeatureLineDisplayStyleProfileType"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    FeatureLine: int  # = 0
+    BeginningVertex: int  # = 2
+    InternalVertex: int  # = 3
+    EndingVertex: int  # = 4
 class FeatureLineStyle(StyleBase):
     """.NET: Autodesk.Civil.DatabaseServices.Styles.FeatureLineStyle"""
     def __init__(self, *args) -> None: ...
@@ -1364,10 +1439,14 @@ class GradingCriteriaSetCollection(StyleCollectionBase):
     def Add(self, name: str) -> ObjectId: ...
 
 class GradingDisplayStyleType:
-    """.NET: Autodesk.Civil.DatabaseServices.Styles.GradingDisplayStyleType"""
+    """.NET enum: Autodesk.Civil.DatabaseServices.Styles.GradingDisplayStyleType"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    CentroidMarker: int  # = 0
+    TargetLine: int  # = 1
+    Projection: int  # = 2
+    InternalEdges: int  # = 3
+    SolidShading: int  # = 4
+    SlopePat: int  # = 5
 class GradingStyle(StyleBase):
     """.NET: Autodesk.Civil.DatabaseServices.Styles.GradingStyle"""
     def __init__(self, *args) -> None: ...
@@ -1447,10 +1526,10 @@ class GradingStyleCollection(StyleCollectionBase):
     def SetSlopePatternVisable(self, isVisable: bool) -> None: ...
 
 class GraphDirectionType:
-    """.NET: Autodesk.Civil.DatabaseServices.Styles.GraphDirectionType"""
+    """.NET enum: Autodesk.Civil.DatabaseServices.Styles.GraphDirectionType"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    LeftToRight: int  # = 0
+    RightToLeft: int  # = 1
 class GraphStyle(CivilWrapper<AeccDbGraphStyle>):
     """.NET: Autodesk.Civil.DatabaseServices.Styles.GraphStyle"""
     def __init__(self, *args) -> None: ...
@@ -1461,15 +1540,18 @@ class GraphStyle(CivilWrapper<AeccDbGraphStyle>):
     VerticalScale: float
 
 class GraphTitleJustificationType:
-    """.NET: Autodesk.Civil.DatabaseServices.Styles.GraphTitleJustificationType"""
+    """.NET enum: Autodesk.Civil.DatabaseServices.Styles.GraphTitleJustificationType"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    TopOrLeft: int  # = 0
+    MiddleOrCenter: int  # = 1
+    BottomOrRight: int  # = 2
 class GraphTitleLocationType:
-    """.NET: Autodesk.Civil.DatabaseServices.Styles.GraphTitleLocationType"""
+    """.NET enum: Autodesk.Civil.DatabaseServices.Styles.GraphTitleLocationType"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    Top: int  # = 0
+    Bottom: int  # = 1
+    Left: int  # = 2
+    Right: int  # = 3
 class GraphTitleStyle(CivilWrapper<AeccDbGraphStyle>):
     """.NET: Autodesk.Civil.DatabaseServices.Styles.GraphTitleStyle"""
     def __init__(self, *args) -> None: ...
@@ -1505,30 +1587,37 @@ class GridStyle(CivilWrapper<AeccDbGraphStyle>):
     VerticalGridOptions: GridOptions
 
 class GridType:
-    """.NET: Autodesk.Civil.DatabaseServices.Styles.GridType"""
+    """.NET enum: Autodesk.Civil.DatabaseServices.Styles.GridType"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    Vertical: int  # = 0
+    Horizontal: int  # = 1
 class GroupPlotAlignType:
-    """.NET: Autodesk.Civil.DatabaseServices.Styles.GroupPlotAlignType"""
+    """.NET enum: Autodesk.Civil.DatabaseServices.Styles.GroupPlotAlignType"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    Left: int  # = 0
+    Centerline: int  # = 1
+    Right: int  # = 2
 class GroupPlotCellSizeType:
-    """.NET: Autodesk.Civil.DatabaseServices.Styles.GroupPlotCellSizeType"""
+    """.NET enum: Autodesk.Civil.DatabaseServices.Styles.GroupPlotCellSizeType"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    UniformForAll: int  # = 0
+    UniformPerRowOrColumn: int  # = 1
 class GroupPlotDisplayStyleType:
-    """.NET: Autodesk.Civil.DatabaseServices.Styles.GroupPlotDisplayStyleType"""
+    """.NET enum: Autodesk.Civil.DatabaseServices.Styles.GroupPlotDisplayStyleType"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    MajorHorizontalGrid: int  # = 0
+    MinorHorizontalGrid: int  # = 1
+    MajorVerticalGrid: int  # = 2
+    MinorVerticalGrid: int  # = 3
+    PrintArea: int  # = 4
+    Border: int  # = 5
 class GroupPlotStartCornerType:
-    """.NET: Autodesk.Civil.DatabaseServices.Styles.GroupPlotStartCornerType"""
+    """.NET enum: Autodesk.Civil.DatabaseServices.Styles.GroupPlotStartCornerType"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    LowerLeft: int  # = 0
+    UpperLeft: int  # = 1
+    LowerRight: int  # = 2
+    UpperRight: int  # = 3
 class GroupPlotStyle(StyleBase):
     """.NET: Autodesk.Civil.DatabaseServices.Styles.GroupPlotStyle"""
     def __init__(self, *args) -> None: ...
@@ -1621,10 +1710,12 @@ class HatchDisplayStyle(CivilWrapper<AeccDbStyle>):
     HatchType: HatchType
 
 class HatchType:
-    """.NET: Autodesk.Civil.DatabaseServices.Styles.HatchType"""
+    """.NET enum: Autodesk.Civil.DatabaseServices.Styles.HatchType"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    UserDefined: int  # = 0
+    PreDefined: int  # = 1
+    CustomDefined: int  # = 2
+    SolidFill: int  # = 3
 class HorizontalGeometryBandStyle(BandStyle):
     """.NET: Autodesk.Civil.DatabaseServices.Styles.HorizontalGeometryBandStyle"""
     def __init__(self, *args) -> None: ...
@@ -1700,30 +1791,40 @@ class HorizontalGeometryBandStyle(BandStyle):
     def GetDisplayStylePlan(self, type: HorizontalGeometryDisplayStyleType) -> DisplayStyle: ...
 
 class HorizontalGeometryDisplayStyleType:
-    """.NET: Autodesk.Civil.DatabaseServices.Styles.HorizontalGeometryDisplayStyleType"""
+    """.NET enum: Autodesk.Civil.DatabaseServices.Styles.HorizontalGeometryDisplayStyleType"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    Border: int  # = 0
+    TitleBox: int  # = 1
+    TitleBoxText: int  # = 2
+    Ticks: int  # = 3
+    TangentLabels: int  # = 4
+    CurveLabels: int  # = 5
+    SpiralLabels: int  # = 6
+    TangentGeometry: int  # = 7
+    CurveGeometry: int  # = 8
+    SpiralGeometry: int  # = 9
+    TicksAtPI: int  # = 13
+    PILabels: int  # = 14
 class InterferenceDisplayStyleType:
-    """.NET: Autodesk.Civil.DatabaseServices.Styles.InterferenceDisplayStyleType"""
+    """.NET enum: Autodesk.Civil.DatabaseServices.Styles.InterferenceDisplayStyleType"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    Symbol: int  # = 0
+    Solid: int  # = 1
 class InterferenceModelSizeOptionType:
-    """.NET: Autodesk.Civil.DatabaseServices.Styles.InterferenceModelSizeOptionType"""
+    """.NET enum: Autodesk.Civil.DatabaseServices.Styles.InterferenceModelSizeOptionType"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    UseAbsoluteUnits: int  # = 0
+    UseDrawingUnits: int  # = 1
 class InterferenceModelSizeType:
-    """.NET: Autodesk.Civil.DatabaseServices.Styles.InterferenceModelSizeType"""
+    """.NET enum: Autodesk.Civil.DatabaseServices.Styles.InterferenceModelSizeType"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    SolidExtents: int  # = 0
+    UserSpecified: int  # = 1
 class InterferenceModelType:
-    """.NET: Autodesk.Civil.DatabaseServices.Styles.InterferenceModelType"""
+    """.NET enum: Autodesk.Civil.DatabaseServices.Styles.InterferenceModelType"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    TrueSolid: int  # = 0
+    Sphere: int  # = 1
 class InterferenceStyle(StyleBase):
     """.NET: Autodesk.Civil.DatabaseServices.Styles.InterferenceStyle"""
     def __init__(self, *args) -> None: ...
@@ -1865,10 +1966,10 @@ class IntersectionStyleCollection(StyleCollectionBase):
     def Add(self, name: str) -> ObjectId: ...
 
 class LabelDisplayModeType:
-    """.NET: Autodesk.Civil.DatabaseServices.Styles.LabelDisplayModeType"""
+    """.NET enum: Autodesk.Civil.DatabaseServices.Styles.LabelDisplayModeType"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    Label: int  # = 0
+    Tag: int  # = 1
 class LabelSetStylesRoot(TreeOidWrapper):
     """.NET: Autodesk.Civil.DatabaseServices.Styles.LabelSetStylesRoot"""
     def __init__(self, *args) -> None: ...
@@ -2084,10 +2185,15 @@ class LabelStyleComponent(StyleBase):
     UnmanagedObject: IntPtr
 
 class LabelStyleComponentType:
-    """.NET: Autodesk.Civil.DatabaseServices.Styles.LabelStyleComponentType"""
+    """.NET enum: Autodesk.Civil.DatabaseServices.Styles.LabelStyleComponentType"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    Text: int  # = 1
+    Line: int  # = 2
+    Block: int  # = 4
+    Tick: int  # = 8
+    ReferenceText: int  # = 16
+    DirectionArrow: int  # = 32
+    TextForEach: int  # = 64
 class LabelStyleDefault(TreeOidWrapper):
     """.NET: Autodesk.Civil.DatabaseServices.Styles.LabelStyleDefault"""
     def __init__(self, *args) -> None: ...
@@ -2435,10 +2541,98 @@ class LabelStyleTickComponent(LabelStyleComponent):
     UnmanagedObject: IntPtr
 
 class LabelStyleType:
-    """.NET: Autodesk.Civil.DatabaseServices.Styles.LabelStyleType"""
+    """.NET enum: Autodesk.Civil.DatabaseServices.Styles.LabelStyleType"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    AlignmentMajorStation: int  # = 251704321
+    AlignmentMinorStation: int  # = 251704322
+    AlignmentGeometryPoint: int  # = 251704323
+    AlignmentStationEquation: int  # = 251704324
+    AlignmentDesignSpeed: int  # = 251704325
+    AlignmentStationOffset: int  # = 251704326
+    AlignmentTangentIntersection: int  # = 251704327
+    AlignmentLine: int  # = 251704328
+    AlignmentSpiral: int  # = 251704329
+    AlignmentCurve: int  # = 251704330
+    AlignmentSuperelevationCriticalPoints: int  # = 251704331
+    ProfileMajorStation: int  # = 251704333
+    ProfileMinorStation: int  # = 251704334
+    ProfileHorizontalGeometryPoint: int  # = 251704335
+    ProfileLine: int  # = 251704338
+    ProfileCurve: int  # = 251704339
+    ProfileGradeBreaks: int  # = 251704340
+    ProfileSagCurve: int  # = 251704341
+    ProfileCrestCurve: int  # = 251704342
+    ProfileViewStationElevation: int  # = 251704346
+    ProfileViewDepth: int  # = 251704347
+    SurfaceContour: int  # = 251704366
+    SurfaceSlope: int  # = 251704367
+    SurfaceSpotElevation: int  # = 251704369
+    ParcelArea: int  # = 251704370
+    ParcelLine: int  # = 251704371
+    ParcelCurve: int  # = 251704372
+    GeneralNote: int  # = 251704374
+    GeneralLine: int  # = 251704375
+    GeneralCurve: int  # = 251704376
+    PipePlanProfile: int  # = 251704379
+    StructureLabelStyle: int  # = 251704380
+    SurfaceWatershed: int  # = 251704397
+    SectionMajorOffset: int  # = 251704399
+    SectionMinorOffset: int  # = 251704400
+    SectionGradeBreak: int  # = 251704401
+    SectionSegment: int  # = 251704402
+    SectionViewOffsetElevation: int  # = 251704403
+    SectionViewGrade: int  # = 251704404
+    GeneralLink: int  # = 251704406
+    GeneralMarker: int  # = 251704407
+    GeneralShape: int  # = 251704408
+    PipeCrossSection: int  # = 251704412
+    ViewFrame: int  # = 251704607
+    MatchLineLeft: int  # = 251704608
+    MatchLineRight: int  # = 251704609
+    ProfileViewProjection: int  # = 251704694
+    SectionViewProjection: int  # = 251704695
+    IntersectionLocationLabels: int  # = 251704697
+    CatchmentArea: int  # = 251704720
+    CatchmentFlowSegment: int  # = 251704721
+    PressurePipe: int  # = 251704725
+    Fitting: int  # = 251704726
+    Appurtenance: int  # = 251704727
+    SectionCorridorPoint: int  # = 251704729
+    AlignmentProfileGeometryPoint: int  # = 251704832
+    AlignmentPointOfIntersection: int  # = 251704833
+    Point: int  # = 268481548
+    ProfileBandMajorIncrement: int  # = 268546560
+    ProfileBandMinorIncrement: int  # = 268546576
+    ProfileBandHGP: int  # = 268546592
+    ProfileBandVGP: int  # = 268546608
+    ProfileBandStationEquation: int  # = 268546624
+    ProfileBandIncrementalDistance: int  # = 268546640
+    ProfileBandVerticalGeometryUphillTangent: int  # = 268546816
+    ProfileBandVerticalGeometryDownhillTangent: int  # = 268546832
+    ProfileBandVerticalGeometryCrestCurve: int  # = 268546848
+    ProfileBandVerticalGeometrySagCurve: int  # = 268546864
+    ProfileBandHorizontalGeometryTangent: int  # = 268547072
+    ProfileBandHorizontalGeometryCurve: int  # = 268547088
+    ProfileBandHorizontalGeometrySpiral: int  # = 268547104
+    ProfileBandHorizontalGeometryPointOfIntersection: int  # = 268547120
+    ProfileBandSuperelevationDataNormalCrown: int  # = 268547328
+    ProfileBandSuperelevationDataReverseCrown: int  # = 268547360
+    ProfileBandSuperelevationDataFullSuper: int  # = 268547376
+    ProfileBandSuperelevationDataLevelCrown: int  # = 268547392
+    ProfileBandSuperelevationDataSlopeTransition: int  # = 268547408
+    ProfileBandSuperelevationDataShoulderCritical: int  # = 268547616
+    ProfileBandPipeNetworkStructureLocation: int  # = 268547632
+    ProfileBandPipeNetworkPipeLocation: int  # = 268547648
+    ProfileBandSectionalDataSampleLineLocation: int  # = 268547664
+    ProfileBandSectionalDataIncrementalSectionData: int  # = 268547680
+    SectionBandMajorIncrement: int  # = 268562944
+    SectionBandMinorIncrement: int  # = 268562960
+    SectionBandCenterline: int  # = 268562976
+    SectionBandSampleLineVertices: int  # = 268562992
+    SectionBandGradeBreaks: int  # = 268563008
+    SectionBandIncrementalDistance: int  # = 268563024
+    SectionBandSegmentSurfaceLabels: int  # = 268563200
+    SampleLineLabelStyles: int  # = 268607503
 class LabelStylesAlignmentRoot(LabelStylesNode):
     """.NET: Autodesk.Civil.DatabaseServices.Styles.LabelStylesAlignmentRoot"""
     def __init__(self, *args) -> None: ...
@@ -2741,20 +2935,25 @@ class LinkStyleCollection(StyleCollectionBase):
     def Add(self, name: str) -> ObjectId: ...
 
 class MarkerDisplayType:
-    """.NET: Autodesk.Civil.DatabaseServices.Styles.MarkerDisplayType"""
+    """.NET enum: Autodesk.Civil.DatabaseServices.Styles.MarkerDisplayType"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    UsePointForMarker: int  # = 0
+    UseCustomMarker: int  # = 1
+    UseSymbolForMarker: int  # = 2
+    UseVerticalLineForMarker: int  # = 3
 class MarkerOrientationType:
-    """.NET: Autodesk.Civil.DatabaseServices.Styles.MarkerOrientationType"""
+    """.NET enum: Autodesk.Civil.DatabaseServices.Styles.MarkerOrientationType"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    OrientToObject: int  # = 0
+    OrientToWCS: int  # = 1
+    OrientToView: int  # = 2
 class MarkerSizeType:
-    """.NET: Autodesk.Civil.DatabaseServices.Styles.MarkerSizeType"""
+    """.NET enum: Autodesk.Civil.DatabaseServices.Styles.MarkerSizeType"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    DrawingScale: int  # = 0
+    RelativeToScreen: int  # = 1
+    AbsoluteUnits: int  # = 2
+    FixedScale: int  # = 3
 class MarkerStyle(MarkerStyleBase):
     """.NET: Autodesk.Civil.DatabaseServices.Styles.MarkerStyle"""
     def __init__(self, *args) -> None: ...
@@ -3167,10 +3366,10 @@ class NetworkRuleSetStyle(StyleBase):
     def RemoveRule(self, ruleId: ObjectId) -> None: ...
 
 class ParcelDisplayStyleType:
-    """.NET: Autodesk.Civil.DatabaseServices.Styles.ParcelDisplayStyleType"""
+    """.NET enum: Autodesk.Civil.DatabaseServices.Styles.ParcelDisplayStyleType"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    Segments: int  # = 0
+    AreaFill: int  # = 1
 class ParcelStyle(StyleBase):
     """.NET: Autodesk.Civil.DatabaseServices.Styles.ParcelStyle"""
     def __init__(self, *args) -> None: ...
@@ -3247,10 +3446,15 @@ class ParcelStyleCollection(StyleCollectionBase):
     def Add(self, name: str) -> ObjectId: ...
 
 class PartDataSourceType:
-    """.NET: Autodesk.Civil.DatabaseServices.Styles.PartDataSourceType"""
+    """.NET enum: Autodesk.Civil.DatabaseServices.Styles.PartDataSourceType"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    Undefined: int  # = 0
+    BasicTable: int  # = 1
+    FixedList: int  # = 2
+    RangeList: int  # = 3
+    Constant: int  # = 4
+    Calculation: int  # = 5
+    Optional: int  # = 6
 class PartFamily(DBObject):
     """.NET: Autodesk.Civil.DatabaseServices.Styles.PartFamily"""
     def __init__(self, *args) -> None: ...
@@ -3439,45 +3643,63 @@ class PartsListCollection(StyleCollectionBase):
     def Add(self, name: str) -> ObjectId: ...
 
 class PipeCenterlineType:
-    """.NET: Autodesk.Civil.DatabaseServices.Styles.PipeCenterlineType"""
+    """.NET enum: Autodesk.Civil.DatabaseServices.Styles.PipeCenterlineType"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    ByLineWeight: int  # = 0
+    SpecifyWidth: int  # = 1
 class PipeCenterlineWidthType:
-    """.NET: Autodesk.Civil.DatabaseServices.Styles.PipeCenterlineWidthType"""
+    """.NET enum: Autodesk.Civil.DatabaseServices.Styles.PipeCenterlineWidthType"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    DrawToInnerWalls: int  # = 0
+    DrawToOuterWalls: int  # = 1
+    UseDrawingScale: int  # = 2
+    UseAbsoluteUnits: int  # = 3
+    UseSizeAsPercentageOfScreen: int  # = 4
 class PipeDisplayStylePlanType:
-    """.NET: Autodesk.Civil.DatabaseServices.Styles.PipeDisplayStylePlanType"""
+    """.NET enum: Autodesk.Civil.DatabaseServices.Styles.PipeDisplayStylePlanType"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    Centerline: int  # = 0
+    InsideWalls: int  # = 1
+    OutsideWalls: int  # = 2
+    EndLine: int  # = 3
+    Hatch: int  # = 4
+    Solid: int  # = 5
 class PipeDisplayStyleProfileType:
-    """.NET: Autodesk.Civil.DatabaseServices.Styles.PipeDisplayStyleProfileType"""
+    """.NET enum: Autodesk.Civil.DatabaseServices.Styles.PipeDisplayStyleProfileType"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    Centerline: int  # = 0
+    InsideWalls: int  # = 1
+    OutsideWalls: int  # = 2
+    EndLine: int  # = 3
+    Hatch: int  # = 4
+    CrossingPipeInsideWall: int  # = 6
+    CrossingPipeOutsideWall: int  # = 7
+    CrossingPipeHatch: int  # = 8
+    HydraulicGradeLine: int  # = 9
+    EnergyGradeLine: int  # = 10
 class PipeDisplayStyleSectionType:
-    """.NET: Autodesk.Civil.DatabaseServices.Styles.PipeDisplayStyleSectionType"""
+    """.NET enum: Autodesk.Civil.DatabaseServices.Styles.PipeDisplayStyleSectionType"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    CrossingPipeInsideWall: int  # = 6
+    CrossingPipeOutsideWall: int  # = 7
+    CrossingPipeHatch: int  # = 8
 class PipeEndSizeType:
-    """.NET: Autodesk.Civil.DatabaseServices.Styles.PipeEndSizeType"""
+    """.NET enum: Autodesk.Civil.DatabaseServices.Styles.PipeEndSizeType"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    DrawToInnerWall: int  # = 0
+    DrawToOuterWall: int  # = 1
+    UserDefinedEndSize: int  # = 2
 class PipeHatchStyleProfileType:
-    """.NET: Autodesk.Civil.DatabaseServices.Styles.PipeHatchStyleProfileType"""
+    """.NET enum: Autodesk.Civil.DatabaseServices.Styles.PipeHatchStyleProfileType"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    Hatch: int  # = 0
+    CrossingPipeHatch: int  # = 1
 class PipeHatchType:
-    """.NET: Autodesk.Civil.DatabaseServices.Styles.PipeHatchType"""
+    """.NET enum: Autodesk.Civil.DatabaseServices.Styles.PipeHatchType"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    HatchToInnerWalls: int  # = 0
+    HatchToOuterWalls: int  # = 1
+    HatchWallsOnly: int  # = 2
 class PipeNetworkBandStyle(BandStyle):
     """.NET: Autodesk.Civil.DatabaseServices.Styles.PipeNetworkBandStyle"""
     def __init__(self, *args) -> None: ...
@@ -3548,10 +3770,16 @@ class PipeNetworkBandStyle(BandStyle):
     def GetDisplayStylePlan(self, type: PipeNetworkDisplayStyleType) -> DisplayStyle: ...
 
 class PipeNetworkDisplayStyleType:
-    """.NET: Autodesk.Civil.DatabaseServices.Styles.PipeNetworkDisplayStyleType"""
+    """.NET enum: Autodesk.Civil.DatabaseServices.Styles.PipeNetworkDisplayStyleType"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    Border: int  # = 0
+    TitleBox: int  # = 1
+    TitleBoxText: int  # = 2
+    TicksAtStructureLocation: int  # = 3
+    TicksAtPipeEnds: int  # = 4
+    LabelsAtStructureLocation: int  # = 5
+    LabelsForPipe: int  # = 6
+    LinePipeSchematic: int  # = 7
 class PipeRuleSetStyle(NetworkRuleSetStyle):
     """.NET: Autodesk.Civil.DatabaseServices.Styles.PipeRuleSetStyle"""
     def __init__(self, *args) -> None: ...
@@ -3748,15 +3976,16 @@ class PipeStyleProfileOption(PipeStyleOptionBase):
     InnerDiameter: float
 
 class PipeUserDefinedType:
-    """.NET: Autodesk.Civil.DatabaseServices.Styles.PipeUserDefinedType"""
+    """.NET enum: Autodesk.Civil.DatabaseServices.Styles.PipeUserDefinedType"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    UseDrawingScale: int  # = 0
+    UseAbsoluteUnits: int  # = 1
+    UseSizeAsPercentageOfScreen: int  # = 2
 class PipeWallSizeType:
-    """.NET: Autodesk.Civil.DatabaseServices.Styles.PipeWallSizeType"""
+    """.NET enum: Autodesk.Civil.DatabaseServices.Styles.PipeWallSizeType"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    UsePartDimensions: int  # = 0
+    UserDefinedWallSize: int  # = 1
 class PointCloudClassificationInfo:
     """.NET: Autodesk.Civil.DatabaseServices.Styles.PointCloudClassificationInfo"""
     def __init__(self, *args) -> None: ...
@@ -3859,20 +4088,22 @@ class PointCloudStyleCollection(StyleCollectionBase):
     def Add(self, name: str) -> ObjectId: ...
 
 class PointDisplay3dType:
-    """.NET: Autodesk.Civil.DatabaseServices.Styles.PointDisplay3dType"""
+    """.NET enum: Autodesk.Civil.DatabaseServices.Styles.PointDisplay3dType"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    UsePointElevation: int  # = 0
+    FlattenPointElevations: int  # = 1
+    ExaggeratePointElevations: int  # = 2
 class PointDisplayStyleType:
-    """.NET: Autodesk.Civil.DatabaseServices.Styles.PointDisplayStyleType"""
+    """.NET enum: Autodesk.Civil.DatabaseServices.Styles.PointDisplayStyleType"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    Marker: int  # = 0
+    Label: int  # = 1
 class PointMarkerDisplayType:
-    """.NET: Autodesk.Civil.DatabaseServices.Styles.PointMarkerDisplayType"""
+    """.NET enum: Autodesk.Civil.DatabaseServices.Styles.PointMarkerDisplayType"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    UsePointForMarker: int  # = 0
+    UseCustomMarker: int  # = 1
+    UseSymbolForMarker: int  # = 2
 class PointStyle(MarkerStyleBase):
     """.NET: Autodesk.Civil.DatabaseServices.Styles.PointStyle"""
     def __init__(self, *args) -> None: ...
@@ -3960,15 +4191,43 @@ class PointStyleCollection(StyleCollectionBase):
     def Add(self, name: str) -> ObjectId: ...
 
 class PointSymbolType:
-    """.NET: Autodesk.Civil.DatabaseServices.Styles.PointSymbolType"""
+    """.NET enum: Autodesk.Civil.DatabaseServices.Styles.PointSymbolType"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    K0: int  # = 0
+    K1: int  # = 1
+    K2: int  # = 2
+    K3: int  # = 3
+    K4: int  # = 4
+    K32: int  # = 32
+    K33: int  # = 33
+    K34: int  # = 34
+    K35: int  # = 35
+    K36: int  # = 36
+    K64: int  # = 64
+    K65: int  # = 65
+    K66: int  # = 66
+    K67: int  # = 67
+    K68: int  # = 68
+    K96: int  # = 96
+    K97: int  # = 97
+    K98: int  # = 98
+    K99: int  # = 99
+    K100: int  # = 100
 class PrecisionRangeType:
-    """.NET: Autodesk.Civil.DatabaseServices.Styles.PrecisionRangeType"""
+    """.NET enum: Autodesk.Civil.DatabaseServices.Styles.PrecisionRangeType"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    Precision000001: int  # = 0
+    Precision00001: int  # = 1
+    Precision0001: int  # = 2
+    Precision001: int  # = 3
+    Precision01: int  # = 4
+    Precision1: int  # = 5
+    Precision10: int  # = 6
+    Precision100: int  # = 7
+    Precision1000: int  # = 8
+    Precision10000: int  # = 9
+    Precision100000: int  # = 10
+    Precision1000000: int  # = 11
 class ProfileDataBandStyle(BandStyle):
     """.NET: Autodesk.Civil.DatabaseServices.Styles.ProfileDataBandStyle"""
     def __init__(self, *args) -> None: ...
@@ -4046,15 +4305,28 @@ class ProfileDataBandStyle(BandStyle):
     def GetDisplayStylePlan(self, type: ProfileDataDisplayStyleType) -> DisplayStyle: ...
 
 class ProfileDataDisplayStyleType:
-    """.NET: Autodesk.Civil.DatabaseServices.Styles.ProfileDataDisplayStyleType"""
+    """.NET enum: Autodesk.Civil.DatabaseServices.Styles.ProfileDataDisplayStyleType"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    Border: int  # = 0
+    TitleBox: int  # = 1
+    TitleBoxText: int  # = 2
+    MajorTicks: int  # = 3
+    MinorTicks: int  # = 4
+    TicksAtVGP: int  # = 5
+    TicksAtHGP: int  # = 6
+    TicksAtStationEquations: int  # = 7
+    MajorStationLabel: int  # = 8
+    MinorStationLabel: int  # = 9
+    LabelsAtVGP: int  # = 10
+    LabelsAtHGP: int  # = 11
+    LabelsAtStationEquations: int  # = 12
+    LabelsAtIncrementalDistance: int  # = 13
 class ProfileDesignCheckCurveType:
-    """.NET: Autodesk.Civil.DatabaseServices.Styles.ProfileDesignCheckCurveType"""
+    """.NET enum: Autodesk.Civil.DatabaseServices.Styles.ProfileDesignCheckCurveType"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    CrestSagCurves: int  # = 0
+    CrestCurvesOnly: int  # = 1
+    SagCurvesOnly: int  # = 2
 class ProfileDesignCheckSet(AlignmentDesignCheckSet):
     """.NET: Autodesk.Civil.DatabaseServices.Styles.ProfileDesignCheckSet"""
     def __init__(self, *args) -> None: ...
@@ -4126,10 +4398,16 @@ class ProfileDesignCheckSetCollection(StyleCollectionBase):
     def Add(self, name: str) -> ObjectId: ...
 
 class ProfileDisplayStyleProfileType:
-    """.NET: Autodesk.Civil.DatabaseServices.Styles.ProfileDisplayStyleProfileType"""
+    """.NET enum: Autodesk.Civil.DatabaseServices.Styles.ProfileDisplayStyleProfileType"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    Line: int  # = 0
+    Curve: int  # = 1
+    SymmetricalParabola: int  # = 2
+    AsymmetricalParabola: int  # = 3
+    Arrow: int  # = 4
+    LineExtension: int  # = 5
+    ParabolicCurveExtension: int  # = 6
+    WarningSymbol: int  # = 11
 class ProfileLabelSetItem(BaseLabelSetItem):
     """.NET: Autodesk.Civil.DatabaseServices.Styles.ProfileLabelSetItem"""
     def __init__(self, *args) -> None: ...
@@ -4398,10 +4676,44 @@ class ProfileViewBandSetStyleCollection(StyleCollectionBase):
     def Add(self, name: str) -> ObjectId: ...
 
 class ProfileViewDisplayStyleType:
-    """.NET: Autodesk.Civil.DatabaseServices.Styles.ProfileViewDisplayStyleType"""
+    """.NET enum: Autodesk.Civil.DatabaseServices.Styles.ProfileViewDisplayStyleType"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    GraphTitle: int  # = 0
+    LeftAxis: int  # = 1
+    LeftAxisTitle: int  # = 2
+    LeftAxisAnnotationMajor: int  # = 3
+    LeftAxisAnnotationMinor: int  # = 4
+    LeftAxisTicksMajor: int  # = 5
+    LeftAxisTicksMinor: int  # = 6
+    RightAxis: int  # = 7
+    RightAxisTitle: int  # = 8
+    RightAxisAnnotationMajor: int  # = 9
+    RightAxisAnnotationMinor: int  # = 10
+    RightAxisTicksMajor: int  # = 11
+    RightAxisTicksMinor: int  # = 12
+    TopAxis: int  # = 13
+    TopAxisTitle: int  # = 14
+    TopAxisAnnotationMajor: int  # = 15
+    TopAxisAnnotationMinor: int  # = 16
+    TopAxisTicksMajor: int  # = 17
+    TopAxisTicksMinor: int  # = 18
+    BottomAxis: int  # = 19
+    BottomAxisTitle: int  # = 20
+    BottomAxisAnnotationMajor: int  # = 21
+    BottomAxisAnnotationMinor: int  # = 22
+    BottomAxisTicksMajor: int  # = 23
+    BottomAxisTicksMinor: int  # = 24
+    GridHorizontalMajor: int  # = 37
+    GridHorizontalMinor: int  # = 38
+    GridVerticalMajor: int  # = 39
+    GridVerticalMinor: int  # = 40
+    GridAtHGP: int  # = 44
+    TopAxisAnnotationHGP: int  # = 47
+    TopAxisTicksHGP: int  # = 48
+    BottomAxisAnnotationHGP: int  # = 49
+    BottomAxisTicksHGP: int  # = 50
+    GridAtSampleLineStations: int  # = 53
+    ProfileHatch: int  # = 54
 class ProfileViewStyle(StyleBase):
     """.NET: Autodesk.Civil.DatabaseServices.Styles.ProfileViewStyle"""
     def __init__(self, *args) -> None: ...
@@ -4474,25 +4786,35 @@ class ProfileViewStyleCollection(StyleCollectionBase):
     def Add(self, name: str) -> ObjectId: ...
 
 class ProjectionBlockDisplayType:
-    """.NET: Autodesk.Civil.DatabaseServices.Styles.ProjectionBlockDisplayType"""
+    """.NET enum: Autodesk.Civil.DatabaseServices.Styles.ProjectionBlockDisplayType"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    NativeEntity: int  # = 0
+    Marker: int  # = 1
+    Block: int  # = 2
 class ProjectionDisplayStyleProfileType:
-    """.NET: Autodesk.Civil.DatabaseServices.Styles.ProjectionDisplayStyleProfileType"""
+    """.NET enum: Autodesk.Civil.DatabaseServices.Styles.ProjectionDisplayStyleProfileType"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    SolidProfile: int  # = 0
+    PointProfile: int  # = 1
+    ThreeDPolylineSegmentsProfile: int  # = 2
+    ThreeDPolylineBeginVertexProfile: int  # = 3
+    ThreeDPolylineInternalVertexProfile: int  # = 4
+    ThreeDPolylineEndVertexProfile: int  # = 5
+    BlockProfile: int  # = 6
+    MvBlockProfile: int  # = 7
 class ProjectionDisplayStyleSectionType:
-    """.NET: Autodesk.Civil.DatabaseServices.Styles.ProjectionDisplayStyleSectionType"""
+    """.NET enum: Autodesk.Civil.DatabaseServices.Styles.ProjectionDisplayStyleSectionType"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    SolidSection: int  # = 8
+    PointSection: int  # = 9
+    ThreeDPolylineSection: int  # = 10
+    BlockSection: int  # = 11
+    MvBlockSection: int  # = 12
 class ProjectionEntityDisplayType:
-    """.NET: Autodesk.Civil.DatabaseServices.Styles.ProjectionEntityDisplayType"""
+    """.NET enum: Autodesk.Civil.DatabaseServices.Styles.ProjectionEntityDisplayType"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    NativeEntity: int  # = 0
+    Marker: int  # = 1
 class ProjectionProfileOptions(CivilWrapper<AeccDbProfileSectionEntityStyle>):
     """.NET: Autodesk.Civil.DatabaseServices.Styles.ProjectionProfileOptions"""
     def __init__(self, *args) -> None: ...
@@ -4716,15 +5038,18 @@ class QuantityTakeoffCriteriaItem(CivilWrapper<AeccDbQuantityTakeoffCriteria>):
     def RemoveSurface(self, surfaceName: str) -> None: ...
 
 class ReferenceTextComponentSelectedType:
-    """.NET: Autodesk.Civil.DatabaseServices.Styles.ReferenceTextComponentSelectedType"""
+    """.NET enum: Autodesk.Civil.DatabaseServices.Styles.ReferenceTextComponentSelectedType"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    Alignment: int  # = 0
+    CogoPoint: int  # = 1
+    Parcel: int  # = 2
+    Profile: int  # = 3
+    Surface: int  # = 4
 class SampleLineDisplayStyleType:
-    """.NET: Autodesk.Civil.DatabaseServices.Styles.SampleLineDisplayStyleType"""
+    """.NET enum: Autodesk.Civil.DatabaseServices.Styles.SampleLineDisplayStyleType"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    Lines: int  # = 0
+    Vertices: int  # = 1
 class SampleLineStyle(StyleBase):
     """.NET: Autodesk.Civil.DatabaseServices.Styles.SampleLineStyle"""
     def __init__(self, *args) -> None: ...
@@ -4792,20 +5117,23 @@ class SampleLineStyleCollection(StyleCollectionBase):
     def Add(self, name: str) -> ObjectId: ...
 
 class ScaleType:
-    """.NET: Autodesk.Civil.DatabaseServices.Styles.ScaleType"""
+    """.NET enum: Autodesk.Civil.DatabaseServices.Styles.ScaleType"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    UseDrawingScale: int  # = 0
+    SizeRelativeToScreen: int  # = 1
+    SizeInAbsoluteUnits: int  # = 2
 class ScalingMethodType:
-    """.NET: Autodesk.Civil.DatabaseServices.Styles.ScalingMethodType"""
+    """.NET enum: Autodesk.Civil.DatabaseServices.Styles.ScalingMethodType"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    UseDrawingScale: int  # = 0
+    SizeRelativeToScreen: int  # = 1
+    SizeInAbsoluteUnits: int  # = 2
 class SchematicLineOption:
-    """.NET: Autodesk.Civil.DatabaseServices.Styles.SchematicLineOption"""
+    """.NET enum: Autodesk.Civil.DatabaseServices.Styles.SchematicLineOption"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    Geometry: int  # = 0
+    Radius: int  # = 1
+    Curvature: int  # = 2
 class SectionDataBandStyle(BandStyle):
     """.NET: Autodesk.Civil.DatabaseServices.Styles.SectionDataBandStyle"""
     def __init__(self, *args) -> None: ...
@@ -4883,15 +5211,27 @@ class SectionDataBandStyle(BandStyle):
     def GetDisplayStylePlan(self, type: SectionDataDisplayStyleType) -> DisplayStyle: ...
 
 class SectionDataDisplayStyleType:
-    """.NET: Autodesk.Civil.DatabaseServices.Styles.SectionDataDisplayStyleType"""
+    """.NET enum: Autodesk.Civil.DatabaseServices.Styles.SectionDataDisplayStyleType"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    Border: int  # = 0
+    TitleBox: int  # = 1
+    TitleBoxText: int  # = 2
+    TicksAtMajorOffsets: int  # = 3
+    TicksAtMinorOffsets: int  # = 4
+    TicksAtCenterline: int  # = 5
+    TicksAtSampleLineVertices: int  # = 6
+    TicksAtGradeBreaks: int  # = 7
+    LabelsAtMajorOffsets: int  # = 8
+    LabelsAtMinorOffsets: int  # = 9
+    LabelsAtCenterline: int  # = 10
+    LabelsAtSampleLineVertices: int  # = 11
+    LabelsAtGradeBreaks: int  # = 12
+    LabelsAtIncrementalDistance: int  # = 13
 class SectionDisplayStyleSectionType:
-    """.NET: Autodesk.Civil.DatabaseServices.Styles.SectionDisplayStyleSectionType"""
+    """.NET enum: Autodesk.Civil.DatabaseServices.Styles.SectionDisplayStyleSectionType"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    Segments: int  # = 0
+    Points: int  # = 1
 class SectionLabelSetItem(BaseLabelSetItem):
     """.NET: Autodesk.Civil.DatabaseServices.Styles.SectionLabelSetItem"""
     def __init__(self, *args) -> None: ...
@@ -5042,10 +5382,14 @@ class SectionSegmentBandStyle(BandStyle):
     def GetDisplayStylePlan(self, type: SectionSegmentDisplayStyleType) -> DisplayStyle: ...
 
 class SectionSegmentDisplayStyleType:
-    """.NET: Autodesk.Civil.DatabaseServices.Styles.SectionSegmentDisplayStyleType"""
+    """.NET enum: Autodesk.Civil.DatabaseServices.Styles.SectionSegmentDisplayStyleType"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    Border: int  # = 0
+    TitleBox: int  # = 1
+    TitleBoxText: int  # = 2
+    Ticks: int  # = 3
+    Labels: int  # = 4
+    Lines: int  # = 5
 class SectionStyle(StyleBase):
     """.NET: Autodesk.Civil.DatabaseServices.Styles.SectionStyle"""
     def __init__(self, *args) -> None: ...
@@ -5207,15 +5551,50 @@ class SectionViewBandSetStyleCollection(StyleCollectionBase):
     def Add(self, name: str) -> ObjectId: ...
 
 class SectionViewDisplayStyleType:
-    """.NET: Autodesk.Civil.DatabaseServices.Styles.SectionViewDisplayStyleType"""
+    """.NET enum: Autodesk.Civil.DatabaseServices.Styles.SectionViewDisplayStyleType"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    GraphTitle: int  # = 0
+    LeftAxis: int  # = 1
+    LeftAxisTitle: int  # = 2
+    LeftAxisAnnotationMajor: int  # = 3
+    LeftAxisAnnotationMinor: int  # = 4
+    LeftAxisTicksMajor: int  # = 5
+    LeftAxisTicksMinor: int  # = 6
+    RightAxis: int  # = 7
+    RightAxisTitle: int  # = 8
+    RightAxisAnnotationMajor: int  # = 9
+    RightAxisAnnotationMinor: int  # = 10
+    RightAxisTicksMajor: int  # = 11
+    RightAxisTicksMinor: int  # = 12
+    TopAxis: int  # = 13
+    TopAxisTitle: int  # = 14
+    TopAxisAnnotationMajor: int  # = 15
+    TopAxisAnnotationMinor: int  # = 16
+    TopAxisTicksMajor: int  # = 17
+    TopAxisTicksMinor: int  # = 18
+    BottomAxis: int  # = 19
+    BottomAxisTitle: int  # = 20
+    BottomAxisAnnotationMajor: int  # = 21
+    BottomAxisAnnotationMinor: int  # = 22
+    BottomAxisTicksMajor: int  # = 23
+    BottomAxisTicksMinor: int  # = 24
+    CenterAxis: int  # = 31
+    CenterAxisTitle: int  # = 32
+    CenterAxisAnnotationMajor: int  # = 33
+    CenterAxisAnnotationMinor: int  # = 34
+    CenterAxisTicksMajor: int  # = 35
+    CenterAxisTicksMinor: int  # = 36
+    GridHorizontalMajor: int  # = 37
+    GridHorizontalMinor: int  # = 38
+    GridVerticalMajor: int  # = 39
+    GridVerticalMinor: int  # = 40
+    GridAtSampleLineStations: int  # = 41
+    GridAtPGP: int  # = 43
 class SectionViewPlotRuleType:
-    """.NET: Autodesk.Civil.DatabaseServices.Styles.SectionViewPlotRuleType"""
+    """.NET enum: Autodesk.Civil.DatabaseServices.Styles.SectionViewPlotRuleType"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    ByRows: int  # = 0
+    ByColumns: int  # = 1
 class SectionViewStyle(StyleBase):
     """.NET: Autodesk.Civil.DatabaseServices.Styles.SectionViewStyle"""
     def __init__(self, *args) -> None: ...
@@ -5358,10 +5737,14 @@ class SectionalDataBandStyle(BandStyle):
     def GetDisplayStylePlan(self, type: SectionalDataDisplayStyleType) -> DisplayStyle: ...
 
 class SectionalDataDisplayStyleType:
-    """.NET: Autodesk.Civil.DatabaseServices.Styles.SectionalDataDisplayStyleType"""
+    """.NET enum: Autodesk.Civil.DatabaseServices.Styles.SectionalDataDisplayStyleType"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    Border: int  # = 0
+    TitleBox: int  # = 1
+    TitleBoxText: int  # = 2
+    TicksAtSampleLineStation: int  # = 3
+    SampleLineStationLabels: int  # = 4
+    IncrementalStationRegionLabels: int  # = 5
 class SegmentColumnStyle(ColumnStyle):
     """.NET: Autodesk.Civil.DatabaseServices.Styles.SegmentColumnStyle"""
     def __init__(self, *args) -> None: ...
@@ -5378,10 +5761,10 @@ class SegmentColumnStyle(ColumnStyle):
     def SetContentStringFormatted(self, type: TableSegmentDataType, newVal: str) -> None: ...
 
 class ShapeDisplayStyleType:
-    """.NET: Autodesk.Civil.DatabaseServices.Styles.ShapeDisplayStyleType"""
+    """.NET enum: Autodesk.Civil.DatabaseServices.Styles.ShapeDisplayStyleType"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    Border: int  # = 0
+    AreaFill: int  # = 1
 class ShapeStyle(SubassemblySubentityStyle):
     """.NET: Autodesk.Civil.DatabaseServices.Styles.ShapeStyle"""
     def __init__(self, *args) -> None: ...
@@ -5458,10 +5841,14 @@ class ShapeStyleCollection(StyleCollectionBase):
     def Add(self, name: str) -> ObjectId: ...
 
 class SheetDisplayStyleType:
-    """.NET: Autodesk.Civil.DatabaseServices.Styles.SheetDisplayStyleType"""
+    """.NET enum: Autodesk.Civil.DatabaseServices.Styles.SheetDisplayStyleType"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    MajorHorizontalGrid: int  # = 0
+    MinorHorizontalGrid: int  # = 1
+    MajorVerticalGrid: int  # = 2
+    MinorVerticalGrid: int  # = 3
+    PrintArea: int  # = 4
+    Border: int  # = 5
 class SheetStyle(StyleBase):
     """.NET: Autodesk.Civil.DatabaseServices.Styles.SheetStyle"""
     def __init__(self, *args) -> None: ...
@@ -5561,10 +5948,12 @@ class SizeFilterRecord:
     def GetParamByContextAndIndex(self, context: PartContextType, index: int) -> SizeFilterField: ...
 
 class SlopeArrowType:
-    """.NET: Autodesk.Civil.DatabaseServices.Styles.SlopeArrowType"""
+    """.NET enum: Autodesk.Civil.DatabaseServices.Styles.SlopeArrowType"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    Filled: int  # = 0
+    Closed: int  # = 1
+    Open: int  # = 2
+    Double: int  # = 3
 class SlopePatternComponent(CivilWrapper<AeccDbSlopePatternStyle>):
     """.NET: Autodesk.Civil.DatabaseServices.Styles.SlopePatternComponent"""
     def __init__(self, *args) -> None: ...
@@ -5687,10 +6076,12 @@ class SlopePatternStyleCollection(StyleCollectionBase):
     def Add(self, name: str) -> ObjectId: ...
 
 class StaggerLabelType:
-    """.NET: Autodesk.Civil.DatabaseServices.Styles.StaggerLabelType"""
+    """.NET enum: Autodesk.Civil.DatabaseServices.Styles.StaggerLabelType"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    None_: int  # = 0
+    Both: int  # = 1
+    Right: int  # = 2
+    Left: int  # = 3
 class StructureColumnComponentData(CivilWrapper<tableCellComponentVec>):
     """.NET: Autodesk.Civil.DatabaseServices.Styles.StructureColumnComponentData"""
     def __init__(self, *args) -> None: ...
@@ -5722,35 +6113,38 @@ class StructureColumnStyle(ColumnStyle):
     def SetComponents(self, componentDatas: StructureColumnComponents) -> None: ...
 
 class StructureDisplayStylePlanType:
-    """.NET: Autodesk.Civil.DatabaseServices.Styles.StructureDisplayStylePlanType"""
+    """.NET enum: Autodesk.Civil.DatabaseServices.Styles.StructureDisplayStylePlanType"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    Structure: int  # = 0
+    StructureHatch: int  # = 1
+    Solid: int  # = 2
 class StructureDisplayStyleProfileType:
-    """.NET: Autodesk.Civil.DatabaseServices.Styles.StructureDisplayStyleProfileType"""
+    """.NET enum: Autodesk.Civil.DatabaseServices.Styles.StructureDisplayStyleProfileType"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    Structure: int  # = 0
+    StructureHatch: int  # = 1
+    StructurePipeOutlines: int  # = 3
 class StructureDisplayStyleSectionType:
-    """.NET: Autodesk.Civil.DatabaseServices.Styles.StructureDisplayStyleSectionType"""
+    """.NET enum: Autodesk.Civil.DatabaseServices.Styles.StructureDisplayStyleSectionType"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    Structure: int  # = 0
+    StructureHatch: int  # = 1
+    StructurePipeOutlines: int  # = 3
 class StructureInsertionLocation:
-    """.NET: Autodesk.Civil.DatabaseServices.Styles.StructureInsertionLocation"""
+    """.NET enum: Autodesk.Civil.DatabaseServices.Styles.StructureInsertionLocation"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    Rim: int  # = 0
+    Sump: int  # = 1
 class StructureModelViewOptionType:
-    """.NET: Autodesk.Civil.DatabaseServices.Styles.StructureModelViewOptionType"""
+    """.NET enum: Autodesk.Civil.DatabaseServices.Styles.StructureModelViewOptionType"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    UseCatalogDefined3DPart: int  # = 0
+    UseSimple3DPart: int  # = 1
 class StructurePlanViewType:
-    """.NET: Autodesk.Civil.DatabaseServices.Styles.StructurePlanViewType"""
+    """.NET enum: Autodesk.Civil.DatabaseServices.Styles.StructurePlanViewType"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    UseOuterPartBoundary: int  # = 0
+    UserDefinedPart: int  # = 1
 class StructureRuleSetStyle(NetworkRuleSetStyle):
     """.NET: Autodesk.Civil.DatabaseServices.Styles.StructureRuleSetStyle"""
     def __init__(self, *args) -> None: ...
@@ -5817,15 +6211,20 @@ class StructureRuleSetStyleCollection(StyleCollectionBase):
     def Add(self, name: str) -> ObjectId: ...
 
 class StructureSimpleSolidType:
-    """.NET: Autodesk.Civil.DatabaseServices.Styles.StructureSimpleSolidType"""
+    """.NET enum: Autodesk.Civil.DatabaseServices.Styles.StructureSimpleSolidType"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    Box: int  # = 0
+    Cylinder: int  # = 1
+    Sphere: int  # = 2
+    PartDefinedShape: int  # = 3
 class StructureSizeOptionsType:
-    """.NET: Autodesk.Civil.DatabaseServices.Styles.StructureSizeOptionsType"""
+    """.NET enum: Autodesk.Civil.DatabaseServices.Styles.StructureSizeOptionsType"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    UseDrawingScale: int  # = 0
+    UseFixedScale: int  # = 1
+    UseAbsoluteUnits: int  # = 2
+    UseSizeAsPercentageOfScreen: int  # = 3
+    UseFixedScaleFromPartSize: int  # = 4
 class StructureStyle(StyleBase):
     """.NET: Autodesk.Civil.DatabaseServices.Styles.StructureStyle"""
     def __init__(self, *args) -> None: ...
@@ -5969,10 +6368,11 @@ class StructureStyleSectionOption(StructureStyleOptionBase):
     ViewOptions: StructureViewType
 
 class StructureViewType:
-    """.NET: Autodesk.Civil.DatabaseServices.Styles.StructureViewType"""
+    """.NET enum: Autodesk.Civil.DatabaseServices.Styles.StructureViewType"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    DisplayAsBoundary: int  # = 0
+    DisplayAsBlock: int  # = 1
+    DisplayAsSolid: int  # = 2
 class StyleBase(DBObject):
     """.NET: Autodesk.Civil.DatabaseServices.Styles.StyleBase"""
     def __init__(self, *args) -> None: ...
@@ -6152,10 +6552,11 @@ class SubassemblySubentityStyle(StyleBase):
     UnmanagedObject: IntPtr
 
 class SubassemblySubentityStyleType:
-    """.NET: Autodesk.Civil.DatabaseServices.Styles.SubassemblySubentityStyleType"""
+    """.NET enum: Autodesk.Civil.DatabaseServices.Styles.SubassemblySubentityStyleType"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    MarkerType: int  # = 0
+    LinkType: int  # = 1
+    ShapeType: int  # = 2
 class SuperelevationDataBandStyle(BandStyle):
     """.NET: Autodesk.Civil.DatabaseServices.Styles.SuperelevationDataBandStyle"""
     def __init__(self, *args) -> None: ...
@@ -6234,10 +6635,31 @@ class SuperelevationDataBandStyle(BandStyle):
     def GetDisplayStylePlan(self, type: SuperelevationDataDisplayStyleType) -> DisplayStyle: ...
 
 class SuperelevationDataDisplayStyleType:
-    """.NET: Autodesk.Civil.DatabaseServices.Styles.SuperelevationDataDisplayStyleType"""
+    """.NET enum: Autodesk.Civil.DatabaseServices.Styles.SuperelevationDataDisplayStyleType"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    Border: int  # = 0
+    TitleBox: int  # = 1
+    TitleBoxText: int  # = 2
+    TicksAtNormalCrown: int  # = 3
+    TicksAtShoulderBreakOver: int  # = 4
+    TicksAtLevelCrown: int  # = 5
+    TicksAtReverseCrown: int  # = 6
+    TicksAtFullSuper: int  # = 7
+    LabelsAtNormalCrown: int  # = 8
+    LabelsAtShoulderBreakOver: int  # = 9
+    LabelsAtLevelCrown: int  # = 10
+    LabelsAtReverseCrown: int  # = 11
+    LabelsAtFullSuper: int  # = 12
+    LabelsAlongTransitionSegment: int  # = 13
+    ReferenceLine: int  # = 14
+    LineLeftOutsideShoulder: int  # = 15
+    LineLeftOutsidePavement: int  # = 16
+    LineLeftInsidePavement: int  # = 17
+    LineLeftInsideShoulder: int  # = 18
+    LineRightInsideShoulder: int  # = 19
+    LineRightInsidePavement: int  # = 20
+    LineRightOutsidePavement: int  # = 21
+    LineRightOutsideShoulder: int  # = 22
 class SuperelevationViewStyle(StyleBase):
     """.NET: Autodesk.Civil.DatabaseServices.Styles.SuperelevationViewStyle"""
     def __init__(self, *args) -> None: ...
@@ -6370,20 +6792,33 @@ class SurfaceDirectionStyle(SurfaceBaseStyle):
     DisplayMode: SurfaceDisplay3dType
 
 class SurfaceDisplay3dType:
-    """.NET: Autodesk.Civil.DatabaseServices.Styles.SurfaceDisplay3dType"""
+    """.NET enum: Autodesk.Civil.DatabaseServices.Styles.SurfaceDisplay3dType"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    UseSurfaceElevation: int  # = 1
+    FlattenElevations: int  # = 2
+    ExaggerateElevations: int  # = 4
 class SurfaceDisplayStyleType:
-    """.NET: Autodesk.Civil.DatabaseServices.Styles.SurfaceDisplayStyleType"""
+    """.NET enum: Autodesk.Civil.DatabaseServices.Styles.SurfaceDisplayStyleType"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    Points: int  # = 0
+    Triangles: int  # = 1
+    Boundary: int  # = 2
+    MajorContour: int  # = 3
+    MinorContour: int  # = 4
+    UserContours: int  # = 5
+    Gridded: int  # = 6
+    Directions: int  # = 7
+    Elevations: int  # = 8
+    Slopes: int  # = 9
+    SlopeArrows: int  # = 10
+    Watersheds: int  # = 11
 class SurfaceDisplayType:
-    """.NET: Autodesk.Civil.DatabaseServices.Styles.SurfaceDisplayType"""
+    """.NET enum: Autodesk.Civil.DatabaseServices.Styles.SurfaceDisplayType"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    Solid2d: int  # = 1
+    Faces3d: int  # = 2
+    HatchSolid: int  # = 4
+    PolyMesh: int  # = 8
 class SurfaceElevationStyle(SurfaceBaseStyle):
     """.NET: Autodesk.Civil.DatabaseServices.Styles.SurfaceElevationStyle"""
     def __init__(self, *args) -> None: ...
@@ -6416,10 +6851,11 @@ class SurfaceGridStyle(SurfaceBaseStyle):
     DisplayMode: SurfaceDisplay3dType
 
 class SurfaceGroupValuesByType:
-    """.NET: Autodesk.Civil.DatabaseServices.Styles.SurfaceGroupValuesByType"""
+    """.NET enum: Autodesk.Civil.DatabaseServices.Styles.SurfaceGroupValuesByType"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    EqualInterval: int  # = 0
+    Quantile: int  # = 1
+    StandardDeviation: int  # = 2
 class SurfaceHatchInfo:
     """.NET: Autodesk.Civil.DatabaseServices.Styles.SurfaceHatchInfo"""
     def __init__(self, *args) -> None: ...
@@ -6580,30 +7016,37 @@ class SurfaceWatershedStyle(SurfaceBaseStyle):
     DisplayMode: SurfaceDisplay3dType
 
 class SurveyElevationDisplayType:
-    """.NET: Autodesk.Civil.DatabaseServices.Styles.SurveyElevationDisplayType"""
+    """.NET enum: Autodesk.Civil.DatabaseServices.Styles.SurveyElevationDisplayType"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    UseElevation: int  # = 0
+    FlattenElevation: int  # = 1
+    ExaggerateElevations: int  # = 2
 class SurveyFigureDisplayType:
-    """.NET: Autodesk.Civil.DatabaseServices.Styles.SurveyFigureDisplayType"""
+    """.NET enum: Autodesk.Civil.DatabaseServices.Styles.SurveyFigureDisplayType"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    FigureLines: int  # = 0
+    VertexMarkers: int  # = 1
+    MidpointMarkers: int  # = 2
+    EndpointMarkers: int  # = 3
+    AdditionalMarkers: int  # = 4
 class SurveyFigureMarkerPlacementType:
-    """.NET: Autodesk.Civil.DatabaseServices.Styles.SurveyFigureMarkerPlacementType"""
+    """.NET enum: Autodesk.Civil.DatabaseServices.Styles.SurveyFigureMarkerPlacementType"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    None_: int  # = 0
+    AtInterval: int  # = 1
+    DivideFigure: int  # = 2
+    Continuous: int  # = 3
 class SurveyFigureProfileDisplayType:
-    """.NET: Autodesk.Civil.DatabaseServices.Styles.SurveyFigureProfileDisplayType"""
+    """.NET enum: Autodesk.Civil.DatabaseServices.Styles.SurveyFigureProfileDisplayType"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    FigureLines: int  # = 0
+    BeginningVertexMarker: int  # = 6
+    InternalVertexMarker: int  # = 7
+    EndingVertexMarker: int  # = 8
 class SurveyFigureSectionDisplayType:
-    """.NET: Autodesk.Civil.DatabaseServices.Styles.SurveyFigureSectionDisplayType"""
+    """.NET enum: Autodesk.Civil.DatabaseServices.Styles.SurveyFigureSectionDisplayType"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    CrossingMarker: int  # = 5
 class SurveyFigureStyle(StyleBase):
     """.NET: Autodesk.Civil.DatabaseServices.Styles.SurveyFigureStyle"""
     def __init__(self, *args) -> None: ...
@@ -6694,10 +7137,18 @@ class SurveyFigureStyleCollection(StyleCollectionBase):
     def Add(self, name: str) -> ObjectId: ...
 
 class SurveyNetworkDisplayStyleType:
-    """.NET: Autodesk.Civil.DatabaseServices.Styles.SurveyNetworkDisplayStyleType"""
+    """.NET enum: Autodesk.Civil.DatabaseServices.Styles.SurveyNetworkDisplayStyleType"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    KnownControlPoints: int  # = 0
+    UnknownControlPoints: int  # = 1
+    NonControlPoints: int  # = 2
+    SideshotPoints: int  # = 3
+    NetworkLines: int  # = 4
+    DirectionLines: int  # = 5
+    SideshotLines: int  # = 6
+    ErrorEllipses: int  # = 7
+    ToleranceErrorPoints: int  # = 8
+    ToleranceErrorLines: int  # = 9
 class SurveyNetworkStyle(StyleBase):
     """.NET: Autodesk.Civil.DatabaseServices.Styles.SurveyNetworkStyle"""
     def __init__(self, *args) -> None: ...
@@ -6774,15 +7225,24 @@ class SurveyNetworkStyleCollection(StyleCollectionBase):
     def Add(self, name: str) -> ObjectId: ...
 
 class TableDisplayStyleType:
-    """.NET: Autodesk.Civil.DatabaseServices.Styles.TableDisplayStyleType"""
+    """.NET enum: Autodesk.Civil.DatabaseServices.Styles.TableDisplayStyleType"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    Border: int  # = 0
+    TitleSeparator: int  # = 1
+    HeaderSeparator: int  # = 2
+    DataSeparator: int  # = 3
+    DataDivider: int  # = 4
+    TitleAreaFill: int  # = 5
+    HeaderAreaFill: int  # = 6
+    DataAreaFill: int  # = 7
+    TitleText: int  # = 8
+    HeaderText: int  # = 9
+    DataText: int  # = 10
 class TableSortingOrderType:
-    """.NET: Autodesk.Civil.DatabaseServices.Styles.TableSortingOrderType"""
+    """.NET enum: Autodesk.Civil.DatabaseServices.Styles.TableSortingOrderType"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    Descending: int  # = 0
+    Ascending: int  # = 1
 class TableStyle(StyleBase):
     """.NET: Autodesk.Civil.DatabaseServices.Styles.TableStyle"""
     def __init__(self, *args) -> None: ...
@@ -6891,10 +7351,30 @@ class TableStyleCollection(StyleCollectionBase):
     def Add(self, name: str) -> ObjectId: ...
 
 class TableStyleType:
-    """.NET: Autodesk.Civil.DatabaseServices.Styles.TableStyleType"""
+    """.NET enum: Autodesk.Civil.DatabaseServices.Styles.TableStyleType"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    ParcelArea: int  # = 2
+    Point: int  # = 6
+    ParcelLine: int  # = 7
+    ParcelCurve: int  # = 8
+    AlignmentSegment: int  # = 37
+    SurfaceDirection: int  # = 41
+    SurfaceElevation: int  # = 42
+    SurfaceSlope: int  # = 43
+    SurfaceSlopeArrow: int  # = 44
+    SurfaceContour: int  # = 91
+    ParcelSegment: int  # = 131
+    AlignmentLine: int  # = 132
+    AlignmentCurve: int  # = 133
+    AlignmentSpiral: int  # = 134
+    Pipe: int  # = 332
+    SectionViewTotalVolume: int  # = 333
+    SectionViewMaterial: int  # = 334
+    Structure: int  # = 335
+    SurfaceContoursUser: int  # = 3081
+    SurfaceWatershed: int  # = 3083
+    QuantityTakeoffTotalVolume: int  # = 3777
+    QuantityTakeoffMaterial: int  # = 3778
 class TableStylesRoot(TreeOidWrapper):
     """.NET: Autodesk.Civil.DatabaseServices.Styles.TableStylesRoot"""
     def __init__(self, *args) -> None: ...
@@ -6925,10 +7405,15 @@ class TableStylesRoot(TreeOidWrapper):
     UnmanagedObject: IntPtr
 
 class TextForEachComponentSelectedType:
-    """.NET: Autodesk.Civil.DatabaseServices.Styles.TextForEachComponentSelectedType"""
+    """.NET enum: Autodesk.Civil.DatabaseServices.Styles.TextForEachComponentSelectedType"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    Curve: int  # = 419485521
+    CurveOrSpiral: int  # = 419485522
+    Spiral: int  # = 419485523
+    StructureAllPipes: int  # = 419811620
+    StructureInFlowPipes: int  # = 419811621
+    StructureOutFlowPipes: int  # = 419811622
+    IntersectionAllAlignment: int  # = 419930112
 class VerticalGeometryBandStyle(BandStyle):
     """.NET: Autodesk.Civil.DatabaseServices.Styles.VerticalGeometryBandStyle"""
     def __init__(self, *args) -> None: ...
@@ -7004,10 +7489,16 @@ class VerticalGeometryBandStyle(BandStyle):
     def GetDisplayStylePlan(self, type: VerticalGeometryDisplayStyleType) -> DisplayStyle: ...
 
 class VerticalGeometryDisplayStyleType:
-    """.NET: Autodesk.Civil.DatabaseServices.Styles.VerticalGeometryDisplayStyleType"""
+    """.NET enum: Autodesk.Civil.DatabaseServices.Styles.VerticalGeometryDisplayStyleType"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    Border: int  # = 0
+    TitleBox: int  # = 1
+    TitleBoxText: int  # = 2
+    Ticks: int  # = 3
+    TangentLabels: int  # = 4
+    CurveLabels: int  # = 5
+    TangentGeometry: int  # = 6
+    CurveGeometry: int  # = 7
 class ViewFrameStyle(StyleBase):
     """.NET: Autodesk.Civil.DatabaseServices.Styles.ViewFrameStyle"""
     def __init__(self, *args) -> None: ...

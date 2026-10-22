@@ -1,10 +1,11 @@
 # Auto-generated — Civil 26 — Autodesk.AutoCAD.DatabaseServices.Internal
 
 class CompareReturnStatus:
-    """.NET: Autodesk.AutoCAD.DatabaseServices.Internal.CompareReturnStatus"""
+    """.NET enum: Autodesk.AutoCAD.DatabaseServices.Internal.CompareReturnStatus"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    UnableToCompare: int  # = 0
+    HistoryCompare: int  # = 1
+    RawBinaryCompare: int  # = 2
 class DcDocsFile:
     """.NET: Autodesk.AutoCAD.DatabaseServices.Internal.DcDocsFile"""
     def __init__(self, *args) -> None: ...
@@ -41,6 +42,18 @@ class ObjectDiffEventHandler:
     def Invoke(self, sender: object, e: ObjectDiffEventArgs) -> None: ...
 
 class Permissions:
-    """.NET: Autodesk.AutoCAD.DatabaseServices.Internal.Permissions"""
+    """.NET enum: Autodesk.AutoCAD.DatabaseServices.Internal.Permissions"""
     def __init__(self, *args) -> None: ...
-    ...
+    None_: int  # = 0
+    View: int  # = 1
+    Create: int  # = 2
+    Delete: int  # = 4
+    Rename: int  # = 8
+    Move: int  # = 16
+    Edit: int  # = 32
+    Publish: int  # = 64
+    Download: int  # = 128
+    Collaborate: int  # = 256
+    Control: int  # = 512
+    AdminAccess: int  # = 1024
+    All: int  # = 2047

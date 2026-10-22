@@ -1,10 +1,16 @@
 # Auto-generated — Civil 26 — Autodesk.AutoCAD.PlottingServices
 
 class AppPlotStatus:
-    """.NET: Autodesk.AutoCAD.PlottingServices.AppPlotStatus"""
+    """.NET enum: Autodesk.AutoCAD.PlottingServices.AppPlotStatus"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    PlotStart: int  # = 0
+    ViewPlotLog: int  # = 1
+    PlotSuccessful: int  # = 2
+    PlotHadErrors: int  # = 3
+    PlotHadSystemError: int  # = 4
+    DwfFilePlotted: int  # = -3
+    PlottingMessage: int  # = -2
+    NoPlotYet: int  # = -1
 class BeginDocumentEventArgs(EventArgs):
     """.NET: Autodesk.AutoCAD.PlottingServices.BeginDocumentEventArgs"""
     def __init__(self, *args) -> None: ...
@@ -55,15 +61,30 @@ class BeginPlotEventHandler:
     def Invoke(self, sender: object, e: BeginPlotEventArgs) -> None: ...
 
 class CustomSizeResults:
-    """.NET: Autodesk.AutoCAD.PlottingServices.CustomSizeResults"""
+    """.NET enum: Autodesk.AutoCAD.PlottingServices.CustomSizeResults"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    Possible: int  # = 0
+    MustCreatePC3: int  # = 1
+    RotationRequired: int  # = 2
+    PC3DirReadOnly: int  # = 4
+    PmpDirReadOnly: int  # = 8
+    PmpDirMissing: int  # = 16
+    UnknownErrPmpDir: int  # = 32
+    PC3FileReadOnly: int  # = 64
+    SizeTooBig: int  # = 128
+    Exception: int  # = 256
+    UnknownErrPC3File: int  # = 512
+    UnknownErrPmpFile: int  # = 1024
+    PmpFileReadOnly: int  # = 2048
+    WidthAndHeightMustBePositive: int  # = 4096
+    DeviceLoadFailed: int  # = 8192
 class DeviceType:
-    """.NET: Autodesk.AutoCAD.PlottingServices.DeviceType"""
+    """.NET enum: Autodesk.AutoCAD.PlottingServices.DeviceType"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    SystemPrinter: int  # = 0
+    PC3File: int  # = 1
+    OneOffConfig: int  # = 2
+    Uninitialized: int  # = -1
 class DsdData(RXObject):
     """.NET: Autodesk.AutoCAD.PlottingServices.DsdData"""
     def __init__(self, *args) -> None: ...
@@ -182,10 +203,12 @@ class HostAppServices:
     def UpdatePlotJobStatus(status: AppPlotStatus, message: str) -> None: ...
 
 class MatchingPolicy:
-    """.NET: Autodesk.AutoCAD.PlottingServices.MatchingPolicy"""
+    """.NET enum: Autodesk.AutoCAD.PlottingServices.MatchingPolicy"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    MatchDisabled: int  # = 1
+    MatchEnabled: int  # = 2
+    MatchEnabledCustom: int  # = 3
+    MatchEnabledTemporaryCustom: int  # = 4
 class MediaBounds:
     """.NET: Autodesk.AutoCAD.PlottingServices.MediaBounds"""
     def __init__(self, *args) -> None: ...
@@ -198,10 +221,33 @@ class MediaBounds:
     def ToString(self, provider: IFormatProvider) -> str: ...
 
 class MergeStatus:
-    """.NET: Autodesk.AutoCAD.PlottingServices.MergeStatus"""
+    """.NET enum: Autodesk.AutoCAD.PlottingServices.MergeStatus"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    NoChanges: int  # = 0
+    PlotConfigurationName: int  # = 1
+    PlotPaperMargins: int  # = 2
+    PlotPaperSize: int  # = 4
+    CanonicalMediaName: int  # = 8
+    PlotOrigin: int  # = 16
+    PlotPaperUnits: int  # = 32
+    PlotViewportBorders: int  # = 64
+    PlotPlotStyles: int  # = 128
+    ShowPlotStyles: int  # = 256
+    PlotRotation: int  # = 512
+    PlotCentered: int  # = 1024
+    PlotHidden: int  # = 2048
+    ShadePlot: int  # = 4096
+    ShadePlotResLevel: int  # = 8192
+    ShadePlotCustomDpi: int  # = 16384
+    PlotType: int  # = 32768
+    PlotWindowArea: int  # = 65536
+    PlotViewName: int  # = 131072
+    Scale: int  # = 262144
+    CurrentStyleSheet: int  # = 524288
+    ScaleLineWeights: int  # = 1048576
+    PrintLineWeights: int  # = 2097152
+    DrawViewportsFirst: int  # = 4194304
+    PlotTransparency: int  # = 8388608
 class PageCancelledEventHandler:
     """.NET: Autodesk.AutoCAD.PlottingServices.PageCancelledEventHandler"""
     def __init__(self, *args) -> None: ...
@@ -212,10 +258,11 @@ class PageCancelledEventHandler:
     def Invoke(self, sender: object, e: EventArgs) -> None: ...
 
 class PlotCancelStatus:
-    """.NET: Autodesk.AutoCAD.PlottingServices.PlotCancelStatus"""
+    """.NET enum: Autodesk.AutoCAD.PlottingServices.PlotCancelStatus"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    Continue: int  # = 0
+    CanceledByCaller: int  # = 1
+    CanceledByCancelAllButton: int  # = 2
 class PlotCancelledEventHandler:
     """.NET: Autodesk.AutoCAD.PlottingServices.PlotCancelledEventHandler"""
     def __init__(self, *args) -> None: ...
@@ -366,10 +413,19 @@ class PlotLogger(DisposableWrapper):
     def StartSheet(self, ) -> None: ...
 
 class PlotMessageIndex:
-    """.NET: Autodesk.AutoCAD.PlottingServices.PlotMessageIndex"""
+    """.NET enum: Autodesk.AutoCAD.PlottingServices.PlotMessageIndex"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    DialogTitle: int  # = 0
+    SheetName: int  # = 1
+    SheetNameToolTip: int  # = 2
+    Status: int  # = 3
+    SheetProgressCaption: int  # = 4
+    SheetSetProgressCaption: int  # = 5
+    MessageCanceling: int  # = 6
+    MessageCancelingCurrent: int  # = 7
+    CancelSheetButtonMessage: int  # = 8
+    CancelJobButtonMessage: int  # = 9
+    MessageCount: int  # = 10
 class PlotPageInfo(RXObject):
     """.NET: Autodesk.AutoCAD.PlottingServices.PlotPageInfo"""
     def __init__(self, *args) -> None: ...
@@ -434,15 +490,18 @@ class PlotReactorManager:
     ...
 
 class PlotToFileCapability:
-    """.NET: Autodesk.AutoCAD.PlottingServices.PlotToFileCapability"""
+    """.NET enum: Autodesk.AutoCAD.PlottingServices.PlotToFileCapability"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    NoPlotToFile: int  # = 0
+    PlotToFileAllowed: int  # = 1
+    MustPlotToFile: int  # = 2
 class PlotType:
-    """.NET: Autodesk.AutoCAD.PlottingServices.PlotType"""
+    """.NET enum: Autodesk.AutoCAD.PlottingServices.PlotType"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    Plot: int  # = 0
+    Preview: int  # = 1
+    BackgroundPackaging: int  # = 2
+    BackgroundPlot: int  # = 3
 class PreviewEndPlotInfo(DisposableWrapper):
     """.NET: Autodesk.AutoCAD.PlottingServices.PreviewEndPlotInfo"""
     def __init__(self, *args) -> None: ...
@@ -452,36 +511,60 @@ class PreviewEndPlotInfo(DisposableWrapper):
     UnmanagedObject: IntPtr
 
 class PreviewEndPlotStatus:
-    """.NET: Autodesk.AutoCAD.PlottingServices.PreviewEndPlotStatus"""
+    """.NET enum: Autodesk.AutoCAD.PlottingServices.PreviewEndPlotStatus"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    Normal: int  # = 0
+    Plot: int  # = 1
+    Cancel: int  # = 2
+    Next: int  # = 3
+    Previous: int  # = 4
 class PreviewEngineFlags:
-    """.NET: Autodesk.AutoCAD.PlottingServices.PreviewEngineFlags"""
+    """.NET enum: Autodesk.AutoCAD.PlottingServices.PreviewEngineFlags"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    Plot: int  # = 1
+    NextSheet: int  # = 2
+    PreviousSheet: int  # = 4
 class ProcessPlotState:
-    """.NET: Autodesk.AutoCAD.PlottingServices.ProcessPlotState"""
+    """.NET enum: Autodesk.AutoCAD.PlottingServices.ProcessPlotState"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    NotPlotting: int  # = 0
+    ForegroundPlotting: int  # = 1
+    BackgroundPlotting: int  # = 2
 class RefreshCode:
-    """.NET: Autodesk.AutoCAD.PlottingServices.RefreshCode"""
+    """.NET enum: Autodesk.AutoCAD.PlottingServices.RefreshCode"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    All: int  # = 0
+    RefreshDevicesList: int  # = 1
+    RefreshStyleList: int  # = 2
+    RefreshSystemDevicesList: int  # = 3
+    RefreshPC3DevicesList: int  # = 4
 class SheetCancelStatus:
-    """.NET: Autodesk.AutoCAD.PlottingServices.SheetCancelStatus"""
+    """.NET enum: Autodesk.AutoCAD.PlottingServices.SheetCancelStatus"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    Continue: int  # = 0
+    CanceledByCancelButton: int  # = 1
+    CanceledByCancelAllButton: int  # = 2
+    CanceledByCaller: int  # = 3
 class SheetType:
-    """.NET: Autodesk.AutoCAD.PlottingServices.SheetType"""
+    """.NET enum: Autodesk.AutoCAD.PlottingServices.SheetType"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    SingleDwf: int  # = 0
+    MultiDwf: int  # = 1
+    OriginalDevice: int  # = 2
+    SingleDwfx: int  # = 3
+    MultiDwfx: int  # = 4
+    SinglePdf: int  # = 5
+    MultiPdf: int  # = 6
 class StdConfiguration:
-    """.NET: Autodesk.AutoCAD.PlottingServices.StdConfiguration"""
+    """.NET enum: Autodesk.AutoCAD.PlottingServices.StdConfiguration"""
     def __init__(self, *args) -> None: ...
-    ...
+    NoneDevice: int  # = 0
+    DefaultWindowsSysPrinter: int  # = 1
+    Dwf6ePlot: int  # = 2
+    DwfEplotOptForPlotting: int  # = 3
+    DwfEplotOptForViewing: int  # = 4
+    PublishToWebDwf: int  # = 5
+    PublishToWebJpg: int  # = 6
+    PublishToWebPng: int  # = 7
+    DWFxePlot: int  # = 8
+    PublishToWebDWFx: int  # = 9

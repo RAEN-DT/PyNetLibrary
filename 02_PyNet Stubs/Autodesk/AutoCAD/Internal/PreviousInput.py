@@ -83,15 +83,68 @@ class GetInputEventHandler:
     def Invoke(self, sender: object, e: GetInputEventArgs) -> None: ...
 
 class InputControlFlags:
-    """.NET: Autodesk.AutoCAD.Internal.PreviousInput.InputControlFlags"""
+    """.NET enum: Autodesk.AutoCAD.Internal.PreviousInput.InputControlFlags"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    udNONE: int  # = 0
+    udBASE: int  # = 1
+    udORTHO: int  # = 2
+    udWNOSORT: int  # = 2
+    udNULLOK: int  # = 4
+    udKWORD: int  # = 8
+    udDRAG: int  # = 16
+    udSILENTETX: int  # = 32
+    udCURSOR: int  # = 64
+    udMSG: int  # = 128
+    udNOLAST: int  # = 256
+    udNOLIM: int  # = 512
+    udOTHER: int  # = 1024
+    udNOZERO: int  # = 2048
+    udNONEG: int  # = 4096
+    udENTITY: int  # = 8192
+    udGETZ: int  # = 16384
+    udNORANGEMSG: int  # = 32768
+    udNOPFILT: int  # = 65536
+    udNOOSNAP: int  # = 131072
+    udFLATCUR: int  # = 262144
+    udDISPLPT: int  # = 524288
+    udMSGNUM: int  # = 1048576
+    udNOSMODE: int  # = 2097152
+    ud2DDIST: int  # = 4194304
+    udRESCAN: int  # = 8388608
+    udPOINTUP: int  # = 16777216
+    udANYBLANK: int  # = 33554432
+    udFIRSTBLANK: int  # = 67108864
+    udIGNOREETX: int  # = 134217728
+    udPOINTOK: int  # = 268435456
+    udLABELOK: int  # = 536870912
+    udBKSL: int  # = 1073741824
+    udXCTL: int  # = -2147483648
 class InputModes:
-    """.NET: Autodesk.AutoCAD.Internal.PreviousInput.InputModes"""
+    """.NET enum: Autodesk.AutoCAD.Internal.PreviousInput.InputModes"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    None_: int  # = 0
+    Point: int  # = 1
+    Angle: int  # = 2
+    Distance: int  # = 4
+    Orientation: int  # = 8
+    Corner: int  # = 16
+    ScaleFactor: int  # = 32
+    String: int  # = 64
+    kword: int  # = 128
+    Integer: int  # = 256
+    Color: int  # = 512
+    Real: int  # = 2048
+    EntSel: int  # = 4096
+    Nentsel: int  # = 8192
+    SSGet: int  # = 16384
+    Drag: int  # = 32768
+    Cmd: int  # = 65536
+    UnknownCmd: int  # = 131072
+    Vector: int  # = 262144
+    ScaleFactor2: int  # = 524288
+    DynDimGetPoint: int  # = 1048576
+    RawAngle: int  # = 8388608
+    AllGetInput: int  # = 16284671
 class InputStringEventArgs(EventArgs):
     """.NET: Autodesk.AutoCAD.Internal.PreviousInput.InputStringEventArgs"""
     def __init__(self, *args) -> None: ...

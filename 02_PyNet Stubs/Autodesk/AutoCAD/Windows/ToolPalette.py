@@ -6,10 +6,15 @@ class AcTcToolReactorImpl:
     ...
 
 class ContextMenuMode:
-    """.NET: Autodesk.AutoCAD.Windows.ToolPalette.ContextMenuMode"""
+    """.NET enum: Autodesk.AutoCAD.Windows.ToolPalette.ContextMenuMode"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    ContextMenuPaletteTool: int  # = 0
+    ContextMenuEditorImage: int  # = 1
+    ContextMenuPaletteBackground: int  # = 2
+    ContextMenuPaletteSetTab: int  # = 3
+    ContextMenuPaletteSetCaption: int  # = 4
+    ContextMenuPaletteSetOptionButton: int  # = 5
+    ContextNone: int  # = -1
 class CustomToolBase:
     """.NET: Autodesk.AutoCAD.Windows.ToolPalette.CustomToolBase"""
     def __init__(self, *args) -> None: ...
@@ -96,10 +101,10 @@ class DropPointHandler:
     def Invoke(self, point: Point3d) -> None: ...
 
 class ExecutionContext:
-    """.NET: Autodesk.AutoCAD.Windows.ToolPalette.ExecutionContext"""
+    """.NET enum: Autodesk.AutoCAD.Windows.ToolPalette.ExecutionContext"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    LeftButtonClicked: int  # = 0
+    DroppedInDrawing: int  # = 1
 class FlyoutEntryAttribute(Attribute):
     """.NET: Autodesk.AutoCAD.Windows.ToolPalette.FlyoutEntryAttribute"""
     def __init__(self, *args) -> None: ...
@@ -131,15 +136,19 @@ class PickHandler:
     def Invoke(self, pTool: ValueType, dwKeyState: int, tpOperationFlag: TPOperationFlag, nIndex: int) -> None: ...
 
 class ReturnStatus:
-    """.NET: Autodesk.AutoCAD.Windows.ToolPalette.ReturnStatus"""
+    """.NET enum: Autodesk.AutoCAD.Windows.ToolPalette.ReturnStatus"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    ContextMenuShow: int  # = 0
+    ContextMenuHide: int  # = 1
+    ExecutionCanceled: int  # = 2
+    ExecutionCancelRejected: int  # = 3
+    ContextMenuUpdatePalette: int  # = 4
 class TPOperationFlag:
-    """.NET: Autodesk.AutoCAD.Windows.ToolPalette.TPOperationFlag"""
+    """.NET enum: Autodesk.AutoCAD.Windows.ToolPalette.TPOperationFlag"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    Pick: int  # = 1
+    Drag: int  # = 2
+    ContextMenu: int  # = 4
 class ToolAttribute(Attribute):
     """.NET: Autodesk.AutoCAD.Windows.ToolPalette.ToolAttribute"""
     def __init__(self, *args) -> None: ...
@@ -148,10 +157,12 @@ class ToolAttribute(Attribute):
     TypeId: object
 
 class ToolEditFlags:
-    """.NET: Autodesk.AutoCAD.Windows.ToolPalette.ToolEditFlags"""
+    """.NET enum: Autodesk.AutoCAD.Windows.ToolPalette.ToolEditFlags"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    EditDefault: int  # = 0
+    EditCustom: int  # = 1
+    EditNone: int  # = 2
+    EditMultiple: int  # = 4
 class ToolItemInfo:
     """.NET: Autodesk.AutoCAD.Windows.ToolPalette.ToolItemInfo"""
     def __init__(self, *args) -> None: ...

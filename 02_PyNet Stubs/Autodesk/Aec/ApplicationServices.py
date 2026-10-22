@@ -213,10 +213,11 @@ class DrawingSetupVariables(DBVariables):
     def SaveAsDefault(self, ) -> None: ...
 
 class LegacyDrawingUnitMode:
-    """.NET: Autodesk.Aec.ApplicationServices.LegacyDrawingUnitMode"""
+    """.NET enum: Autodesk.Aec.ApplicationServices.LegacyDrawingUnitMode"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    Automatic: int  # = 0
+    Imperial: int  # = 1
+    Metric: int  # = 2
 class Preferences:
     """.NET: Autodesk.Aec.ApplicationServices.Preferences"""
     def __init__(self, *args) -> None: ...

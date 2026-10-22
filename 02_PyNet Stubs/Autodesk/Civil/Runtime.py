@@ -1,25 +1,70 @@
 # Auto-generated — Civil 26 — Autodesk.Civil.Runtime
 
 class CorridorError:
-    """.NET: Autodesk.Civil.Runtime.CorridorError"""
+    """.NET enum: Autodesk.Civil.Runtime.CorridorError"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    None_: int  # = 0
+    Success: int  # = -2147221504
+    Failure: int  # = -2147221503
+    CouldNotSolveInLayoutMode: int  # = -2147221502
+    ParameterNotFound: int  # = -2147221501
+    LogicalNameNotFound: int  # = -2147221500
+    NoSideslopeIntersectFound: int  # = -2147221499
+    NoSubgradeIntersectFound: int  # = -2147221498
+    ScriptModuleNotFound: int  # = -2147221497
+    ScriptMacroNotFound: int  # = -2147221496
+    CorridorStateNotFound: int  # = -2147221495
+    ScriptPossibleSyntaxError: int  # = -2147221494
+    StopProcessingGroup: int  # = -2147221493
+    StopProcessingAssembly: int  # = -2147221492
+    StopProcessingRegion: int  # = -2147221491
+    StopProcessingBaseline: int  # = -2147221490
+    StopProcessingCorridor: int  # = -2147221489
+    ElevationAtStationNotFound: int  # = -2147221488
+    ScriptModulePathUpdated: int  # = -2147221487
+    CorridorOutOfDate: int  # = -2147221486
+    ValueShouldNotBeLessThanOrEqualToZero: int  # = -2147221485
+    ValueShouldNotBeLessThanZero: int  # = -2147221484
+    ValueShouldNotBeZero: int  # = -2147221483
+    ValueInABadPosition: int  # = -2147221482
+    ValueTooSmall: int  # = -2147221481
+    ValueTooLarge: int  # = -2147221480
+    NoLinkIntersectFound: int  # = -2147221479
+    NoMarkedPointFound: int  # = -2147221478
+    ValueShouldNotBeOdd: int  # = -2147221477
+    InvalidArraySpecifiedForLinkDefinition: int  # = -2147221476
+    InvalidArraySpecifiedForLinkDefinitionFormat: int  # = -2147221475
+    InvalidArraySpecifiedForShapeDefinition: int  # = -2147221474
+    InvalidArraySpecifiedForShapeDefinitionFormat: int  # = -2147221473
+    InvalidCorridorStateObjectId: int  # = -2147221472
+    InvalidSubassemblyCOMClassId: int  # = -2147221471
+    StopProcessingConditional: int  # = -2147221469
+    ReprocessSubassembly: int  # = -2147221468
+    ReprocessAssembly: int  # = -2147221467
+    ReprocessRegion: int  # = -2147221466
+    ReprocessBaseline: int  # = -2147221465
 class CorridorErrorLevel:
-    """.NET: Autodesk.Civil.Runtime.CorridorErrorLevel"""
+    """.NET enum: Autodesk.Civil.Runtime.CorridorErrorLevel"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    None_: int  # = 0
+    Informational: int  # = 1
+    AsWarning: int  # = 2
+    Severe: int  # = 3
 class CorridorLayoutModeDisplay:
-    """.NET: Autodesk.Civil.Runtime.CorridorLayoutModeDisplay"""
+    """.NET enum: Autodesk.Civil.Runtime.CorridorLayoutModeDisplay"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    General: int  # = 0
+    None_: int  # = 1
+    Subgrade: int  # = 2
+    Sideslope: int  # = 3
+    Conditional: int  # = 4
+    DaylightBench: int  # = 5
 class CorridorMode:
-    """.NET: Autodesk.Civil.Runtime.CorridorMode"""
+    """.NET enum: Autodesk.Civil.Runtime.CorridorMode"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    None_: int  # = 0
+    Layout: int  # = 1
+    Design: int  # = 2
 class CorridorState(RuntimeState):
     """.NET: Autodesk.Civil.Runtime.CorridorState"""
     def __init__(self, *args) -> None: ...
@@ -104,10 +149,12 @@ class Param:
     ...
 
 class ParamAccessType:
-    """.NET: Autodesk.Civil.Runtime.ParamAccessType"""
+    """.NET enum: Autodesk.Civil.Runtime.ParamAccessType"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    None_: int  # = 0
+    Input: int  # = 1
+    Output: int  # = 2
+    InputAndOutput: int  # = 3
 class ParamAlignment(ParamBase<6\,Autodesk::AutoCAD::DatabaseServices::ObjectId\,AcDbObjectId\,Autodesk::Civil::Runtime::CastOpAlignmentId>):
     """.NET: Autodesk.Civil.Runtime.ParamAlignment"""
     def __init__(self, *args) -> None: ...
@@ -409,10 +456,16 @@ class ParamElevationTargetCollection(ParamCollectionBase<Autodesk::Civil::Runtim
     Count: int
 
 class ParamLogicalNameType:
-    """.NET: Autodesk.Civil.Runtime.ParamLogicalNameType"""
+    """.NET enum: Autodesk.Civil.Runtime.ParamLogicalNameType"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    None_: int  # = 0
+    Surface: int  # = 1
+    Alignment: int  # = 2
+    Profile: int  # = 3
+    OffsetTarget: int  # = 4
+    ElevationTarget: int  # = 5
+    OffsetTargetPipe: int  # = 6
+    ElevationTargetPipe: int  # = 7
 class ParamLong(ParamBase<2\,long\,long\,Autodesk::Civil::Runtime::CastOp<long\,long> >):
     """.NET: Autodesk.Civil.Runtime.ParamLong"""
     def __init__(self, *args) -> None: ...
@@ -501,10 +554,10 @@ class ParamProfileCollection(ParamCollectionBase<Autodesk::Civil::Runtime::Param
     Count: int
 
 class ParamScope:
-    """.NET: Autodesk.Civil.Runtime.ParamScope"""
+    """.NET enum: Autodesk.Civil.Runtime.ParamScope"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    Local: int  # = 0
+    Global: int  # = 1
 class ParamString(ParamBase<4\,System::String ^\,AecRmCString\,Autodesk::Civil::Runtime::CastOp<System::String ^\,AecRmCString> >):
     """.NET: Autodesk.Civil.Runtime.ParamString"""
     def __init__(self, *args) -> None: ...
@@ -545,15 +598,27 @@ class ParamSurfaceCollection(ParamCollectionBase<Autodesk::Civil::Runtime::Param
     Count: int
 
 class ParamType:
-    """.NET: Autodesk.Civil.Runtime.ParamType"""
+    """.NET enum: Autodesk.Civil.Runtime.ParamType"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    Unknown: int  # = 0
+    Bool: int  # = 1
+    Int: int  # = 2
+    Double: int  # = 3
+    String: int  # = 4
+    Point3d: int  # = 5
+    Alignment: int  # = 6
+    Profile: int  # = 7
+    Surface: int  # = 8
+    OffsetTarget: int  # = 9
+    ElevationTarget: int  # = 10
 class ParamsOwnerType:
-    """.NET: Autodesk.Civil.Runtime.ParamsOwnerType"""
+    """.NET enum: Autodesk.Civil.Runtime.ParamsOwnerType"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    Subassembly: int  # = 0
+    RoadwayState: int  # = 1
+    PipeNetworkPart: int  # = 2
+    PipeNetworkState: int  # = 3
+    PipeNetworkRule: int  # = 4
 class PipeNetworkState(RuntimeState):
     """.NET: Autodesk.Civil.Runtime.PipeNetworkState"""
     def __init__(self, *args) -> None: ...
@@ -588,16 +653,57 @@ class RuntimeState(CivilWrapper<AeccDbRuntimeState>):
     CurrentMacroProject: str
 
 class TypeInfoBool:
-    """.NET: Autodesk.Civil.Runtime.TypeInfoBool"""
+    """.NET enum: Autodesk.Civil.Runtime.TypeInfoBool"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    Bool: int  # = 0
+    NoYes: int  # = 1
+    LabelTag: int  # = 2
+    StraightSpline: int  # = 3
+    StackedText: int  # = 4
+    DisabledEnabled: int  # = 5
+    OffOn: int  # = 6
+    RightLeft: int  # = 7
+    DecimalFractional: int  # = 8
+    InOutCurve: int  # = 9
 class TypeInfoDouble:
-    """.NET: Autodesk.Civil.Runtime.TypeInfoDouble"""
+    """.NET enum: Autodesk.Civil.Runtime.TypeInfoDouble"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    Double: int  # = 0
+    NonNegativeDouble: int  # = 1
+    NonNegativeNonZeroDouble: int  # = 2
+    NonPositiveDouble: int  # = 3
+    NonPositiveNonZeroDouble: int  # = 4
+    NonZeroDouble: int  # = 5
+    Station: int  # = 6
+    DerivedStation: int  # = 7
+    Grade: int  # = 8
+    TransparentCmdGrade: int  # = 9
+    TransparentCmdSlope: int  # = 10
+    Direction: int  # = 11
+    LatLong: int  # = 12
+    Latitude: int  # = 13
+    Angle: int  # = 14
+    ConvergenceAngle: int  # = 15
+    Distance: int  # = 16
+    Dimension: int  # = 17
+    Coordinate: int  # = 18
+    XYCoordinatePair: int  # = 19
+    Area: int  # = 20
+    Elevation: int  # = 21
+    ElevationPoint: int  # = 22
+    PlotHeight: int  # = 23
+    Volume: int  # = 24
+    Percent: int  # = 25
+    Azimuth: int  # = 26
 class TypeInfoLong:
-    """.NET: Autodesk.Civil.Runtime.TypeInfoLong"""
+    """.NET enum: Autodesk.Civil.Runtime.TypeInfoLong"""
     def __init__(self, *args) -> None: ...
-    ...
+    Long: int  # = 0
+    NonZeroLong: int  # = 1
+    NonNegativeLong: int  # = 2
+    NonNegativeNonZeroLong: int  # = 3
+    NonPositiveLong: int  # = 4
+    NonPositiveNonZeroLong: int  # = 5
+    Color: int  # = 6
+    PDMODE: int  # = 7
+    LineWeight: int  # = 8

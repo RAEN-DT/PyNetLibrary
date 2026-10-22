@@ -87,15 +87,32 @@ class Configuration(DisposableWrapper):
     def setHardwareAcceleration(self, bEnable: bool) -> None: ...
 
 class DefaultLightingType:
-    """.NET: Autodesk.AutoCAD.GraphicsSystem.DefaultLightingType"""
+    """.NET enum: Autodesk.AutoCAD.GraphicsSystem.DefaultLightingType"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    OneLight: int  # = 0
+    TwoLights: int  # = 1
 class DegradationChannel:
-    """.NET: Autodesk.AutoCAD.GraphicsSystem.DegradationChannel"""
+    """.NET enum: Autodesk.AutoCAD.GraphicsSystem.DegradationChannel"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    ViewportDraw: int  # = 0
+    LineAntialias: int  # = 1
+    Lighting: int  # = 2
+    TransparencyQuality: int  # = 3
+    ShadowsFull: int  # = 4
+    Transparency: int  # = 5
+    DiscardBackfaces: int  # = 6
+    ShadowsGround: int  # = 7
+    EdgeStyles: int  # = 8
+    FacetEdges: int  # = 9
+    FastSilhouette: int  # = 10
+    Textures: int  # = 11
+    Materials: int  # = 12
+    LightingQuality: int  # = 13
+    Backgrounds: int  # = 14
+    IntersectEdges: int  # = 15
+    Faceted: int  # = 16
+    Wireframe: int  # = 17
+    DegradationChannels: int  # = 18
 class Device(DisposableWrapper):
     """.NET: Autodesk.AutoCAD.GraphicsSystem.Device"""
     def __init__(self, *args) -> None: ...
@@ -121,10 +138,11 @@ class Device(DisposableWrapper):
     def Update(self, updatedRect: Rectangle) -> None: ...
 
 class DeviceType:
-    """.NET: Autodesk.AutoCAD.GraphicsSystem.DeviceType"""
+    """.NET enum: Autodesk.AutoCAD.GraphicsSystem.DeviceType"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    ScreenDevice: int  # = 0
+    OffScreenDevice: int  # = 1
+    SelectionDevice: int  # = 2
 class DriverInfo:
     """.NET: Autodesk.AutoCAD.GraphicsSystem.DriverInfo"""
     def __init__(self, *args) -> None: ...
@@ -133,10 +151,15 @@ class DriverInfo:
     HardwareAccelerated: bool
 
 class EffectListType:
-    """.NET: Autodesk.AutoCAD.GraphicsSystem.EffectListType"""
+    """.NET enum: Autodesk.AutoCAD.GraphicsSystem.EffectListType"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    kEL_Current: int  # = 0
+    kEL_RegistryHardware: int  # = 1
+    kEL_RegistrySoftware: int  # = 2
+    kEL_File: int  # = 3
+    kEL_HardwareBasic: int  # = 4
+    kEL_HardwareMedium: int  # = 5
+    kEL_HardwareAdvanced: int  # = 6
 class EffectStatus:
     """.NET: Autodesk.AutoCAD.GraphicsSystem.EffectStatus"""
     def __init__(self, *args) -> None: ...
@@ -148,15 +171,23 @@ class EffectStatus:
     EffectUniqueString: int
 
 class ErrorStatus:
-    """.NET: Autodesk.AutoCAD.GraphicsSystem.ErrorStatus"""
+    """.NET enum: Autodesk.AutoCAD.GraphicsSystem.ErrorStatus"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    Success: int  # = 0
+    OutOfRange: int  # = 1
+    InvalidInput: int  # = 2
 class FeatureModeType:
-    """.NET: Autodesk.AutoCAD.GraphicsSystem.FeatureModeType"""
+    """.NET enum: Autodesk.AutoCAD.GraphicsSystem.FeatureModeType"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    kFM_Software: int  # = 0
+    kFM_Basic: int  # = 1
+    kFM_Medium: int  # = 2
+    kFM_Advanced: int  # = 3
+    kFM_Unknown: int  # = 65535
+    kFM_Start: int  # = -3
+    kFM_Legacy: int  # = -3
+    kFM_ClassicDx9: int  # = -2
+    kFM_ClassicDx11: int  # = -1
 class GetInterfaceFunction:
     """.NET: Autodesk.AutoCAD.GraphicsSystem.GetInterfaceFunction"""
     def __init__(self, *args) -> None: ...
@@ -183,20 +214,26 @@ class GsToBeUnloadedEventHandler:
     def Invoke(self, sender: object, e: EventArgs) -> None: ...
 
 class Handedness:
-    """.NET: Autodesk.AutoCAD.GraphicsSystem.Handedness"""
+    """.NET enum: Autodesk.AutoCAD.GraphicsSystem.Handedness"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    Left: int  # = 0
+    Right: int  # = 1
 class HighlightStyle:
-    """.NET: Autodesk.AutoCAD.GraphicsSystem.HighlightStyle"""
+    """.NET enum: Autodesk.AutoCAD.GraphicsSystem.HighlightStyle"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    HighlightDashed: int  # = 0
 class InvalidationHint:
-    """.NET: Autodesk.AutoCAD.GraphicsSystem.InvalidationHint"""
+    """.NET enum: Autodesk.AutoCAD.GraphicsSystem.InvalidationHint"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    InvalidateNone: int  # = 0
+    InvalidateIsolines: int  # = 1
+    InvalidateViewportCache: int  # = 2
+    InvalidateAll: int  # = 3
+    InvalidateAllStatic: int  # = 4
+    InvalidateFacets: int  # = 5
+    InvalidateFills: int  # = 6
+    InvalidateLinetypes: int  # = 7
+    InvalidateMaterials: int  # = 8
 class KernelDescriptor(DisposableWrapper):
     """.NET: Autodesk.AutoCAD.GraphicsSystem.KernelDescriptor"""
     def __init__(self, *args) -> None: ...
@@ -207,15 +244,56 @@ class KernelDescriptor(DisposableWrapper):
     def supports(self, A_0: int) -> bool: ...
 
 class LinePattern:
-    """.NET: Autodesk.AutoCAD.GraphicsSystem.LinePattern"""
+    """.NET enum: Autodesk.AutoCAD.GraphicsSystem.LinePattern"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    Solid: int  # = 0
+    Dashed: int  # = 1
+    DefaultLinePattern: int  # = 2
+    Dotted: int  # = 2
+    DashDot: int  # = 3
+    ShortDash: int  # = 4
+    MediumDash: int  # = 5
+    LongDash: int  # = 6
+    DoubleShortDash: int  # = 7
+    DoubleMediumDash: int  # = 8
+    DoubleLongDash: int  # = 9
+    MediumLongDash: int  # = 10
+    MediumDashShortDashShortDash: int  # = 11
+    LongDashShortDash: int  # = 12
+    LongDashDotDot: int  # = 13
+    LongDashDot: int  # = 14
+    MediumDashDotShortDashDot: int  # = 15
+    SparseDot: int  # = 16
 class LineWeight:
-    """.NET: Autodesk.AutoCAD.GraphicsSystem.LineWeight"""
+    """.NET enum: Autodesk.AutoCAD.GraphicsSystem.LineWeight"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    kLnWt000: int  # = 0
+    kLnWt005: int  # = 5
+    kLnWt009: int  # = 9
+    kLnWt013: int  # = 13
+    kLnWt015: int  # = 15
+    kLnWt018: int  # = 18
+    kLnWt020: int  # = 20
+    kLnWt025: int  # = 25
+    kLnWt030: int  # = 30
+    kLnWt035: int  # = 35
+    kLnWt040: int  # = 40
+    kLnWt050: int  # = 50
+    kLnWt053: int  # = 53
+    kLnWt060: int  # = 60
+    kLnWt070: int  # = 70
+    kLnWt080: int  # = 80
+    kLnWt090: int  # = 90
+    kLnWt100: int  # = 100
+    kLnWt106: int  # = 106
+    kLnWt120: int  # = 120
+    kLnWt140: int  # = 140
+    kLnWt158: int  # = 158
+    kLnWt200: int  # = 200
+    kLnWt211: int  # = 211
+    kLnWtByLwDefault: int  # = -3
+    kLnWtByBlock: int  # = -2
+    kLnWtByLayer: int  # = -1
 class Manager(DisposableWrapper):
     """.NET: Autodesk.AutoCAD.GraphicsSystem.Manager"""
     def __init__(self, *args) -> None: ...
@@ -287,15 +365,16 @@ class Node(DisposableWrapper):
     UnmanagedObject: IntPtr
 
 class Projection:
-    """.NET: Autodesk.AutoCAD.GraphicsSystem.Projection"""
+    """.NET enum: Autodesk.AutoCAD.GraphicsSystem.Projection"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    Parallel: int  # = 0
+    Perspective: int  # = 1
 class Quality:
-    """.NET: Autodesk.AutoCAD.GraphicsSystem.Quality"""
+    """.NET enum: Autodesk.AutoCAD.GraphicsSystem.Quality"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    LowQuality: int  # = 0
+    MediumQuality: int  # = 1
+    HighQuality: int  # = 2
 class ReleaseInterfaceFunction:
     """.NET: Autodesk.AutoCAD.GraphicsSystem.ReleaseInterfaceFunction"""
     def __init__(self, *args) -> None: ...
@@ -306,15 +385,24 @@ class ReleaseInterfaceFunction:
     def Invoke(self, A_0: Drawable) -> None: ...
 
 class RenderType:
-    """.NET: Autodesk.AutoCAD.GraphicsSystem.RenderType"""
+    """.NET enum: Autodesk.AutoCAD.GraphicsSystem.RenderType"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    Main: int  # = 0
+    Sprite: int  # = 1
+    Direct: int  # = 2
+    Highlight: int  # = 3
+    HighlightSelection: int  # = 4
+    DirectTopmost: int  # = 5
+    Contrast: int  # = 6
+    Count: int  # = 7
 class RendererType:
-    """.NET: Autodesk.AutoCAD.GraphicsSystem.RendererType"""
+    """.NET enum: Autodesk.AutoCAD.GraphicsSystem.RendererType"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    Default: int  # = 0
+    Software: int  # = 1
+    SoftwareNewViewsOnly: int  # = 2
+    FullRender: int  # = 3
+    SelectionRender: int  # = 4
 class StereoParameters:
     """.NET: Autodesk.AutoCAD.GraphicsSystem.StereoParameters"""
     def __init__(self, *args) -> None: ...
@@ -424,10 +512,9 @@ class ViewUpdateEventArgs(EventArgs):
     View: View
 
 class ViewUpdateFlags:
-    """.NET: Autodesk.AutoCAD.GraphicsSystem.ViewUpdateFlags"""
+    """.NET enum: Autodesk.AutoCAD.GraphicsSystem.ViewUpdateFlags"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    CameraChanged: int  # = 1
 class ViewWasCreatedEventHandler:
     """.NET: Autodesk.AutoCAD.GraphicsSystem.ViewWasCreatedEventHandler"""
     def __init__(self, *args) -> None: ...

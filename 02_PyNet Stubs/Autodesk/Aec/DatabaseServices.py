@@ -1,15 +1,28 @@
 # Auto-generated — Civil 26 — Autodesk.Aec.DatabaseServices
 
 class ADTDwgVersion:
-    """.NET: Autodesk.Aec.DatabaseServices.ADTDwgVersion"""
+    """.NET enum: Autodesk.Aec.DatabaseServices.ADTDwgVersion"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    NoADTObjects: int  # = 0
+    R1: int  # = 1
+    R2: int  # = 2
+    R3: int  # = 3
+    R4: int  # = 4
+    R5: int  # = 5
+    R6: int  # = 6
+    Current: int  # = 8
+    Future: int  # = 32767
 class AecXReferenceSubcommandActivities:
-    """.NET: Autodesk.Aec.DatabaseServices.AecXReferenceSubcommandActivities"""
+    """.NET enum: Autodesk.Aec.DatabaseServices.AecXReferenceSubcommandActivities"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    Start: int  # = 0
+    StartItem: int  # = 2
+    EndItem: int  # = 3
+    End: int  # = 4
+    WillAbort: int  # = 5
+    Aborted: int  # = 6
+    StartXBindBlock: int  # = 7
+    StartXBindSymbol: int  # = 8
 class Anchor(DBObject):
     """.NET: Autodesk.Aec.DatabaseServices.Anchor"""
     def __init__(self, *args) -> None: ...
@@ -60,10 +73,10 @@ class Anchor(DBObject):
     UnmanagedObject: IntPtr
 
 class AnchorContext:
-    """.NET: Autodesk.Aec.DatabaseServices.AnchorContext"""
+    """.NET enum: Autodesk.Aec.DatabaseServices.AnchorContext"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    NewAttachment: int  # = 0
+    AlreadyAttached: int  # = 1
 class AnchorEntityToCurve(AnchorToReference):
     """.NET: Autodesk.Aec.DatabaseServices.AnchorEntityToCurve"""
     def __init__(self, *args) -> None: ...
@@ -635,15 +648,20 @@ class AnchorToReference(Anchor):
     def SetSingleReference(self, id: ObjectId, relationType: RelationType) -> None: ...
 
 class AngularUnit:
-    """.NET: Autodesk.Aec.DatabaseServices.AngularUnit"""
+    """.NET enum: Autodesk.Aec.DatabaseServices.AngularUnit"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    Degrees: int  # = 0
+    DegMinSec: int  # = 1
+    Grads: int  # = 2
+    Radians: int  # = 3
+    Surveyor: int  # = 4
+    CurrentAU: int  # = -1
 class ApplyToFlags:
-    """.NET: Autodesk.Aec.DatabaseServices.ApplyToFlags"""
+    """.NET enum: Autodesk.Aec.DatabaseServices.ApplyToFlags"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    ApplyToInfill: int  # = 1
+    ApplyToBoundaryEdges: int  # = 2
+    ApplyToInteriorEdges: int  # = 4
 class Attribute(ImpObject):
     """.NET: Autodesk.Aec.DatabaseServices.Attribute"""
     def __init__(self, *args) -> None: ...
@@ -665,15 +683,18 @@ class AttributeId(Attribute):
     UnmanagedObject: IntPtr
 
 class AutomaticSpaceBoundary:
-    """.NET: Autodesk.Aec.DatabaseServices.AutomaticSpaceBoundary"""
+    """.NET enum: Autodesk.Aec.DatabaseServices.AutomaticSpaceBoundary"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    Yes: int  # = 0
+    No: int  # = 1
+    ByStyle: int  # = 2
+    NotApplicableToThisObject: int  # = -1
 class AxisReference:
-    """.NET: Autodesk.Aec.DatabaseServices.AxisReference"""
+    """.NET enum: Autodesk.Aec.DatabaseServices.AxisReference"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    Start: int  # = 0
+    Mid: int  # = 1
+    End: int  # = 2
 class BlockReference(Geo):
     """.NET: Autodesk.Aec.DatabaseServices.BlockReference"""
     def __init__(self, *args) -> None: ...
@@ -787,15 +808,24 @@ class BlockReference(Geo):
     UnmanagedObject: IntPtr
 
 class BoundaryFlags:
-    """.NET: Autodesk.Aec.DatabaseServices.BoundaryFlags"""
+    """.NET enum: Autodesk.Aec.DatabaseServices.BoundaryFlags"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    Top: int  # = 1
+    Left: int  # = 2
+    Bottom: int  # = 4
+    Right: int  # = 8
 class ByMaterialDisplayComponentType:
-    """.NET: Autodesk.Aec.DatabaseServices.ByMaterialDisplayComponentType"""
+    """.NET enum: Autodesk.Aec.DatabaseServices.ByMaterialDisplayComponentType"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    None_: int  # = 0
+    Linework: int  # = 1
+    Elevation2dSection: int  # = 2
+    Body: int  # = 3
+    PlanHatch: int  # = 4
+    SurfaceHatch: int  # = 5
+    SectionHatch: int  # = 6
+    SectionBoundary: int  # = 7
+    SectionedBody: int  # = 8
 class CellLayoutTool(LayoutTool):
     """.NET: Autodesk.Aec.DatabaseServices.CellLayoutTool"""
     def __init__(self, *args) -> None: ...
@@ -1342,15 +1372,30 @@ class ClippingRectangleInfo:
     ...
 
 class CommandStatus:
-    """.NET: Autodesk.Aec.DatabaseServices.CommandStatus"""
+    """.NET enum: Autodesk.Aec.DatabaseServices.CommandStatus"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    CommandAllowedAlways: int  # = 0
+    CommandNotAllowed: int  # = 1
+    CommandAllowedOnlyOnPickFirstSet: int  # = 2
 class ComponentType:
-    """.NET: Autodesk.Aec.DatabaseServices.ComponentType"""
+    """.NET enum: Autodesk.Aec.DatabaseServices.ComponentType"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    DefiningLine: int  # = 0
+    Hidden: int  # = 1
+    Erased: int  # = 2
+    SubDivision1: int  # = 3
+    SubDivision2: int  # = 4
+    SubDivision3: int  # = 5
+    SubDivision4: int  # = 6
+    SubDivision5: int  # = 7
+    SubDivision6: int  # = 8
+    SubDivision7: int  # = 9
+    SubDivision8: int  # = 10
+    SubDivision9: int  # = 11
+    SubDivision10: int  # = 12
+    OuterShrinkwrap: int  # = 13
+    InnerShrinkwrap: int  # = 14
+    UserDefined: int  # = 15
 class ConnectionComponent(ImpObject):
     """.NET: Autodesk.Aec.DatabaseServices.ConnectionComponent"""
     def __init__(self, *args) -> None: ...
@@ -1483,35 +1528,41 @@ class ConstraintUtility:
     def SubentityHasConstraint(entity: Entity, subEntityId: SubentityId) -> bool: ...
 
 class CurveXMeasureToType:
-    """.NET: Autodesk.Aec.DatabaseServices.CurveXMeasureToType"""
+    """.NET enum: Autodesk.Aec.DatabaseServices.CurveXMeasureToType"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    ToCenter: int  # = 0
+    ToStartEdge: int  # = 1
+    ToEndEdge: int  # = 2
 class CurveXOffsetType:
-    """.NET: Autodesk.Aec.DatabaseServices.CurveXOffsetType"""
+    """.NET enum: Autodesk.Aec.DatabaseServices.CurveXOffsetType"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    FromStartOfCurve: int  # = 0
+    FromEndOfCurve: int  # = 1
+    FromMidpointOfCurve: int  # = 2
 class CurveYMeasureToType:
-    """.NET: Autodesk.Aec.DatabaseServices.CurveYMeasureToType"""
+    """.NET enum: Autodesk.Aec.DatabaseServices.CurveYMeasureToType"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    ToCenter: int  # = 0
+    ToFrontEdge: int  # = 1
+    ToBackEdge: int  # = 2
 class CurveYOffsetType:
-    """.NET: Autodesk.Aec.DatabaseServices.CurveYOffsetType"""
+    """.NET enum: Autodesk.Aec.DatabaseServices.CurveYOffsetType"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    FromCenterCurve: int  # = 0
+    FromLeftEdge: int  # = 1
+    FromRightEdge: int  # = 2
 class CurveZOffsetFromType:
-    """.NET: Autodesk.Aec.DatabaseServices.CurveZOffsetFromType"""
+    """.NET enum: Autodesk.Aec.DatabaseServices.CurveZOffsetFromType"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    FromBottom: int  # = 0
+    FromTop: int  # = 1
+    FromCenter: int  # = 2
 class CurveZOffsetToType:
-    """.NET: Autodesk.Aec.DatabaseServices.CurveZOffsetToType"""
+    """.NET enum: Autodesk.Aec.DatabaseServices.CurveZOffsetToType"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    ToTop: int  # = 0
+    ToCenter: int  # = 1
+    ToBottom: int  # = 2
 class DBObject(DBObject):
     """.NET: Autodesk.Aec.DatabaseServices.DBObject"""
     def __init__(self, *args) -> None: ...
@@ -2240,15 +2291,26 @@ class DisplayConfiguration(DictionaryRecord):
     def ViewDirectionTypeToVector(type: ViewDirection) -> Vector3d: ...
 
 class DisplayConfigurationImageIndex:
-    """.NET: Autodesk.Aec.DatabaseServices.DisplayConfigurationImageIndex"""
+    """.NET enum: Autodesk.Aec.DatabaseServices.DisplayConfigurationImageIndex"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    FirstImage: int  # = 0
+    MultiView: int  # = 0
+    MultiViewDefault: int  # = 1
+    FixedView: int  # = 2
+    FixedViewDefault: int  # = 3
+    LastImage: int  # = 3
 class DisplayConfigurationParameter:
-    """.NET: Autodesk.Aec.DatabaseServices.DisplayConfigurationParameter"""
+    """.NET enum: Autodesk.Aec.DatabaseServices.DisplayConfigurationParameter"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    DefaultViewDependentSet: int  # = 0
+    HardSet: int  # = 1
+    ViewDependentSet: int  # = 2
+    UseViewportViewDirection: int  # = 3
+    HardViewDirection: int  # = 4
+    HardViewDirectionType: int  # = 5
+    CutPlaneOffset: int  # = 6
+    CutPlaneAbove: int  # = 7
+    CutPlaneBelow: int  # = 8
 class DisplayMaterialInformation(DisposableWrapper):
     """.NET: Autodesk.Aec.DatabaseServices.DisplayMaterialInformation"""
     def __init__(self, *args) -> None: ...
@@ -2543,10 +2605,13 @@ class DisplayRepresentationIdCollection:
     def RemoveAt(self, index: int) -> None: ...
 
 class DisplayRepresentationImageIndex:
-    """.NET: Autodesk.Aec.DatabaseServices.DisplayRepresentationImageIndex"""
+    """.NET enum: Autodesk.Aec.DatabaseServices.DisplayRepresentationImageIndex"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    FirstImage: int  # = 0
+    Normal: int  # = 0
+    WithoutProperties: int  # = 1
+    UserDefined: int  # = 2
+    LastImage: int  # = 2
 class DisplayRepresentationManager:
     """.NET: Autodesk.Aec.DatabaseServices.DisplayRepresentationManager"""
     def __init__(self, *args) -> None: ...
@@ -2594,10 +2659,15 @@ class DisplayRepresentationManager:
     def UpdateMaskBlockDisplayRepresentations(self, sourceId: ObjectId, userId: ObjectId) -> None: ...
 
 class DisplayRepresentationSetParameter:
-    """.NET: Autodesk.Aec.DatabaseServices.DisplayRepresentationSetParameter"""
+    """.NET enum: Autodesk.Aec.DatabaseServices.DisplayRepresentationSetParameter"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    DisplayRepresentation: int  # = 0
+    ClippedMaterials: int  # = 1
+    SurfaceHatching: int  # = 2
+    SectionBodyDisplay: int  # = 3
+    Classification: int  # = 4
+    SectionByDisplayRange: int  # = 5
+    LiveSectionClipVolumes: int  # = 6
 class DisplayRepresentationTData(RXObject):
     """.NET: Autodesk.Aec.DatabaseServices.DisplayRepresentationTData"""
     def __init__(self, *args) -> None: ...
@@ -2608,10 +2678,19 @@ class DisplayRepresentationTData(RXObject):
     UnmanagedObject: IntPtr
 
 class DisplayRepresentationTypeName:
-    """.NET: Autodesk.Aec.DatabaseServices.DisplayRepresentationTypeName"""
+    """.NET enum: Autodesk.Aec.DatabaseServices.DisplayRepresentationTypeName"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    General: int  # = 0
+    Plan: int  # = 1
+    Model: int  # = 2
+    Sketch: int  # = 3
+    Reflected: int  # = 4
+    Elevation: int  # = 5
+    PlanLowDetail: int  # = 6
+    PlanHighDetail: int  # = 7
+    ModelLowDetail: int  # = 8
+    ModelHighDetail: int  # = 9
+    Nominal: int  # = 10
 class DisplaySet(DictionaryRecord):
     """.NET: Autodesk.Aec.DatabaseServices.DisplaySet"""
     def __init__(self, *args) -> None: ...
@@ -2862,10 +2941,10 @@ class DisplayThemeComponentCollection:
     def RemoveAt(self, index: int) -> None: ...
 
 class DisplayThemeNextNodeOperator:
-    """.NET: Autodesk.Aec.DatabaseServices.DisplayThemeNextNodeOperator"""
+    """.NET enum: Autodesk.Aec.DatabaseServices.DisplayThemeNextNodeOperator"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    NextNodeOperatorAnd: int  # = 0
+    NextNodeOperatorOr: int  # = 1
 class DisplayThemeRuleBase(ImpObject):
     """.NET: Autodesk.Aec.DatabaseServices.DisplayThemeRuleBase"""
     def __init__(self, *args) -> None: ...
@@ -2910,10 +2989,16 @@ class DisplayThemeRuleCollection:
     def RemoveAt(self, index: int) -> None: ...
 
 class DisplayThemeRuleComparisonOperator:
-    """.NET: Autodesk.Aec.DatabaseServices.DisplayThemeRuleComparisonOperator"""
+    """.NET enum: Autodesk.Aec.DatabaseServices.DisplayThemeRuleComparisonOperator"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    RuleComparisonOperatorIsNone: int  # = 0
+    RuleComparisonOperatorEqualTo: int  # = 1
+    RuleComparisonOperatorNotEqualTo: int  # = 2
+    RuleComparisonOperatorLessThan: int  # = 3
+    RuleComparisonOperatorLessThanEqualTo: int  # = 4
+    RuleComparisonOperatorGreaterThan: int  # = 5
+    RuleComparisonOperatorGreaterThanEqualTo: int  # = 6
+    RuleComparisonOperatorInRange: int  # = 7
 class DisplayThemeStyle(DictionaryRecord):
     """.NET: Autodesk.Aec.DatabaseServices.DisplayThemeStyle"""
     def __init__(self, *args) -> None: ...
@@ -2977,15 +3062,19 @@ class DisplayThemeStyle(DictionaryRecord):
     def GetDisplayThemeDisplayPropsForEntity(self, entity: Entity, componentIndex: int) -> DisplayComponentHatch: ...
 
 class DistributionFlags:
-    """.NET: Autodesk.Aec.DatabaseServices.DistributionFlags"""
+    """.NET enum: Autodesk.Aec.DatabaseServices.DistributionFlags"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    DistributeEvenlyToAll: int  # = 0
+    DistributeToFirst: int  # = 1
+    DistributeToLast: int  # = 2
+    DistributeToMiddle: int  # = 4
+    NeverExceedCellSize: int  # = 8
+    MaintainAtLeastHalfCellSize: int  # = 16
 class DivisionDirection:
-    """.NET: Autodesk.Aec.DatabaseServices.DivisionDirection"""
+    """.NET enum: Autodesk.Aec.DatabaseServices.DivisionDirection"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    AlongXAxis: int  # = 0
+    AlongYAxis: int  # = 1
 class EditInPlaceProfile(Geo):
     """.NET: Autodesk.Aec.DatabaseServices.EditInPlaceProfile"""
     def __init__(self, *args) -> None: ...
@@ -3136,15 +3225,18 @@ class EditStateManager(RXObject):
     def UnregisterStateForEntitiesInDatabase(self, database: Database) -> None: ...
 
 class EditingConstraint:
-    """.NET: Autodesk.Aec.DatabaseServices.EditingConstraint"""
+    """.NET enum: Autodesk.Aec.DatabaseServices.EditingConstraint"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    None_: int  # = 0
+    WidthFixed: int  # = 1
+    DepthFixed: int  # = 2
+    WidthDepthFixed: int  # = 3
+    RectangularShape: int  # = 4
 class EditingContext:
-    """.NET: Autodesk.Aec.DatabaseServices.EditingContext"""
+    """.NET enum: Autodesk.Aec.DatabaseServices.EditingContext"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    ClosedShape: int  # = 0
+    OpenShape: int  # = 1
 class Entity(Curve):
     """.NET: Autodesk.Aec.DatabaseServices.Entity"""
     def __init__(self, *args) -> None: ...
@@ -3276,10 +3368,11 @@ class EntityBodyModifier(ImpObject):
     def TransformBy(self, matrix: Matrix3d) -> None: ...
 
 class EntityBodyModifierOperationType:
-    """.NET: Autodesk.Aec.DatabaseServices.EntityBodyModifierOperationType"""
+    """.NET enum: Autodesk.Aec.DatabaseServices.EntityBodyModifierOperationType"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    Additive: int  # = 0
+    Subtractive: int  # = 1
+    Replace: int  # = 2
 class EntityCollectorData(DisposableWrapper):
     """.NET: Autodesk.Aec.DatabaseServices.EntityCollectorData"""
     def __init__(self, *args) -> None: ...
@@ -3319,10 +3412,11 @@ class EntityInterference(ImpObject):
     def UpdateBody(self, ) -> None: ...
 
 class EntityInterferenceShrinkWrapEffect:
-    """.NET: Autodesk.Aec.DatabaseServices.EntityInterferenceShrinkWrapEffect"""
+    """.NET enum: Autodesk.Aec.DatabaseServices.EntityInterferenceShrinkWrapEffect"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    Ignore: int  # = 0
+    Additive: int  # = 1
+    Subtractive: int  # = 2
 class EntityReference(BlockReference):
     """.NET: Autodesk.Aec.DatabaseServices.EntityReference"""
     def __init__(self, *args) -> None: ...
@@ -3713,10 +3807,11 @@ class GraphicsStorageHatch(GraphicsStorage):
     UnmanagedObject: IntPtr
 
 class GraphicsStorageHatchType:
-    """.NET: Autodesk.Aec.DatabaseServices.GraphicsStorageHatchType"""
+    """.NET enum: Autodesk.Aec.DatabaseServices.GraphicsStorageHatchType"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    None_: int  # = 0
+    SurfaceHatch: int  # = 1
+    SectionHatch: int  # = 2
 class GraphicsStoragePolyline(GraphicsStorage):
     """.NET: Autodesk.Aec.DatabaseServices.GraphicsStoragePolyline"""
     def __init__(self, *args) -> None: ...
@@ -3763,10 +3858,11 @@ class GraphicsStorageShell(GraphicsStorage):
     UnmanagedObject: IntPtr
 
 class GraphicsStorageVisibility:
-    """.NET: Autodesk.Aec.DatabaseServices.GraphicsStorageVisibility"""
+    """.NET enum: Autodesk.Aec.DatabaseServices.GraphicsStorageVisibility"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    Invisible: int  # = 0
+    Visible: int  # = 1
+    Silhouette: int  # = 2
 class GraphicsSystemEntityDrawData(DisposableWrapper):
     """.NET: Autodesk.Aec.DatabaseServices.GraphicsSystemEntityDrawData"""
     def __init__(self, *args) -> None: ...
@@ -3985,10 +4081,11 @@ class GridAssemblyComponentSet(ImpObject):
     def IncrementComponentDefinitionId(self, ) -> int: ...
 
 class GridAssemblyComponentType:
-    """.NET: Autodesk.Aec.DatabaseServices.GridAssemblyComponentType"""
+    """.NET enum: Autodesk.Aec.DatabaseServices.GridAssemblyComponentType"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    Frame: int  # = 1
+    Mullion: int  # = 2
+    Infill: int  # = 3
 class GridAssemblyCustomDefinition(GridAssemblyDefinition):
     """.NET: Autodesk.Aec.DatabaseServices.GridAssemblyCustomDefinition"""
     def __init__(self, *args) -> None: ...
@@ -4239,15 +4336,17 @@ class GridCustomSegmentCollection:
     def RemoveAt(self, index: int) -> None: ...
 
 class GridDefinitionLocationType:
-    """.NET: Autodesk.Aec.DatabaseServices.GridDefinitionLocationType"""
+    """.NET enum: Autodesk.Aec.DatabaseServices.GridDefinitionLocationType"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    InstanceBased: int  # = 0
+    StyleBased: int  # = 1
 class GridType:
-    """.NET: Autodesk.Aec.DatabaseServices.GridType"""
+    """.NET enum: Autodesk.Aec.DatabaseServices.GridType"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    UVRectangular: int  # = 0
+    UVRadial: int  # = 1
+    UVWRectangular: int  # = 2
+    UVCustom: int  # = 3
 class GridUv(ImpObject):
     """.NET: Autodesk.Aec.DatabaseServices.GridUv"""
     def __init__(self, *args) -> None: ...
@@ -4504,10 +4603,12 @@ class GsMarkerInformationTree(GsMarkerInformationNode):
     def UpdateSelectedComponentInformation(self, id: ObjectId, index: int) -> None: ...
 
 class HatchType:
-    """.NET: Autodesk.Aec.DatabaseServices.HatchType"""
+    """.NET enum: Autodesk.Aec.DatabaseServices.HatchType"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    UserDefined: int  # = 0
+    PreDefined: int  # = 1
+    CustomDefined: int  # = 2
+    SolidFill: int  # = 3
 class IDisplayThemeComponentOperation:
     """.NET: Autodesk.Aec.DatabaseServices.IDisplayThemeComponentOperation"""
     def __init__(self, *args) -> None: ...
@@ -5411,10 +5512,11 @@ class LayoutGrid3dVolume(LayoutVolume):
     UnmanagedObject: IntPtr
 
 class LayoutModeType:
-    """.NET: Autodesk.Aec.DatabaseServices.LayoutModeType"""
+    """.NET enum: Autodesk.Aec.DatabaseServices.LayoutModeType"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    Manual: int  # = 0
+    Repeat: int  # = 1
+    SpaceOut: int  # = 2
 class LayoutNode(ImpObject):
     """.NET: Autodesk.Aec.DatabaseServices.LayoutNode"""
     def __init__(self, *args) -> None: ...
@@ -5603,15 +5705,20 @@ class LineWorkRuleCollection:
     def RemoveAt(self, index: int) -> None: ...
 
 class LineWorkType:
-    """.NET: Autodesk.Aec.DatabaseServices.LineWorkType"""
+    """.NET enum: Autodesk.Aec.DatabaseServices.LineWorkType"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    LineWork: int  # = 0
+    SurfaceHatching: int  # = 1
+    SectionHatching: int  # = 2
 class LinearUnit:
-    """.NET: Autodesk.Aec.DatabaseServices.LinearUnit"""
+    """.NET enum: Autodesk.Aec.DatabaseServices.LinearUnit"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    Scientific: int  # = 1
+    Decimal: int  # = 2
+    Engineering: int  # = 3
+    Architectural: int  # = 4
+    Fractional: int  # = 5
+    CurrentLU: int  # = -1
 class ListDefinition(ClassificationDefinition):
     """.NET: Autodesk.Aec.DatabaseServices.ListDefinition"""
     def __init__(self, *args) -> None: ...
@@ -6325,10 +6432,11 @@ class MaterialInformation(DisplayMaterialInformation):
     def CopyTo(self, information: MaterialInformation) -> None: ...
 
 class MaterialInformationLocation:
-    """.NET: Autodesk.Aec.DatabaseServices.MaterialInformationLocation"""
+    """.NET enum: Autodesk.Aec.DatabaseServices.MaterialInformationLocation"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    MaterialFromObject: int  # = 0
+    MaterialFromStyle: int  # = 1
+    MaterialFromObjectOverride: int  # = 2
 class MaterialUtility:
     """.NET: Autodesk.Aec.DatabaseServices.MaterialUtility"""
     def __init__(self, *args) -> None: ...
@@ -7121,15 +7229,16 @@ class NodeInformation:
     ...
 
 class NodeLocationType:
-    """.NET: Autodesk.Aec.DatabaseServices.NodeLocationType"""
+    """.NET enum: Autodesk.Aec.DatabaseServices.NodeLocationType"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    Start: int  # = 0
+    End: int  # = 1
+    Intersection: int  # = 2
 class NodeLoopType:
-    """.NET: Autodesk.Aec.DatabaseServices.NodeLoopType"""
+    """.NET enum: Autodesk.Aec.DatabaseServices.NodeLoopType"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    Void: int  # = 0
+    NonVoid: int  # = 1
 class ObjectId(DisposableWrapper):
     """.NET: Autodesk.Aec.DatabaseServices.ObjectId"""
     def __init__(self, *args) -> None: ...
@@ -7191,10 +7300,13 @@ class ObjectIdCollection(DisposableWrapper):
     def RemoveAt(self, index: int) -> None: ...
 
 class Operation:
-    """.NET: Autodesk.Aec.DatabaseServices.Operation"""
+    """.NET enum: Autodesk.Aec.DatabaseServices.Operation"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    Additive: int  # = 0
+    Subtractive: int  # = 1
+    Intersect: int  # = 2
+    Combine: int  # = 3
+    Unknown: int  # = -1
 class Override(ImpObject):
     """.NET: Autodesk.Aec.DatabaseServices.Override"""
     def __init__(self, *args) -> None: ...
@@ -7261,10 +7373,11 @@ class ParameterChangeListenerManager:
     def UnRegisterListener(pListener: Listener) -> None: ...
 
 class PlaneType:
-    """.NET: Autodesk.Aec.DatabaseServices.PlaneType"""
+    """.NET enum: Autodesk.Aec.DatabaseServices.PlaneType"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    UV: int  # = 0
+    UW: int  # = 1
+    VW: int  # = 2
 class Polygon(CellLayoutTool):
     """.NET: Autodesk.Aec.DatabaseServices.Polygon"""
     def __init__(self, *args) -> None: ...
@@ -7449,10 +7562,11 @@ class PolygonStyle(DictionaryRecord):
     UnmanagedObject: IntPtr
 
 class PolygonStyleEdgeWidthJustify:
-    """.NET: Autodesk.Aec.DatabaseServices.PolygonStyleEdgeWidthJustify"""
+    """.NET enum: Autodesk.Aec.DatabaseServices.PolygonStyleEdgeWidthJustify"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    In: int  # = 0
+    Center: int  # = 1
+    Out: int  # = 2
 class ProfileDefinition(DictionaryRecord):
     """.NET: Autodesk.Aec.DatabaseServices.ProfileDefinition"""
     def __init__(self, *args) -> None: ...
@@ -7518,10 +7632,11 @@ class ProfileDefinition(DictionaryRecord):
     def SetProfile(self, profileToCopy: Profile, translateInsertion: bool, insertionPoint: Point2d) -> None: ...
 
 class ProjectState:
-    """.NET: Autodesk.Aec.DatabaseServices.ProjectState"""
+    """.NET enum: Autodesk.Aec.DatabaseServices.ProjectState"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    New: int  # = 0
+    Existing: int  # = 1
+    Demolition: int  # = 2
 class PropertyBase(RXObject):
     """.NET: Autodesk.Aec.DatabaseServices.PropertyBase"""
     def __init__(self, *args) -> None: ...
@@ -7532,10 +7647,17 @@ class PropertyBase(RXObject):
     UnmanagedObject: IntPtr
 
 class PropertyDataType:
-    """.NET: Autodesk.Aec.DatabaseServices.PropertyDataType"""
+    """.NET enum: Autodesk.Aec.DatabaseServices.PropertyDataType"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    kBoolean: int  # = 0
+    kInteger: int  # = 1
+    kReal: int  # = 2
+    kString: int  # = 3
+    kDistance: int  # = 4
+    kArea: int  # = 5
+    kAngle: int  # = 6
+    kVolume: int  # = 7
+    kSymbolId: int  # = 8
 class RXClassToObjectId:
     """.NET: Autodesk.Aec.DatabaseServices.RXClassToObjectId"""
     def __init__(self, *args) -> None: ...
@@ -7614,15 +7736,22 @@ class ReferenceDocument(DBObject):
     UnmanagedObject: IntPtr
 
 class RelationType:
-    """.NET: Autodesk.Aec.DatabaseServices.RelationType"""
+    """.NET enum: Autodesk.Aec.DatabaseServices.RelationType"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    DisplayReferenceOf: int  # = 0
+    DisplayReferenceFor: int  # = 1
+    LocationReferenceOf: int  # = 2
+    LocationReferenceFor: int  # = 3
+    OwnerOf: int  # = 4
+    OwnedBy: int  # = 5
+    TwoWayReference: int  # = 6
+    NotApplicable: int  # = -1
 class RenderModeType:
-    """.NET: Autodesk.Aec.DatabaseServices.RenderModeType"""
+    """.NET enum: Autodesk.Aec.DatabaseServices.RenderModeType"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    WireFrame: int  # = 0
+    Shade: int  # = 1
+    Explode: int  # = 2
 class ResolvedMaterial:
     """.NET: Autodesk.Aec.DatabaseServices.ResolvedMaterial"""
     def __init__(self, *args) -> None: ...
@@ -7642,10 +7771,10 @@ class ResolvedMaterialCollection(List):
     Item: ResolvedMaterial
 
 class RotationType:
-    """.NET: Autodesk.Aec.DatabaseServices.RotationType"""
+    """.NET enum: Autodesk.Aec.DatabaseServices.RotationType"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    CellRotationHorizontal: int  # = 0
+    CellRotationVertical: int  # = 1
 class Section2d(Geo):
     """.NET: Autodesk.Aec.DatabaseServices.Section2d"""
     def __init__(self, *args) -> None: ...
@@ -7908,10 +8037,12 @@ class Section2dStyle(DictionaryRecord):
     UnmanagedObject: IntPtr
 
 class Section2dStyleParameter:
-    """.NET: Autodesk.Aec.DatabaseServices.Section2dStyleParameter"""
+    """.NET enum: Autodesk.Aec.DatabaseServices.Section2dStyleParameter"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    Component: int  # = 0
+    LineWorkRule: int  # = 1
+    KeepHiddenLineWork: int  # = 2
+    UseObjectDisplayProperties: int  # = 3
 class SectionSegment(ImpObject):
     """.NET: Autodesk.Aec.DatabaseServices.SectionSegment"""
     def __init__(self, *args) -> None: ...
@@ -7969,20 +8100,43 @@ class SectionVertexCollection:
     def RemoveAt(self, index: int) -> None: ...
 
 class ShapeSubType:
-    """.NET: Autodesk.Aec.DatabaseServices.ShapeSubType"""
+    """.NET enum: Autodesk.Aec.DatabaseServices.ShapeSubType"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    ProfileInternal: int  # = 0
+    ProfileExternal: int  # = 1
+    Unspecified: int  # = -1
 class ShapeType:
-    """.NET: Autodesk.Aec.DatabaseServices.ShapeType"""
+    """.NET enum: Autodesk.Aec.DatabaseServices.ShapeType"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    Box: int  # = 0
+    Arch: int  # = 1
+    BarrelVault: int  # = 2
+    Doric: int  # = 3
+    Cone: int  # = 4
+    Cylinder: int  # = 5
+    Dome: int  # = 6
+    Gable: int  # = 7
+    IsoscelesTriangle: int  # = 8
+    RightTriangle: int  # = 9
+    Pyramid: int  # = 10
+    Sphere: int  # = 11
+    Extrusion: int  # = 12
+    Revolution: int  # = 13
+    BoundaryRepresentation: int  # = 14
+    Unknown: int  # = -2
+    Error: int  # = -1
 class SkipPushPopDisplayPropertiesType:
-    """.NET: Autodesk.Aec.DatabaseServices.SkipPushPopDisplayPropertiesType"""
+    """.NET enum: Autodesk.Aec.DatabaseServices.SkipPushPopDisplayPropertiesType"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    None_: int  # = 0
+    Color: int  # = 1
+    Layer: int  # = 2
+    LineType: int  # = 4
+    LineWeight: int  # = 8
+    LineTypeScale: int  # = 16
+    PlotStyle: int  # = 32
+    VisualStyle: int  # = 64
+    AutoCADRenderMaterial: int  # = 128
 class Slice(LayoutTool):
     """.NET: Autodesk.Aec.DatabaseServices.Slice"""
     def __init__(self, *args) -> None: ...
@@ -8101,10 +8255,19 @@ class Slice(LayoutTool):
     def RemoveObject(self, objectId: ObjectId) -> None: ...
 
 class StandardDisplaySetType:
-    """.NET: Autodesk.Aec.DatabaseServices.StandardDisplaySetType"""
+    """.NET enum: Autodesk.Aec.DatabaseServices.StandardDisplaySetType"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    NotStandard: int  # = 0
+    Standard: int  # = 1
+    Model: int  # = 3
+    Plan: int  # = 5
+    Reflected: int  # = 9
+    NumberOfStandardSets: int  # = 9
+    Section: int  # = 17
+    PlanLowDetail: int  # = 33
+    PlanHighDetail: int  # = 65
+    ModelLowDetail: int  # = 129
+    ModelHighDetail: int  # = 131
 class StreamAcad(RXObject):
     """.NET: Autodesk.Aec.DatabaseServices.StreamAcad"""
     def __init__(self, *args) -> None: ...
@@ -8219,10 +8382,12 @@ class StreamAcad(RXObject):
     def StreamWireframeBodyWcs(self, body: Body) -> None: ...
 
 class StreamBodyColorModeType:
-    """.NET: Autodesk.Aec.DatabaseServices.StreamBodyColorModeType"""
+    """.NET enum: Autodesk.Aec.DatabaseServices.StreamBodyColorModeType"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    Ignore: int  # = 0
+    UseAsColor: int  # = 1
+    UseAsGsMarker: int  # = 2
+    UseAsMapIndex: int  # = 3
 class StreamCollectBodies(StreamAcad):
     """.NET: Autodesk.Aec.DatabaseServices.StreamCollectBodies"""
     def __init__(self, *args) -> None: ...
@@ -8493,10 +8658,13 @@ class StreamCurves(StreamAcad):
     def CollectDisplayPropertiesForCurves(self, curveIsALine: bool) -> None: ...
 
 class StreamEntityType:
-    """.NET: Autodesk.Aec.DatabaseServices.StreamEntityType"""
+    """.NET enum: Autodesk.Aec.DatabaseServices.StreamEntityType"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    Pline: int  # = 0
+    Line: int  # = 1
+    CircularArc: int  # = 2
+    EllipticalArc: int  # = 3
+    Face: int  # = 4
 class StreamExplode(StreamAcad):
     """.NET: Autodesk.Aec.DatabaseServices.StreamExplode"""
     def __init__(self, *args) -> None: ...
@@ -8826,15 +8994,23 @@ class StringPairCollection:
     def RemoveAt(self, index: int) -> None: ...
 
 class SurfaceHatchFlags:
-    """.NET: Autodesk.Aec.DatabaseServices.SurfaceHatchFlags"""
+    """.NET enum: Autodesk.Aec.DatabaseServices.SurfaceHatchFlags"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    NoHatch: int  # = 0
+    Top: int  # = 1
+    Bottom: int  # = 2
+    Right: int  # = 4
+    Left: int  # = 8
+    Front: int  # = 16
+    Back: int  # = 32
+    Section: int  # = 64
+    Discard: int  # = 128
 class SurfaceMappingType:
-    """.NET: Autodesk.Aec.DatabaseServices.SurfaceMappingType"""
+    """.NET enum: Autodesk.Aec.DatabaseServices.SurfaceMappingType"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    DefaultMapping: int  # = 0
+    FaceMapping: int  # = 1
+    AsSurfaceHatch: int  # = 2
 class TextNote(DBObject):
     """.NET: Autodesk.Aec.DatabaseServices.TextNote"""
     def __init__(self, *args) -> None: ...
@@ -8891,15 +9067,16 @@ class TextNote(DBObject):
     def SetStandardNote(instance: DBObject, note: str) -> None: ...
 
 class ThemeSymbolType:
-    """.NET: Autodesk.Aec.DatabaseServices.ThemeSymbolType"""
+    """.NET enum: Autodesk.Aec.DatabaseServices.ThemeSymbolType"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    ThemeSymbolSquare: int  # = 0
+    ThemeSymbolCircle: int  # = 1
 class UVLayoutModeType:
-    """.NET: Autodesk.Aec.DatabaseServices.UVLayoutModeType"""
+    """.NET enum: Autodesk.Aec.DatabaseServices.UVLayoutModeType"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    Manual: int  # = 0
+    Repeat: int  # = 1
+    SpaceEvenly: int  # = 2
 class UnitType(ImpObject):
     """.NET: Autodesk.Aec.DatabaseServices.UnitType"""
     def __init__(self, *args) -> None: ...
@@ -8977,10 +9154,15 @@ class ViewDependentCombinationCollection:
     def RemoveAt(self, index: int) -> None: ...
 
 class ViewDirection:
-    """.NET: Autodesk.Aec.DatabaseServices.ViewDirection"""
+    """.NET enum: Autodesk.Aec.DatabaseServices.ViewDirection"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    Top: int  # = 0
+    Bottom: int  # = 1
+    Front: int  # = 2
+    Back: int  # = 3
+    Left: int  # = 4
+    Right: int  # = 5
+    Other: int  # = 6
 class VolumeLayoutTool(CellLayoutTool):
     """.NET: Autodesk.Aec.DatabaseServices.VolumeLayoutTool"""
     def __init__(self, *args) -> None: ...
@@ -9099,11 +9281,19 @@ class VolumeLayoutTool(CellLayoutTool):
     def GetLayoutVolumeExtent(self, volumeId: int, length: float, width: float, height: float, toWcs: Matrix3d) -> None: ...
 
 class XReferenceSubCommandType:
-    """.NET: Autodesk.Aec.DatabaseServices.XReferenceSubCommandType"""
+    """.NET enum: Autodesk.Aec.DatabaseServices.XReferenceSubCommandType"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    Attach: int  # = 0
+    Bind: int  # = 1
+    Path: int  # = 2
+    Detach: int  # = 3
+    Overlay: int  # = 4
+    Reload: int  # = 5
+    Unload: int  # = 6
+    NoSubCommand: int  # = 7
 class YAlignment:
-    """.NET: Autodesk.Aec.DatabaseServices.YAlignment"""
+    """.NET enum: Autodesk.Aec.DatabaseServices.YAlignment"""
     def __init__(self, *args) -> None: ...
-    ...
+    Centered: int  # = 0
+    FrontFlush: int  # = 1
+    BackFlush: int  # = 2

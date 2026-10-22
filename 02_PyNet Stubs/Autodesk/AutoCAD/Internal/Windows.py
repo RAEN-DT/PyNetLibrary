@@ -114,10 +114,11 @@ class MenuGroupData:
     def GetMenuMacro(self, sId: str) -> RibbonMenuMacro: ...
 
 class MenuGroupTypeEnum:
-    """.NET: Autodesk.AutoCAD.Internal.Windows.MenuGroupTypeEnum"""
+    """.NET enum: Autodesk.AutoCAD.Internal.Windows.MenuGroupTypeEnum"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    Enterprise: int  # = 0
+    Main: int  # = 1
+    Partial: int  # = 2
 class ProfileManager:
     """.NET: Autodesk.AutoCAD.Internal.Windows.ProfileManager"""
     def __init__(self, *args) -> None: ...

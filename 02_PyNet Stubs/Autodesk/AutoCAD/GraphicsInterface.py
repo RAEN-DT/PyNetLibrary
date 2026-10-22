@@ -1,25 +1,35 @@
 # Auto-generated — Civil 26 — Autodesk.AutoCAD.GraphicsInterface
 
 class ArcType:
-    """.NET: Autodesk.AutoCAD.GraphicsInterface.ArcType"""
+    """.NET enum: Autodesk.AutoCAD.GraphicsInterface.ArcType"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    ArcSimple: int  # = 0
+    ArcSector: int  # = 1
+    ArcChord: int  # = 2
 class AttenuationType:
-    """.NET: Autodesk.AutoCAD.GraphicsInterface.AttenuationType"""
+    """.NET enum: Autodesk.AutoCAD.GraphicsInterface.AttenuationType"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    None_: int  # = 0
+    InverseLinear: int  # = 1
+    InverseSquare: int  # = 2
 class AutoTransform:
-    """.NET: Autodesk.AutoCAD.GraphicsInterface.AutoTransform"""
+    """.NET enum: Autodesk.AutoCAD.GraphicsInterface.AutoTransform"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    InheritAutoTransform: int  # = 0
+    None_: int  # = 1
+    TransformObject: int  # = 2
+    Model: int  # = 4
 class ChannelFlags:
-    """.NET: Autodesk.AutoCAD.GraphicsInterface.ChannelFlags"""
+    """.NET enum: Autodesk.AutoCAD.GraphicsInterface.ChannelFlags"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    None_: int  # = 0
+    UseDiffuse: int  # = 1
+    UseSpecular: int  # = 2
+    UseReflection: int  # = 4
+    UseOpacity: int  # = 8
+    UseBump: int  # = 16
+    UseRefraction: int  # = 32
+    UseAll: int  # = 63
 class ClipBoundary(DisposableWrapper):
     """.NET: Autodesk.AutoCAD.GraphicsInterface.ClipBoundary"""
     def __init__(self, *args) -> None: ...
@@ -113,15 +123,19 @@ class ContextualColors(RXObject):
     def SetContextFlags(self, flag: int, set: bool) -> None: ...
 
 class DefaultLightingType:
-    """.NET: Autodesk.AutoCAD.GraphicsInterface.DefaultLightingType"""
+    """.NET enum: Autodesk.AutoCAD.GraphicsInterface.DefaultLightingType"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    OneDistantLight: int  # = 0
+    TwoDistantLights: int  # = 1
 class DeviationType:
-    """.NET: Autodesk.AutoCAD.GraphicsInterface.DeviationType"""
+    """.NET enum: Autodesk.AutoCAD.GraphicsInterface.DeviationType"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    MaxDevForCircle: int  # = 0
+    MaxDevForCurve: int  # = 1
+    MaxDevForBoundary: int  # = 2
+    MaxDevForIsoline: int  # = 3
+    MaxDevForFacet: int  # = 4
+    MaxDevForHatch: int  # = 5
 class DistantLightTraits(StandardLightTraits):
     """.NET: Autodesk.AutoCAD.GraphicsInterface.DistantLightTraits"""
     def __init__(self, *args) -> None: ...
@@ -159,10 +173,13 @@ class DistantLightTraits(StandardLightTraits):
     UnmanagedObject: IntPtr
 
 class DrawFlags:
-    """.NET: Autodesk.AutoCAD.GraphicsInterface.DrawFlags"""
+    """.NET enum: Autodesk.AutoCAD.GraphicsInterface.DrawFlags"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    None_: int  # = 0
+    DrawBackfaces: int  # = 1
+    DrawNoLineWeight: int  # = 32
+    DrawFillTextBoundaryStart: int  # = 256
+    DrawFillTextBoundaryEnd: int  # = 512
 class DrawStream(Drawable):
     """.NET: Autodesk.AutoCAD.GraphicsInterface.DrawStream"""
     def __init__(self, *args) -> None: ...
@@ -194,10 +211,24 @@ class Drawable(RXObject):
     def WorldDraw(self, wd: WorldDraw) -> bool: ...
 
 class DrawableAttributes:
-    """.NET: Autodesk.AutoCAD.GraphicsInterface.DrawableAttributes"""
+    """.NET enum: Autodesk.AutoCAD.GraphicsInterface.DrawableAttributes"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    None_: int  # = 0
+    IsAnEntity: int  # = 1
+    UsesNesting: int  # = 2
+    IsCompoundObject: int  # = 4
+    ViewIndependentViewportDraw: int  # = 8
+    IsInvisible: int  # = 16
+    HasAttributes: int  # = 32
+    RegenTypeDependentGeometry: int  # = 64
+    IsDimension: int  # = 133
+    RegenDraw: int  # = 256
+    StandardDisplaySingleLOD: int  # = 512
+    ShadedDisplaySingleLOD: int  # = 1024
+    ViewDependentViewportDraw: int  # = 2048
+    BlockDependentViewportDraw: int  # = 4096
+    IsExternalReference: int  # = 8192
+    NotPlottable: int  # = 16384
 class DrawableOverrule(Overrule):
     """.NET: Autodesk.AutoCAD.GraphicsInterface.DrawableOverrule"""
     def __init__(self, *args) -> None: ...
@@ -246,10 +277,21 @@ class DrawableTraits(SubEntityTraits):
     def SetupForEntity(self, entity: Entity) -> None: ...
 
 class DrawableType:
-    """.NET: Autodesk.AutoCAD.GraphicsInterface.DrawableType"""
+    """.NET enum: Autodesk.AutoCAD.GraphicsInterface.DrawableType"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    Geometry: int  # = 0
+    DistantLight: int  # = 1
+    PointLight: int  # = 2
+    SpotLight: int  # = 3
+    AmbientLight: int  # = 4
+    SolidBackground: int  # = 5
+    GradientBackground: int  # = 6
+    ImageBackground: int  # = 7
+    GroundPlaneBackground: int  # = 8
+    Viewport: int  # = 9
+    WebLight: int  # = 10
+    SkyBackground: int  # = 11
+    ImageBasedLightingBackground: int  # = 12
 class EdgeData:
     """.NET: Autodesk.AutoCAD.GraphicsInterface.EdgeData"""
     def __init__(self, *args) -> None: ...
@@ -267,15 +309,19 @@ class EdgeData:
     def SetVisibility(self, visibility: list) -> None: ...
 
 class ExtendedLightShape:
-    """.NET: Autodesk.AutoCAD.GraphicsInterface.ExtendedLightShape"""
+    """.NET enum: Autodesk.AutoCAD.GraphicsInterface.ExtendedLightShape"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    Linear: int  # = 0
+    Rectangle: int  # = 1
+    Disk: int  # = 2
+    Cylinder: int  # = 3
+    Sphere: int  # = 4
 class ExteriorDaylightMode:
-    """.NET: Autodesk.AutoCAD.GraphicsInterface.ExteriorDaylightMode"""
+    """.NET enum: Autodesk.AutoCAD.GraphicsInterface.ExteriorDaylightMode"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    DaylightOff: int  # = 0
+    DaylightOn: int  # = 1
+    DaylightAuto: int  # = 2
 class FaceData:
     """.NET: Autodesk.AutoCAD.GraphicsInterface.FaceData"""
     def __init__(self, *args) -> None: ...
@@ -306,15 +352,17 @@ class Fill(RXObject):
     UnmanagedObject: IntPtr
 
 class FillType:
-    """.NET: Autodesk.AutoCAD.GraphicsInterface.FillType"""
+    """.NET enum: Autodesk.AutoCAD.GraphicsInterface.FillType"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    FillAlways: int  # = 1
+    FillNever: int  # = 2
 class FinalGatherMode:
-    """.NET: Autodesk.AutoCAD.GraphicsInterface.FinalGatherMode"""
+    """.NET enum: Autodesk.AutoCAD.GraphicsInterface.FinalGatherMode"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    FinalGatherNone: int  # = 0
+    FinalGatherCast: int  # = 1
+    FinalGatherReceive: int  # = 2
+    FinalGatherCastAndReceive: int  # = 3
 class FontDescriptor:
     """.NET: Autodesk.AutoCAD.GraphicsInterface.FontDescriptor"""
     def __init__(self, *args) -> None: ...
@@ -398,10 +446,12 @@ class Geometry(RXObject):
     def Xline(self, point1: Point3d, point2: Point3d) -> bool: ...
 
 class GlobalIlluminationMode:
-    """.NET: Autodesk.AutoCAD.GraphicsInterface.GlobalIlluminationMode"""
+    """.NET enum: Autodesk.AutoCAD.GraphicsInterface.GlobalIlluminationMode"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    GlobalIlluminationNone: int  # = 0
+    GlobalIlluminationCast: int  # = 1
+    GlobalIlluminationReceive: int  # = 2
+    GlobalIlluminationCastAndReceive: int  # = 3
 class Glyph(Drawable):
     """.NET: Autodesk.AutoCAD.GraphicsInterface.Glyph"""
     def __init__(self, *args) -> None: ...
@@ -461,10 +511,17 @@ class GradientFill(Fill):
     UnmanagedObject: IntPtr
 
 class GradientType:
-    """.NET: Autodesk.AutoCAD.GraphicsInterface.GradientType"""
+    """.NET enum: Autodesk.AutoCAD.GraphicsInterface.GradientType"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    Linear: int  # = 0
+    Cylinder: int  # = 1
+    InvCylinder: int  # = 2
+    Spherical: int  # = 3
+    Hemispherical: int  # = 4
+    Curved: int  # = 5
+    InvSpherical: int  # = 6
+    InvHemispherical: int  # = 7
+    InvCurved: int  # = 8
 class GroundPlaneBackgroundTraits(NonEntityTraits):
     """.NET: Autodesk.AutoCAD.GraphicsInterface.GroundPlaneBackgroundTraits"""
     def __init__(self, *args) -> None: ...
@@ -520,10 +577,14 @@ class HatchPatternDefinition(DisposableWrapper):
     UnmanagedObject: IntPtr
 
 class HighlightStyle:
-    """.NET: Autodesk.AutoCAD.GraphicsInterface.HighlightStyle"""
+    """.NET enum: Autodesk.AutoCAD.GraphicsInterface.HighlightStyle"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    None_: int  # = 0
+    Custom: int  # = 1
+    DashedAndThicken: int  # = 2
+    Dim: int  # = 3
+    ThickDim: int  # = 4
+    Glow: int  # = 5
 class IBLBackgroundTraits(NonEntityTraits):
     """.NET: Autodesk.AutoCAD.GraphicsInterface.IBLBackgroundTraits"""
     def __init__(self, *args) -> None: ...
@@ -557,10 +618,10 @@ class IBLBackgroundTraits(NonEntityTraits):
     UnmanagedObject: IntPtr
 
 class IlluminationModel:
-    """.NET: Autodesk.AutoCAD.GraphicsInterface.IlluminationModel"""
+    """.NET enum: Autodesk.AutoCAD.GraphicsInterface.IlluminationModel"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    BlinnShader: int  # = 0
+    MetalShader: int  # = 1
 class ImageBGRA32(DisposableWrapper):
     """.NET: Autodesk.AutoCAD.GraphicsInterface.ImageBGRA32"""
     def __init__(self, *args) -> None: ...
@@ -618,15 +679,23 @@ class ImageFileTexture(ImageTexture):
     def GetHashCode(self, ) -> int: ...
 
 class ImageOrg:
-    """.NET: Autodesk.AutoCAD.GraphicsInterface.ImageOrg"""
+    """.NET enum: Autodesk.AutoCAD.GraphicsInterface.ImageOrg"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    Bitonal: int  # = 0
+    Palette: int  # = 1
+    Gray: int  # = 2
+    RGBA: int  # = 3
+    BGRA: int  # = 4
+    ARGB: int  # = 5
+    ABGR: int  # = 6
+    BGR: int  # = 7
+    RGB: int  # = 8
 class ImageSource:
-    """.NET: Autodesk.AutoCAD.GraphicsInterface.ImageSource"""
+    """.NET enum: Autodesk.AutoCAD.GraphicsInterface.ImageSource"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    FromDwg: int  # = 0
+    FromOleObject: int  # = 1
+    FromRender: int  # = 2
 class ImageTexture(MaterialTexture):
     """.NET: Autodesk.AutoCAD.GraphicsInterface.ImageTexture"""
     def __init__(self, *args) -> None: ...
@@ -677,10 +746,41 @@ class LightTraits(NonEntityTraits):
     UnmanagedObject: IntPtr
 
 class Linetype:
-    """.NET: Autodesk.AutoCAD.GraphicsInterface.Linetype"""
+    """.NET enum: Autodesk.AutoCAD.GraphicsInterface.Linetype"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    Solid: int  # = 0
+    Dashed: int  # = 1
+    Dotted: int  # = 2
+    DashDot: int  # = 3
+    ShortDash: int  # = 4
+    MediumDash: int  # = 5
+    LongDash: int  # = 6
+    ShortDashX2: int  # = 7
+    MediumDashX2: int  # = 8
+    LongDashX2: int  # = 9
+    MediumLongDash: int  # = 10
+    MediumDashShortDashShortDash: int  # = 11
+    LongDashShortDash: int  # = 12
+    LongDashDotDot: int  # = 13
+    LongDashDot: int  # = 14
+    MediumDashDotShortDashDot: int  # = 15
+    SparseDot: int  # = 16
+    ISODash: int  # = 17
+    ISODashSpace: int  # = 18
+    ISOLongDashDot: int  # = 19
+    ISOLongDashDoubleDot: int  # = 20
+    ISOLongDashTripleDot: int  # = 21
+    ISODot: int  # = 22
+    ISOLongDashShortDash: int  # = 23
+    ISOLongDashDoubleShortDash: int  # = 24
+    ISODashDot: int  # = 25
+    ISODoubleDashDot: int  # = 26
+    ISODashDoubleDot: int  # = 27
+    ISODoubleDashDoubleDot: int  # = 28
+    ISODashTripleDot: int  # = 29
+    ISODoubleDashTripleDot: int  # = 30
+    LineTypeNone: int  # = 31
+    Solid6PixelsBlank6Pixels: int  # = 32
 class LinetypeCollection(DisposableWrapper):
     """.NET: Autodesk.AutoCAD.GraphicsInterface.LinetypeCollection"""
     def __init__(self, *args) -> None: ...
@@ -700,20 +800,20 @@ class LinetypeCollection(DisposableWrapper):
     def RemoveAt(self, index: int) -> None: ...
 
 class LuminanceMode:
-    """.NET: Autodesk.AutoCAD.GraphicsInterface.LuminanceMode"""
+    """.NET enum: Autodesk.AutoCAD.GraphicsInterface.LuminanceMode"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    SelfIllumination: int  # = 0
+    Luminance: int  # = 1
 class MapChannel:
-    """.NET: Autodesk.AutoCAD.GraphicsInterface.MapChannel"""
+    """.NET enum: Autodesk.AutoCAD.GraphicsInterface.MapChannel"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    AllChannels: int  # = 0
+    MapChannels: int  # = 1
 class MapFilter:
-    """.NET: Autodesk.AutoCAD.GraphicsInterface.MapFilter"""
+    """.NET enum: Autodesk.AutoCAD.GraphicsInterface.MapFilter"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    Default: int  # = 0
+    None_: int  # = 1
 class Mapper(RXObject):
     """.NET: Autodesk.AutoCAD.GraphicsInterface.Mapper"""
     def __init__(self, *args) -> None: ...
@@ -875,15 +975,15 @@ class MaterialTraits(NonEntityTraits):
     UnmanagedObject: IntPtr
 
 class Method:
-    """.NET: Autodesk.AutoCAD.GraphicsInterface.Method"""
+    """.NET enum: Autodesk.AutoCAD.GraphicsInterface.Method"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    Inherit: int  # = 0
+    Override: int  # = 1
 class Mode:
-    """.NET: Autodesk.AutoCAD.GraphicsInterface.Mode"""
+    """.NET enum: Autodesk.AutoCAD.GraphicsInterface.Mode"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    Realistic: int  # = 0
+    Advanced: int  # = 1
 class NonEntityTraits(DrawableTraits):
     """.NET: Autodesk.AutoCAD.GraphicsInterface.NonEntityTraits"""
     def __init__(self, *args) -> None: ...
@@ -917,20 +1017,21 @@ class NonEntityTraits(DrawableTraits):
     def SetupForEntity(self, entity: Entity) -> None: ...
 
 class NormalMapMethod:
-    """.NET: Autodesk.AutoCAD.GraphicsInterface.NormalMapMethod"""
+    """.NET enum: Autodesk.AutoCAD.GraphicsInterface.NormalMapMethod"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    TangentSpaceNormalMap: int  # = 0
 class OrientationBehavior:
-    """.NET: Autodesk.AutoCAD.GraphicsInterface.OrientationBehavior"""
+    """.NET enum: Autodesk.AutoCAD.GraphicsInterface.OrientationBehavior"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    World: int  # = 0
+    Screen: int  # = 1
+    ZAxis: int  # = 2
 class OrientationType:
-    """.NET: Autodesk.AutoCAD.GraphicsInterface.OrientationType"""
+    """.NET enum: Autodesk.AutoCAD.GraphicsInterface.OrientationType"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    NoOrientation: int  # = 0
+    Clockwise: int  # = 1
+    CounterClockwise: int  # = -1
 class PhotographicExposureParameters(ToneOperatorParameters):
     """.NET: Autodesk.AutoCAD.GraphicsInterface.PhotographicExposureParameters"""
     def __init__(self, *args) -> None: ...
@@ -1021,10 +1122,13 @@ class PolylineCollection(DisposableWrapper):
     def RemoveAt(self, index: int) -> None: ...
 
 class PositionBehavior:
-    """.NET: Autodesk.AutoCAD.GraphicsInterface.PositionBehavior"""
+    """.NET enum: Autodesk.AutoCAD.GraphicsInterface.PositionBehavior"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    World: int  # = 0
+    Viewport: int  # = 1
+    Screen: int  # = 2
+    ScreenLocalOrigin: int  # = 3
+    WorldWithScreenOffset: int  # = 4
 class ProceduralTexture(MaterialTexture):
     """.NET: Autodesk.AutoCAD.GraphicsInterface.ProceduralTexture"""
     def __init__(self, *args) -> None: ...
@@ -1033,30 +1137,38 @@ class ProceduralTexture(MaterialTexture):
     UnmanagedObject: IntPtr
 
 class ProceduralTextureType:
-    """.NET: Autodesk.AutoCAD.GraphicsInterface.ProceduralTextureType"""
+    """.NET enum: Autodesk.AutoCAD.GraphicsInterface.ProceduralTextureType"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    Wood: int  # = 0
+    Marble: int  # = 1
+    Generic: int  # = 2
 class Projection:
-    """.NET: Autodesk.AutoCAD.GraphicsInterface.Projection"""
+    """.NET enum: Autodesk.AutoCAD.GraphicsInterface.Projection"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    InheritProjection: int  # = 0
+    Planar: int  # = 1
+    Box: int  # = 2
+    Cylinder: int  # = 3
+    Sphere: int  # = 4
 class RapidRTFilterType:
-    """.NET: Autodesk.AutoCAD.GraphicsInterface.RapidRTFilterType"""
+    """.NET enum: Autodesk.AutoCAD.GraphicsInterface.RapidRTFilterType"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    Box: int  # = 0
+    Triangle: int  # = 1
+    Gaussian: int  # = 2
+    Lanczos: int  # = 3
+    Mitchell: int  # = 4
 class RapidRTLightingMode:
-    """.NET: Autodesk.AutoCAD.GraphicsInterface.RapidRTLightingMode"""
+    """.NET enum: Autodesk.AutoCAD.GraphicsInterface.RapidRTLightingMode"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    Simplified: int  # = 0
+    Basic: int  # = 1
+    Advanced: int  # = 2
 class RapidRTQuitCondition:
-    """.NET: Autodesk.AutoCAD.GraphicsInterface.RapidRTQuitCondition"""
+    """.NET enum: Autodesk.AutoCAD.GraphicsInterface.RapidRTQuitCondition"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    ERenderLevel: int  # = 0
+    ERenderTime: int  # = 1
 class RapidRTRenderSettingsTraits(NonEntityTraits):
     """.NET: Autodesk.AutoCAD.GraphicsInterface.RapidRTRenderSettingsTraits"""
     def __init__(self, *args) -> None: ...
@@ -1092,10 +1204,15 @@ class RapidRTRenderSettingsTraits(NonEntityTraits):
     UnmanagedObject: IntPtr
 
 class RegenType:
-    """.NET: Autodesk.AutoCAD.GraphicsInterface.RegenType"""
+    """.NET enum: Autodesk.AutoCAD.GraphicsInterface.RegenType"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    Invalid: int  # = 0
+    StandardDisplay: int  # = 2
+    HideOrShadeCommand: int  # = 3
+    RenderCommand: int  # = 4
+    ShadedDisplay: int  # = 4
+    ForExplode: int  # = 5
+    SaveWorldDrawForProxy: int  # = 6
 class RenderEnvironmentTraits(NonEntityTraits):
     """.NET: Autodesk.AutoCAD.GraphicsInterface.RenderEnvironmentTraits"""
     def __init__(self, *args) -> None: ...
@@ -1165,20 +1282,25 @@ class RenderSettingsTraits(NonEntityTraits):
     UnmanagedObject: IntPtr
 
 class ScaleBehavior:
-    """.NET: Autodesk.AutoCAD.GraphicsInterface.ScaleBehavior"""
+    """.NET enum: Autodesk.AutoCAD.GraphicsInterface.ScaleBehavior"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    World: int  # = 0
+    Viewport: int  # = 1
+    Screen: int  # = 2
+    ViewportLocalOrigin: int  # = 3
+    ScreenLocalOrigin: int  # = 4
 class SelectionFlags:
-    """.NET: Autodesk.AutoCAD.GraphicsInterface.SelectionFlags"""
+    """.NET enum: Autodesk.AutoCAD.GraphicsInterface.SelectionFlags"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    None_: int  # = 0
+    SelectionIgnore: int  # = 1
 class ShadowFlags:
-    """.NET: Autodesk.AutoCAD.GraphicsInterface.ShadowFlags"""
+    """.NET enum: Autodesk.AutoCAD.GraphicsInterface.ShadowFlags"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    ShadowsCastAndReceive: int  # = 0
+    ShadowsDoesNotCast: int  # = 1
+    ShadowsDoesNotReceive: int  # = 2
+    ShadowsIgnore: int  # = 3
 class ShadowParameters(RXObject):
     """.NET: Autodesk.AutoCAD.GraphicsInterface.ShadowParameters"""
     def __init__(self, *args) -> None: ...
@@ -1199,10 +1321,11 @@ class ShadowParameters(RXObject):
     def GetHashCode(self, ) -> int: ...
 
 class ShadowType:
-    """.NET: Autodesk.AutoCAD.GraphicsInterface.ShadowType"""
+    """.NET enum: Autodesk.AutoCAD.GraphicsInterface.ShadowType"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    RayTraced: int  # = 0
+    Maps: int  # = 1
+    Sampled: int  # = 2
 class SkyBackgroundTraits(NonEntityTraits):
     """.NET: Autodesk.AutoCAD.GraphicsInterface.SkyBackgroundTraits"""
     def __init__(self, *args) -> None: ...
@@ -1285,10 +1408,11 @@ class SolidBackgroundTraits(NonEntityTraits):
     UnmanagedObject: IntPtr
 
 class Source:
-    """.NET: Autodesk.AutoCAD.GraphicsInterface.Source"""
+    """.NET enum: Autodesk.AutoCAD.GraphicsInterface.Source"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    Scene: int  # = 0
+    File: int  # = 1
+    Procedural: int  # = 2
 class SpotLightTraits(StandardLightTraits):
     """.NET: Autodesk.AutoCAD.GraphicsInterface.SpotLightTraits"""
     def __init__(self, *args) -> None: ...
@@ -1415,10 +1539,13 @@ class TextStyle(RXObject):
     def ToTextStyleTableRecord(self, AcDbStyleName: str) -> ObjectId: ...
 
 class Tiling:
-    """.NET: Autodesk.AutoCAD.GraphicsInterface.Tiling"""
+    """.NET enum: Autodesk.AutoCAD.GraphicsInterface.Tiling"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    InheritTiling: int  # = 0
+    Tile: int  # = 1
+    Crop: int  # = 2
+    Clamp: int  # = 3
+    Mirror: int  # = 4
 class ToneOperatorParameters(RXObject):
     """.NET: Autodesk.AutoCAD.GraphicsInterface.ToneOperatorParameters"""
     def __init__(self, *args) -> None: ...
@@ -1439,10 +1566,15 @@ class ToneOperatorParameters(RXObject):
     def GetHashCode(self, ) -> int: ...
 
 class TransientDrawingMode:
-    """.NET: Autodesk.AutoCAD.GraphicsInterface.TransientDrawingMode"""
+    """.NET enum: Autodesk.AutoCAD.GraphicsInterface.TransientDrawingMode"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    Main: int  # = 0
+    Sprite: int  # = 1
+    DirectShortTerm: int  # = 2
+    Highlight: int  # = 3
+    DirectTopmost: int  # = 4
+    Contrast: int  # = 5
+    Count: int  # = 6
 class TransientManager(DisposableWrapper):
     """.NET: Autodesk.AutoCAD.GraphicsInterface.TransientManager"""
     def __init__(self, *args) -> None: ...
@@ -1460,70 +1592,110 @@ class TransientManager(DisposableWrapper):
     def UpdateTransient(self, updated: Drawable, viewportNumbers: IntegerCollection) -> None: ...
 
 class TransparencyMode:
-    """.NET: Autodesk.AutoCAD.GraphicsInterface.TransparencyMode"""
+    """.NET enum: Autodesk.AutoCAD.GraphicsInterface.TransparencyMode"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    TransparencyOff: int  # = 0
+    Transparency1Bit: int  # = 1
+    Transparency8Bit: int  # = 2
 class VSDisplayShadowType:
-    """.NET: Autodesk.AutoCAD.GraphicsInterface.VSDisplayShadowType"""
+    """.NET enum: Autodesk.AutoCAD.GraphicsInterface.VSDisplayShadowType"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    None_: int  # = 0
+    GroundPlane: int  # = 1
+    Full: int  # = 2
+    FullAndGround: int  # = 3
 class VSDisplayStyles:
-    """.NET: Autodesk.AutoCAD.GraphicsInterface.VSDisplayStyles"""
+    """.NET enum: Autodesk.AutoCAD.GraphicsInterface.VSDisplayStyles"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    None_: int  # = 0
+    BackgroundsFlag: int  # = 1
+    LightingFlag: int  # = 2
+    MaterialsFlag: int  # = 4
+    TexturesFlag: int  # = 8
 class VSEdgeJitterAmount:
-    """.NET: Autodesk.AutoCAD.GraphicsInterface.VSEdgeJitterAmount"""
+    """.NET enum: Autodesk.AutoCAD.GraphicsInterface.VSEdgeJitterAmount"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    JitterLow: int  # = 1
+    JitterMedium: int  # = 2
+    JitterHigh: int  # = 3
 class VSEdgeLinePattern:
-    """.NET: Autodesk.AutoCAD.GraphicsInterface.VSEdgeLinePattern"""
+    """.NET enum: Autodesk.AutoCAD.GraphicsInterface.VSEdgeLinePattern"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    Solid: int  # = 1
+    Dashed: int  # = 2
+    Dotted: int  # = 3
+    ShortDash: int  # = 4
+    MediumDash: int  # = 5
+    LongDash: int  # = 6
+    DoubleShortDash: int  # = 7
+    DoubleMediumDash: int  # = 8
+    DoubleLongDash: int  # = 9
+    MediumLongDash: int  # = 10
+    SparseDot: int  # = 11
 class VSEdgeModel:
-    """.NET: Autodesk.AutoCAD.GraphicsInterface.VSEdgeModel"""
+    """.NET enum: Autodesk.AutoCAD.GraphicsInterface.VSEdgeModel"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    NoEdges: int  # = 0
+    Isolines: int  # = 1
+    FacetEdges: int  # = 2
 class VSEdgeModifiers:
-    """.NET: Autodesk.AutoCAD.GraphicsInterface.VSEdgeModifiers"""
+    """.NET enum: Autodesk.AutoCAD.GraphicsInterface.VSEdgeModifiers"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    None_: int  # = 0
+    EdgeOverhangFlag: int  # = 1
+    EdgeJitterFlag: int  # = 2
+    EdgeWidthFlag: int  # = 4
+    EdgeColorFlag: int  # = 8
+    EdgeHaloGapFlag: int  # = 16
+    AlwaysOnTopFlag: int  # = 64
+    EdgeOpacityFlag: int  # = 128
 class VSEdgeStyles:
-    """.NET: Autodesk.AutoCAD.GraphicsInterface.VSEdgeStyles"""
+    """.NET enum: Autodesk.AutoCAD.GraphicsInterface.VSEdgeStyles"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    None_: int  # = 0
+    VisibleFlag: int  # = 1
+    SilhouetteFlag: int  # = 2
+    ObscuredFlag: int  # = 4
+    IntersectionFlag: int  # = 8
 class VSFaceColorMode:
-    """.NET: Autodesk.AutoCAD.GraphicsInterface.VSFaceColorMode"""
+    """.NET enum: Autodesk.AutoCAD.GraphicsInterface.VSFaceColorMode"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    None_: int  # = 0
+    ObjectColor: int  # = 1
+    BackgroundColor: int  # = 2
+    Mono: int  # = 3
+    Tint: int  # = 4
+    Desaturate: int  # = 5
 class VSFaceLightingModel:
-    """.NET: Autodesk.AutoCAD.GraphicsInterface.VSFaceLightingModel"""
+    """.NET enum: Autodesk.AutoCAD.GraphicsInterface.VSFaceLightingModel"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    Invisible: int  # = 0
+    Constant: int  # = 1
+    Phong: int  # = 2
+    Gooch: int  # = 3
 class VSFaceLightingQuality:
-    """.NET: Autodesk.AutoCAD.GraphicsInterface.VSFaceLightingQuality"""
+    """.NET enum: Autodesk.AutoCAD.GraphicsInterface.VSFaceLightingQuality"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    NoLighting: int  # = 0
+    PerFaceLighting: int  # = 1
+    PerVertexLighting: int  # = 2
+    PerPixelLighting: int  # = 3
 class VSFaceModifiers:
-    """.NET: Autodesk.AutoCAD.GraphicsInterface.VSFaceModifiers"""
+    """.NET enum: Autodesk.AutoCAD.GraphicsInterface.VSFaceModifiers"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    None_: int  # = 0
+    FaceOpacityFlag: int  # = 1
+    SpecularFlag: int  # = 2
 class VariantType:
-    """.NET: Autodesk.AutoCAD.GraphicsInterface.VariantType"""
+    """.NET enum: Autodesk.AutoCAD.GraphicsInterface.VariantType"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    Undefined: int  # = 0
+    Boolean: int  # = 1
+    Int: int  # = 2
+    Double: int  # = 3
+    Color: int  # = 4
+    String: int  # = 5
+    Table: int  # = 6
 class VertexData:
     """.NET: Autodesk.AutoCAD.GraphicsInterface.VertexData"""
     def __init__(self, *args) -> None: ...
@@ -1645,15 +1817,76 @@ class VisualStyle(RXObject):
     def SetTraitFlag(self, prop: VisualStyleProperty, flagVal: int, bEnable: bool) -> None: ...
 
 class VisualStyleOperation:
-    """.NET: Autodesk.AutoCAD.GraphicsInterface.VisualStyleOperation"""
+    """.NET enum: Autodesk.AutoCAD.GraphicsInterface.VisualStyleOperation"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    Inherit: int  # = 0
+    Set: int  # = 1
+    Disable: int  # = 2
+    Enable: int  # = 3
+    InvalidOperation: int  # = -1
 class VisualStyleProperty:
-    """.NET: Autodesk.AutoCAD.GraphicsInterface.VisualStyleProperty"""
+    """.NET enum: Autodesk.AutoCAD.GraphicsInterface.VisualStyleProperty"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    FaceLightingModel: int  # = 0
+    FaceLightingQuality: int  # = 1
+    FaceColorMode: int  # = 2
+    FaceModifier: int  # = 3
+    FaceOpacity: int  # = 4
+    FaceSpecular: int  # = 5
+    FaceMonoColor: int  # = 6
+    EdgeModel: int  # = 7
+    EdgeStyle: int  # = 8
+    EdgeIntersectionColor: int  # = 9
+    EdgeObscuredColor: int  # = 10
+    EdgeObscuredLinePattern: int  # = 11
+    EdgeIntersectionLinePattern: int  # = 12
+    EdgeCreaseAngle: int  # = 13
+    EdgeModifier: int  # = 14
+    EdgeColor: int  # = 15
+    EdgeOpacity: int  # = 16
+    EdgeWidth: int  # = 17
+    EdgeOverhang: int  # = 18
+    EdgeJitterAmount: int  # = 19
+    EdgeSilhouetteColor: int  # = 20
+    EdgeSilhouetteWidth: int  # = 21
+    EdgeHaloGap: int  # = 22
+    EdgeIsolines: int  # = 23
+    EdgeHidePrecision: int  # = 24
+    DisplayStyle: int  # = 25
+    DisplayBrightness: int  # = 26
+    DisplayShadowType: int  # = 27
+    UseDrawOrder: int  # = 28
+    ViewportTransparency: int  # = 29
+    LightingEnabled: int  # = 30
+    PosterizeEffect: int  # = 31
+    MonoEffect: int  # = 32
+    BlurEffect: int  # = 33
+    PencilEffect: int  # = 34
+    BloomEffect: int  # = 35
+    PastelEffect: int  # = 36
+    BlurAmount: int  # = 37
+    PencilAngle: int  # = 38
+    PencilScale: int  # = 39
+    PencilPattern: int  # = 40
+    PencilColor: int  # = 41
+    BloomThreshold: int  # = 42
+    BloomRadius: int  # = 43
+    TintColor: int  # = 44
+    FaceAdjustment: int  # = 45
+    PostContrast: int  # = 46
+    PostBrightness: int  # = 47
+    PostPower: int  # = 48
+    TintEffect: int  # = 49
+    BloomIntensity: int  # = 50
+    Color: int  # = 51
+    Transparency: int  # = 52
+    EdgeWiggleAmount: int  # = 53
+    EdgeTexturePath: int  # = 54
+    DepthOfField: int  # = 55
+    FocusDistance: int  # = 56
+    FocusWidth: int  # = 57
+    PropertyCount: int  # = 58
+    InvalidProperty: int  # = -1
 class VisualStyleTraits(DrawableTraits):
     """.NET: Autodesk.AutoCAD.GraphicsInterface.VisualStyleTraits"""
     def __init__(self, *args) -> None: ...
@@ -1683,15 +1916,43 @@ class VisualStyleTraits(DrawableTraits):
     UnmanagedObject: IntPtr
 
 class VisualStyleType:
-    """.NET: Autodesk.AutoCAD.GraphicsInterface.VisualStyleType"""
+    """.NET enum: Autodesk.AutoCAD.GraphicsInterface.VisualStyleType"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    Flat: int  # = 0
+    FlatWithEdges: int  # = 1
+    Gouraud: int  # = 2
+    GouraudWithEdges: int  # = 3
+    Wireframe2D: int  # = 4
+    Wireframe3D: int  # = 5
+    Hidden: int  # = 6
+    Basic: int  # = 7
+    Realistic: int  # = 8
+    Conceptual: int  # = 9
+    Custom: int  # = 10
+    Dim: int  # = 11
+    Brighten: int  # = 12
+    Thicken: int  # = 13
+    LinePattern: int  # = 14
+    FacePattern: int  # = 15
+    ColorChange: int  # = 16
+    FaceOnly: int  # = 17
+    EdgeOnly: int  # = 18
+    DisplayOnly: int  # = 19
+    JitterOff: int  # = 20
+    OverhangOff: int  # = 21
+    EdgeColorOff: int  # = 22
+    ShadesOfGray: int  # = 23
+    Sketchy: int  # = 24
+    XRay: int  # = 25
+    ShadedWithEdges: int  # = 26
+    Shaded: int  # = 27
+    EmptyStyle: int  # = 31
 class WebFileType:
-    """.NET: Autodesk.AutoCAD.GraphicsInterface.WebFileType"""
+    """.NET enum: Autodesk.AutoCAD.GraphicsInterface.WebFileType"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    TypeC: int  # = 1
+    TypeB: int  # = 2
+    TypeA: int  # = 3
 class WebLightTraits(PointLightTraits):
     """.NET: Autodesk.AutoCAD.GraphicsInterface.WebLightTraits"""
     def __init__(self, *args) -> None: ...
@@ -1736,10 +1997,12 @@ class WebLightTraits(PointLightTraits):
     UnmanagedObject: IntPtr
 
 class WebSymmetry:
-    """.NET: Autodesk.AutoCAD.GraphicsInterface.WebSymmetry"""
+    """.NET enum: Autodesk.AutoCAD.GraphicsInterface.WebSymmetry"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    NoSymmetry: int  # = 0
+    SingleSymmetry: int  # = 1
+    DoubleSymmetry: int  # = 2
+    AxialSymmetry: int  # = 3
 class WoodTexture(ProceduralTexture):
     """.NET: Autodesk.AutoCAD.GraphicsInterface.WoodTexture"""
     def __init__(self, *args) -> None: ...

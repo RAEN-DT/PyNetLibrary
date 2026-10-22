@@ -172,15 +172,20 @@ class ClipBoundary2dData:
     def IsEqualTo(self, a: ClipBoundary2dData) -> bool: ...
 
 class ClipCondition:
-    """.NET: Autodesk.AutoCAD.Geometry.ClipCondition"""
+    """.NET enum: Autodesk.AutoCAD.Geometry.ClipCondition"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    Invalid: int  # = 0
+    AllSegmentsInside: int  # = 1
+    SegmentsIntersect: int  # = 2
+    AllSegmentsOutsideZeroWinds: int  # = 3
+    AllSegmentsOutsideOddWinds: int  # = 4
+    AllSegmentsOutsideEvenWinds: int  # = 5
 class ClipError:
-    """.NET: Autodesk.AutoCAD.Geometry.ClipError"""
+    """.NET enum: Autodesk.AutoCAD.Geometry.ClipError"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    OK: int  # = 0
+    InvalidClipBoundary: int  # = 1
+    NotInitialized: int  # = 2
 class CompositeCurve2d(Curve2d):
     """.NET: Autodesk.AutoCAD.Geometry.CompositeCurve2d"""
     def __init__(self, *args) -> None: ...
@@ -687,10 +692,20 @@ class Entity3d(DisposableWrapper):
     def TranslateBy(self, translateVector: Vector3d) -> None: ...
 
 class ErrorCondition:
-    """.NET: Autodesk.AutoCAD.Geometry.ErrorCondition"""
+    """.NET enum: Autodesk.AutoCAD.Geometry.ErrorCondition"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    OK: int  # = 0
+    This: int  # = 1
+    Arg1: int  # = 2
+    Arg2: int  # = 3
+    PerpendicularArg1Arg2: int  # = 4
+    EqualArg1Arg2: int  # = 5
+    EqualArg1Arg3: int  # = 6
+    EqualArg2Arg3: int  # = 7
+    LinearlyDependentArg1Arg2Arg3: int  # = 8
+    Arg1TooBig: int  # = 9
+    Arg1OnThis: int  # = 10
+    Arg1InsideThis: int  # = 11
 class ExternalBoundedSurface(Surface):
     """.NET: Autodesk.AutoCAD.Geometry.ExternalBoundedSurface"""
     def __init__(self, *args) -> None: ...
@@ -768,10 +783,10 @@ class ExternalCurve3d(Curve3d):
     def Create(unmanagedPointer: IntPtr, autoDelete: bool) -> ExternalCurve3d: ...
 
 class ExternalEntityKind:
-    """.NET: Autodesk.AutoCAD.Geometry.ExternalEntityKind"""
+    """.NET enum: Autodesk.AutoCAD.Geometry.ExternalEntityKind"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    AcisEntity: int  # = 0
+    ExternalEntityUndefined: int  # = 1
 class ExternalSurface(Surface):
     """.NET: Autodesk.AutoCAD.Geometry.ExternalSurface"""
     def __init__(self, *args) -> None: ...
@@ -951,10 +966,13 @@ class KnotCollection(DisposableWrapper):
     def Split(self, parameter: float, multiplicityLast: int, multiplicityFirst: int) -> list: ...
 
 class KnotParameterizationEnum:
-    """.NET: Autodesk.AutoCAD.Geometry.KnotParameterizationEnum"""
+    """.NET enum: Autodesk.AutoCAD.Geometry.KnotParameterizationEnum"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    Chord: int  # = 0
+    SqrtChord: int  # = 1
+    Uniform: int  # = 2
+    CustomParameterization: int  # = 15
+    NotDefinedParameterization: int  # = 16
 class Line2d(LinearEntity2d):
     """.NET: Autodesk.AutoCAD.Geometry.Line2d"""
     def __init__(self, *args) -> None: ...
@@ -1452,10 +1470,11 @@ class OffsetCurve3d(Curve3d):
     def Create(unmanagedPointer: IntPtr, autoDelete: bool) -> OffsetCurve3d: ...
 
 class OffsetCurveExtensionType:
-    """.NET: Autodesk.AutoCAD.Geometry.OffsetCurveExtensionType"""
+    """.NET enum: Autodesk.AutoCAD.Geometry.OffsetCurveExtensionType"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    Fillet: int  # = 0
+    Chamfer: int  # = 1
+    Extend: int  # = 2
 class OffsetSurface(Surface):
     """.NET: Autodesk.AutoCAD.Geometry.OffsetSurface"""
     def __init__(self, *args) -> None: ...
@@ -1983,10 +2002,12 @@ class SurfaceSurfaceIntersector(Entity3d):
     def Set(self, surface1: Surface, surface2: Surface, tolerance: Tolerance) -> None: ...
 
 class SurfaceSurfaceIntersectorConfiguration:
-    """.NET: Autodesk.AutoCAD.Geometry.SurfaceSurfaceIntersectorConfiguration"""
+    """.NET enum: Autodesk.AutoCAD.Geometry.SurfaceSurfaceIntersectorConfiguration"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    Unknown: int  # = 0
+    Out: int  # = 1
+    In: int  # = 2
+    Coincident: int  # = 3
 class SurfaceSurfaceIntersectorConfigurations:
     """.NET: Autodesk.AutoCAD.Geometry.SurfaceSurfaceIntersectorConfigurations"""
     def __init__(self, *args) -> None: ...
@@ -2001,10 +2022,11 @@ class SurfaceSurfaceIntersectorConfigurations:
     def IsEqualTo(self, a: SurfaceSurfaceIntersectorConfigurations) -> bool: ...
 
 class SurfaceSurfaceIntersectorType:
-    """.NET: Autodesk.AutoCAD.Geometry.SurfaceSurfaceIntersectorType"""
+    """.NET enum: Autodesk.AutoCAD.Geometry.SurfaceSurfaceIntersectorType"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    Transverse: int  # = 0
+    Tangent: int  # = 1
+    AntiTangent: int  # = 2
 class Tolerance:
     """.NET: Autodesk.AutoCAD.Geometry.Tolerance"""
     def __init__(self, *args) -> None: ...

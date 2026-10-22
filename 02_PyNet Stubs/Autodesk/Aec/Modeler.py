@@ -154,10 +154,11 @@ class BodyCollection(DisposableWrapper):
     def RemoveAt(self, index: int) -> None: ...
 
 class BooleanOperatorType:
-    """.NET: Autodesk.Aec.Modeler.BooleanOperatorType"""
+    """.NET enum: Autodesk.Aec.Modeler.BooleanOperatorType"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    Unite: int  # = 0
+    Subtract: int  # = 1
+    Intersect: int  # = 2
 class CircleCurve(Curve):
     """.NET: Autodesk.Aec.Modeler.CircleCurve"""
     def __init__(self, *args) -> None: ...
@@ -175,10 +176,13 @@ class CircleCurve(Curve):
     UnmanagedObject: IntPtr
 
 class ColorType:
-    """.NET: Autodesk.Aec.Modeler.ColorType"""
+    """.NET enum: Autodesk.Aec.Modeler.ColorType"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    Color1: int  # = 1
+    Color2: int  # = 2
+    Color3: int  # = 3
+    Color4: int  # = 4
+    ColorInvisible: int  # = -1
 class ConeSurface(RevolutionSurface):
     """.NET: Autodesk.Aec.Modeler.ConeSurface"""
     def __init__(self, *args) -> None: ...
@@ -222,10 +226,10 @@ class CurveCollection:
     def RemoveAt(self, index: int) -> None: ...
 
 class CurveType:
-    """.NET: Autodesk.Aec.Modeler.CurveType"""
+    """.NET enum: Autodesk.Aec.Modeler.CurveType"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    UnspecifiedCurve: int  # = 0
+    CircleCurve: int  # = 1
 class CylinderSurface(RevolutionSurface):
     """.NET: Autodesk.Aec.Modeler.CylinderSurface"""
     def __init__(self, *args) -> None: ...
@@ -241,10 +245,11 @@ class CylinderSurface(RevolutionSurface):
     UnmanagedObject: IntPtr
 
 class DirectionType:
-    """.NET: Autodesk.Aec.Modeler.DirectionType"""
+    """.NET enum: Autodesk.Aec.Modeler.DirectionType"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    Forward: int  # = 0
+    Reverse: int  # = 1
+    Both: int  # = 2
 class Edge(Entity):
     """.NET: Autodesk.Aec.Modeler.Edge"""
     def __init__(self, *args) -> None: ...
@@ -324,10 +329,170 @@ class Entity(DisposableWrapper):
     def Create(unmanagedPointer: IntPtr, autoDelete: bool) -> Entity: ...
 
 class ErrorCode:
-    """.NET: Autodesk.Aec.Modeler.ErrorCode"""
+    """.NET enum: Autodesk.Aec.Modeler.ErrorCode"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    OK: int  # = 0
+    Fail: int  # = 1
+    ViewPointLiesInsideScene: int  # = 2
+    BadBodyGeometry: int  # = 3
+    BadSurfaceType: int  # = 4
+    BadCurveType: int  # = 5
+    BadInput: int  # = 6
+    NullVector: int  # = 7
+    NullNormalVector: int  # = 8
+    BadPlane: int  # = 9
+    BadLine: int  # = 10
+    BadAxis: int  # = 11
+    BadTransform: int  # = 12
+    PointLiesInPlane: int  # = 13
+    InputBodiesMustNotBeNegated: int  # = 14
+    RadiusMustBePositive: int  # = 15
+    RadiusMustBeNonNegative: int  # = 16
+    RadiusMustNotBeZero: int  # = 17
+    ApproximationMustBeAtLeastFour: int  # = 18
+    ScaleFactorMustBePositive: int  # = 19
+    AngleMustNotBeZero: int  # = 20
+    BodyPointerIsNull: int  # = 21
+    FacePointerIsNull: int  # = 22
+    EdgePointerIsNull: int  # = 23
+    VertexPointerIsNull: int  # = 24
+    PolygonPointerIsNull: int  # = 25
+    ProfilePolygonPointerIsNull: int  # = 26
+    PathPolygonPointerIsNull: int  # = 27
+    BodyIsNegative: int  # = 28
+    IntervalIsNull: int  # = 29
+    FileNameIsNull: int  # = 30
+    BadFile: int  # = 31
+    IncorrectFile: int  # = 32
+    FilePointerIsNull: int  # = 33
+    FileOpenError: int  # = 34
+    FileReadError: int  # = 35
+    FileWriteError: int  # = 36
+    SaveError: int  # = 37
+    RestoreError: int  # = 38
+    BadDataRestored: int  # = 39
+    FileIsNewerThanCurrentVersionOfModeler: int  # = 40
+    BoxSizesMustNotBeZero: int  # = 41
+    MajorRadiusMustBeGreaterThanMinorRadius: int  # = 42
+    InnerRadiusMustBeSmallerThanOuterRadius: int  # = 43
+    InnerRadiusCanBeZeroOnlyIfOuterRadiusIsZero: int  # = 44
+    ViewPointCoincidesWithTargetPoint: int  # = 45
+    EpsilonMustBePositive: int  # = 46
+    CallbackObjectPointerIsNull: int  # = 47
+    PickingNotPossible: int  # = 48
+    AtLeast4NonCoplanarPointsRequired: int  # = 49
+    PointsDoNotDefineConvexPolyhedron: int  # = 50
+    ApexMustNotLieInPolygon: int  # = 51
+    ExtrusionVectorMustNotBeParallelToPolygon: int  # = 52
+    AxisOfRevolutionMustLieInPolygonPlane: int  # = 53
+    AxisOfRevolutionIntersectsPolygon: int  # = 54
+    BadNormal: int  # = 55
+    BadPolygon: int  # = 56
+    PolygonIsSelfIntersectingOrTouching: int  # = 57
+    BadRelativePolygonPosition: int  # = 58
+    CannotCreateFillet: int  # = 59
+    BadArcCenter: int  # = 60
+    RadiusTooSmall: int  # = 61
+    FilletRadiusMustBePositive: int  # = 62
+    CannotFilletVerticesBelongingToArcs: int  # = 63
+    FirstAndLastVertexInEndpointRevolutionMustNotBeFilleted: int  # = 64
+    ArcBetweenLastAndFirstVertexNotAllowedForEndpointRevolution: int  # = 65
+    EntitiesSectionNotFoundInDxfFile: int  # = 66
+    PolylineEntityNotFoundInDxfFile: int  # = 67
+    PolylineMustBeClosed: int  # = 68
+    _3dPolylineOrMeshNotAllowed: int  # = 69
+    BadDxfFile: int  # = 70
+    PointsAreColinearOrCoincident: int  # = 71
+    SourceArgumentsAreColinearOrCoincident: int  # = 72
+    DestinationArgumentsAreColinearOrCoincident: int  # = 73
+    PointsAreCoplanar: int  # = 74
+    ChamferingDistanceMustBePositive: int  # = 75
+    OnlyManifoldEdgesCanBeFilletedAndChamfered: int  # = 76
+    OnlyStraightAndCircularEdgesCanBeFilletedAndChamfered: int  # = 77
+    PlanarEdgesCannotBeFilletedAndChamfered: int  # = 78
+    AtLeastOneEdgeExpected: int  # = 79
+    FilletRadiusTooLarge: int  # = 80
+    ChamferDistanceTooLarge: int  # = 81
+    CannotFilletEdge: int  # = 82
+    CannotMitreEdgesOfDifferentConvexity: int  # = 83
+    TooComplexMixedConvexityCap: int  # = 84
+    NotYetImplemented: int  # = 85
+    CircleIsNotValid: int  # = 86
+    BaseNormalPerpendicularToAxisVector: int  # = 87
+    EndCentersMustHaveEqualDistance: int  # = 88
+    FaceMustNotBelongToABody: int  # = 89
+    FaceHasNoEdges: int  # = 90
+    OneSidedFaceExpected: int  # = 91
+    ProfileFacesMustHaveTheSameNumberOfEdges: int  # = 92
+    AtLeastTwoProfilesExpected: int  # = 93
+    BodyProfileMustContainExactlyOneFace: int  # = 94
+    ProfileFaceHasNoEdges: int  # = 95
+    BadMorphingMap: int  # = 96
+    EdgesOfFirstProfileCannotBeMarkedApproximating: int  # = 97
+    BaseSizesMustBePositive: int  # = 98
+    TopCircleMustLieAboveBaseRectangle: int  # = 99
+    FilletByRadiusOrArcByBulgeTypeExpected: int  # = 100
+    ArcByRadiusTypeExpected: int  # = 101
+    Arc3dTypeExpected: int  # = 102
+    CannotCreateTouchingCircle: int  # = 103
+    NonPlanarPolygon: int  # = 104
+    NonPlanarProfileFace: int  # = 105
+    FaceMustHaveAtLeastThreeEdges: int  # = 106
+    PolygonPointsCoincide: int  # = 107
+    BadPath: int  # = 108
+    BadProfileAndPathOrientation: int  # = 109
+    FirstPathPointMustLieInStartProfilePlane: int  # = 110
+    LastPathPointMustLieInEndProfilePlane: int  # = 111
+    WidthTooSmall: int  # = 112
+    HeightTooSmall: int  # = 113
+    EndProfileNotAllowedWhenPathIsClosed: int  # = 114
+    ScaleFactorNotAllowedWhenPathIsClosed: int  # = 115
+    TwistAngleNotAllowedWhenPathIsClosed: int  # = 116
+    MorphingMustBeIdentityWhenPathIsClosed: int  # = 117
+    ExtrusionBodyLooksSelfIntersecting: int  # = 118
+    MorphingMapRequiresEndProfile: int  # = 119
+    NegativeIndexInMorphingMap: int  # = 120
+    FixedPointMustLieInPolygonPlane: int  # = 121
+    TriStripsMayBeGeneratedOnlyWhenCachingTriangles: int  # = 122
+    StartProfileNormalHasOppositeDirectionThanFirstPathSegment: int  # = 123
+    EndProfileNormalHasOppositeDirectionThanLastPathSegment: int  # = 124
+    StartProfileIsParallelWithFirstPathSegment: int  # = 125
+    EndProfileIsParallelWithLastPathSegment: int  # = 126
+    ProfilePolygonMustContainAtLeastOnePoint: int  # = 127
+    ArcByRadiusNotAllowedForPathPolygons_UseArc3d: int  # = 128
+    ArcByBulgeNotAllowedForPathPolygons_UseArc3d: int  # = 129
+    NumberOfLinearSegmentsMustBeAtLeastOne: int  # = 130
+    ZeroBulgeNotAllowed: int  # = 131
+    FixedPointMustLieInStartProfilePlane: int  # = 132
+    BodyCannotBeClosed: int  # = 133
+    PolygonNormalNotPerpendicularToPolygonPlane: int  # = 134
+    SizeMustBePositive: int  # = 135
+    PointerIsNull: int  # = 136
+    ToleranceMustBePositive: int  # = 137
+    ValueMustBePositive: int  # = 138
+    PartnerEdgesOfNonManifoldEdgeCannotBeOrdered: int  # = 139
+    NonManifoldEdgesMustHaveEvenNumberOfPartners: int  # = 140
+    FaceMustHaveManifoldEdgesOnly: int  # = 141
+    StitchingFacesDidNotProduceAValidBody: int  # = 142
+    FaceCanNotBeMoved: int  # = 143
+    ManifoldEdgeExpected: int  # = 144
+    EdgeSharedByTwoDifferentFacesExpected: int  # = 145
+    CoplanarFacesExpected: int  # = 146
+    InvalidVector: int  # = 147
+    AngleMustBePositive: int  # = 148
+    MinNumberOfFacesInSurfaceMustBeAtLeastTwo: int  # = 149
+    UnspecifiedCurveTypeExpected: int  # = 150
+    InvalidTerrainBody: int  # = 151
+    HeightMustBePositive: int  # = 152
+    CannotCreateLoopOfEdges: int  # = 153
+    TerrainSurfaceContainsHole: int  # = 154
+    BadIndexInMorphingMap: int  # = 155
+    StartProfileIsWrong: int  # = 156
+    EndProfileIsWrong: int  # = 157
+    ExtrusionPathIsWrong: int  # = 158
+    StartProfileMustHaveOnlySingleLoop: int  # = 159
+    EndProfileMustHaveOnlySingleLoop: int  # = 160
+    InternalError: int  # = 1000
 class Face(Entity):
     """.NET: Autodesk.Aec.Modeler.Face"""
     def __init__(self, *args) -> None: ...
@@ -376,15 +541,17 @@ class FaceCollection:
     def RemoveAt(self, index: int) -> None: ...
 
 class HiddenLineDrawingImprove:
-    """.NET: Autodesk.Aec.Modeler.HiddenLineDrawingImprove"""
+    """.NET enum: Autodesk.Aec.Modeler.HiddenLineDrawingImprove"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    NoDrawingImprove: int  # = 0
+    ConnectDrawingImprove: int  # = 1
+    ArcReconstructDrawingImprove: int  # = 2
 class HiddenLinesDisplay:
-    """.NET: Autodesk.Aec.Modeler.HiddenLinesDisplay"""
+    """.NET enum: Autodesk.Aec.Modeler.HiddenLinesDisplay"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    HiddenLinesInvisible: int  # = 0
+    HiddenLinesDashed: int  # = 1
+    HiddenLinesVisible: int  # = 2
 class IEdgeOperation:
     """.NET: Autodesk.Aec.Modeler.IEdgeOperation"""
     def __init__(self, *args) -> None: ...
@@ -396,10 +563,13 @@ class IEdgeOperation:
     def RemoveAt(self, A_0: int) -> None: ...
 
 class ListFlags:
-    """.NET: Autodesk.Aec.Modeler.ListFlags"""
+    """.NET enum: Autodesk.Aec.Modeler.ListFlags"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    General: int  # = 0
+    Surface: int  # = 1
+    Vertex: int  # = 2
+    Face: int  # = 4
+    Edge: int  # = 8
 class MorphingMap(DisposableWrapper):
     """.NET: Autodesk.Aec.Modeler.MorphingMap"""
     def __init__(self, *args) -> None: ...
@@ -439,15 +609,18 @@ class MorphingMapElementCollection:
     def RemoveAt(self, index: int) -> None: ...
 
 class OnOff:
-    """.NET: Autodesk.Aec.Modeler.OnOff"""
+    """.NET enum: Autodesk.Aec.Modeler.OnOff"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    Off: int  # = 0
+    On: int  # = 1
 class PointInBodyLocation:
-    """.NET: Autodesk.Aec.Modeler.PointInBodyLocation"""
+    """.NET enum: Autodesk.Aec.Modeler.PointInBodyLocation"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    PointOutsideBody: int  # = 0
+    PointAtVertex: int  # = 1
+    PointOnEdge: int  # = 2
+    PointInFace: int  # = 3
+    PointInsideBody: int  # = 4
 class PolygonVertexData(DisposableWrapper):
     """.NET: Autodesk.Aec.Modeler.PolygonVertexData"""
     def __init__(self, *args) -> None: ...
@@ -465,15 +638,23 @@ class PolygonVertexData(DisposableWrapper):
     def Clone(self, ) -> object: ...
 
 class PolygonVertexDataType:
-    """.NET: Autodesk.Aec.Modeler.PolygonVertexDataType"""
+    """.NET enum: Autodesk.Aec.Modeler.PolygonVertexDataType"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    Arc3d: int  # = 0
+    ArcByRadius: int  # = 1
+    ArcByBulge: int  # = 2
+    FilletByRadius: int  # = 3
+    UnspecifiedCurve: int  # = 4
 class RayBodyIntersection:
-    """.NET: Autodesk.Aec.Modeler.RayBodyIntersection"""
+    """.NET enum: Autodesk.Aec.Modeler.RayBodyIntersection"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    RayDoesNotIntersect: int  # = 0
+    RayPointAtVertex: int  # = 1
+    RayPointOnEdge: int  # = 2
+    RayPointInFace: int  # = 3
+    RayIntersectsVertex: int  # = 4
+    RayIntersectsEdge: int  # = 5
+    RayIntersectsFace: int  # = 6
 class RevolutionSurface(Surface):
     """.NET: Autodesk.Aec.Modeler.RevolutionSurface"""
     def __init__(self, *args) -> None: ...
@@ -502,10 +683,10 @@ class SphereSurface(RevolutionSurface):
     UnmanagedObject: IntPtr
 
 class StateFlags:
-    """.NET: Autodesk.Aec.Modeler.StateFlags"""
+    """.NET enum: Autodesk.Aec.Modeler.StateFlags"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    CircArcEdge: int  # = 262144
+    IsVoidEdge: int  # = 524288
 class Surface(Entity):
     """.NET: Autodesk.Aec.Modeler.Surface"""
     def __init__(self, *args) -> None: ...
@@ -537,10 +718,13 @@ class SurfaceCollection:
     def RemoveAt(self, index: int) -> None: ...
 
 class SurfaceType:
-    """.NET: Autodesk.Aec.Modeler.SurfaceType"""
+    """.NET enum: Autodesk.Aec.Modeler.SurfaceType"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    Unspecified: int  # = 0
+    Cylinder: int  # = 1
+    Cone: int  # = 2
+    Sphere: int  # = 3
+    Torus: int  # = 4
 class TorusSurface(RevolutionSurface):
     """.NET: Autodesk.Aec.Modeler.TorusSurface"""
     def __init__(self, *args) -> None: ...
@@ -559,10 +743,13 @@ class TorusSurface(RevolutionSurface):
     UnmanagedObject: IntPtr
 
 class TransfType:
-    """.NET: Autodesk.Aec.Modeler.TransfType"""
+    """.NET enum: Autodesk.Aec.Modeler.TransfType"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    RigidMotionTransf: int  # = 0
+    EqualScalingOrthoTransf: int  # = 1
+    NonOrthoTransf: int  # = 2
+    ProjectionTransf: int  # = 3
+    UnknownTransf: int  # = 4
 class UnspecifiedCurve(Curve):
     """.NET: Autodesk.Aec.Modeler.UnspecifiedCurve"""
     def __init__(self, *args) -> None: ...
@@ -646,10 +833,11 @@ class Utility:
     def SliceBody(body: Body, bottom: float, top: float) -> None: ...
 
 class ValidityCheckingLevel:
-    """.NET: Autodesk.Aec.Modeler.ValidityCheckingLevel"""
+    """.NET enum: Autodesk.Aec.Modeler.ValidityCheckingLevel"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    NoChecking: int  # = 0
+    SimpleChecking: int  # = 1
+    ExtensiveChecking: int  # = 2
 class Vertex(Entity):
     """.NET: Autodesk.Aec.Modeler.Vertex"""
     def __init__(self, *args) -> None: ...

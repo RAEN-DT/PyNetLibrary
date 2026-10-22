@@ -4,7 +4,7 @@
 import clr
 from pathlib import Path
 from collections import defaultdict
-from System import AppDomain
+from System import AppDomain, Enum
 from System.Reflection import BindingFlags  # type:ignore
 
 PYTHON_KEYWORDS = {
@@ -168,6 +168,30 @@ def gen_class(t):
 
         flags = (BindingFlags.Public | BindingFlags.Instance |
                  BindingFlags.Static | BindingFlags.DeclaredOnly)
+
+        # Enums have neither properties nor declared methods, so without this they came out with an
+        # empty body ("...") and their members were invisible: SubassemblyLogicalNameType.Surface or
+        # SpiralType.Clothoid could not be written from the stubs, only discovered by reflection
+        # against a running host. Emit the members, with their value as a comment.
+        if t.IsEnum:
+            body = [
+                f'class {name}:',
+                f'    """.NET enum: {t.FullName}"""',
+                f'    def __init__(self, *args) -> None: ...',
+            ]
+            try:
+                nombres = list(t.GetEnumNames())
+                for n in nombres:
+                    try:
+                        valor = int(Enum.Format(t, Enum.Parse(t, n), "d"))
+                        body.append(f"    {safe_name(n)}: int  # = {valor}")
+                    except Exception:
+                        body.append(f"    {safe_name(n)}: int")
+            except Exception:
+                body.append("    ...")
+            if len(body) == 3:
+                body.append("    ...")
+            return "\n".join(body)
 
         body = [
             f'class {name}{base_str}:',

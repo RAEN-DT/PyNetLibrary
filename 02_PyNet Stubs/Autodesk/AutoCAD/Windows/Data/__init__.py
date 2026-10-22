@@ -41,10 +41,10 @@ class AutoCorrectList(DisposableWrapper):
     def Sort(self, ) -> None: ...
 
 class AutoCorrectType:
-    """.NET: Autodesk.AutoCAD.Windows.Data.AutoCorrectType"""
+    """.NET enum: Autodesk.AutoCAD.Windows.Data.AutoCorrectType"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    CommandSysvar: int  # = 0
+    InternalCommand: int  # = 1
 class AutoCorrectorService:
     """.NET: Autodesk.AutoCAD.Windows.Data.AutoCorrectorService"""
     def __init__(self, *args) -> None: ...
@@ -246,10 +246,11 @@ class Command:
     def Execute(self, parameter: object) -> None: ...
 
 class CommandCompletionType:
-    """.NET: Autodesk.AutoCAD.Windows.Data.CommandCompletionType"""
+    """.NET enum: Autodesk.AutoCAD.Windows.Data.CommandCompletionType"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    Command: int  # = 1
+    Keyword: int  # = 2
+    File: int  # = 4
 class CommandEditor:
     """.NET: Autodesk.AutoCAD.Windows.Data.CommandEditor"""
     def __init__(self, *args) -> None: ...
@@ -727,15 +728,23 @@ class INotifyCollectionItemsChanged:
     ...
 
 class IPEAttachmentPoint:
-    """.NET: Autodesk.AutoCAD.Windows.Data.IPEAttachmentPoint"""
+    """.NET enum: Autodesk.AutoCAD.Windows.Data.IPEAttachmentPoint"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    TopLeft: int  # = 1
+    TopCenter: int  # = 2
+    TopRight: int  # = 3
+    MiddleLeft: int  # = 4
+    MiddleCenter: int  # = 5
+    MiddleRight: int  # = 6
+    BottomLeft: int  # = 7
+    BottomCenter: int  # = 8
+    BottomRight: int  # = 9
 class IPEColumnType:
-    """.NET: Autodesk.AutoCAD.Windows.Data.IPEColumnType"""
+    """.NET enum: Autodesk.AutoCAD.Windows.Data.IPEColumnType"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    NoColumns: int  # = 0
+    StaticColumns: int  # = 1
+    DynamicColumns: int  # = 2
 class IPECommandBase:
     """.NET: Autodesk.AutoCAD.Windows.Data.IPECommandBase"""
     def __init__(self, *args) -> None: ...
@@ -744,25 +753,33 @@ class IPECommandBase:
     def SetCanExecute(self, value: bool) -> None: ...
 
 class IPEDynamicColumnType:
-    """.NET: Autodesk.AutoCAD.Windows.Data.IPEDynamicColumnType"""
+    """.NET enum: Autodesk.AutoCAD.Windows.Data.IPEDynamicColumnType"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    DynamicAutoHeight: int  # = 0
+    DynamicManualHeight: int  # = 1
 class IPEEditorSettings:
-    """.NET: Autodesk.AutoCAD.Windows.Data.IPEEditorSettings"""
+    """.NET enum: Autodesk.AutoCAD.Windows.Data.IPEEditorSettings"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    AlwaysDisplayWysiwyg: int  # = 0
+    ShowToolbar: int  # = 1
+    ShowRuler: int  # = 2
+    OpaqueBackground: int  # = 3
+    CheckSpelling: int  # = 4
 class IPEFlowAlignmentType:
-    """.NET: Autodesk.AutoCAD.Windows.Data.IPEFlowAlignmentType"""
+    """.NET enum: Autodesk.AutoCAD.Windows.Data.IPEFlowAlignmentType"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    FlowBase: int  # = 0
+    FlowCenter: int  # = 1
+    FlowTop: int  # = 2
 class IPENumberingType:
-    """.NET: Autodesk.AutoCAD.Windows.Data.IPENumberingType"""
+    """.NET enum: Autodesk.AutoCAD.Windows.Data.IPENumberingType"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    NumberingOff: int  # = 0
+    NumberingBullet: int  # = 1
+    NumberingNumber: int  # = 2
+    NumberingLetterLower: int  # = 3
+    NumberingLetterUpper: int  # = 4
+    NumberingLettered: int  # = 5
 class IPENumberingTypeEnumConverter(EnumConverter):
     """.NET: Autodesk.AutoCAD.Windows.Data.IPENumberingTypeEnumConverter"""
     def __init__(self, *args) -> None: ...
@@ -771,15 +788,24 @@ class IPENumberingTypeEnumConverter(EnumConverter):
     def ConvertTo(self, context: ITypeDescriptorContext, culture: CultureInfo, value: object, destinationType: Type) -> object: ...
 
 class IPEParagraphAlignmentType:
-    """.NET: Autodesk.AutoCAD.Windows.Data.IPEParagraphAlignmentType"""
+    """.NET enum: Autodesk.AutoCAD.Windows.Data.IPEParagraphAlignmentType"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    AlignmentDefault: int  # = 0
+    AlignmentLeft: int  # = 1
+    AlignmentCenter: int  # = 2
+    AlignmentRight: int  # = 3
+    AlignmentJustify: int  # = 4
+    AlignmentDistribute: int  # = 5
+    NumAlignmentTypes: int  # = 6
 class IPEStaticColumnType:
-    """.NET: Autodesk.AutoCAD.Windows.Data.IPEStaticColumnType"""
+    """.NET enum: Autodesk.AutoCAD.Windows.Data.IPEStaticColumnType"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    OneColumn: int  # = 1
+    TwoColumns: int  # = 2
+    ThreeColumns: int  # = 3
+    FourColumns: int  # = 4
+    FiveColumns: int  # = 5
+    SixColumns: int  # = 6
 class ImportCommand(IPECommandBase):
     """.NET: Autodesk.AutoCAD.Windows.Data.ImportCommand"""
     def __init__(self, *args) -> None: ...
@@ -895,10 +921,14 @@ class InputBuffer:
     def ReplaceInputQueue(self, newInput: str) -> None: ...
 
 class InputSearchOptions:
-    """.NET: Autodesk.AutoCAD.Windows.Data.InputSearchOptions"""
+    """.NET enum: Autodesk.AutoCAD.Windows.Data.InputSearchOptions"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    None_: int  # = 0
+    AutoComplete: int  # = 1
+    AutoCorrect: int  # = 2
+    SysvarSearch: int  # = 4
+    ContentSearch: int  # = 8
+    MidString: int  # = 16
 class Int32ToImageConverter:
     """.NET: Autodesk.AutoCAD.Windows.Data.Int32ToImageConverter"""
     def __init__(self, *args) -> None: ...
@@ -950,10 +980,11 @@ class LineSpacingMultiplesCommand(IPECommandBase):
     def Execute(self, parameter: object) -> None: ...
 
 class LineSpacingTypes:
-    """.NET: Autodesk.AutoCAD.Windows.Data.LineSpacingTypes"""
+    """.NET enum: Autodesk.AutoCAD.Windows.Data.LineSpacingTypes"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    LineSpacingExactly: int  # = 1
+    LineSpacingAtLeast: int  # = 2
+    LineSpacingMultiple: int  # = 3
 class LineSpacingTypesEnumConverter(EnumConverter):
     """.NET: Autodesk.AutoCAD.Windows.Data.LineSpacingTypesEnumConverter"""
     def __init__(self, *args) -> None: ...
@@ -1011,10 +1042,12 @@ class NativeFunction:
     def Execute(self, parameter: object) -> None: ...
 
 class NavStatus:
-    """.NET: Autodesk.AutoCAD.Windows.Data.NavStatus"""
+    """.NET enum: Autodesk.AutoCAD.Windows.Data.NavStatus"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    None_: int  # = 0
+    Paused: int  # = 1
+    Recording: int  # = 2
+    Default: int  # = 4
 class NotifyCollectionItemsChangedEventArgs(EventArgs):
     """.NET: Autodesk.AutoCAD.Windows.Data.NotifyCollectionItemsChangedEventArgs"""
     def __init__(self, *args) -> None: ...
@@ -1056,10 +1089,14 @@ class ParagraphDialogCommand(IPECommandBase):
     def Execute(self, parameter: object) -> None: ...
 
 class PatPatternCategory:
-    """.NET: Autodesk.AutoCAD.Windows.Data.PatPatternCategory"""
+    """.NET enum: Autodesk.AutoCAD.Windows.Data.PatPatternCategory"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    kPredef: int  # = 0
+    kUserdef: int  # = 1
+    kCustomdef: int  # = 2
+    kSolid_fill: int  # = 3
+    kISOdef: int  # = 4
+    kInvalid: int  # = -1
 class PlotStyleCollection(DbObjectCollection):
     """.NET: Autodesk.AutoCAD.Windows.Data.PlotStyleCollection"""
     def __init__(self, *args) -> None: ...

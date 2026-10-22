@@ -273,10 +273,13 @@ class BlockSnapshotInfo:
     snapshotUrl: str
 
 class BlockSnapshotSerializeState:
-    """.NET: Autodesk.AutoCAD.Internal.BlockSnapshotSerializeState"""
+    """.NET enum: Autodesk.AutoCAD.Internal.BlockSnapshotSerializeState"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    kInMemory: int  # = 0
+    kSerializable: int  # = 1
+    kSerializing: int  # = 2
+    kSerialized: int  # = 3
+    kDeleted: int  # = 4
 class BlockSpotTools:
     """.NET: Autodesk.AutoCAD.Internal.BlockSpotTools"""
     def __init__(self, *args) -> None: ...
@@ -577,10 +580,14 @@ class BlockStreamUtils:
     def writeRegistryString(keyName: str, value: str) -> None: ...
 
 class BlockViewMode:
-    """.NET: Autodesk.AutoCAD.Internal.BlockViewMode"""
+    """.NET enum: Autodesk.AutoCAD.Internal.BlockViewMode"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    kExtraLargeIcon: int  # = 0
+    kLargeIcon: int  # = 1
+    kMediumIcon: int  # = 2
+    kSmallIcon: int  # = 3
+    kDetails: int  # = 4
+    kList: int  # = 5
 class BlockViewModeEnum:
     """.NET: Autodesk.AutoCAD.Internal.BlockViewModeEnum"""
     def __init__(self, *args) -> None: ...
@@ -740,10 +747,11 @@ class ColorThemeChangedEventHandler:
     def Invoke(self, sender: object, e: EventArgs) -> None: ...
 
 class ColorThemeEnum:
-    """.NET: Autodesk.AutoCAD.Internal.ColorThemeEnum"""
+    """.NET enum: Autodesk.AutoCAD.Internal.ColorThemeEnum"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    Dark: int  # = 0
+    Light: int  # = 1
+    User: int  # = 2
 class ComboBoxWrapper(ControlWrapper):
     """.NET: Autodesk.AutoCAD.Internal.ComboBoxWrapper"""
     def __init__(self, *args) -> None: ...
@@ -896,15 +904,21 @@ class CommandPiper:
     def VplayerViewportVisibilityDefault(self, bFrozen: bool, all: bool, layerName: str) -> None: ...
 
 class CommandTypeFlags:
-    """.NET: Autodesk.AutoCAD.Internal.CommandTypeFlags"""
+    """.NET enum: Autodesk.AutoCAD.Internal.CommandTypeFlags"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    NoneCmd: int  # = 0
+    CoreCmd: int  # = 1
+    ARXCmd: int  # = 2
+    LispCmd: int  # = 3
+    ActionMacroCmd: int  # = 4
+    SetvarCmd: int  # = 5
 class ConsentStateEnum:
-    """.NET: Autodesk.AutoCAD.Internal.ConsentStateEnum"""
+    """.NET enum: Autodesk.AutoCAD.Internal.ConsentStateEnum"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    kUnspecified: int  # = 0
+    kGranted: int  # = 1
+    kRevoked: int  # = 2
+    kRevokePending: int  # = 3
 class CoreLayerUtilities:
     """.NET: Autodesk.AutoCAD.Internal.CoreLayerUtilities"""
     def __init__(self, *args) -> None: ...
@@ -1153,10 +1167,14 @@ class GroupControlEventHandler:
     def Invoke(self, sender: object, e: EventArgs) -> None: ...
 
 class GroupControlEventIndex:
-    """.NET: Autodesk.AutoCAD.Internal.GroupControlEventIndex"""
+    """.NET enum: Autodesk.AutoCAD.Internal.GroupControlEventIndex"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    Show: int  # = 0
+    Hide: int  # = 1
+    ChevronClick: int  # = 2
+    TitleButtonClick: int  # = 3
+    FocusChange: int  # = 4
+    Resize: int  # = 5
 class GroupControlHeaderButton:
     """.NET: Autodesk.AutoCAD.Internal.GroupControlHeaderButton"""
     def __init__(self, *args) -> None: ...
@@ -1167,10 +1185,15 @@ class GroupControlHeaderButton:
     def Dispose(self, ) -> None: ...
 
 class GroupControlStyles:
-    """.NET: Autodesk.AutoCAD.Internal.GroupControlStyles"""
+    """.NET enum: Autodesk.AutoCAD.Internal.GroupControlStyles"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    ShowChevron: int  # = 1
+    ShowButtonForce: int  # = 2
+    ShowNonActive: int  # = 4
+    ShowNoBorder: int  # = 8
+    ShowTransparentButton: int  # = 16
+    ShowButtonBorder: int  # = 32
+    ShowOpaqueImage: int  # = 128
 class GroupResizedEventHandler:
     """.NET: Autodesk.AutoCAD.Internal.GroupResizedEventHandler"""
     def __init__(self, *args) -> None: ...
@@ -1201,10 +1224,11 @@ class HPPrinterPlotOption:
     Copies: int
 
 class HPPrinterPlotQuality:
-    """.NET: Autodesk.AutoCAD.Internal.HPPrinterPlotQuality"""
+    """.NET enum: Autodesk.AutoCAD.Internal.HPPrinterPlotQuality"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    Normal: int  # = 0
+    Fast: int  # = 1
+    Best: int  # = 2
 class HPPrinterPlotResult:
     """.NET: Autodesk.AutoCAD.Internal.HPPrinterPlotResult"""
     def __init__(self, *args) -> None: ...
@@ -1222,10 +1246,13 @@ class HiddenChangedEventHandler:
     def Invoke(self, sender: GroupControl, bHidden: bool) -> None: ...
 
 class HttpMethod:
-    """.NET: Autodesk.AutoCAD.Internal.HttpMethod"""
+    """.NET enum: Autodesk.AutoCAD.Internal.HttpMethod"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    Get: int  # = 0
+    Post: int  # = 1
+    Head: int  # = 2
+    Put: int  # = 3
+    Delete: int  # = 4
 class ICloudPrintingService:
     """.NET: Autodesk.AutoCAD.Internal.ICloudPrintingService"""
     def __init__(self, *args) -> None: ...
@@ -1260,20 +1287,35 @@ class INavisworksService:
     def RegisterFileProtocol(self, scheme: str, fileprotocol: INavisworksFileProtocol) -> None: ...
 
 class IPECallbackType:
-    """.NET: Autodesk.AutoCAD.Internal.IPECallbackType"""
+    """.NET enum: Autodesk.AutoCAD.Internal.IPECallbackType"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    IPECallbackUpdateUI: int  # = 0
+    IPECallbackEnableUI: int  # = 1
+    IPECallbackCreateUI: int  # = 2
+    IPECallbackRemoveUI: int  # = 3
+    IPECallbackCreateToolbar: int  # = 4
+    IPECallbackRemoveToolbar: int  # = 5
 class IPECharFlags:
-    """.NET: Autodesk.AutoCAD.Internal.IPECharFlags"""
+    """.NET enum: Autodesk.AutoCAD.Internal.IPECharFlags"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    BoldFlag: int  # = 1
+    ItalicFlag: int  # = 2
+    UnderlineFlag: int  # = 4
+    OverlineFlag: int  # = 8
+    FontFlag: int  # = 16
+    HeightFlag: int  # = 32
+    ColorFlag: int  # = 64
+    LanguageFlag: int  # = 128
+    ObliqueAngleFlag: int  # = 256
+    WidthScaleFlag: int  # = 512
+    TrackingFactorFlag: int  # = 1024
+    FlowAlignFlag: int  # = 2048
 class IPECharFlowType:
-    """.NET: Autodesk.AutoCAD.Internal.IPECharFlowType"""
+    """.NET enum: Autodesk.AutoCAD.Internal.IPECharFlowType"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    FlowBase: int  # = 0
+    FlowCenter: int  # = 1
+    FlowTop: int  # = 2
 class IPECharStateWrapper(DisposableWrapper):
     """.NET: Autodesk.AutoCAD.Internal.IPECharStateWrapper"""
     def __init__(self, *args) -> None: ...
@@ -1297,20 +1339,72 @@ class IPECharStateWrapper(DisposableWrapper):
     def Clone(self, ) -> object: ...
 
 class IPEColumnCommandType:
-    """.NET: Autodesk.AutoCAD.Internal.IPEColumnCommandType"""
+    """.NET enum: Autodesk.AutoCAD.Internal.IPEColumnCommandType"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    IPENoColumnsCommand: int  # = 0
+    IPEStaticColumnsCommand: int  # = 1
+    IPEDynamicColumnsCommand: int  # = 2
+    IPEMoreStaticColumnsCommand: int  # = 3
+    IPEInsertColumnBreakCommand: int  # = 4
+    IPEColumnSettingsCommand: int  # = 5
 class IPECommands:
-    """.NET: Autodesk.AutoCAD.Internal.IPECommands"""
+    """.NET enum: Autodesk.AutoCAD.Internal.IPECommands"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    IPEUnknownCmd: int  # = 0
+    IPESuspendEditorCmd: int  # = 1
+    IPEReinstateEditorCmd: int  # = 2
+    IPEUndoCmd: int  # = 3
+    IPERedoCmd: int  # = 4
+    IPEStackCmd: int  # = 5
+    IPECloseCmd: int  # = 6
+    IPEToggleRulerCmd: int  # = 7
+    IPEContextMenuCmd: int  # = 8
+    IPESetStyleCmd: int  # = 9
+    IPESetFontCmd: int  # = 10
+    IPEToggleAnnotativeCmd: int  # = 11
+    IPESetTextHeightCmd: int  # = 12
+    IPESetColorCmd: int  # = 13
+    IPEToggleBoldCmd: int  # = 14
+    IPEToggleItalicCmd: int  # = 15
+    IPEToggleUnderlineCmd: int  # = 16
+    IPEToggleOverlineCmd: int  # = 17
+    IPESetObliqueAngleCmd: int  # = 18
+    IPESetTrackingFactorCmd: int  # = 19
+    IPESetWidthScaleCmd: int  # = 20
+    IPEColumnsMenuCmd: int  # = 21
+    IPEAttachmentMenuCmd: int  # = 22
+    IPELineSpacingMenuCmd: int  # = 23
+    IPENumberingMenuCmd: int  # = 24
+    IPESymbolMenuCmd: int  # = 25
+    IPEParagraphDialogCmd: int  # = 26
+    IPEFieldDialogCmd: int  # = 27
+    IPESetParagraphAlignmentCmd: int  # = 28
+    IPEChangeCaseCmd: int  # = 29
+    IPEReplaceContentsCmd: int  # = 30
+    IPEInsertMTextCmd: int  # = 31
+    IPEToggleDimPrimaryCmd: int  # = 32
+    IPEToggleDimAlternateCmd: int  # = 33
+    IPEToggleDimUnderlineCmd: int  # = 34
+    IPEToggleDimParenthesesCmd: int  # = 35
+    IPETweakDimensionCmd: int  # = 36
+    IPESetCustomStringCmd: int  # = 37
+    IPEInsertCustomStringCmd: int  # = 38
+    IPERemoveCustomStringCmd: int  # = 39
+    IPEHandleColumnsCmd: int  # = 40
+    IPEHandleJustificationCmd: int  # = 41
+    IPEHandleLineSpacingCmd: int  # = 42
+    IPEHandleSymbolCmd: int  # = 43
+    IPEHandleNumberingCmd: int  # = 44
+    IPEHandleOptionsCmd: int  # = 45
+    IPESetLayerCmd: int  # = 46
 class IPEControlIconType:
-    """.NET: Autodesk.AutoCAD.Internal.IPEControlIconType"""
+    """.NET enum: Autodesk.AutoCAD.Internal.IPEControlIconType"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    IPEBoldButtonIcon: int  # = 0
+    IPEItalicButtonIcon: int  # = 1
+    IPEOverlineButtonIcon: int  # = 2
+    IPEUnderlineButtonIcon: int  # = 3
+    IPEObliqueAngleSpinnerIcon: int  # = 4
 class IPEDimensionStateWrapper(DisposableWrapper):
     """.NET: Autodesk.AutoCAD.Internal.IPEDimensionStateWrapper"""
     def __init__(self, *args) -> None: ...
@@ -1325,45 +1419,107 @@ class IPEDimensionStateWrapper(DisposableWrapper):
     def Clone(self, ) -> object: ...
 
 class IPEExitType:
-    """.NET: Autodesk.AutoCAD.Internal.IPEExitType"""
+    """.NET enum: Autodesk.AutoCAD.Internal.IPEExitType"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    ExitQuit: int  # = 0
+    ExitSave: int  # = 1
+    ExitSaveAndGoRight: int  # = 2
+    ExitSaveAndGoLeft: int  # = 3
+    ExitSaveAndGoBelow: int  # = 4
+    ExitSaveAndGoAbove: int  # = 5
 class IPELineSpacingCommandType:
-    """.NET: Autodesk.AutoCAD.Internal.IPELineSpacingCommandType"""
+    """.NET enum: Autodesk.AutoCAD.Internal.IPELineSpacingCommandType"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    IPEMultiLineSpaceCommand: int  # = 0
+    IPEMoreLineSpaceCommand: int  # = 1
+    IPEClearLineSpaceCommand: int  # = 2
 class IPELineSpacingStyle:
-    """.NET: Autodesk.AutoCAD.Internal.IPELineSpacingStyle"""
+    """.NET enum: Autodesk.AutoCAD.Internal.IPELineSpacingStyle"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    LineSpacingDefault: int  # = 0
+    LineSpacingExactly: int  # = 1
+    LineSpacingAtLeast: int  # = 2
+    LineSpacingMultiple: int  # = 3
+    NumLineSpacingStyles: int  # = 4
 class IPENumberingCommandType:
-    """.NET: Autodesk.AutoCAD.Internal.IPENumberingCommandType"""
+    """.NET enum: Autodesk.AutoCAD.Internal.IPENumberingCommandType"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    IPENumberingOffCommand: int  # = 0
+    IPENumberingBulletCommand: int  # = 1
+    IPENumberingLetterLowCaseCommand: int  # = 2
+    IPENumberingLetterUpperCaseCommand: int  # = 3
+    IPENumberingNumberedCommand: int  # = 4
+    IPENumberingRestartCommand: int  # = 5
+    IPENumberingContinueCommand: int  # = 6
+    IPENumberingAutoListCommand: int  # = 7
+    IPENumberingTabOnlyDelimiterCommand: int  # = 8
+    IPENumberingEnabledCommand: int  # = 9
 class IPENumberingType:
-    """.NET: Autodesk.AutoCAD.Internal.IPENumberingType"""
+    """.NET enum: Autodesk.AutoCAD.Internal.IPENumberingType"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    NumberingOff: int  # = 0
+    NumberingBullet: int  # = 1
+    NumberingNumber: int  # = 2
+    NumberingLetterLower: int  # = 3
+    NumberingLetterUpper: int  # = 4
+    NumberingNumTypes: int  # = 5
 class IPEOptionsCommandType:
-    """.NET: Autodesk.AutoCAD.Internal.IPEOptionsCommandType"""
+    """.NET enum: Autodesk.AutoCAD.Internal.IPEOptionsCommandType"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    IPEInsertFieldCommand: int  # = 0
+    IPEEditFieldCommand: int  # = 1
+    IPEUpdateFieldCommand: int  # = 2
+    IPEConvertFieldCommand: int  # = 3
+    IPEImportTextCommand: int  # = 4
+    IPEConvertCustomCommand: int  # = 5
+    IPEStackCommand: int  # = 6
+    IPEUnstackCommand: int  # = 7
+    IPEStackPropertyCommand: int  # = 8
+    IPEOpaqueBackgroundCommand: int  # = 9
+    IPEParagraphCommand: int  # = 10
+    IPEFindReplaceCommand: int  # = 11
+    IPEUpperCaseCommand: int  # = 12
+    IPELowerCaseCommand: int  # = 13
+    IPEAutoCAPSCommand: int  # = 14
+    IPECombineParagraphsCommand: int  # = 15
+    IPERemoveCharaterFormattingCommand: int  # = 16
+    IPERemoveParagraphFormattingCommand: int  # = 17
+    IPERemoveAllFormattingCommand: int  # = 18
+    IPEBackgroundMaskCommand: int  # = 19
+    IPEWYSIWYGCommand: int  # = 20
+    IPEShowToolbarCommand: int  # = 21
+    IPEShowOptionsCommand: int  # = 22
+    IPEShowRulerCommand: int  # = 23
+    IPEShowRibbonCommand: int  # = 24
+    IPECheckSpellingCommand: int  # = 25
+    IPECheckSpellingSettingsCommand: int  # = 26
+    IPEDictionariesCommand: int  # = 27
+    IPETextHeightlightColorCommand: int  # = 28
+    IPENewFeaturesCommand: int  # = 29
+    IPEHelpCommand: int  # = 30
+    IPEParagraphAlignCommand: int  # = 31
+    IPECharaterSetCommand: int  # = 32
 class IPEParagraphAlignmentType:
-    """.NET: Autodesk.AutoCAD.Internal.IPEParagraphAlignmentType"""
+    """.NET enum: Autodesk.AutoCAD.Internal.IPEParagraphAlignmentType"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    AlignmentDefault: int  # = 0
+    AlignmentLeft: int  # = 1
+    AlignmentCenter: int  # = 2
+    AlignmentRight: int  # = 3
+    AlignmentJustify: int  # = 4
+    AlignmentDistribute: int  # = 5
+    NumAlignmentTypes: int  # = 6
 class IPEParagraphFlags:
-    """.NET: Autodesk.AutoCAD.Internal.IPEParagraphFlags"""
+    """.NET enum: Autodesk.AutoCAD.Internal.IPEParagraphFlags"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    FirstIndentFlag: int  # = 1
+    LeftIndentFlag: int  # = 2
+    RightIndentFlag: int  # = 4
+    SpaceBeforeFlag: int  # = 8
+    SpaceAfterFlag: int  # = 16
+    LineSpacingFlag: int  # = 32
+    AlignmentFlag: int  # = 64
+    NumberingFlag: int  # = 128
 class IPEParagraphStateWrapper(DisposableWrapper):
     """.NET: Autodesk.AutoCAD.Internal.IPEParagraphStateWrapper"""
     def __init__(self, *args) -> None: ...
@@ -1463,15 +1619,24 @@ class IPEStateWrapper(DisposableWrapper):
     def Clone(self, ) -> object: ...
 
 class IPESymbolCommandType:
-    """.NET: Autodesk.AutoCAD.Internal.IPESymbolCommandType"""
+    """.NET enum: Autodesk.AutoCAD.Internal.IPESymbolCommandType"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    IPEStandardSymbolCommand: int  # = 0
+    IPECustomSymbolCommand: int  # = 1
 class IPETableFlags:
-    """.NET: Autodesk.AutoCAD.Internal.IPETableFlags"""
+    """.NET enum: Autodesk.AutoCAD.Internal.IPETableFlags"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    TableSubsequentCellFlag: int  # = 1
+    StartInOpaqueBackground: int  # = 2
+    TableGoRightFlag: int  # = 4
+    TableGoLeftFlag: int  # = 8
+    TableGoBelowFlag: int  # = 16
+    TableGoAboveFlag: int  # = 32
+    TableFlipFlag: int  # = 256
+    DisableAutoStackFlag: int  # = 512
+    SelectAllFlag: int  # = 1024
+    CursorAtEndFlag: int  # = 2048
+    kForceNoUIWhenScript: int  # = 4096
 class IPETestingEventArgs(EventArgs):
     """.NET: Autodesk.AutoCAD.Internal.IPETestingEventArgs"""
     def __init__(self, *args) -> None: ...
@@ -1517,10 +1682,12 @@ class IPreviewContextProvider:
     def GetPreviewRule(self, name: str) -> ILivePreviewRule: ...
 
 class ItemTypeEnum:
-    """.NET: Autodesk.AutoCAD.Internal.ItemTypeEnum"""
+    """.NET enum: Autodesk.AutoCAD.Internal.ItemTypeEnum"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    kBlock: int  # = 0
+    kDrawingAsBlock: int  # = 1
+    kDrawing: int  # = 2
+    kFolder: int  # = 3
 class LayerUtilities:
     """.NET: Autodesk.AutoCAD.Internal.LayerUtilities"""
     def __init__(self, *args) -> None: ...
@@ -1712,10 +1879,12 @@ class LivePreviewUtil:
     def SetPreviewContextProvider(provider: IPreviewContextProvider) -> IPreviewContextProvider: ...
 
 class LocalServerUsage:
-    """.NET: Autodesk.AutoCAD.Internal.LocalServerUsage"""
+    """.NET enum: Autodesk.AutoCAD.Internal.LocalServerUsage"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    kDisabled: int  # = 0
+    kForActivity: int  # = 1
+    kForMetaData: int  # = 2
+    kForBothActivityAndMetadata: int  # = 3
 class MLibDownloadUtils:
     """.NET: Autodesk.AutoCAD.Internal.MLibDownloadUtils"""
     def __init__(self, *args) -> None: ...
@@ -1749,20 +1918,27 @@ class MLibDownloadUtils:
     def ShowErrorTaskDialog() -> None: ...
 
 class MessageButtonEnum:
-    """.NET: Autodesk.AutoCAD.Internal.MessageButtonEnum"""
+    """.NET enum: Autodesk.AutoCAD.Internal.MessageButtonEnum"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    kOK: int  # = 0
+    kOKCancel: int  # = 1
+    kYesNoCancel: int  # = 3
+    kYesNo: int  # = 4
 class MessageIconEnum:
-    """.NET: Autodesk.AutoCAD.Internal.MessageIconEnum"""
+    """.NET enum: Autodesk.AutoCAD.Internal.MessageIconEnum"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    kNone: int  # = 0
+    kError: int  # = 16
+    kWarning: int  # = 48
+    kInformation: int  # = 64
 class MessageResultEnum:
-    """.NET: Autodesk.AutoCAD.Internal.MessageResultEnum"""
+    """.NET enum: Autodesk.AutoCAD.Internal.MessageResultEnum"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    kNone: int  # = 0
+    kOK: int  # = 1
+    kCancel: int  # = 2
+    kYes: int  # = 6
+    kNo: int  # = 7
 class MgdAcViewTransitions:
     """.NET: Autodesk.AutoCAD.Internal.MgdAcViewTransitions"""
     def __init__(self, *args) -> None: ...
@@ -1855,10 +2031,11 @@ class NavisworksFileInfo:
     ...
 
 class NavisworksFileType:
-    """.NET: Autodesk.AutoCAD.Internal.NavisworksFileType"""
+    """.NET enum: Autodesk.AutoCAD.Internal.NavisworksFileType"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    Aggregate: int  # = 0
+    Model: int  # = 1
+    Error: int  # = 2
 class NavisworksServiceManager:
     """.NET: Autodesk.AutoCAD.Internal.NavisworksServiceManager"""
     def __init__(self, *args) -> None: ...
@@ -1882,15 +2059,23 @@ class NonMonitoredSysvarEnumerator(DisposableWrapper):
     def Reset(self, ) -> None: ...
 
 class OPMModeFlags:
-    """.NET: Autodesk.AutoCAD.Internal.OPMModeFlags"""
+    """.NET enum: Autodesk.AutoCAD.Internal.OPMModeFlags"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    Selection: int  # = 1
+    ZeroSelection: int  # = 2
+    FromCommand: int  # = 4
+    InvokeDialog: int  # = 8
+    HatchPattern: int  # = 16
+    InvokeHatchDialog: int  # = 24
 class OPMStatus:
-    """.NET: Autodesk.AutoCAD.Internal.OPMStatus"""
+    """.NET enum: Autodesk.AutoCAD.Internal.OPMStatus"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    OK: int  # = 0
+    InvalidProperty: int  # = 1
+    InvalidPropertyValue: int  # = 2
+    InvalidPropertyType: int  # = 3
+    InvalidPropertyCategory: int  # = 4
+    Failed: int  # = 5
 class ObjectContexts:
     """.NET: Autodesk.AutoCAD.Internal.ObjectContexts"""
     def __init__(self, *args) -> None: ...
@@ -1928,10 +2113,10 @@ class OnBoardingStateContextBase:
     def unlockStateTransition(self, ) -> None: ...
 
 class OnBoardingStateContextEnum:
-    """.NET: Autodesk.AutoCAD.Internal.OnBoardingStateContextEnum"""
+    """.NET enum: Autodesk.AutoCAD.Internal.OnBoardingStateContextEnum"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    kRecent: int  # = 0
+    kFavorites: int  # = 1
 class OwnerDrawComboBox(COwnerDrawComboBoxWrapper):
     """.NET: Autodesk.AutoCAD.Internal.OwnerDrawComboBox"""
     def __init__(self, *args) -> None: ...
@@ -2139,10 +2324,10 @@ class PreviewControl(ControlWrapper):
     def ShowEntity(self, fieldWidth: float, fieldHeight: float, entity: Entity, added: bool) -> None: ...
 
 class PreviewControlType:
-    """.NET: Autodesk.AutoCAD.Internal.PreviewControlType"""
+    """.NET enum: Autodesk.AutoCAD.Internal.PreviewControlType"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    RibbonItemControl: int  # = 1
+    PropertyPaletteControl: int  # = 2
 class ProductInfo:
     """.NET: Autodesk.AutoCAD.Internal.ProductInfo"""
     def __init__(self, *args) -> None: ...
@@ -2236,10 +2421,13 @@ class QuickStartLink(ControlWrapper):
     def SetHelpTopic(self, helpTopic: str) -> None: ...
 
 class RecentBlockSerializeState:
-    """.NET: Autodesk.AutoCAD.Internal.RecentBlockSerializeState"""
+    """.NET enum: Autodesk.AutoCAD.Internal.RecentBlockSerializeState"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    kInMemory: int  # = 0
+    kSerializable: int  # = 1
+    kSerializing: int  # = 2
+    kSerialized: int  # = 3
+    kDeleted: int  # = 4
 class RecentDocumentAction:
     """.NET: Autodesk.AutoCAD.Internal.RecentDocumentAction"""
     def __init__(self, *args) -> None: ...
@@ -2574,10 +2762,12 @@ class SysvarMonitorWrapper(DisposableWrapper):
     def resetMonitoredSysvar(self, sysvar: MonitoredSysvarWrapper) -> None: ...
 
 class TableItem:
-    """.NET: Autodesk.AutoCAD.Internal.TableItem"""
+    """.NET enum: Autodesk.AutoCAD.Internal.TableItem"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    TableItemInvalid: int  # = 0
+    TableItemCell: int  # = 1
+    TableItemRow: int  # = 2
+    TableItemColumn: int  # = 3
 class TableStylePreview(ControlWrapper):
     """.NET: Autodesk.AutoCAD.Internal.TableStylePreview"""
     def __init__(self, *args) -> None: ...
@@ -2763,10 +2953,12 @@ class ThemeChangedEventHandler:
     def Invoke(self, ) -> None: ...
 
 class ThumbnailGenerateState:
-    """.NET: Autodesk.AutoCAD.Internal.ThumbnailGenerateState"""
+    """.NET enum: Autodesk.AutoCAD.Internal.ThumbnailGenerateState"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    kRaw: int  # = 0
+    kRequired: int  # = 1
+    kGenerating: int  # = 2
+    kGenerated: int  # = 3
 class ThumbnailGenerateTask:
     """.NET: Autodesk.AutoCAD.Internal.ThumbnailGenerateTask"""
     def __init__(self, *args) -> None: ...
@@ -2936,10 +3128,12 @@ class UiCallback:
     def Invoke(self, ) -> None: ...
 
 class UndoBoundaryEnum:
-    """.NET: Autodesk.AutoCAD.Internal.UndoBoundaryEnum"""
+    """.NET enum: Autodesk.AutoCAD.Internal.UndoBoundaryEnum"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    SubCommandBoundary: int  # = 4
+    CommandBoundaryStart: int  # = 8
+    CommandBoundaryEnd: int  # = 16
+    SubCommandWall: int  # = 2048
 class UnmanagedResource:
     """.NET: Autodesk.AutoCAD.Internal.UnmanagedResource"""
     def __init__(self, *args) -> None: ...

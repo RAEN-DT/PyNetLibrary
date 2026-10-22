@@ -1,140 +1,230 @@
 # Auto-generated — Civil 26 — Autodesk.Civil.Settings
 
 class AbbreviationAlignmentEnhancedType:
-    """.NET: Autodesk.Civil.Settings.AbbreviationAlignmentEnhancedType"""
+    """.NET enum: Autodesk.Civil.Settings.AbbreviationAlignmentEnhancedType"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    AlignmentBeginningPoint: int  # = 402706556
+    AlignmentEndPoint: int  # = 402706557
+    LineBeginning: int  # = 402706558
+    LineEnd: int  # = 402706559
+    CurveBeginning: int  # = 402706560
+    CurveEnd: int  # = 402706561
+    SimpleSpiralLargeRadiusAtBeginning: int  # = 402706562
+    SimpleSpiralLargeRadiusAtEnd: int  # = 402706563
+    SimpleSpiralSmallRadiusAtBeginning: int  # = 402706564
+    SimpleSpiralSmallRadiusAtEnd: int  # = 402706565
+    CompoundSpiralLargeRadiusAtBeginning: int  # = 402706566
+    CompoundSpiralLargeRadiusAtEnd: int  # = 402706567
+    CompoundSpiralSmallRadiusAtBeginning: int  # = 402706568
+    CompoundSpiralSmallRadiusAtEnd: int  # = 402706569
 class AbbreviationAlignmentType:
-    """.NET: Autodesk.Civil.Settings.AbbreviationAlignmentType"""
+    """.NET enum: Autodesk.Civil.Settings.AbbreviationAlignmentType"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    TangentTangentIntersect: int  # = 67162194
+    TangentCurveIntersect: int  # = 67162195
+    CurveTangentIntersect: int  # = 67162196
+    CompoundCurveCurveIntersect: int  # = 67162197
+    ReverseCurveCurveIntersect: int  # = 67162198
+    TangentSpiralIntersect: int  # = 67162199
+    SpiralTangentIntersect: int  # = 67162200
+    CurveSpiralIntersect: int  # = 67162201
+    SpiralCurveIntersect: int  # = 67162202
+    SpiralSpiralIntersect: int  # = 67162203
+    ReverseSpiralIntersect: int  # = 67162204
+    AlignmentEnd: int  # = 67162234
+    AlignmentBeginning: int  # = 67162235
+    StationEquationIncreasing: int  # = 67162252
+    StationEquationDecreasing: int  # = 67162253
+    MidCurvePoint: int  # = 67162254
 class AbbreviationCantType:
-    """.NET: Autodesk.Civil.Settings.AbbreviationCantType"""
+    """.NET enum: Autodesk.Civil.Settings.AbbreviationCantType"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    EndLevelRail: int  # = 67163508
+    BeginLevelRail: int  # = 67163509
+    BeginFullCant: int  # = 67163510
+    EndFullCant: int  # = 67163511
+    Manual: int  # = 67163512
+    BeginAlignment: int  # = 67163513
+    EndAlignment: int  # = 67163514
 class AbbreviationProfileType:
-    """.NET: Autodesk.Civil.Settings.AbbreviationProfileType"""
+    """.NET enum: Autodesk.Civil.Settings.AbbreviationProfileType"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    PointOfVerticalIntersection: int  # = 67173888
+    GradeBreak: int  # = 67173889
+    BeginVerticalCurve: int  # = 67173890
+    BeginVerticalCurveStation: int  # = 67173891
+    BeginVerticalCurveElevation: int  # = 67173892
+    EndVerticalCurve: int  # = 67173893
+    EndVerticalCurveStation: int  # = 67173894
+    EndVerticalCurveElevation: int  # = 67173895
+    HighPoint: int  # = 67173896
+    LowPoint: int  # = 67173897
+    CurveCoefficient: int  # = 67173898
+    GradeChange: int  # = 67173899
+    ProfileStart: int  # = 67173901
+    ProfileEnd: int  # = 67173902
+    VerticalCompoundCurveIntersect: int  # = 67173903
+    VerticalReverseCurveIntersect: int  # = 67173904
+    VerticalCompoundCurveIntersectStation: int  # = 67173905
+    VerticalCompoundCurveIntersectElevation: int  # = 67173906
+    VerticalReverseCurveIntersectStation: int  # = 67173907
+    VerticalReverseCurveIntersectElevation: int  # = 67173908
+    OverallHighPoint: int  # = 67173909
+    OverallLowPoint: int  # = 67173910
 class AbbreviationSuperelevationType:
-    """.NET: Autodesk.Civil.Settings.AbbreviationSuperelevationType"""
+    """.NET enum: Autodesk.Civil.Settings.AbbreviationSuperelevationType"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    BeginOfAlignment: int  # = 67163474
+    EndOfAlignment: int  # = 67163475
+    BeginNormalCrown: int  # = 67163476
+    EndNormalCrown: int  # = 67163477
+    BeginFullSuper: int  # = 67163478
+    EndFullSuper: int  # = 67163479
+    BeginNormalShoulder: int  # = 67163480
+    EndNormalShoulder: int  # = 67163481
+    LevelCrown: int  # = 67163482
+    LowShoulderMatch: int  # = 67163483
+    ReverseCrown: int  # = 67163484
+    ShoulderBreakover: int  # = 67163485
+    Manual: int  # = 67163486
+    BeginShoulderRollover: int  # = 67163506
+    EndShoulderRollover: int  # = 67163507
 class AutomaticManual:
-    """.NET: Autodesk.Civil.Settings.AutomaticManual"""
+    """.NET enum: Autodesk.Civil.Settings.AutomaticManual"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    Automatic: int  # = 0
+    AutomaticObject: int  # = 1
+    Manual: int  # = 2
+    None_: int  # = 3
 class DrawingUnitType:
-    """.NET: Autodesk.Civil.Settings.DrawingUnitType"""
+    """.NET enum: Autodesk.Civil.Settings.DrawingUnitType"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    Meters: int  # = 2
+    Feet: int  # = 30
 class GeographicCoordinateType:
-    """.NET: Autodesk.Civil.Settings.GeographicCoordinateType"""
+    """.NET enum: Autodesk.Civil.Settings.GeographicCoordinateType"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    LatLong: int  # = 0
+    LongLat: int  # = 1
 class GridCoordinateType:
-    """.NET: Autodesk.Civil.Settings.GridCoordinateType"""
+    """.NET enum: Autodesk.Civil.Settings.GridCoordinateType"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    EastingNorthing: int  # = 0
+    NorthingEasting: int  # = 1
 class GridScaleFactorType:
-    """.NET: Autodesk.Civil.Settings.GridScaleFactorType"""
+    """.NET enum: Autodesk.Civil.Settings.GridScaleFactorType"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    Unity: int  # = 0
+    UserDefined: int  # = 1
+    ReferencePoint: int  # = 2
+    PrismodialFormula: int  # = 3
 class ImperialToMetricConversionType:
-    """.NET: Autodesk.Civil.Settings.ImperialToMetricConversionType"""
+    """.NET enum: Autodesk.Civil.Settings.ImperialToMetricConversionType"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    InternationalFoot: int  # = 536870912
+    UsSurveyFoot: int  # = 1073741824
 class LandXMLAngularUnits:
-    """.NET: Autodesk.Civil.Settings.LandXMLAngularUnits"""
+    """.NET enum: Autodesk.Civil.Settings.LandXMLAngularUnits"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    DegreesDecimal: int  # = 0
+    DegreesDms: int  # = 1
+    Grads: int  # = 2
+    Radians: int  # = 3
 class LandXMLAttributeExportType:
-    """.NET: Autodesk.Civil.Settings.LandXMLAttributeExportType"""
+    """.NET enum: Autodesk.Civil.Settings.LandXMLAttributeExportType"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    Disabled: int  # = 0
+    RawDescription: int  # = 1
+    FullDescription: int  # = 2
 class LandXMLConflictResolutionType:
-    """.NET: Autodesk.Civil.Settings.LandXMLConflictResolutionType"""
+    """.NET enum: Autodesk.Civil.Settings.LandXMLConflictResolutionType"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    Skip: int  # = 0
+    Update: int  # = 1
+    Append: int  # = 2
 class LandXMLImperialUnitType:
-    """.NET: Autodesk.Civil.Settings.LandXMLImperialUnitType"""
+    """.NET enum: Autodesk.Civil.Settings.LandXMLImperialUnitType"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    Foot: int  # = 30
+    Inch: int  # = 31
+    Yard: int  # = 33
+    Mile: int  # = 44
 class LandXMLLinearUnits:
-    """.NET: Autodesk.Civil.Settings.LandXMLLinearUnits"""
+    """.NET enum: Autodesk.Civil.Settings.LandXMLLinearUnits"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    InternationalFoot: int  # = 30
+    SurveyFoot: int  # = 54
 class LandXMLMetricUnitType:
-    """.NET: Autodesk.Civil.Settings.LandXMLMetricUnitType"""
+    """.NET enum: Autodesk.Civil.Settings.LandXMLMetricUnitType"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    Meter: int  # = 2
+    KiloMeter: int  # = 20
+    DeciMeter: int  # = 23
+    CentiMeter: int  # = 24
+    MilliMeter: int  # = 25
 class LandXMLPointDescriptionType:
-    """.NET: Autodesk.Civil.Settings.LandXMLPointDescriptionType"""
+    """.NET enum: Autodesk.Civil.Settings.LandXMLPointDescriptionType"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    UseCodeValue: int  # = 0
+    UseDescValue: int  # = 1
+    UseCodeThenDesc: int  # = 2
+    UseDescThenCode: int  # = 3
 class LandXMLSurfaceDataExportType:
-    """.NET: Autodesk.Civil.Settings.LandXMLSurfaceDataExportType"""
+    """.NET enum: Autodesk.Civil.Settings.LandXMLSurfaceDataExportType"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    PointsOnly: int  # = 0
+    PointsAndFaces: int  # = 1
 class LandXMLSurfaceDataImportType:
-    """.NET: Autodesk.Civil.Settings.LandXMLSurfaceDataImportType"""
+    """.NET enum: Autodesk.Civil.Settings.LandXMLSurfaceDataImportType"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    QuickImport: int  # = 0
+    FullImport: int  # = 1
 class LocalCoordinateType:
-    """.NET: Autodesk.Civil.Settings.LocalCoordinateType"""
+    """.NET enum: Autodesk.Civil.Settings.LocalCoordinateType"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    EastingNorthing: int  # = 0
+    NorthingEasting: int  # = 1
+    XY: int  # = 2
+    YX: int  # = 3
 class MapcheckAngleType:
-    """.NET: Autodesk.Civil.Settings.MapcheckAngleType"""
+    """.NET enum: Autodesk.Civil.Settings.MapcheckAngleType"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    Direction: int  # = 0
+    Angle: int  # = 1
+    DeflectionAngle: int  # = 2
 class MapcheckCurveDirectionType:
-    """.NET: Autodesk.Civil.Settings.MapcheckCurveDirectionType"""
+    """.NET enum: Autodesk.Civil.Settings.MapcheckCurveDirectionType"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    Clockwise: int  # = 0
+    CounterClockwise: int  # = 1
 class MapcheckSideType:
-    """.NET: Autodesk.Civil.Settings.MapcheckSideType"""
+    """.NET enum: Autodesk.Civil.Settings.MapcheckSideType"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    Line: int  # = 0
+    Curve: int  # = 1
 class MapcheckTraverseMethodType:
-    """.NET: Autodesk.Civil.Settings.MapcheckTraverseMethodType"""
+    """.NET enum: Autodesk.Civil.Settings.MapcheckTraverseMethodType"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    AcrossChord: int  # = 0
+    ThroughRadius: int  # = 1
 class ObjectLayerModifierType:
-    """.NET: Autodesk.Civil.Settings.ObjectLayerModifierType"""
+    """.NET enum: Autodesk.Civil.Settings.ObjectLayerModifierType"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    None_: int  # = 0
+    Prefix: int  # = 1
+    Suffix: int  # = 2
 class SectionViewAnchorType:
-    """.NET: Autodesk.Civil.Settings.SectionViewAnchorType"""
+    """.NET enum: Autodesk.Civil.Settings.SectionViewAnchorType"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    TopLeft: int  # = 0
+    TopCenter: int  # = 1
+    TopRight: int  # = 2
+    MiddleLeft: int  # = 3
+    MiddleCenter: int  # = 4
+    MiddleRight: int  # = 5
+    BottomLeft: int  # = 6
+    BottomCenter: int  # = 7
+    BottomRight: int  # = 8
 class SettingsAbbreviation(CivilWrapper<AcDbDatabase>):
     """.NET: Autodesk.Civil.Settings.SettingsAbbreviation"""
     def __init__(self, *args) -> None: ...
@@ -6672,10 +6762,80 @@ class SettingsObjectLayer(TreeOidWrapper):
     UnmanagedObject: IntPtr
 
 class SettingsObjectLayerType:
-    """.NET: Autodesk.Civil.Settings.SettingsObjectLayerType"""
+    """.NET enum: Autodesk.Civil.Settings.SettingsObjectLayerType"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    Alignment: int  # = 0
+    AlignmentLabeling: int  # = 1
+    AlignmentTable: int  # = 2
+    Assembly: int  # = 3
+    Corridor: int  # = 4
+    CorridorSection: int  # = 5
+    FeatureLine: int  # = 6
+    GeneralNoteLabel: int  # = 7
+    GeneralSegmentLabel: int  # = 8
+    Grading: int  # = 9
+    GradingLabeling: int  # = 10
+    GridSurface: int  # = 11
+    GridSurfaceLabeling: int  # = 12
+    Interference: int  # = 13
+    MassHaulLine: int  # = 14
+    MassHaulView: int  # = 15
+    MatchLine: int  # = 16
+    MatchLineLabeling: int  # = 17
+    MaterialSection: int  # = 18
+    MaterialTable: int  # = 19
+    Parcel: int  # = 20
+    ParcelLabeling: int  # = 21
+    ParcelSegment: int  # = 22
+    ParcelSegmentLabeling: int  # = 23
+    ParcelTable: int  # = 24
+    Pipe: int  # = 25
+    PipeLabeling: int  # = 26
+    PipeAndStructureTable: int  # = 27
+    PipeNetworkSection: int  # = 28
+    PipeOrStructureProfile: int  # = 29
+    PointTable: int  # = 30
+    Profile: int  # = 31
+    ProfileLabeling: int  # = 32
+    ProfileView: int  # = 33
+    ProfileViewLabeling: int  # = 34
+    SampleLine: int  # = 35
+    SampleLineLabeling: int  # = 36
+    Section: int  # = 37
+    SectionLabeling: int  # = 38
+    SectionView: int  # = 39
+    SectionViewLabeling: int  # = 40
+    SectionViewQuantityTakeoffTable: int  # = 41
+    Sheet: int  # = 42
+    Structure: int  # = 43
+    StructureLabeling: int  # = 44
+    Subassembly: int  # = 45
+    SurfaceLegendTable: int  # = 46
+    SurveyFigure: int  # = 47
+    SurveyNetwork: int  # = 48
+    TinSurface: int  # = 49
+    TinSurfaceLabeling: int  # = 50
+    ViewFrame: int  # = 51
+    ViewFrameLabeling: int  # = 52
+    BuildingSite: int  # = 53
+    Intersection: int  # = 54
+    IntersectionLabeling: int  # = 55
+    Appurtenance: int  # = 56
+    AppurtenanceLabeling: int  # = 57
+    CantView: int  # = 58
+    Catchment: int  # = 59
+    CatchmentLabeling: int  # = 60
+    Fitting: int  # = 61
+    FittingLabeling: int  # = 62
+    PressureNetworkSection: int  # = 63
+    PressurePartProfile: int  # = 64
+    PressurePartTable: int  # = 65
+    PressurePipe: int  # = 66
+    PressurePipeLabeling: int  # = 67
+    SuperelevationView: int  # = 68
+    SurveyFigureLabeling: int  # = 69
+    SurveyFigureSegmentLable: int  # = 70
+    Turnout: int  # = 71
 class SettingsObjectLayers(TreeOidWrapper):
     """.NET: Autodesk.Civil.Settings.SettingsObjectLayers"""
     def __init__(self, *args) -> None: ...
@@ -7328,21 +7488,29 @@ class SettingsViewFrameGroup(SettingsAmbient):
     UnmanagedObject: IntPtr
 
 class SpecifyRotationType:
-    """.NET: Autodesk.Civil.Settings.SpecifyRotationType"""
+    """.NET enum: Autodesk.Civil.Settings.SpecifyRotationType"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    RotationPoint: int  # = 0
+    GridRotationAngle: int  # = 1
 class TableAnchorType:
-    """.NET: Autodesk.Civil.Settings.TableAnchorType"""
+    """.NET enum: Autodesk.Civil.Settings.TableAnchorType"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    TopLeft: int  # = 0
+    TopCenter: int  # = 1
+    TopRight: int  # = 2
+    MiddleLeft: int  # = 3
+    MiddleCenter: int  # = 4
+    MiddleRight: int  # = 5
+    BottomLeft: int  # = 6
+    BottomCenter: int  # = 7
+    BottomRight: int  # = 8
 class TableLayoutType:
-    """.NET: Autodesk.Civil.Settings.TableLayoutType"""
+    """.NET enum: Autodesk.Civil.Settings.TableLayoutType"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    Horizontal: int  # = 0
+    Vertical: int  # = 1
 class TileDirectionType:
-    """.NET: Autodesk.Civil.Settings.TileDirectionType"""
+    """.NET enum: Autodesk.Civil.Settings.TileDirectionType"""
     def __init__(self, *args) -> None: ...
-    ...
+    Across: int  # = 0
+    Down: int  # = 1

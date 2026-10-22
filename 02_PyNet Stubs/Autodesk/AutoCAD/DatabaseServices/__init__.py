@@ -338,10 +338,15 @@ class AlignedDimension(Dimension):
     UnmanagedObject: IntPtr
 
 class AngleConstraint:
-    """.NET: Autodesk.AutoCAD.DatabaseServices.AngleConstraint"""
+    """.NET enum: Autodesk.AutoCAD.DatabaseServices.AngleConstraint"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    DegreesAny: int  # = 0
+    Degrees015: int  # = 1
+    Degrees030: int  # = 2
+    Degrees045: int  # = 3
+    Degrees060: int  # = 4
+    Degrees090: int  # = 6
+    DegreesHorz: int  # = 12
 class AngularConstraint(ExplicitConstraint):
     """.NET: Autodesk.AutoCAD.DatabaseServices.AngularConstraint"""
     def __init__(self, *args) -> None: ...
@@ -381,20 +386,27 @@ class AnnotationScale(ObjectContext):
     UnmanagedObject: IntPtr
 
 class AnnotationType:
-    """.NET: Autodesk.AutoCAD.DatabaseServices.AnnotationType"""
+    """.NET enum: Autodesk.AutoCAD.DatabaseServices.AnnotationType"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    MText: int  # = 0
+    FeatureControlFrame: int  # = 1
+    BlockRef: int  # = 2
+    NoAnnotation: int  # = 3
 class AnnotativeStates:
-    """.NET: Autodesk.AutoCAD.DatabaseServices.AnnotativeStates"""
+    """.NET enum: Autodesk.AutoCAD.DatabaseServices.AnnotativeStates"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    True_: int  # = 0
+    False_: int  # = 1
+    NotApplicable: int  # = 2
 class ApplicationLoadReasons:
-    """.NET: Autodesk.AutoCAD.DatabaseServices.ApplicationLoadReasons"""
+    """.NET enum: Autodesk.AutoCAD.DatabaseServices.ApplicationLoadReasons"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    OnProxyDetection: int  # = 1
+    OnAutoCADStartup: int  # = 2
+    OnCommandInvocation: int  # = 4
+    OnLoadRequest: int  # = 8
+    LoadDisabled: int  # = 16
+    TransparentlyLoadable: int  # = 32
 class Arc(Curve):
     """.NET: Autodesk.AutoCAD.DatabaseServices.Arc"""
     def __init__(self, *args) -> None: ...
@@ -1341,10 +1353,18 @@ class AssocCompoundActionParam(AssocActionParam):
     def RemoveParam(self, paramId: ObjectId, alsoEraseIt: bool) -> None: ...
 
 class AssocConstraintType:
-    """.NET: Autodesk.AutoCAD.DatabaseServices.AssocConstraintType"""
+    """.NET enum: Autodesk.AutoCAD.DatabaseServices.AssocConstraintType"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    NoneAssocConstraintType: int  # = 0
+    DistanceAssocConstraintType: int  # = 1
+    HorizontalDistanceAssocConstraintType: int  # = 2
+    VerticalDistanceAssocConstraintType: int  # = 3
+    Angle0AssocConstraintType: int  # = 4
+    Angle1AssocConstraintType: int  # = 5
+    Angle2AssocConstraintType: int  # = 6
+    Angle3AssocConstraintType: int  # = 7
+    RadiusAssocConstraintType: int  # = 8
+    DiameterAssocConstraintType: int  # = 9
 class AssocDependency(DBObject):
     """.NET: Autodesk.AutoCAD.DatabaseServices.AssocDependency"""
     def __init__(self, *args) -> None: ...
@@ -1657,10 +1677,12 @@ class AssocDimDependencyBodyBase(AssocDependencyBody):
     def ValidateEntityText(self, entityTextToValidate: str) -> str: ...
 
 class AssocDraggingState:
-    """.NET: Autodesk.AutoCAD.DatabaseServices.AssocDraggingState"""
+    """.NET enum: Autodesk.AutoCAD.DatabaseServices.AssocDraggingState"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    NotDraggingAssocDraggingState: int  # = 0
+    FirstSampleAssocDraggingState: int  # = 1
+    IntermediateSampleAssocDraggingState: int  # = 2
+    LastSampleAssocDraggingState: int  # = 3
 class AssocEdgeActionParam(AssocActionParam):
     """.NET: Autodesk.AutoCAD.DatabaseServices.AssocEdgeActionParam"""
     def __init__(self, *args) -> None: ...
@@ -1842,15 +1864,16 @@ class AssocEvaluationCallback:
     def SetActionEvaluationErrorStatus(self, action: AssocAction, errorStatus: ErrorStatus, objectId: ObjectId, obj: DBObject, errorInfo: IntPtr) -> None: ...
 
 class AssocEvaluationMode:
-    """.NET: Autodesk.AutoCAD.DatabaseServices.AssocEvaluationMode"""
+    """.NET enum: Autodesk.AutoCAD.DatabaseServices.AssocEvaluationMode"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    ModifyObjectsAssocEvaluationMode: int  # = 0
+    ModifyActionAssocEvaluationMode: int  # = 1
 class AssocEvaluationPriority:
-    """.NET: Autodesk.AutoCAD.DatabaseServices.AssocEvaluationPriority"""
+    """.NET enum: Autodesk.AutoCAD.DatabaseServices.AssocEvaluationPriority"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    CannotDermineAssocEvaluationPriority: int  # = 0
+    CanBeEvaluatedAssocEvaluationPriority: int  # = 1000
+    CannotBeEvaluatedAssocEvaluationPriority: int  # = -1000
 class AssocExtendSurfaceActionBody(AssocPathBasedSurfaceActionBody):
     """.NET: Autodesk.AutoCAD.DatabaseServices.AssocExtendSurfaceActionBody"""
     def __init__(self, *args) -> None: ...
@@ -2885,10 +2908,15 @@ class AssocSingleEdgePersSubentId(AssocPersSubentityId):
     def TransientSubentCount(self, entity: Entity) -> int: ...
 
 class AssocStatus:
-    """.NET: Autodesk.AutoCAD.DatabaseServices.AssocStatus"""
+    """.NET enum: Autodesk.AutoCAD.DatabaseServices.AssocStatus"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    IsUpToDateAssocStatus: int  # = 0
+    ChangedDirectlyAssocStatus: int  # = 1
+    ChangedTransitivelyAssocStatus: int  # = 2
+    ChangedNoDifferenceAssocStatus: int  # = 3
+    FailedToEvaluateAssocStatus: int  # = 4
+    ErasedAssocStatus: int  # = 5
+    SuppressedAssocStatus: int  # = 6
 class AssocSurfaceActionBody(AssocParamBasedActionBody):
     """.NET: Autodesk.AutoCAD.DatabaseServices.AssocSurfaceActionBody"""
     def __init__(self, *args) -> None: ...
@@ -3010,10 +3038,12 @@ class AssocSweptSurfaceActionBody(AssocPathBasedSurfaceActionBody):
     def SetTwistAngle(self, value: float, expression: str, evaluatorId: str) -> None: ...
 
 class AssocTransformationType:
-    """.NET: Autodesk.AutoCAD.DatabaseServices.AssocTransformationType"""
+    """.NET enum: Autodesk.AutoCAD.DatabaseServices.AssocTransformationType"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    NotSpecified: int  # = 0
+    Stretch: int  # = 1
+    Rotate: int  # = 2
+    Move: int  # = 3
 class AssocTrimSurfaceActionBody(AssocPathBasedSurfaceActionBody):
     """.NET: Autodesk.AutoCAD.DatabaseServices.AssocTrimSurfaceActionBody"""
     def __init__(self, *args) -> None: ...
@@ -3273,10 +3303,32 @@ class AssocVertexActionParam(AssocActionParam):
     def SetVertexRef(self, pointRef: VertexRef, isReadDep: bool, isWriteDep: bool) -> None: ...
 
 class AttachmentPoint:
-    """.NET: Autodesk.AutoCAD.DatabaseServices.AttachmentPoint"""
+    """.NET enum: Autodesk.AutoCAD.DatabaseServices.AttachmentPoint"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    TopLeft: int  # = 1
+    TopCenter: int  # = 2
+    TopRight: int  # = 3
+    MiddleLeft: int  # = 4
+    MiddleCenter: int  # = 5
+    MiddleRight: int  # = 6
+    BottomLeft: int  # = 7
+    BottomCenter: int  # = 8
+    BottomRight: int  # = 9
+    BaseLeft: int  # = 10
+    BaseCenter: int  # = 11
+    BaseRight: int  # = 12
+    BaseAlign: int  # = 13
+    BottomAlign: int  # = 14
+    MiddleAlign: int  # = 15
+    TopAlign: int  # = 16
+    BaseFit: int  # = 17
+    BottomFit: int  # = 18
+    MiddleFit: int  # = 19
+    TopFit: int  # = 20
+    BaseMid: int  # = 21
+    BottomMid: int  # = 22
+    MiddleMid: int  # = 23
+    TopMid: int  # = 24
 class AttributeCollection:
     """.NET: Autodesk.AutoCAD.DatabaseServices.AttributeCollection"""
     def __init__(self, *args) -> None: ...
@@ -3512,10 +3564,10 @@ class AuditInfo(DisposableWrapper):
     def ResetNumEntities(self, ) -> None: ...
 
 class AuditPass:
-    """.NET: Autodesk.AutoCAD.DatabaseServices.AuditPass"""
+    """.NET enum: Autodesk.AutoCAD.DatabaseServices.AuditPass"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    Pass1: int  # = 1
+    Pass2: int  # = 2
 class AutoConstrainEvaluationCallback:
     """.NET: Autodesk.AutoCAD.DatabaseServices.AutoConstrainEvaluationCallback"""
     def __init__(self, *args) -> None: ...
@@ -3745,10 +3797,10 @@ class BlockBegin(Entity):
     UnmanagedObject: IntPtr
 
 class BlockConnectionType:
-    """.NET: Autodesk.AutoCAD.DatabaseServices.BlockConnectionType"""
+    """.NET enum: Autodesk.AutoCAD.DatabaseServices.BlockConnectionType"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    ConnectExtents: int  # = 0
+    ConnectBase: int  # = 1
 class BlockEnd(Entity):
     """.NET: Autodesk.AutoCAD.DatabaseServices.BlockEnd"""
     def __init__(self, *args) -> None: ...
@@ -4045,10 +4097,10 @@ class BlockReference(Entity):
     def ResetBlock(self, ) -> None: ...
 
 class BlockScaling:
-    """.NET: Autodesk.AutoCAD.DatabaseServices.BlockScaling"""
+    """.NET enum: Autodesk.AutoCAD.DatabaseServices.BlockScaling"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    Any: int  # = 0
+    Uniform: int  # = 1
 class BlockTable(SymbolTable):
     """.NET: Autodesk.AutoCAD.DatabaseServices.BlockTable"""
     def __init__(self, *args) -> None: ...
@@ -4265,10 +4317,11 @@ class Body(Entity):
     def AcisOut(fileName: str, entitiesOutToFile: DBObjectCollection) -> None: ...
 
 class BooleanOperationType:
-    """.NET: Autodesk.AutoCAD.DatabaseServices.BooleanOperationType"""
+    """.NET enum: Autodesk.AutoCAD.DatabaseServices.BooleanOperationType"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    BoolUnite: int  # = 0
+    BoolIntersect: int  # = 1
+    BoolSubtract: int  # = 2
 class BulgeVertex:
     """.NET: Autodesk.AutoCAD.DatabaseServices.BulgeVertex"""
     def __init__(self, *args) -> None: ...
@@ -4354,10 +4407,17 @@ class Cell(CellRange):
     def UpdateDataLink(self, dir: UpdateDirection, option: UpdateOption) -> None: ...
 
 class CellAlignment:
-    """.NET: Autodesk.AutoCAD.DatabaseServices.CellAlignment"""
+    """.NET enum: Autodesk.AutoCAD.DatabaseServices.CellAlignment"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    TopLeft: int  # = 1
+    TopCenter: int  # = 2
+    TopRight: int  # = 3
+    MiddleLeft: int  # = 4
+    MiddleCenter: int  # = 5
+    MiddleRight: int  # = 6
+    BottomLeft: int  # = 7
+    BottomCenter: int  # = 8
+    BottomRight: int  # = 9
 class CellBorder:
     """.NET: Autodesk.AutoCAD.DatabaseServices.CellBorder"""
     def __init__(self, *args) -> None: ...
@@ -4381,10 +4441,11 @@ class CellBorders:
     Left: CellBorder
 
 class CellClass:
-    """.NET: Autodesk.AutoCAD.DatabaseServices.CellClass"""
+    """.NET enum: Autodesk.AutoCAD.DatabaseServices.CellClass"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    None_: int  # = 0
+    Label: int  # = 1
+    Data: int  # = 2
 class CellContent:
     """.NET: Autodesk.AutoCAD.DatabaseServices.CellContent"""
     def __init__(self, *args) -> None: ...
@@ -4412,15 +4473,18 @@ class CellContent:
     def SetValue(self, value: object, parseOption: ParseOption) -> None: ...
 
 class CellContentLayout:
-    """.NET: Autodesk.AutoCAD.DatabaseServices.CellContentLayout"""
+    """.NET enum: Autodesk.AutoCAD.DatabaseServices.CellContentLayout"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    Flow: int  # = 1
+    StackedHorizontal: int  # = 2
+    StackedVertical: int  # = 4
 class CellContentTypes:
-    """.NET: Autodesk.AutoCAD.DatabaseServices.CellContentTypes"""
+    """.NET enum: Autodesk.AutoCAD.DatabaseServices.CellContentTypes"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    Unknown: int  # = 0
+    Value: int  # = 1
+    Field: int  # = 2
+    Block: int  # = 4
 class CellContentsCollection:
     """.NET: Autodesk.AutoCAD.DatabaseServices.CellContentsCollection"""
     def __init__(self, *args) -> None: ...
@@ -4434,25 +4498,47 @@ class CellContentsCollection:
     def RemoveAt(self, index: int) -> None: ...
 
 class CellEdgeMasks:
-    """.NET: Autodesk.AutoCAD.DatabaseServices.CellEdgeMasks"""
+    """.NET enum: Autodesk.AutoCAD.DatabaseServices.CellEdgeMasks"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    TopMask: int  # = 1
+    RightMask: int  # = 2
+    BottomMask: int  # = 4
+    LeftMask: int  # = 8
 class CellMargins:
-    """.NET: Autodesk.AutoCAD.DatabaseServices.CellMargins"""
+    """.NET enum: Autodesk.AutoCAD.DatabaseServices.CellMargins"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    Top: int  # = 1
+    Left: int  # = 2
+    Bottom: int  # = 4
+    Right: int  # = 8
 class CellOption:
-    """.NET: Autodesk.AutoCAD.DatabaseServices.CellOption"""
+    """.NET enum: Autodesk.AutoCAD.DatabaseServices.CellOption"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    None_: int  # = 0
+    InheritCellFormat: int  # = 1
 class CellProperties:
-    """.NET: Autodesk.AutoCAD.DatabaseServices.CellProperties"""
+    """.NET enum: Autodesk.AutoCAD.DatabaseServices.CellProperties"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    Invalid: int  # = 0
+    DataType: int  # = 1
+    DataFormat: int  # = 2
+    Rotation: int  # = 4
+    Scale: int  # = 8
+    Alignment: int  # = 16
+    ContentColor: int  # = 32
+    TextStyle: int  # = 64
+    TextHeight: int  # = 128
+    AutoScale: int  # = 256
+    BackgroundColor: int  # = 512
+    MarginLeft: int  # = 1024
+    MarginTop: int  # = 2048
+    MarginRight: int  # = 4096
+    MarginBottom: int  # = 8192
+    ContentLayout: int  # = 16384
+    MergeAll: int  # = 32768
+    FlowDirBtoT: int  # = 65536
+    MarginHorzSpacing: int  # = 131072
+    MarginVertSpacing: int  # = 262144
 class CellRange:
     """.NET: Autodesk.AutoCAD.DatabaseServices.CellRange"""
     def __init__(self, *args) -> None: ...
@@ -4510,15 +4596,31 @@ class CellReference:
     Row: int
 
 class CellStates:
-    """.NET: Autodesk.AutoCAD.DatabaseServices.CellStates"""
+    """.NET enum: Autodesk.AutoCAD.DatabaseServices.CellStates"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    None_: int  # = 0
+    ContentLocked: int  # = 1
+    ContentReadOnly: int  # = 2
+    Linked: int  # = 4
+    ContentModifiedAfterUpdate: int  # = 8
+    FormatLocked: int  # = 16
+    FormatReadOnly: int  # = 32
+    FormatModifiedAfterUpdate: int  # = 64
 class CellType:
-    """.NET: Autodesk.AutoCAD.DatabaseServices.CellType"""
+    """.NET enum: Autodesk.AutoCAD.DatabaseServices.CellType"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    Unknown: int  # = 0
+    Integer: int  # = 1
+    Double: int  # = 2
+    CharPtr: int  # = 3
+    Point: int  # = 4
+    ObjectId: int  # = 5
+    HardOwnerId: int  # = 6
+    SoftOwnerId: int  # = 7
+    HardPtrId: int  # = 8
+    SoftPtrId: int  # = 9
+    Bool: int  # = 10
+    Vector: int  # = 11
 class CenterPointConstraint(ConcentricConstraint):
     """.NET: Autodesk.AutoCAD.DatabaseServices.CenterPointConstraint"""
     def __init__(self, *args) -> None: ...
@@ -4625,10 +4727,11 @@ class Circle(Curve):
     UnmanagedObject: IntPtr
 
 class ClipBoundaryType:
-    """.NET: Autodesk.AutoCAD.DatabaseServices.ClipBoundaryType"""
+    """.NET enum: Autodesk.AutoCAD.DatabaseServices.ClipBoundaryType"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    Invalid: int  # = 0
+    Rectangle: int  # = 1
+    Poly: int  # = 2
 class ColinearConstraint(GeometricalConstraint):
     """.NET: Autodesk.AutoCAD.DatabaseServices.ColinearConstraint"""
     def __init__(self, *args) -> None: ...
@@ -4646,10 +4749,10 @@ class ColinearConstraint(GeometricalConstraint):
     UnmanagedObject: IntPtr
 
 class CollisionType:
-    """.NET: Autodesk.AutoCAD.DatabaseServices.CollisionType"""
+    """.NET enum: Autodesk.AutoCAD.DatabaseServices.CollisionType"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    None_: int  # = 0
+    Solid: int  # = 1
 class Column(CellRange):
     """.NET: Autodesk.AutoCAD.DatabaseServices.Column"""
     def __init__(self, *args) -> None: ...
@@ -4691,10 +4794,11 @@ class Column(CellRange):
     ParentTable: Table
 
 class ColumnType:
-    """.NET: Autodesk.AutoCAD.DatabaseServices.ColumnType"""
+    """.NET enum: Autodesk.AutoCAD.DatabaseServices.ColumnType"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    NoColumns: int  # = 0
+    StaticColumns: int  # = 1
+    DynamicColumns: int  # = 2
 class ColumnsCollection:
     """.NET: Autodesk.AutoCAD.DatabaseServices.ColumnsCollection"""
     def __init__(self, *args) -> None: ...
@@ -4763,10 +4867,11 @@ class ConcentricConstraint(GeometricalConstraint):
     UnmanagedObject: IntPtr
 
 class ConstrainType:
-    """.NET: Autodesk.AutoCAD.DatabaseServices.ConstrainType"""
+    """.NET enum: Autodesk.AutoCAD.DatabaseServices.ConstrainType"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    TurnHeight: int  # = 0
+    Turns: int  # = 1
+    Height: int  # = 2
 class Constrained2PointsConstructionLine(ConstrainedConstructionLine):
     """.NET: Autodesk.AutoCAD.DatabaseServices.Constrained2PointsConstructionLine"""
     def __init__(self, *args) -> None: ...
@@ -5067,10 +5172,12 @@ class ConstraintGroupNode(RXObject):
     UnmanagedObject: IntPtr
 
 class ContentType:
-    """.NET: Autodesk.AutoCAD.DatabaseServices.ContentType"""
+    """.NET enum: Autodesk.AutoCAD.DatabaseServices.ContentType"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    NoneContent: int  # = 0
+    BlockContent: int  # = 1
+    MTextContent: int  # = 2
+    ToleranceContent: int  # = 3
 class Curve(Entity):
     """.NET: Autodesk.AutoCAD.DatabaseServices.Curve"""
     def __init__(self, *args) -> None: ...
@@ -5800,10 +5907,14 @@ class DataLink(DBObject):
     def Update(self, dir: UpdateDirection, option: UpdateOption) -> None: ...
 
 class DataLinkGetSourceContext:
-    """.NET: Autodesk.AutoCAD.DatabaseServices.DataLinkGetSourceContext"""
+    """.NET enum: Autodesk.AutoCAD.DatabaseServices.DataLinkGetSourceContext"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    Unknown: int  # = 0
+    Etransmit: int  # = 1
+    XrefManager: int  # = 2
+    FileWatcher: int  # = 3
+    Other: int  # = 4
+    OrignalPath: int  # = 256
 class DataLinkManager(RXObject):
     """.NET: Autodesk.AutoCAD.DatabaseServices.DataLinkManager"""
     def __init__(self, *args) -> None: ...
@@ -5817,10 +5928,11 @@ class DataLinkManager(RXObject):
     def Update(self, dataIds: ObjectIdCollection, direction: UpdateDirection, option: UpdateOption) -> None: ...
 
 class DataLinkOption:
-    """.NET: Autodesk.AutoCAD.DatabaseServices.DataLinkOption"""
+    """.NET enum: Autodesk.AutoCAD.DatabaseServices.DataLinkOption"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    None_: int  # = 0
+    Anonymous: int  # = 1
+    PersistCache: int  # = 2
 class DataTable(DBObject):
     """.NET: Autodesk.AutoCAD.DatabaseServices.DataTable"""
     def __init__(self, *args) -> None: ...
@@ -5888,10 +6000,19 @@ class DataTable(DBObject):
     def SetRowAt(self, index: int, row: DataCellCollection, validate: bool) -> None: ...
 
 class DataType:
-    """.NET: Autodesk.AutoCAD.DatabaseServices.DataType"""
+    """.NET enum: Autodesk.AutoCAD.DatabaseServices.DataType"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    Unknown: int  # = 0
+    Long: int  # = 1
+    Double: int  # = 2
+    String: int  # = 4
+    Date: int  # = 8
+    Point: int  # = 16
+    Point3d: int  # = 32
+    ObjectId: int  # = 64
+    Buffer: int  # = 128
+    Resbuf: int  # = 256
+    General: int  # = 512
 class DataTypeParameter:
     """.NET: Autodesk.AutoCAD.DatabaseServices.DataTypeParameter"""
     def __init__(self, *args) -> None: ...
@@ -6389,15 +6510,24 @@ class DecomposeForSaveReplacementRecord:
     ReplacementObject: DBObject
 
 class DeepCloneType:
-    """.NET: Autodesk.AutoCAD.DatabaseServices.DeepCloneType"""
+    """.NET enum: Autodesk.AutoCAD.DatabaseServices.DeepCloneType"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    Copy: int  # = 0
+    Explode: int  # = 1
+    Block: int  # = 2
+    XrefBind: int  # = 3
+    SymbolTableMerge: int  # = 4
+    Insert: int  # = 6
+    Wblock: int  # = 7
+    Objects: int  # = 8
+    XrefInsert: int  # = 9
+    InsertCopy: int  # = 10
+    WblockObjects: int  # = 11
 class DefaultLightingType:
-    """.NET: Autodesk.AutoCAD.DatabaseServices.DefaultLightingType"""
+    """.NET enum: Autodesk.AutoCAD.DatabaseServices.DefaultLightingType"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    OneDistantLight: int  # = 0
+    TwoDistantLights: int  # = 1
 class DetailSymbol(Entity):
     """.NET: Autodesk.AutoCAD.DatabaseServices.DetailSymbol"""
     def __init__(self, *args) -> None: ...
@@ -6489,25 +6619,30 @@ class DetailSymbol(Entity):
     def IsOverriddenProperty(self, propertyToCheck: DetailSymbolOverriddenProperty) -> bool: ...
 
 class DetailSymbolBoundaryType:
-    """.NET: Autodesk.AutoCAD.DatabaseServices.DetailSymbolBoundaryType"""
+    """.NET enum: Autodesk.AutoCAD.DatabaseServices.DetailSymbolBoundaryType"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    CircularBoundary: int  # = 0
+    RectangularBoundary: int  # = 1
+    CustomBoundary: int  # = 2
 class DetailSymbolOverriddenProperty:
-    """.NET: Autodesk.AutoCAD.DatabaseServices.DetailSymbolOverriddenProperty"""
+    """.NET enum: Autodesk.AutoCAD.DatabaseServices.DetailSymbolOverriddenProperty"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    ModelEdge: int  # = 1
+    IdentifierPosition: int  # = 2
 class DetailViewIdentifierPlacement:
-    """.NET: Autodesk.AutoCAD.DatabaseServices.DetailViewIdentifierPlacement"""
+    """.NET enum: Autodesk.AutoCAD.DatabaseServices.DetailViewIdentifierPlacement"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    OutsideBoundary: int  # = 0
+    OutsideBoundaryWithLeader: int  # = 1
+    OnBoundary: int  # = 2
+    OnBoundaryWithLeader: int  # = 3
 class DetailViewModelEdge:
-    """.NET: Autodesk.AutoCAD.DatabaseServices.DetailViewModelEdge"""
+    """.NET enum: Autodesk.AutoCAD.DatabaseServices.DetailViewModelEdge"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    Smooth: int  # = 0
+    SmoothWithBorder: int  # = 1
+    SmoothWithConnectionLine: int  # = 2
+    Jagged: int  # = 3
 class DetailViewStyle(DBObject):
     """.NET: Autodesk.AutoCAD.DatabaseServices.DetailViewStyle"""
     def __init__(self, *args) -> None: ...
@@ -6997,10 +7132,10 @@ class DictionaryWithDefaultDictionary(DBDictionary):
     UnmanagedObject: IntPtr
 
 class DimArrowFlag:
-    """.NET: Autodesk.AutoCAD.DatabaseServices.DimArrowFlag"""
+    """.NET enum: Autodesk.AutoCAD.DatabaseServices.DimArrowFlag"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    FirstArrow: int  # = 0
+    SecondArrow: int  # = 1
 class DimStyleTable(SymbolTable):
     """.NET: Autodesk.AutoCAD.DatabaseServices.DimStyleTable"""
     def __init__(self, *args) -> None: ...
@@ -7374,10 +7509,11 @@ class Dimension(Entity):
     def SetDimstyleData(self, style: DimStyleTableRecord) -> None: ...
 
 class DimensionCenterMarkType:
-    """.NET: Autodesk.AutoCAD.DatabaseServices.DimensionCenterMarkType"""
+    """.NET enum: Autodesk.AutoCAD.DatabaseServices.DimensionCenterMarkType"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    Mark: int  # = 0
+    Line: int  # = 1
+    None_: int  # = 2
 class DimensionStyleOverrule(Overrule):
     """.NET: Autodesk.AutoCAD.DatabaseServices.DimensionStyleOverrule"""
     def __init__(self, *args) -> None: ...
@@ -7417,20 +7553,21 @@ class DistanceConstraint(ExplicitConstraint):
     UnmanagedObject: IntPtr
 
 class DragStatus:
-    """.NET: Autodesk.AutoCAD.DatabaseServices.DragStatus"""
+    """.NET enum: Autodesk.AutoCAD.DatabaseServices.DragStatus"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    DragStart: int  # = 0
+    DragEnd: int  # = 1
+    DragAbort: int  # = 2
 class DrawLeaderOrderType:
-    """.NET: Autodesk.AutoCAD.DatabaseServices.DrawLeaderOrderType"""
+    """.NET enum: Autodesk.AutoCAD.DatabaseServices.DrawLeaderOrderType"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    DrawLeaderHeadFirst: int  # = 0
+    DrawLeaderTailFirst: int  # = 1
 class DrawMLeaderOrderType:
-    """.NET: Autodesk.AutoCAD.DatabaseServices.DrawMLeaderOrderType"""
+    """.NET enum: Autodesk.AutoCAD.DatabaseServices.DrawMLeaderOrderType"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    DrawContentFirst: int  # = 0
+    DrawLeaderFirst: int  # = 1
 class DrawOrderTable(DBObject):
     """.NET: Autodesk.AutoCAD.DatabaseServices.DrawOrderTable"""
     def __init__(self, *args) -> None: ...
@@ -7487,10 +7624,14 @@ class DrawOrderTable(DBObject):
     def SwapOrder(self, id1: ObjectId, id2: ObjectId) -> None: ...
 
 class DuplicateRecordCloning:
-    """.NET: Autodesk.AutoCAD.DatabaseServices.DuplicateRecordCloning"""
+    """.NET enum: Autodesk.AutoCAD.DatabaseServices.DuplicateRecordCloning"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    NotApplicable: int  # = 0
+    Ignore: int  # = 1
+    Replace: int  # = 2
+    RefMangleName: int  # = 3
+    MangleName: int  # = 4
+    UnmangleName: int  # = 5
 class DwfDefinition(UnderlayDefinition):
     """.NET: Autodesk.AutoCAD.DatabaseServices.DwfDefinition"""
     def __init__(self, *args) -> None: ...
@@ -7696,15 +7837,199 @@ class DwgFiler(RXObject):
     def WriteVector3d(self, value: Vector3d) -> None: ...
 
 class DwgVersion:
-    """.NET: Autodesk.AutoCAD.DatabaseServices.DwgVersion"""
+    """.NET enum: Autodesk.AutoCAD.DatabaseServices.DwgVersion"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    MC0To0: int  # = 0
+    AC1To2: int  # = 1
+    AC1To40: int  # = 2
+    AC1To50: int  # = 3
+    AC2To20: int  # = 4
+    AC2To10: int  # = 5
+    AC2To21: int  # = 6
+    AC2To22: int  # = 7
+    AC1001: int  # = 8
+    AC1002: int  # = 9
+    AC1003: int  # = 10
+    AC1004: int  # = 11
+    AC1005: int  # = 12
+    AC1006: int  # = 13
+    AC1007: int  # = 14
+    AC1008: int  # = 15
+    AC1009: int  # = 16
+    AC1010: int  # = 17
+    AC1011: int  # = 18
+    AC1012: int  # = 19
+    AC1013: int  # = 20
+    AC1014: int  # = 21
+    AC1500: int  # = 22
+    AC1015: int  # = 23
+    AC1800a: int  # = 24
+    AC1800: int  # = 25
+    AC2100a: int  # = 26
+    AC1021: int  # = 27
+    AC2400a: int  # = 28
+    AC1024: int  # = 29
+    AC2700a: int  # = 30
+    AC1027: int  # = 31
+    AC3200a: int  # = 32
+    AC1032: int  # = 33
+    Current: int  # = 33
+    Newest: int  # = 33
+    Unknown: int  # = 254
+    Max: int  # = 255
 class DxfCode:
-    """.NET: Autodesk.AutoCAD.DatabaseServices.DxfCode"""
+    """.NET enum: Autodesk.AutoCAD.DatabaseServices.DxfCode"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    Start: int  # = 0
+    Text: int  # = 1
+    XRefPath: int  # = 1
+    BlockName: int  # = 2
+    ShapeName: int  # = 2
+    SymbolTableRecordName: int  # = 2
+    AttributeTag: int  # = 2
+    SymbolTableName: int  # = 2
+    MlineStyleName: int  # = 2
+    DimPostString: int  # = 3
+    Description: int  # = 3
+    TextFontFile: int  # = 3
+    LinetypeProse: int  # = 3
+    DimStyleName: int  # = 3
+    AttributePrompt: int  # = 3
+    TextBigFontFile: int  # = 4
+    CLShapeName: int  # = 4
+    SymbolTableRecordComments: int  # = 4
+    DimensionAlternativePrefixSuffix: int  # = 4
+    Handle: int  # = 5
+    DimensionBlock: int  # = 5
+    DimBlk1: int  # = 6
+    LinetypeName: int  # = 6
+    DimBlk2: int  # = 7
+    TextStyleName: int  # = 7
+    LayerName: int  # = 8
+    CLShapeText: int  # = 9
+    XCoordinate: int  # = 10
+    YCoordinate: int  # = 20
+    ZCoordinate: int  # = 30
+    Elevation: int  # = 38
+    Thickness: int  # = 39
+    TxtSize: int  # = 40
+    ViewportHeight: int  # = 40
+    Real: int  # = 40
+    ViewportAspect: int  # = 41
+    ViewWidth: int  # = 41
+    TxtStyleXScale: int  # = 41
+    TxtStylePSize: int  # = 42
+    ViewLensLength: int  # = 42
+    ViewFrontClip: int  # = 43
+    ViewBackClip: int  # = 44
+    ShapeXOffset: int  # = 44
+    ShapeYOffset: int  # = 45
+    ViewHeight: int  # = 45
+    ShapeScale: int  # = 46
+    PixelScale: int  # = 47
+    LinetypeScale: int  # = 48
+    DashLength: int  # = 49
+    MlineOffset: int  # = 49
+    LinetypeElement: int  # = 49
+    ViewportSnapAngle: int  # = 50
+    Angle: int  # = 50
+    ViewportTwist: int  # = 51
+    Visibility: int  # = 60
+    LayerLinetype: int  # = 61
+    Color: int  # = 62
+    HasSubentities: int  # = 66
+    ViewportVisibility: int  # = 67
+    ViewportActive: int  # = 68
+    ViewportNumber: int  # = 69
+    Int16: int  # = 70
+    RegAppFlags: int  # = 71
+    TxtStyleFlags: int  # = 71
+    ViewMode: int  # = 71
+    LinetypeAlign: int  # = 72
+    CircleSides: int  # = 72
+    ViewportZoom: int  # = 73
+    LinetypePdc: int  # = 73
+    ViewportIcon: int  # = 74
+    ViewportSnap: int  # = 75
+    ViewportGrid: int  # = 76
+    ViewportSnapStyle: int  # = 77
+    ViewportSnapPair: int  # = 78
+    Int32: int  # = 90
+    Subclass: int  # = 100
+    EmbeddedObjectStart: int  # = 101
+    ControlString: int  # = 102
+    DimVarHandle: int  # = 105
+    UcsOrg: int  # = 110
+    UcsOrientationX: int  # = 111
+    UcsOrientationY: int  # = 112
+    XReal: int  # = 140
+    ViewBrightness: int  # = 141
+    ViewContrast: int  # = 142
+    Int64: int  # = 160
+    XInt16: int  # = 170
+    NormalX: int  # = 210
+    NormalY: int  # = 220
+    NormalZ: int  # = 230
+    XXInt16: int  # = 270
+    Int8: int  # = 280
+    RenderMode: int  # = 281
+    Bool: int  # = 290
+    XTextString: int  # = 300
+    BinaryChunk: int  # = 310
+    ArbitraryHandle: int  # = 320
+    SoftPointerId: int  # = 330
+    HardPointerId: int  # = 340
+    SoftOwnershipId: int  # = 350
+    HardOwnershipId: int  # = 360
+    LineWeight: int  # = 370
+    PlotStyleNameType: int  # = 380
+    PlotStyleNameId: int  # = 390
+    ExtendedInt16: int  # = 400
+    LayoutName: int  # = 410
+    ColorRgb: int  # = 420
+    ColorName: int  # = 430
+    Alpha: int  # = 440
+    GradientObjType: int  # = 450
+    GradientPatType: int  # = 451
+    GradientTintType: int  # = 452
+    GradientColCount: int  # = 453
+    GradientAngle: int  # = 460
+    GradientShift: int  # = 461
+    GradientTintVal: int  # = 462
+    GradientColVal: int  # = 463
+    GradientName: int  # = 470
+    Comment: int  # = 999
+    ExtendedDataAsciiString: int  # = 1000
+    ExtendedDataRegAppName: int  # = 1001
+    ExtendedDataControlString: int  # = 1002
+    ExtendedDataLayerName: int  # = 1003
+    ExtendedDataBinaryChunk: int  # = 1004
+    ExtendedDataHandle: int  # = 1005
+    ExtendedDataXCoordinate: int  # = 1010
+    ExtendedDataWorldXCoordinate: int  # = 1011
+    ExtendedDataWorldXDisp: int  # = 1012
+    ExtendedDataWorldXDir: int  # = 1013
+    ExtendedDataYCoordinate: int  # = 1020
+    ExtendedDataWorldYCoordinate: int  # = 1021
+    ExtendedDataWorldYDisp: int  # = 1022
+    ExtendedDataWorldYDir: int  # = 1023
+    ExtendedDataZCoordinate: int  # = 1030
+    ExtendedDataWorldZCoordinate: int  # = 1031
+    ExtendedDataWorldZDisp: int  # = 1032
+    ExtendedDataWorldZDir: int  # = 1033
+    ExtendedDataReal: int  # = 1040
+    ExtendedDataDist: int  # = 1041
+    ExtendedDataScale: int  # = 1042
+    ExtendedDataInteger16: int  # = 1070
+    ExtendedDataInteger32: int  # = 1071
+    Invalid: int  # = -9999
+    XDictionary: int  # = -6
+    PReactors: int  # = -5
+    Operator: int  # = -4
+    XDataStart: int  # = -3
+    FirstEntityId: int  # = -2
+    HeaderId: int  # = -2
+    End: int  # = -1
 class DxfFiler(RXObject):
     """.NET: Autodesk.AutoCAD.DatabaseServices.DxfFiler"""
     def __init__(self, *args) -> None: ...
@@ -7789,10 +8114,12 @@ class DynamicBlockReferencePropertyCollectionEnumerator:
     def Reset(self, ) -> None: ...
 
 class DynamicBlockReferencePropertyUnitsType:
-    """.NET: Autodesk.AutoCAD.DatabaseServices.DynamicBlockReferencePropertyUnitsType"""
+    """.NET enum: Autodesk.AutoCAD.DatabaseServices.DynamicBlockReferencePropertyUnitsType"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    NoUnits: int  # = 0
+    Angular: int  # = 1
+    Distance: int  # = 2
+    Area: int  # = 3
 class DynamicDimensionChangedEventArgs(EventArgs):
     """.NET: Autodesk.AutoCAD.DatabaseServices.DynamicDimensionChangedEventArgs"""
     def __init__(self, *args) -> None: ...
@@ -7938,10 +8265,12 @@ class Ellipse(Curve):
     def Set(self, center: Point3d, unitNormal: Vector3d, majorAxis: Vector3d, radiusRatio: float, startAngle: float, endAngle: float) -> None: ...
 
 class EndCap:
-    """.NET: Autodesk.AutoCAD.DatabaseServices.EndCap"""
+    """.NET enum: Autodesk.AutoCAD.DatabaseServices.EndCap"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    None_: int  # = 0
+    Round: int  # = 1
+    Angle: int  # = 2
+    Square: int  # = 3
 class Entity(DBObject):
     """.NET: Autodesk.AutoCAD.DatabaseServices.Entity"""
     def __init__(self, *args) -> None: ...
@@ -8075,10 +8404,11 @@ class EntityAlignmentEventHandler:
     def Invoke(self, sender: object, e: EntityAlignmentEventArgs) -> None: ...
 
 class EntityVisualStyleType:
-    """.NET: Autodesk.AutoCAD.DatabaseServices.EntityVisualStyleType"""
+    """.NET enum: Autodesk.AutoCAD.DatabaseServices.EntityVisualStyleType"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    FullVisualStyle: int  # = 0
+    FaceVisualStyle: int  # = 1
+    EdgeVisualStyle: int  # = 2
 class EnumConverter(EnumConverter):
     """.NET: Autodesk.AutoCAD.DatabaseServices.EnumConverter"""
     def __init__(self, *args) -> None: ...
@@ -8168,10 +8498,11 @@ class EqualRadiusConstraint(GeometricalConstraint):
     UnmanagedObject: IntPtr
 
 class EraseFlags:
-    """.NET: Autodesk.AutoCAD.DatabaseServices.EraseFlags"""
+    """.NET enum: Autodesk.AutoCAD.DatabaseServices.EraseFlags"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    ZeroLengthCurve: int  # = 1
+    EmptyText: int  # = 2
+    AllEmptyObj: int  # = -1
 class ExplicitConstraint(GeometricalConstraint):
     """.NET: Autodesk.AutoCAD.DatabaseServices.ExplicitConstraint"""
     def __init__(self, *args) -> None: ...
@@ -8640,10 +8971,17 @@ class Field(DBObject):
     def SetFieldCodeWithChildren(self, flag: FieldCodeFlags, fieldCode: FieldCodeWithChildren) -> None: ...
 
 class FieldCodeFlags:
-    """.NET: Autodesk.AutoCAD.DatabaseServices.FieldCodeFlags"""
+    """.NET enum: Autodesk.AutoCAD.DatabaseServices.FieldCodeFlags"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    FieldCode: int  # = 1
+    EvaluatedText: int  # = 2
+    EvaluatedChildren: int  # = 4
+    ObjectReference: int  # = 8
+    AddMarkers: int  # = 16
+    EscapeBackslash: int  # = 32
+    StripOptions: int  # = 64
+    PreserveFields: int  # = 128
+    TextField: int  # = 256
 class FieldCodeWithChildren:
     """.NET: Autodesk.AutoCAD.DatabaseServices.FieldCodeWithChildren"""
     def __init__(self, *args) -> None: ...
@@ -8653,15 +8991,26 @@ class FieldCodeWithChildren:
     def Dispose(self, ) -> None: ...
 
 class FieldEvaluationContext:
-    """.NET: Autodesk.AutoCAD.DatabaseServices.FieldEvaluationContext"""
+    """.NET enum: Autodesk.AutoCAD.DatabaseServices.FieldEvaluationContext"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    Open: int  # = 1
+    Save: int  # = 2
+    Plot: int  # = 4
+    Etransmit: int  # = 8
+    Regen: int  # = 16
+    Demand: int  # = 32
+    Preview: int  # = 64
 class FieldEvaluationOptions:
-    """.NET: Autodesk.AutoCAD.DatabaseServices.FieldEvaluationOptions"""
+    """.NET enum: Autodesk.AutoCAD.DatabaseServices.FieldEvaluationOptions"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    Disable: int  # = 0
+    OnOpen: int  # = 1
+    OnSave: int  # = 2
+    OnPlot: int  # = 4
+    OnEtransmit: int  # = 8
+    OnRegen: int  # = 16
+    OnDemand: int  # = 32
+    Automatic: int  # = 63
 class FieldEvaluationResult:
     """.NET: Autodesk.AutoCAD.DatabaseServices.FieldEvaluationResult"""
     def __init__(self, *args) -> None: ...
@@ -8669,10 +9018,15 @@ class FieldEvaluationResult:
     Found: int
 
 class FieldEvaluationStatus:
-    """.NET: Autodesk.AutoCAD.DatabaseServices.FieldEvaluationStatus"""
+    """.NET enum: Autodesk.AutoCAD.DatabaseServices.FieldEvaluationStatus"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    NotYetEvaluated: int  # = 1
+    Success: int  # = 2
+    EvaluatorNotFound: int  # = 4
+    SyntaxError: int  # = 8
+    InvalidCode: int  # = 16
+    InvalidContext: int  # = 32
+    OtherError: int  # = 64
 class FieldEvaluationStatusResult:
     """.NET: Autodesk.AutoCAD.DatabaseServices.FieldEvaluationStatusResult"""
     def __init__(self, *args) -> None: ...
@@ -8681,35 +9035,58 @@ class FieldEvaluationStatusResult:
     Status: FieldEvaluationStatus
 
 class FieldFilingOptions:
-    """.NET: Autodesk.AutoCAD.DatabaseServices.FieldFilingOptions"""
+    """.NET enum: Autodesk.AutoCAD.DatabaseServices.FieldFilingOptions"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    SkipFilingResult: int  # = 1
 class FieldState:
-    """.NET: Autodesk.AutoCAD.DatabaseServices.FieldState"""
+    """.NET enum: Autodesk.AutoCAD.DatabaseServices.FieldState"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    Initialized: int  # = 1
+    Compiled: int  # = 2
+    Modified: int  # = 4
+    Evaluated: int  # = 8
+    HasCache: int  # = 16
+    HasFormattedString: int  # = 32
 class FileOpenMode:
-    """.NET: Autodesk.AutoCAD.DatabaseServices.FileOpenMode"""
+    """.NET enum: Autodesk.AutoCAD.DatabaseServices.FileOpenMode"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    OpenForReadAndReadShare: int  # = 1
+    OpenForReadAndWriteNoShare: int  # = 2
+    OpenForReadAndAllShare: int  # = 3
+    OpenTryForReadShare: int  # = 4
 class FilerType:
-    """.NET: Autodesk.AutoCAD.DatabaseServices.FilerType"""
+    """.NET enum: Autodesk.AutoCAD.DatabaseServices.FilerType"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    FileFiler: int  # = 0
+    CopyFiler: int  # = 1
+    UndoFiler: int  # = 2
+    BagFiler: int  # = 3
+    IdTranslateFiler: int  # = 4
+    PageFiler: int  # = 5
+    DeepCloneFiler: int  # = 6
+    IdFiler: int  # = 7
+    PurgeFiler: int  # = 8
+    WblockCloneFiler: int  # = 9
 class FilletTrimMode:
-    """.NET: Autodesk.AutoCAD.DatabaseServices.FilletTrimMode"""
+    """.NET enum: Autodesk.AutoCAD.DatabaseServices.FilletTrimMode"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    TrimNone: int  # = 0
+    TrimStart: int  # = 1
+    TrimSecond: int  # = 2
+    TrimBoth: int  # = 3
 class FindFileHint:
-    """.NET: Autodesk.AutoCAD.DatabaseServices.FindFileHint"""
+    """.NET enum: Autodesk.AutoCAD.DatabaseServices.FindFileHint"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    Default: int  # = 0
+    FontFile: int  # = 1
+    CompiledShapeFile: int  # = 2
+    TrueTypeFontFile: int  # = 3
+    EmbeddedImageFile: int  # = 4
+    XRefDrawing: int  # = 5
+    PatternFile: int  # = 6
+    ArxApplication: int  # = 7
+    FontMapFile: int  # = 8
+    UnderlayFile: int  # = 9
 class FitData:
     """.NET: Autodesk.AutoCAD.DatabaseServices.FitData"""
     def __init__(self, *args) -> None: ...
@@ -8742,10 +9119,14 @@ class FixedConstraint(GeometricalConstraint):
     UnmanagedObject: IntPtr
 
 class FlowDirection:
-    """.NET: Autodesk.AutoCAD.DatabaseServices.FlowDirection"""
+    """.NET enum: Autodesk.AutoCAD.DatabaseServices.FlowDirection"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    NotSet: int  # = 0
+    LeftToRight: int  # = 1
+    RightToLeft: int  # = 2
+    TopToBottom: int  # = 3
+    BottomToTop: int  # = 4
+    ByStyle: int  # = 5
 class Font:
     """.NET: Autodesk.AutoCAD.DatabaseServices.Font"""
     def __init__(self, *args) -> None: ...
@@ -8753,10 +9134,13 @@ class Font:
     Name: str
 
 class FormatOption:
-    """.NET: Autodesk.AutoCAD.DatabaseServices.FormatOption"""
+    """.NET enum: Autodesk.AutoCAD.DatabaseServices.FormatOption"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    FormatOptionNone: int  # = 0
+    ForEditing: int  # = 1
+    ForExpression: int  # = 2
+    UseMaximumPrecision: int  # = 4
+    IgnoreMtextFormat: int  # = 8
 class FormattedTableData(LinkedTableData):
     """.NET: Autodesk.AutoCAD.DatabaseServices.FormattedTableData"""
     def __init__(self, *args) -> None: ...
@@ -8838,10 +9222,13 @@ class FormattedTableData(LinkedTableData):
     def Unmerge(self, range: CellRange) -> None: ...
 
 class FrameSetting:
-    """.NET: Autodesk.AutoCAD.DatabaseServices.FrameSetting"""
+    """.NET enum: Autodesk.AutoCAD.DatabaseServices.FrameSetting"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    ImageFrameOff: int  # = 0
+    ImageFrameAbove: int  # = 1
+    ImageFrameBelow: int  # = 2
+    ImageFrameOnNoPlot: int  # = 3
+    ImageFrameInvalid: int  # = -1
 class FullDwgVersion:
     """.NET: Autodesk.AutoCAD.DatabaseServices.FullDwgVersion"""
     def __init__(self, *args) -> None: ...
@@ -8880,20 +9267,152 @@ class G2SmoothConstraint(CompositeConstraint):
     UnmanagedObject: IntPtr
 
 class GeoCSProjectionCode:
-    """.NET: Autodesk.AutoCAD.DatabaseServices.GeoCSProjectionCode"""
+    """.NET enum: Autodesk.AutoCAD.DatabaseServices.GeoCSProjectionCode"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    Unknown: int  # = 0
+    LL: int  # = 1
+    Tm: int  # = 3
+    Alber: int  # = 4
+    OblqM: int  # = 5
+    Mrcat: int  # = 6
+    Azmed: int  # = 7
+    Lmtan: int  # = 8
+    Plycn: int  # = 9
+    Modpc: int  # = 10
+    Azmea: int  # = 11
+    Edcnc: int  # = 12
+    Miller: int  # = 13
+    Mstero: int  # = 15
+    Nzealand: int  # = 16
+    Sinus: int  # = 17
+    Ortho: int  # = 18
+    Gnomonic: int  # = 19
+    Edcyl: int  # = 20
+    Vdgrntn: int  # = 21
+    Cassini: int  # = 22
+    Robinson: int  # = 23
+    Bonne: int  # = 24
+    Eckert4: int  # = 25
+    Eckert6: int  # = 26
+    Mollweid: int  # = 27
+    Goode: int  # = 28
+    Neacyl: int  # = 29
+    Teacyl: int  # = 30
+    Bipolar: int  # = 31
+    Swiss: int  # = 32
+    Pstro: int  # = 33
+    Ostro: int  # = 34
+    Sstro: int  # = 35
+    Lm1sp: int  # = 36
+    Lm2sp: int  # = 37
+    Lmblg: int  # = 38
+    Wccsl: int  # = 39
+    Wccst: int  # = 40
+    Mndotl: int  # = 41
+    Mndott: int  # = 42
+    Sotrm: int  # = 43
+    Utm: int  # = 44
+    Trmrs: int  # = 45
+    GaussK: int  # = 46
+    Krovak: int  # = 47
+    MrcatK: int  # = 49
+    Krvk95: int  # = 51
+    Pstrosl: int  # = 53
+    Trmeraf: int  # = 54
+    Nerth: int  # = 55
+    Obqcyl: int  # = 56
+    Sys34: int  # = 57
+    Ostn97: int  # = 58
+    Azede: int  # = 59
+    Ostn02: int  # = 60
+    Sys34_99: int  # = 61
+    Trmrkrg: int  # = 62
+    Winkl: int  # = 63
+    Nrthsrt: int  # = 64
+    Lmbrtaf: int  # = 65
+    Sys34_01: int  # = 66
+    EdcylE: int  # = 67
+    PlateCarree: int  # = 68
+    PvMercator: int  # = 69
+    Hom1uv: int  # = 1281
+    Hom1xy: int  # = 1282
+    Hom2uv: int  # = 1283
+    Hom2xy: int  # = 1284
+    Rskew: int  # = 1285
+    Rskewc: int  # = 1286
+    Rskewo: int  # = 1287
 class GeoCSType:
-    """.NET: Autodesk.AutoCAD.DatabaseServices.GeoCSType"""
+    """.NET enum: Autodesk.AutoCAD.DatabaseServices.GeoCSType"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    Unknown: int  # = 0
+    Arbitrary: int  # = 1
+    Geographic: int  # = 2
+    Projected: int  # = 3
 class GeoCSUnit:
-    """.NET: Autodesk.AutoCAD.DatabaseServices.GeoCSUnit"""
+    """.NET enum: Autodesk.AutoCAD.DatabaseServices.GeoCSUnit"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    Unknown: int  # = 0
+    Meter: int  # = 1
+    Foot: int  # = 2
+    Inch: int  # = 3
+    IFoot: int  # = 4
+    ClarkeFoot: int  # = 5
+    IInch: int  # = 6
+    Centimeter: int  # = 7
+    Kilometer: int  # = 8
+    Yard: int  # = 9
+    SearsYard: int  # = 10
+    Mile: int  # = 11
+    IYard: int  # = 12
+    IMile: int  # = 13
+    Knot: int  # = 14
+    NautM: int  # = 15
+    Lat66: int  # = 16
+    Lat83: int  # = 17
+    Decimeter: int  # = 18
+    Millimeter: int  # = 19
+    Dekameter: int  # = 20
+    Hectometer: int  # = 21
+    GermanMeter: int  # = 22
+    CaGrid: int  # = 23
+    ClarkeChain: int  # = 24
+    GunterChain: int  # = 25
+    BenoitChain: int  # = 26
+    SearsChain: int  # = 27
+    ClarkeLink: int  # = 28
+    GunterLink: int  # = 29
+    BenoitLink: int  # = 30
+    SearsLink: int  # = 31
+    Rod: int  # = 32
+    Perch: int  # = 33
+    Pole: int  # = 34
+    Furlong: int  # = 35
+    Rood: int  # = 36
+    CapeRood: int  # = 37
+    Brealey: int  # = 38
+    SearsFoot: int  # = 39
+    GoldCoastFoot: int  # = 40
+    MicroInch: int  # = 41
+    IndianYard: int  # = 42
+    IndianFoot: int  # = 43
+    IndianFt37: int  # = 44
+    IndianFt62: int  # = 45
+    IndianFt75: int  # = 46
+    IndianYd37: int  # = 47
+    Decameter: int  # = 48
+    InternationalChain: int  # = 49
+    InternationalLink: int  # = 50
+    Degree: int  # = 1001
+    Grad: int  # = 1002
+    Grade: int  # = 1003
+    MapInfo: int  # = 1004
+    Mil: int  # = 1005
+    Minute: int  # = 1006
+    Radian: int  # = 1007
+    Second: int  # = 1008
+    Decisec: int  # = 1009
+    Centisec: int  # = 1010
+    Millisec: int  # = 1011
 class GeoCoordinateCategory(DisposableWrapper):
     """.NET: Autodesk.AutoCAD.DatabaseServices.GeoCoordinateCategory"""
     def __init__(self, *args) -> None: ...
@@ -9258,10 +9777,11 @@ class GeometryOverrule(Overrule):
     def SetXDataFilter(self, registeredApplicationName: str) -> None: ...
 
 class GetGripPointsFlags:
-    """.NET: Autodesk.AutoCAD.DatabaseServices.GetGripPointsFlags"""
+    """.NET enum: Autodesk.AutoCAD.DatabaseServices.GetGripPointsFlags"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    GripPointsOnly: int  # = 1
+    CyclableGripsOnly: int  # = 2
+    DynamicDimensionMode: int  # = 4
 class GradientBackground(Background):
     """.NET: Autodesk.AutoCAD.DatabaseServices.GradientBackground"""
     def __init__(self, *args) -> None: ...
@@ -9319,10 +9839,10 @@ class GradientColor:
     def get_Value(self, ) -> float: ...
 
 class GradientPatternType:
-    """.NET: Autodesk.AutoCAD.DatabaseServices.GradientPatternType"""
+    """.NET enum: Autodesk.AutoCAD.DatabaseServices.GradientPatternType"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    PreDefinedGradient: int  # = 0
+    UserDefinedGradient: int  # = 1
 class Graph(DisposableWrapper):
     """.NET: Autodesk.AutoCAD.DatabaseServices.Graph"""
     def __init__(self, *args) -> None: ...
@@ -9393,25 +9913,41 @@ class GraphNodeCollection(DisposableWrapper):
     def RemoveAt(self, index: int) -> None: ...
 
 class GraphicsMetafileType:
-    """.NET: Autodesk.AutoCAD.DatabaseServices.GraphicsMetafileType"""
+    """.NET enum: Autodesk.AutoCAD.DatabaseServices.GraphicsMetafileType"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    NoMetafile: int  # = 0
+    BoundingBox: int  # = 1
+    FullGraphics: int  # = 2
 class GridLineStyle:
-    """.NET: Autodesk.AutoCAD.DatabaseServices.GridLineStyle"""
+    """.NET enum: Autodesk.AutoCAD.DatabaseServices.GridLineStyle"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    Single: int  # = 1
+    Double: int  # = 2
 class GridLineType:
-    """.NET: Autodesk.AutoCAD.DatabaseServices.GridLineType"""
+    """.NET enum: Autodesk.AutoCAD.DatabaseServices.GridLineType"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    InvalidGridLine: int  # = 0
+    HorizontalTop: int  # = 1
+    HorizontalInside: int  # = 2
+    HorizontalBottom: int  # = 4
+    HorizontalGridLines: int  # = 7
+    VerticalLeft: int  # = 8
+    VerticalInside: int  # = 16
+    InnerGridLines: int  # = 18
+    VerticalRight: int  # = 32
+    OuterGridLines: int  # = 45
+    VerticalGridLines: int  # = 56
+    AllGridLines: int  # = 63
 class GridProperties:
-    """.NET: Autodesk.AutoCAD.DatabaseServices.GridProperties"""
+    """.NET enum: Autodesk.AutoCAD.DatabaseServices.GridProperties"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    Invalid: int  # = 0
+    LineStyle: int  # = 1
+    LineWeight: int  # = 2
+    Linetype: int  # = 4
+    Color: int  # = 8
+    Visibility: int  # = 16
+    DoubleLineSpacing: int  # = 32
 class GridPropertyParameter:
     """.NET: Autodesk.AutoCAD.DatabaseServices.GridPropertyParameter"""
     def __init__(self, *args) -> None: ...
@@ -9510,10 +10046,11 @@ class GripOverrule(Overrule):
     def SetXDataFilter(self, registeredApplicationName: str) -> None: ...
 
 class GripStatus:
-    """.NET: Autodesk.AutoCAD.DatabaseServices.GripStatus"""
+    """.NET enum: Autodesk.AutoCAD.DatabaseServices.GripStatus"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    GripsDone: int  # = 0
+    GripsToBeDeleted: int  # = 1
+    DimDataToBeDeleted: int  # = 2
 class GroundPlaneBackground(Background):
     """.NET: Autodesk.AutoCAD.DatabaseServices.GroundPlaneBackground"""
     def __init__(self, *args) -> None: ...
@@ -9635,10 +10172,16 @@ class Group(DBObject):
     def Transfer(self, fromIndex: int, toIndex: int, numItems: int) -> None: ...
 
 class GsMarkType:
-    """.NET: Autodesk.AutoCAD.DatabaseServices.GsMarkType"""
+    """.NET enum: Autodesk.AutoCAD.DatabaseServices.GsMarkType"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    None_: int  # = 0
+    ArrowMark: int  # = 1
+    LeaderLineMark: int  # = 5001
+    DoglegMark: int  # = 10001
+    MTextMark: int  # = 15001
+    MTextUnderLineMark: int  # = 15002
+    ToleranceMark: int  # = 15003
+    BlockMark: int  # = 15004
 class Handle:
     """.NET: Autodesk.AutoCAD.DatabaseServices.Handle"""
     def __init__(self, *args) -> None: ...
@@ -9767,10 +10310,12 @@ class Hatch(Entity):
     def SetHatchPattern(self, patternType: HatchPatternType, patternName: str) -> None: ...
 
 class HatchEdgeType:
-    """.NET: Autodesk.AutoCAD.DatabaseServices.HatchEdgeType"""
+    """.NET enum: Autodesk.AutoCAD.DatabaseServices.HatchEdgeType"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    Line: int  # = 1
+    CircularArc: int  # = 2
+    EllipticalArc: int  # = 3
+    Spline: int  # = 4
 class HatchLoop:
     """.NET: Autodesk.AutoCAD.DatabaseServices.HatchLoop"""
     def __init__(self, *args) -> None: ...
@@ -9780,25 +10325,35 @@ class HatchLoop:
     IsPolyline: bool
 
 class HatchLoopTypes:
-    """.NET: Autodesk.AutoCAD.DatabaseServices.HatchLoopTypes"""
+    """.NET enum: Autodesk.AutoCAD.DatabaseServices.HatchLoopTypes"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    Default: int  # = 0
+    External: int  # = 1
+    Polyline: int  # = 2
+    Derived: int  # = 4
+    Textbox: int  # = 8
+    Outermost: int  # = 16
+    NotClosed: int  # = 32
+    SelfIntersecting: int  # = 64
+    TextIsland: int  # = 128
+    Duplicate: int  # = 256
 class HatchObjectType:
-    """.NET: Autodesk.AutoCAD.DatabaseServices.HatchObjectType"""
+    """.NET enum: Autodesk.AutoCAD.DatabaseServices.HatchObjectType"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    HatchObject: int  # = 0
+    GradientObject: int  # = 1
 class HatchPatternType:
-    """.NET: Autodesk.AutoCAD.DatabaseServices.HatchPatternType"""
+    """.NET enum: Autodesk.AutoCAD.DatabaseServices.HatchPatternType"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    UserDefined: int  # = 0
+    PreDefined: int  # = 1
+    CustomDefined: int  # = 2
 class HatchStyle:
-    """.NET: Autodesk.AutoCAD.DatabaseServices.HatchStyle"""
+    """.NET enum: Autodesk.AutoCAD.DatabaseServices.HatchStyle"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    Normal: int  # = 0
+    Outer: int  # = 1
+    Ignore: int  # = 2
 class Helix(Spline):
     """.NET: Autodesk.AutoCAD.DatabaseServices.Helix"""
     def __init__(self, *args) -> None: ...
@@ -10282,25 +10837,32 @@ class ImageBackground(Background):
     UnmanagedObject: IntPtr
 
 class ImageDisplayOptions:
-    """.NET: Autodesk.AutoCAD.DatabaseServices.ImageDisplayOptions"""
+    """.NET enum: Autodesk.AutoCAD.DatabaseServices.ImageDisplayOptions"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    Show: int  # = 1
+    ShowUnaligned: int  # = 2
+    Clip: int  # = 4
+    Transparent: int  # = 8
 class ImageQuality:
-    """.NET: Autodesk.AutoCAD.DatabaseServices.ImageQuality"""
+    """.NET enum: Autodesk.AutoCAD.DatabaseServices.ImageQuality"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    Draft: int  # = 0
+    High: int  # = 1
+    Invalid: int  # = -1
 class ImplicitPointType:
-    """.NET: Autodesk.AutoCAD.DatabaseServices.ImplicitPointType"""
+    """.NET enum: Autodesk.AutoCAD.DatabaseServices.ImplicitPointType"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    StartImplicit: int  # = 0
+    EndImplicit: int  # = 1
+    MidImplicit: int  # = 2
+    CenterImplicit: int  # = 3
+    DefineImplicit: int  # = 4
 class IndexCreation:
-    """.NET: Autodesk.AutoCAD.DatabaseServices.IndexCreation"""
+    """.NET enum: Autodesk.AutoCAD.DatabaseServices.IndexCreation"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    NoIndex: int  # = 0
+    IndexByLayer: int  # = 1
+    IndexSpatially: int  # = 2
 class InterferenceProtocolExtension(RXObject):
     """.NET: Autodesk.AutoCAD.DatabaseServices.InterferenceProtocolExtension"""
     def __init__(self, *args) -> None: ...
@@ -10310,10 +10872,12 @@ class InterferenceProtocolExtension(RXObject):
     def CreateInterferenceObjects(self, ent1: Entity, ent2: Entity, flags: int) -> list: ...
 
 class Intersect:
-    """.NET: Autodesk.AutoCAD.DatabaseServices.Intersect"""
+    """.NET enum: Autodesk.AutoCAD.DatabaseServices.Intersect"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    OnBothOperands: int  # = 0
+    ExtendThis: int  # = 1
+    ExtendArgument: int  # = 2
+    ExtendBoth: int  # = 3
 class ItemLocator:
     """.NET: Autodesk.AutoCAD.DatabaseServices.ItemLocator"""
     def __init__(self, *args) -> None: ...
@@ -10322,25 +10886,41 @@ class ItemLocator:
     ItemIndex: int
 
 class JoinStyle:
-    """.NET: Autodesk.AutoCAD.DatabaseServices.JoinStyle"""
+    """.NET enum: Autodesk.AutoCAD.DatabaseServices.JoinStyle"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    StyleNone: int  # = 0
+    StyleRound: int  # = 1
+    StyleAngle: int  # = 2
+    StyleFlat: int  # = 3
 class LampColorPreset:
-    """.NET: Autodesk.AutoCAD.DatabaseServices.LampColorPreset"""
+    """.NET enum: Autodesk.AutoCAD.DatabaseServices.LampColorPreset"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    D65White: int  # = 0
+    Fluorescent: int  # = 1
+    CoolWhite: int  # = 2
+    WhiteFluorescent: int  # = 3
+    DaylightFluorescent: int  # = 4
+    Incandescent: int  # = 5
+    Xenon: int  # = 6
+    Halogen: int  # = 7
+    Quartz: int  # = 8
+    MetalHalide: int  # = 9
+    Mercury: int  # = 10
+    PhosphorMercury: int  # = 11
+    HighPressureSodium: int  # = 12
+    LowPressureSodium: int  # = 13
+    Custom: int  # = 14
 class LampColorType:
-    """.NET: Autodesk.AutoCAD.DatabaseServices.LampColorType"""
+    """.NET enum: Autodesk.AutoCAD.DatabaseServices.LampColorType"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    Kelvin: int  # = 0
+    Preset: int  # = 1
 class LayerEvaluation:
-    """.NET: Autodesk.AutoCAD.DatabaseServices.LayerEvaluation"""
+    """.NET enum: Autodesk.AutoCAD.DatabaseServices.LayerEvaluation"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    NoNewLayerEvaluation: int  # = 0
+    EvalNewXrefLayers: int  # = 1
+    EvalAllNewLayers: int  # = 2
 class LayerStateDeletedEventArgs(EventArgs):
     """.NET: Autodesk.AutoCAD.DatabaseServices.LayerStateDeletedEventArgs"""
     def __init__(self, *args) -> None: ...
@@ -10396,10 +10976,21 @@ class LayerStateManager(RXObject):
     def SetLayerStateMask(self, name: str, mask: LayerStateMasks) -> None: ...
 
 class LayerStateMasks:
-    """.NET: Autodesk.AutoCAD.DatabaseServices.LayerStateMasks"""
+    """.NET enum: Autodesk.AutoCAD.DatabaseServices.LayerStateMasks"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    None_: int  # = 0
+    On: int  # = 1
+    Frozen: int  # = 2
+    Locked: int  # = 4
+    Plot: int  # = 8
+    NewViewport: int  # = 16
+    Color: int  # = 32
+    LineType: int  # = 64
+    LineWeight: int  # = 128
+    PlotStyle: int  # = 256
+    CurrentViewport: int  # = 512
+    Transparency: int  # = 1024
+    LastRestored: int  # = 65536
 class LayerStateRenameEventArgs(EventArgs):
     """.NET: Autodesk.AutoCAD.DatabaseServices.LayerStateRenameEventArgs"""
     def __init__(self, *args) -> None: ...
@@ -10821,15 +11412,19 @@ class Leader(Curve):
     def VertexAt(self, value: int) -> Point3d: ...
 
 class LeaderDirectionType:
-    """.NET: Autodesk.AutoCAD.DatabaseServices.LeaderDirectionType"""
+    """.NET enum: Autodesk.AutoCAD.DatabaseServices.LeaderDirectionType"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    UnknownLeader: int  # = 0
+    LeftLeader: int  # = 1
+    RightLeader: int  # = 2
+    TopLeader: int  # = 3
+    BottomLeader: int  # = 4
 class LeaderType:
-    """.NET: Autodesk.AutoCAD.DatabaseServices.LeaderType"""
+    """.NET enum: Autodesk.AutoCAD.DatabaseServices.LeaderType"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    InVisibleLeader: int  # = 0
+    StraightLeader: int  # = 1
+    SplineLeader: int  # = 2
 class Light(Entity):
     """.NET: Autodesk.AutoCAD.DatabaseServices.Light"""
     def __init__(self, *args) -> None: ...
@@ -10938,10 +11533,11 @@ class Light(Entity):
     def SetHotspotAndFalloff(self, hotspot: float, falloff: float) -> None: ...
 
 class LightingUnits:
-    """.NET: Autodesk.AutoCAD.DatabaseServices.LightingUnits"""
+    """.NET enum: Autodesk.AutoCAD.DatabaseServices.LightingUnits"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    LightingUnitsGeneric: int  # = 0
+    LightingUnitsAmerican: int  # = 1
+    LightingUnitsInternational: int  # = 2
 class Line(Curve):
     """.NET: Autodesk.AutoCAD.DatabaseServices.Line"""
     def __init__(self, *args) -> None: ...
@@ -11230,15 +11826,41 @@ class LineAngularDimension2(Dimension):
     UnmanagedObject: IntPtr
 
 class LineSpacingStyle:
-    """.NET: Autodesk.AutoCAD.DatabaseServices.LineSpacingStyle"""
+    """.NET enum: Autodesk.AutoCAD.DatabaseServices.LineSpacingStyle"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    AtLeast: int  # = 1
+    Exactly: int  # = 2
 class LineWeight:
-    """.NET: Autodesk.AutoCAD.DatabaseServices.LineWeight"""
+    """.NET enum: Autodesk.AutoCAD.DatabaseServices.LineWeight"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    LineWeight000: int  # = 0
+    LineWeight005: int  # = 5
+    LineWeight009: int  # = 9
+    LineWeight013: int  # = 13
+    LineWeight015: int  # = 15
+    LineWeight018: int  # = 18
+    LineWeight020: int  # = 20
+    LineWeight025: int  # = 25
+    LineWeight030: int  # = 30
+    LineWeight035: int  # = 35
+    LineWeight040: int  # = 40
+    LineWeight050: int  # = 50
+    LineWeight053: int  # = 53
+    LineWeight060: int  # = 60
+    LineWeight070: int  # = 70
+    LineWeight080: int  # = 80
+    LineWeight090: int  # = 90
+    LineWeight100: int  # = 100
+    LineWeight106: int  # = 106
+    LineWeight120: int  # = 120
+    LineWeight140: int  # = 140
+    LineWeight158: int  # = 158
+    LineWeight200: int  # = 200
+    LineWeight211: int  # = 211
+    ByDIPs: int  # = -4
+    ByLineWeightDefault: int  # = -3
+    ByBlock: int  # = -2
+    ByLayer: int  # = -1
 class LineWeightConverter(TypeConverter):
     """.NET: Autodesk.AutoCAD.DatabaseServices.LineWeightConverter"""
     def __init__(self, *args) -> None: ...
@@ -11543,10 +12165,14 @@ class LoftOptionsCheckCurvesOut:
     AllOpen: bool
 
 class LoftOptionsNormalOption:
-    """.NET: Autodesk.AutoCAD.DatabaseServices.LoftOptionsNormalOption"""
+    """.NET enum: Autodesk.AutoCAD.DatabaseServices.LoftOptionsNormalOption"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    NoNormal: int  # = 0
+    FirstNormal: int  # = 1
+    LastNormal: int  # = 2
+    EndsNormal: int  # = 3
+    AllNormal: int  # = 4
+    UseDraftAngles: int  # = 5
 class LoftProfile(Profile3d):
     """.NET: Autodesk.AutoCAD.DatabaseServices.LoftProfile"""
     def __init__(self, *args) -> None: ...
@@ -11727,10 +12353,11 @@ class LongTransaction(DBObject):
     def WorkSetHas(self, id: ObjectId, includeErased: bool) -> bool: ...
 
 class LongTransactionType:
-    """.NET: Autodesk.AutoCAD.DatabaseServices.LongTransactionType"""
+    """.NET enum: Autodesk.AutoCAD.DatabaseServices.LongTransactionType"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    SameDb: int  # = 0
+    XRefDb: int  # = 1
+    UnrelatedDb: int  # = 2
 class MInsertBlock(BlockReference):
     """.NET: Autodesk.AutoCAD.DatabaseServices.MInsertBlock"""
     def __init__(self, *args) -> None: ...
@@ -12247,15 +12874,183 @@ class MTextFragmentCallback:
     def Invoke(self, A_0: MTextFragment, A_1: object) -> MTextFragmentCallbackStatus: ...
 
 class MTextFragmentCallbackStatus:
-    """.NET: Autodesk.AutoCAD.DatabaseServices.MTextFragmentCallbackStatus"""
+    """.NET enum: Autodesk.AutoCAD.DatabaseServices.MTextFragmentCallbackStatus"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    Terminate: int  # = 0
+    Continue: int  # = 1
 class MaintenanceReleaseVersion:
-    """.NET: Autodesk.AutoCAD.DatabaseServices.MaintenanceReleaseVersion"""
+    """.NET enum: Autodesk.AutoCAD.DatabaseServices.MaintenanceReleaseVersion"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    Release0: int  # = 0
+    ReleaseExtendedNewest: int  # = 1
+    Release1: int  # = 1
+    Release2: int  # = 2
+    Release3: int  # = 3
+    Release4: int  # = 4
+    Release5: int  # = 5
+    Release6: int  # = 6
+    Release7: int  # = 7
+    Release8: int  # = 8
+    Release9: int  # = 9
+    Release10: int  # = 10
+    Release11: int  # = 11
+    Release12: int  # = 12
+    Release13: int  # = 13
+    Release14: int  # = 14
+    Release15: int  # = 15
+    Release16: int  # = 16
+    Release17: int  # = 17
+    Release18: int  # = 18
+    Release19: int  # = 19
+    Release20: int  # = 20
+    Release21: int  # = 21
+    Release22: int  # = 22
+    Release23: int  # = 23
+    Release24: int  # = 24
+    Release25: int  # = 25
+    Release26: int  # = 26
+    Release27: int  # = 27
+    Release28: int  # = 28
+    Release29: int  # = 29
+    Release30: int  # = 30
+    Release31: int  # = 31
+    Release32: int  # = 32
+    Release33: int  # = 33
+    Release34: int  # = 34
+    Release35: int  # = 35
+    Release36: int  # = 36
+    Release37: int  # = 37
+    Release38: int  # = 38
+    Release39: int  # = 39
+    Release40: int  # = 40
+    Release41: int  # = 41
+    Release42: int  # = 42
+    Release43: int  # = 43
+    Release44: int  # = 44
+    Release45: int  # = 45
+    Release46: int  # = 46
+    Release47: int  # = 47
+    Release48: int  # = 48
+    Release49: int  # = 49
+    Release50: int  # = 50
+    Release51: int  # = 51
+    Release52: int  # = 52
+    Release53: int  # = 53
+    Release54: int  # = 54
+    Release55: int  # = 55
+    Release56: int  # = 56
+    Release57: int  # = 57
+    Release58: int  # = 58
+    Release59: int  # = 59
+    Release60: int  # = 60
+    Release61: int  # = 61
+    Release62: int  # = 62
+    Release63: int  # = 63
+    Release64: int  # = 64
+    Release65: int  # = 65
+    Release66: int  # = 66
+    Release67: int  # = 67
+    Release68: int  # = 68
+    Release69: int  # = 69
+    Release70: int  # = 70
+    Release71: int  # = 71
+    Release72: int  # = 72
+    Release73: int  # = 73
+    Release74: int  # = 74
+    Release75: int  # = 75
+    Release76: int  # = 76
+    Release77: int  # = 77
+    Release78: int  # = 78
+    Release79: int  # = 79
+    Release80: int  # = 80
+    Release81: int  # = 81
+    Release82: int  # = 82
+    Release83: int  # = 83
+    Release84: int  # = 84
+    Release85: int  # = 85
+    Release86: int  # = 86
+    Release87: int  # = 87
+    Release88: int  # = 88
+    Release89: int  # = 89
+    Release90: int  # = 90
+    Release91: int  # = 91
+    Release92: int  # = 92
+    Release93: int  # = 93
+    Release94: int  # = 94
+    Release95: int  # = 95
+    Release96: int  # = 96
+    Release97: int  # = 97
+    Release98: int  # = 98
+    Release99: int  # = 99
+    Release100: int  # = 100
+    Release101: int  # = 101
+    Release102: int  # = 102
+    Release103: int  # = 103
+    Release104: int  # = 104
+    Release105: int  # = 105
+    Release106: int  # = 106
+    Release107: int  # = 107
+    Release108: int  # = 108
+    Release109: int  # = 109
+    Release110: int  # = 110
+    Release111: int  # = 111
+    Release112: int  # = 112
+    Release113: int  # = 113
+    Release114: int  # = 114
+    Release115: int  # = 115
+    Release116: int  # = 116
+    Release117: int  # = 117
+    Release118: int  # = 118
+    Release119: int  # = 119
+    Release120: int  # = 120
+    Release121: int  # = 121
+    Release122: int  # = 122
+    Release123: int  # = 123
+    Release124: int  # = 124
+    ReleaseCheckExtended: int  # = 125
+    Release125: int  # = 125
+    Release126: int  # = 126
+    Release127: int  # = 127
+    Release128: int  # = 128
+    Release129: int  # = 129
+    Release130: int  # = 130
+    Release131: int  # = 131
+    Release132: int  # = 132
+    Release133: int  # = 133
+    Release134: int  # = 134
+    Release135: int  # = 135
+    Release136: int  # = 136
+    Release137: int  # = 137
+    Release138: int  # = 138
+    Release139: int  # = 139
+    Release140: int  # = 140
+    Release141: int  # = 141
+    Release142: int  # = 142
+    Release143: int  # = 143
+    Release144: int  # = 144
+    Release145: int  # = 145
+    Release146: int  # = 146
+    Release147: int  # = 147
+    Release148: int  # = 148
+    Release149: int  # = 149
+    Release150: int  # = 150
+    Release151: int  # = 151
+    Release152: int  # = 152
+    Release153: int  # = 153
+    Release154: int  # = 154
+    Release155: int  # = 155
+    Release156: int  # = 156
+    Release157: int  # = 157
+    Release158: int  # = 158
+    Release159: int  # = 159
+    Release160: int  # = 160
+    Release2010Newest: int  # = 226
+    Release2010Max: int  # = 255
+    ReleaseNewest: int  # = 427
+    ReleaseCurrent: int  # = 427
+    ReleaseExtendedCurrent: int  # = 477
+    ReleaseUnknown: int  # = 2147483646
+    ReleaseMax: int  # = 2147483647
 class MatchProperties(RXObject):
     """.NET: Autodesk.AutoCAD.DatabaseServices.MatchProperties"""
     def __init__(self, *args) -> None: ...
@@ -12335,15 +13130,18 @@ class Material(DBObject):
     UnmanagedObject: IntPtr
 
 class MeasurementValue:
-    """.NET: Autodesk.AutoCAD.DatabaseServices.MeasurementValue"""
+    """.NET enum: Autodesk.AutoCAD.DatabaseServices.MeasurementValue"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    English: int  # = 0
+    Metric: int  # = 1
 class MergeCellStyleOption:
-    """.NET: Autodesk.AutoCAD.DatabaseServices.MergeCellStyleOption"""
+    """.NET enum: Autodesk.AutoCAD.DatabaseServices.MergeCellStyleOption"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    None_: int  # = 0
+    CopyDuplicates: int  # = 1
+    OverwriteDuplicates: int  # = 2
+    ConvertDuplicatesToOverrrides: int  # = 4
+    IgnoreNewStyles: int  # = 8
 class MeshDataCollection:
     """.NET: Autodesk.AutoCAD.DatabaseServices.MeshDataCollection"""
     def __init__(self, *args) -> None: ...
@@ -12482,10 +13280,11 @@ class Mline(Entity):
     def VertexAt(self, index: int) -> Point3d: ...
 
 class MlineJustification:
-    """.NET: Autodesk.AutoCAD.DatabaseServices.MlineJustification"""
+    """.NET enum: Autodesk.AutoCAD.DatabaseServices.MlineJustification"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    Top: int  # = 0
+    Zero: int  # = 1
+    Bottom: int  # = 2
 class MlineStyle(DBObject):
     """.NET: Autodesk.AutoCAD.DatabaseServices.MlineStyle"""
     def __init__(self, *args) -> None: ...
@@ -12572,35 +13371,41 @@ class MlineStyleElementCollectionEnumerator:
     def Reset(self, ) -> None: ...
 
 class ModelDocViewLabelAlignmentType:
-    """.NET: Autodesk.AutoCAD.DatabaseServices.ModelDocViewLabelAlignmentType"""
+    """.NET enum: Autodesk.AutoCAD.DatabaseServices.ModelDocViewLabelAlignmentType"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    AlignmentLeft: int  # = 0
+    AlignmentCenter: int  # = 1
+    AlignmentRight: int  # = 2
 class ModelDocViewLabelAttachmentPoint:
-    """.NET: Autodesk.AutoCAD.DatabaseServices.ModelDocViewLabelAttachmentPoint"""
+    """.NET enum: Autodesk.AutoCAD.DatabaseServices.ModelDocViewLabelAttachmentPoint"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    AboveView: int  # = 0
+    BelowView: int  # = 1
 class ModelerFlavor:
-    """.NET: Autodesk.AutoCAD.DatabaseServices.ModelerFlavor"""
+    """.NET enum: Autodesk.AutoCAD.DatabaseServices.ModelerFlavor"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    Full: int  # = 0
+    RegionsOnly: int  # = 1
+    ObjectsOnly: int  # = 2
 class ModifiesOwnerAttribute(Attribute):
     """.NET: Autodesk.AutoCAD.DatabaseServices.ModifiesOwnerAttribute"""
     def __init__(self, *args) -> None: ...
     TypeId: object
 
 class MoveGripPointsFlags:
-    """.NET: Autodesk.AutoCAD.DatabaseServices.MoveGripPointsFlags"""
+    """.NET enum: Autodesk.AutoCAD.DatabaseServices.MoveGripPointsFlags"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    Osnapped: int  # = 1
+    Polar: int  # = 2
+    ObjectTrack: int  # = 4
+    ZDir: int  # = 8
+    Keyboard: int  # = 16
 class MoveType:
-    """.NET: Autodesk.AutoCAD.DatabaseServices.MoveType"""
+    """.NET enum: Autodesk.AutoCAD.DatabaseServices.MoveType"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    MoveAllPoints: int  # = 0
+    MoveAllExceptArrowHeaderPoints: int  # = 1
+    MoveContentAndDoglegPoints: int  # = 2
 class MultiModesGripPE(RXObject):
     """.NET: Autodesk.AutoCAD.DatabaseServices.MultiModesGripPE"""
     def __init__(self, *args) -> None: ...
@@ -12615,10 +13420,15 @@ class MultiModesGripPE(RXObject):
     def SetCurrentMode(self, entity: Entity, gripData: GripData, curMode: int) -> bool: ...
 
 class NewLayerNotification:
-    """.NET: Autodesk.AutoCAD.DatabaseServices.NewLayerNotification"""
+    """.NET enum: Autodesk.AutoCAD.DatabaseServices.NewLayerNotification"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    NoNewLayerNotification: int  # = 0
+    NotifyOnPlot: int  # = 1
+    NotifyOnOpen: int  # = 2
+    NotifyOnXrefAttachAndReload: int  # = 4
+    NotifyOnLayerStateRestore: int  # = 8
+    NotifyOnSave: int  # = 16
+    NotifyOnInsert: int  # = 32
 class NormalConstraint(GeometricalConstraint):
     """.NET: Autodesk.AutoCAD.DatabaseServices.NormalConstraint"""
     def __init__(self, *args) -> None: ...
@@ -12979,10 +13789,17 @@ class ObjectSnapInfo:
     SnapPoints: Point3dCollection
 
 class ObjectSnapModes:
-    """.NET: Autodesk.AutoCAD.DatabaseServices.ObjectSnapModes"""
+    """.NET enum: Autodesk.AutoCAD.DatabaseServices.ObjectSnapModes"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    ModeEnd: int  # = 1
+    ModeMid: int  # = 2
+    ModeCenter: int  # = 3
+    ModeNode: int  # = 4
+    ModeQuad: int  # = 5
+    ModeIns: int  # = 7
+    ModePerpendicular: int  # = 8
+    ModeTangent: int  # = 9
+    ModeNear: int  # = 10
 class ObjectTypeAttribute(Attribute):
     """.NET: Autodesk.AutoCAD.DatabaseServices.ObjectTypeAttribute"""
     def __init__(self, *args) -> None: ...
@@ -13095,10 +13912,11 @@ class OpenCloseTransaction(Transaction):
     def GetObject(self, id: ObjectId, mode: OpenMode, openErased: bool, forceOpenOnLockedLayer: bool) -> DBObject: ...
 
 class OpenMode:
-    """.NET: Autodesk.AutoCAD.DatabaseServices.OpenMode"""
+    """.NET enum: Autodesk.AutoCAD.DatabaseServices.OpenMode"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    ForRead: int  # = 0
+    ForWrite: int  # = 1
+    ForNotify: int  # = 2
 class OpenModeAttribute(Attribute):
     """.NET: Autodesk.AutoCAD.DatabaseServices.OpenModeAttribute"""
     def __init__(self, *args) -> None: ...
@@ -13305,10 +14123,15 @@ class OrdinateDimension(Dimension):
     UnmanagedObject: IntPtr
 
 class OrthographicView:
-    """.NET: Autodesk.AutoCAD.DatabaseServices.OrthographicView"""
+    """.NET enum: Autodesk.AutoCAD.DatabaseServices.OrthographicView"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    NonOrthoView: int  # = 0
+    TopView: int  # = 1
+    BottomView: int  # = 2
+    FrontView: int  # = 3
+    BackView: int  # = 4
+    LeftView: int  # = 5
+    RightView: int  # = 6
 class OsnapOverrule(Overrule):
     """.NET: Autodesk.AutoCAD.DatabaseServices.OsnapOverrule"""
     def __init__(self, *args) -> None: ...
@@ -13329,10 +14152,11 @@ class PCAdsName:
     ...
 
 class PaperOrientationStates:
-    """.NET: Autodesk.AutoCAD.DatabaseServices.PaperOrientationStates"""
+    """.NET enum: Autodesk.AutoCAD.DatabaseServices.PaperOrientationStates"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    True_: int  # = 0
+    False_: int  # = 1
+    NotApplicable: int  # = 2
 class ParallelConstraint(GeometricalConstraint):
     """.NET: Autodesk.AutoCAD.DatabaseServices.ParallelConstraint"""
     def __init__(self, *args) -> None: ...
@@ -13391,20 +14215,24 @@ class ParameterValueSetMinMax(ParameterValueSet):
     UnmanagedObject: IntPtr
 
 class ParseOption:
-    """.NET: Autodesk.AutoCAD.DatabaseServices.ParseOption"""
+    """.NET enum: Autodesk.AutoCAD.DatabaseServices.ParseOption"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    ParseOptionNone: int  # = 0
+    SetDefaultFormat: int  # = 1
+    PreserveMtextFormat: int  # = 2
 class PasswordOptions:
-    """.NET: Autodesk.AutoCAD.DatabaseServices.PasswordOptions"""
+    """.NET enum: Autodesk.AutoCAD.DatabaseServices.PasswordOptions"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    Default: int  # = 0
+    UpperCase: int  # = 1
+    IsExternalReference: int  # = 2
 class PathOption:
-    """.NET: Autodesk.AutoCAD.DatabaseServices.PathOption"""
+    """.NET enum: Autodesk.AutoCAD.DatabaseServices.PathOption"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    NoPath: int  # = 1
+    RelativePath: int  # = 2
+    AbsolutePath: int  # = 3
+    PathAndFile: int  # = 4
 class PathRef(GeomRef):
     """.NET: Autodesk.AutoCAD.DatabaseServices.PathRef"""
     def __init__(self, *args) -> None: ...
@@ -13588,10 +14416,11 @@ class PerpendicularConstraint(GeometricalConstraint):
     UnmanagedObject: IntPtr
 
 class PhysicalIntensityMethod:
-    """.NET: Autodesk.AutoCAD.DatabaseServices.PhysicalIntensityMethod"""
+    """.NET enum: Autodesk.AutoCAD.DatabaseServices.PhysicalIntensityMethod"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    PeakIntensity: int  # = 0
+    Flux: int  # = 1
+    Illuminance: int  # = 2
 class PlaceHolder(DBObject):
     """.NET: Autodesk.AutoCAD.DatabaseServices.PlaceHolder"""
     def __init__(self, *args) -> None: ...
@@ -13637,10 +14466,11 @@ class PlaceHolder(DBObject):
     UnmanagedObject: IntPtr
 
 class Planarity:
-    """.NET: Autodesk.AutoCAD.DatabaseServices.Planarity"""
+    """.NET enum: Autodesk.AutoCAD.DatabaseServices.Planarity"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    NonPlanar: int  # = 0
+    Planar: int  # = 1
+    Linear: int  # = 2
 class PlaneSurface(Surface):
     """.NET: Autodesk.AutoCAD.DatabaseServices.PlaneSurface"""
     def __init__(self, *args) -> None: ...
@@ -13725,15 +14555,18 @@ class PlaneSurface(Surface):
     def CreateFromRegion(self, region: Region) -> None: ...
 
 class PlotPaperUnit:
-    """.NET: Autodesk.AutoCAD.DatabaseServices.PlotPaperUnit"""
+    """.NET enum: Autodesk.AutoCAD.DatabaseServices.PlotPaperUnit"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    Inches: int  # = 0
+    Millimeters: int  # = 1
+    Pixels: int  # = 2
 class PlotRotation:
-    """.NET: Autodesk.AutoCAD.DatabaseServices.PlotRotation"""
+    """.NET enum: Autodesk.AutoCAD.DatabaseServices.PlotRotation"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    Degrees000: int  # = 0
+    Degrees090: int  # = 1
+    Degrees180: int  # = 2
+    Degrees270: int  # = 3
 class PlotSettings(DBObject):
     """.NET: Autodesk.AutoCAD.DatabaseServices.PlotSettings"""
     def __init__(self, *args) -> None: ...
@@ -13813,10 +14646,14 @@ class PlotSettings(DBObject):
     def SetShadePlot(self, type: PlotSettingsShadePlotType, shadePlotId: ObjectId) -> None: ...
 
 class PlotSettingsShadePlotType:
-    """.NET: Autodesk.AutoCAD.DatabaseServices.PlotSettingsShadePlotType"""
+    """.NET enum: Autodesk.AutoCAD.DatabaseServices.PlotSettingsShadePlotType"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    AsDisplayed: int  # = 0
+    Wireframe: int  # = 1
+    Hidden: int  # = 2
+    Rendered: int  # = 3
+    VisualStyle: int  # = 4
+    RenderPreset: int  # = 5
 class PlotSettingsValidator(DisposableWrapper):
     """.NET: Autodesk.AutoCAD.DatabaseServices.PlotSettingsValidator"""
     def __init__(self, *args) -> None: ...
@@ -13857,10 +14694,12 @@ class PlotStyleDescriptor:
     def ToString(self, provider: IFormatProvider) -> str: ...
 
 class PlotStyleNameType:
-    """.NET: Autodesk.AutoCAD.DatabaseServices.PlotStyleNameType"""
+    """.NET enum: Autodesk.AutoCAD.DatabaseServices.PlotStyleNameType"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    PlotStyleNameByLayer: int  # = 0
+    PlotStyleNameByBlock: int  # = 1
+    PlotStyleNameIsDictionaryDefault: int  # = 2
+    PlotStyleNameById: int  # = 3
 class PlotStyleTableChangedEventArgs(EventArgs):
     """.NET: Autodesk.AutoCAD.DatabaseServices.PlotStyleTableChangedEventArgs"""
     def __init__(self, *args) -> None: ...
@@ -13877,10 +14716,14 @@ class PlotStyleTableChangedEventHandler:
     def Invoke(self, sender: object, e: PlotStyleTableChangedEventArgs) -> None: ...
 
 class PlotType:
-    """.NET: Autodesk.AutoCAD.DatabaseServices.PlotType"""
+    """.NET enum: Autodesk.AutoCAD.DatabaseServices.PlotType"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    Display: int  # = 0
+    Extents: int  # = 1
+    Limits: int  # = 2
+    View: int  # = 3
+    Window: int  # = 4
+    Layout: int  # = 5
 class Point3AngularDimension(Dimension):
     """.NET: Autodesk.AutoCAD.DatabaseServices.Point3AngularDimension"""
     def __init__(self, *args) -> None: ...
@@ -14269,10 +15112,12 @@ class PointCloudCrop:
     def IsValid(self, ) -> bool: ...
 
 class PointCloudCropType:
-    """.NET: Autodesk.AutoCAD.DatabaseServices.PointCloudCropType"""
+    """.NET enum: Autodesk.AutoCAD.DatabaseServices.PointCloudCropType"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    Invalid: int  # = 0
+    Rectangular: int  # = 1
+    Polygonal: int  # = 2
+    Circular: int  # = 3
 class PointCloudDefEx(DBObject):
     """.NET: Autodesk.AutoCAD.DatabaseServices.PointCloudDefEx"""
     def __init__(self, *args) -> None: ...
@@ -14335,10 +15180,11 @@ class PointCloudDefEx(DBObject):
     def unload(self, ) -> bool: ...
 
 class PointCloudDispOptionOutOfRange:
-    """.NET: Autodesk.AutoCAD.DatabaseServices.PointCloudDispOptionOutOfRange"""
+    """.NET enum: Autodesk.AutoCAD.DatabaseServices.PointCloudDispOptionOutOfRange"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    UseMinMaxColors: int  # = 0
+    UseRGBScanColors: int  # = 1
+    HidePoints: int  # = 2
 class PointCloudEx(Entity):
     """.NET: Autodesk.AutoCAD.DatabaseServices.PointCloudEx"""
     def __init__(self, *args) -> None: ...
@@ -14469,25 +15315,39 @@ class PointCloudItem(Notifier):
     def ToCmdString(self, ) -> str: ...
 
 class PointCloudItemType:
-    """.NET: Autodesk.AutoCAD.DatabaseServices.PointCloudItemType"""
+    """.NET enum: Autodesk.AutoCAD.DatabaseServices.PointCloudItemType"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    LegacyPointCloud: int  # = 0
+    PointCloudProject: int  # = 1
+    IndividualScan: int  # = 2
+    Scan: int  # = 3
+    Region: int  # = 4
+    ScanRootGroup: int  # = 5
+    RegionRootGroup: int  # = 6
+    UnassignedPoint: int  # = 7
 class PointCloudProperty:
-    """.NET: Autodesk.AutoCAD.DatabaseServices.PointCloudProperty"""
+    """.NET enum: Autodesk.AutoCAD.DatabaseServices.PointCloudProperty"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    Color: int  # = 1
+    Intensity: int  # = 2
+    Classification: int  # = 3
+    Normal: int  # = 4
+    TerrestrialClassification: int  # = 7
 class PointCloudPropertyState:
-    """.NET: Autodesk.AutoCAD.DatabaseServices.PointCloudPropertyState"""
+    """.NET enum: Autodesk.AutoCAD.DatabaseServices.PointCloudPropertyState"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    Some: int  # = 0
+    All: int  # = 1
+    None_: int  # = -1
 class PointCloudStylizationType:
-    """.NET: Autodesk.AutoCAD.DatabaseServices.PointCloudStylizationType"""
+    """.NET enum: Autodesk.AutoCAD.DatabaseServices.PointCloudStylizationType"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    TrueColor: int  # = 1
+    SingleColor: int  # = 2
+    NormalRamp: int  # = 3
+    HeightRamp: int  # = 4
+    IntensityRamp: int  # = 5
+    ClassificationRamp: int  # = 6
 class PointCoincidenceConstraint(GeometricalConstraint):
     """.NET: Autodesk.AutoCAD.DatabaseServices.PointCoincidenceConstraint"""
     def __init__(self, *args) -> None: ...
@@ -14521,15 +15381,18 @@ class PointCurveConstraint(GeometricalConstraint):
     UnmanagedObject: IntPtr
 
 class Poly2dType:
-    """.NET: Autodesk.AutoCAD.DatabaseServices.Poly2dType"""
+    """.NET enum: Autodesk.AutoCAD.DatabaseServices.Poly2dType"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    SimplePoly: int  # = 0
+    FitCurvePoly: int  # = 1
+    QuadSplinePoly: int  # = 2
+    CubicSplinePoly: int  # = 3
 class Poly3dType:
-    """.NET: Autodesk.AutoCAD.DatabaseServices.Poly3dType"""
+    """.NET enum: Autodesk.AutoCAD.DatabaseServices.Poly3dType"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    SimplePoly: int  # = 0
+    QuadSplinePoly: int  # = 1
+    CubicSplinePoly: int  # = 2
 class PolyFaceMesh(Entity):
     """.NET: Autodesk.AutoCAD.DatabaseServices.PolyFaceMesh"""
     def __init__(self, *args) -> None: ...
@@ -14687,10 +15550,12 @@ class PolyFaceMeshVertex(Vertex):
     UnmanagedObject: IntPtr
 
 class PolyMeshType:
-    """.NET: Autodesk.AutoCAD.DatabaseServices.PolyMeshType"""
+    """.NET enum: Autodesk.AutoCAD.DatabaseServices.PolyMeshType"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    SimpleMesh: int  # = 0
+    QuadSurfaceMesh: int  # = 5
+    CubicSurfaceMesh: int  # = 6
+    BezierSurfaceMesh: int  # = 8
 class PolygonMesh(Entity):
     """.NET: Autodesk.AutoCAD.DatabaseServices.PolygonMesh"""
     def __init__(self, *args) -> None: ...
@@ -15903,10 +16768,11 @@ class RapidRTRenderSettings(RenderSettings):
     def CopyFrom(self, srcObject: RapidRTRenderSettings) -> None: ...
 
 class RapidRTRenderTarget:
-    """.NET: Autodesk.AutoCAD.DatabaseServices.RapidRTRenderTarget"""
+    """.NET enum: Autodesk.AutoCAD.DatabaseServices.RapidRTRenderTarget"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    Level: int  # = 0
+    Time: int  # = 1
+    Infinite: int  # = 2
 class RasterImage(Image):
     """.NET: Autodesk.AutoCAD.DatabaseServices.RasterImage"""
     def __init__(self, *args) -> None: ...
@@ -16574,10 +17440,33 @@ class RenderSettings(DBObject):
     UnmanagedObject: IntPtr
 
 class ReservedStringEnumType:
-    """.NET: Autodesk.AutoCAD.DatabaseServices.ReservedStringEnumType"""
+    """.NET enum: Autodesk.AutoCAD.DatabaseServices.ReservedStringEnumType"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    ByLayer: int  # = 0
+    ByBlock: int  # = 1
+    None_: int  # = 2
+    Continuous: int  # = 3
+    Standard: int  # = 4
+    Normal: int  # = 5
+    DefPoints: int  # = 6
+    Default: int  # = 7
+    Missing: int  # = 8
+    ByColor: int  # = 9
+    Model: int  # = 10
+    Global: int  # = 11
+    VS2DWireframe: int  # = 12
+    VS3DWireframe: int  # = 13
+    VS3DHidden: int  # = 14
+    VSRealistic: int  # = 15
+    VSConceptual: int  # = 16
+    Title: int  # = 17
+    Header: int  # = 18
+    Data: int  # = 19
+    VSShadesOfGray: int  # = 20
+    VSSketchy: int  # = 21
+    VSXRay: int  # = 22
+    VSShadedWithEdges: int  # = 23
+    VSShaded: int  # = 24
 class ResultBuffer(DisposableWrapper):
     """.NET: Autodesk.AutoCAD.DatabaseServices.ResultBuffer"""
     def __init__(self, *args) -> None: ...
@@ -16719,10 +17608,11 @@ class RevolvedSurface(Surface):
     def SetRevolve(self, axisPoint: Point3d, axisDirection: Vector3d, revolveAngle: float, revolveOptions: RevolveOptions) -> None: ...
 
 class RigidSetTypeInfo:
-    """.NET: Autodesk.AutoCAD.DatabaseServices.RigidSetTypeInfo"""
+    """.NET enum: Autodesk.AutoCAD.DatabaseServices.RigidSetTypeInfo"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    NotRigidSet: int  # = 0
+    ScalableRigidSet: int  # = 1
+    NonScalableRigidSet: int  # = 2
 class RotatedDimension(Dimension):
     """.NET: Autodesk.AutoCAD.DatabaseServices.RotatedDimension"""
     def __init__(self, *args) -> None: ...
@@ -16923,10 +17813,13 @@ class RotatedDimension(Dimension):
     UnmanagedObject: IntPtr
 
 class RotationAngle:
-    """.NET: Autodesk.AutoCAD.DatabaseServices.RotationAngle"""
+    """.NET enum: Autodesk.AutoCAD.DatabaseServices.RotationAngle"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    Degrees000: int  # = 0
+    Degrees090: int  # = 1
+    Degrees180: int  # = 2
+    Degrees270: int  # = 3
+    DegreesUnknown: int  # = -1
 class Row(CellRange):
     """.NET: Autodesk.AutoCAD.DatabaseServices.Row"""
     def __init__(self, *args) -> None: ...
@@ -16967,10 +17860,12 @@ class Row(CellRange):
     ParentTable: Table
 
 class RowType:
-    """.NET: Autodesk.AutoCAD.DatabaseServices.RowType"""
+    """.NET enum: Autodesk.AutoCAD.DatabaseServices.RowType"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    UnknownRow: int  # = 0
+    DataRow: int  # = 1
+    TitleRow: int  # = 2
+    HeaderRow: int  # = 4
 class RowsCollection:
     """.NET: Autodesk.AutoCAD.DatabaseServices.RowsCollection"""
     def __init__(self, *args) -> None: ...
@@ -16979,15 +17874,25 @@ class RowsCollection:
     def GetEnumerator(self, ) -> IEnumerator: ...
 
 class SaveType:
-    """.NET: Autodesk.AutoCAD.DatabaseServices.SaveType"""
+    """.NET enum: Autodesk.AutoCAD.DatabaseServices.SaveType"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    NoSave: int  # = 0
+    Save12: int  # = 1
+    Save13: int  # = 2
+    Save14: int  # = 3
+    Save2000: int  # = 4
+    Save2004: int  # = 5
+    Save2007: int  # = 6
+    Save2010: int  # = 7
+    Save2013: int  # = 8
+    Save2018: int  # = 9
 class ScaleEstimationMethod:
-    """.NET: Autodesk.AutoCAD.DatabaseServices.ScaleEstimationMethod"""
+    """.NET enum: Autodesk.AutoCAD.DatabaseServices.ScaleEstimationMethod"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    ScaleEstMethodUnity: int  # = 1
+    ScaleEstMethodUserDefined: int  # = 2
+    ScaleEstMethodReferencePoint: int  # = 3
+    ScaleEstMethodPrismoidal: int  # = 4
 class Section(Entity):
     """.NET: Autodesk.AutoCAD.DatabaseServices.Section"""
     def __init__(self, *args) -> None: ...
@@ -17093,20 +17998,26 @@ class Section(Entity):
     def SetVertex(self, nIndex: int, pt: Point3d) -> None: ...
 
 class SectionGeneration:
-    """.NET: Autodesk.AutoCAD.DatabaseServices.SectionGeneration"""
+    """.NET enum: Autodesk.AutoCAD.DatabaseServices.SectionGeneration"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    SourceAllObjects: int  # = 1
+    SourceSelectedObjects: int  # = 2
+    DestinationNewBlock: int  # = 16
+    DestinationReplaceBlock: int  # = 32
+    DestinationFile: int  # = 64
 class SectionGeometry:
-    """.NET: Autodesk.AutoCAD.DatabaseServices.SectionGeometry"""
+    """.NET enum: Autodesk.AutoCAD.DatabaseServices.SectionGeometry"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    IntersectionBoundary: int  # = 1
+    IntersectionFill: int  # = 2
+    BackgroundGeometry: int  # = 4
+    ForegroundGeometry: int  # = 8
+    CurveTangencyLines: int  # = 16
 class SectionHeight:
-    """.NET: Autodesk.AutoCAD.DatabaseServices.SectionHeight"""
+    """.NET enum: Autodesk.AutoCAD.DatabaseServices.SectionHeight"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    HeightAboveSectionLine: int  # = 1
+    HeightBelowSectionLine: int  # = 2
 class SectionHitTestInfo:
     """.NET: Autodesk.AutoCAD.DatabaseServices.SectionHitTestInfo"""
     def __init__(self, *args) -> None: ...
@@ -17252,15 +18163,23 @@ class SectionSettings(DBObject):
     def Visibility(self, nSecType: SectionType, nGeometry: SectionGeometry) -> bool: ...
 
 class SectionState:
-    """.NET: Autodesk.AutoCAD.DatabaseServices.SectionState"""
+    """.NET enum: Autodesk.AutoCAD.DatabaseServices.SectionState"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    Plane: int  # = 1
+    Boundary: int  # = 2
+    Volume: int  # = 4
 class SectionSubItem:
-    """.NET: Autodesk.AutoCAD.DatabaseServices.SectionSubItem"""
+    """.NET enum: Autodesk.AutoCAD.DatabaseServices.SectionSubItem"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    SectionSubItemNone: int  # = 0
+    SectionLine: int  # = 1
+    SectionLineTop: int  # = 2
+    SectionLineBottom: int  # = 4
+    BackLine: int  # = 8
+    BackLineTop: int  # = 16
+    BackLineBottom: int  # = 32
+    VerticalLineTop: int  # = 64
+    VerticalLineBottom: int  # = 128
 class SectionSymbol(Entity):
     """.NET: Autodesk.AutoCAD.DatabaseServices.SectionSymbol"""
     def __init__(self, *args) -> None: ...
@@ -17356,20 +18275,24 @@ class SectionSymbol(Entity):
     def SetSectionPoints(self, points: Point3dCollection, bulges: DoubleCollection) -> None: ...
 
 class SectionType:
-    """.NET: Autodesk.AutoCAD.DatabaseServices.SectionType"""
+    """.NET enum: Autodesk.AutoCAD.DatabaseServices.SectionType"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    LiveSection: int  # = 1
+    Section2d: int  # = 2
+    Section3d: int  # = 4
 class SectionViewArrowDirection:
-    """.NET: Autodesk.AutoCAD.DatabaseServices.SectionViewArrowDirection"""
+    """.NET enum: Autodesk.AutoCAD.DatabaseServices.SectionViewArrowDirection"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    TowardsCuttingPlane: int  # = 0
+    AwayFromCuttingPlane: int  # = 1
 class SectionViewIdentifierPosition:
-    """.NET: Autodesk.AutoCAD.DatabaseServices.SectionViewIdentifierPosition"""
+    """.NET enum: Autodesk.AutoCAD.DatabaseServices.SectionViewIdentifierPosition"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    EndCuttingPlane: int  # = 0
+    AboveDirectionArrowLine: int  # = 1
+    AboveDirectionArrowSymbol: int  # = 2
+    StartDirectionArrow: int  # = 3
+    EndDirectionArrow: int  # = 4
 class SectionViewStyle(DBObject):
     """.NET: Autodesk.AutoCAD.DatabaseServices.SectionViewStyle"""
     def __init__(self, *args) -> None: ...
@@ -17466,15 +18389,16 @@ class SectionViewStyle(DBObject):
     def ValidateViewName(self, name: str) -> bool: ...
 
 class SecurityActions:
-    """.NET: Autodesk.AutoCAD.DatabaseServices.SecurityActions"""
+    """.NET enum: Autodesk.AutoCAD.DatabaseServices.SecurityActions"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    EncryptData: int  # = 1
+    EncryptProperties: int  # = 2
+    SignData: int  # = 16
+    AddTimeStamp: int  # = 32
 class SecurityAlgorithm:
-    """.NET: Autodesk.AutoCAD.DatabaseServices.SecurityAlgorithm"""
+    """.NET enum: Autodesk.AutoCAD.DatabaseServices.SecurityAlgorithm"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    RC4: int  # = 26625
 class SecurityParameters:
     """.NET: Autodesk.AutoCAD.DatabaseServices.SecurityParameters"""
     def __init__(self, *args) -> None: ...
@@ -17494,15 +18418,18 @@ class SecurityParameters:
     def ToString(self, provider: IFormatProvider) -> str: ...
 
 class SegmentType:
-    """.NET: Autodesk.AutoCAD.DatabaseServices.SegmentType"""
+    """.NET enum: Autodesk.AutoCAD.DatabaseServices.SegmentType"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    Line: int  # = 0
+    Arc: int  # = 1
+    Coincident: int  # = 2
+    Point: int  # = 3
+    Empty: int  # = 4
 class SelectType:
-    """.NET: Autodesk.AutoCAD.DatabaseServices.SelectType"""
+    """.NET enum: Autodesk.AutoCAD.DatabaseServices.SelectType"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    Window: int  # = 1
+    Crossing: int  # = 2
 class SequenceEnd(Entity):
     """.NET: Autodesk.AutoCAD.DatabaseServices.SequenceEnd"""
     def __init__(self, *args) -> None: ...
@@ -17579,15 +18506,23 @@ class SequenceEnd(Entity):
     UnmanagedObject: IntPtr
 
 class ShadePlotResLevel:
-    """.NET: Autodesk.AutoCAD.DatabaseServices.ShadePlotResLevel"""
+    """.NET enum: Autodesk.AutoCAD.DatabaseServices.ShadePlotResLevel"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    Draft: int  # = 0
+    Preview: int  # = 1
+    Normal: int  # = 2
+    Presentation: int  # = 3
+    Maximum: int  # = 4
+    Custom: int  # = 5
 class ShadePlotType:
-    """.NET: Autodesk.AutoCAD.DatabaseServices.ShadePlotType"""
+    """.NET enum: Autodesk.AutoCAD.DatabaseServices.ShadePlotType"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    AsDisplayed: int  # = 0
+    Wireframe: int  # = 1
+    Hidden: int  # = 2
+    Rendered: int  # = 3
+    VisualStyle: int  # = 4
+    RenderPreset: int  # = 5
 class Shape(Entity):
     """.NET: Autodesk.AutoCAD.DatabaseServices.Shape"""
     def __init__(self, *args) -> None: ...
@@ -17982,10 +18917,12 @@ class SolidBackground(Background):
     UnmanagedObject: IntPtr
 
 class SourceType:
-    """.NET: Autodesk.AutoCAD.DatabaseServices.SourceType"""
+    """.NET enum: Autodesk.AutoCAD.DatabaseServices.SourceType"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    SourceNotDefined: int  # = 0
+    InventorSource: int  # = 1
+    FusionSource: int  # = 2
+    ModelSpaceSource: int  # = 3
 class Spline(Curve):
     """.NET: Autodesk.AutoCAD.DatabaseServices.Spline"""
     def __init__(self, *args) -> None: ...
@@ -18100,20 +19037,84 @@ class Spline(Curve):
     def WeightAt(self, index: int) -> float: ...
 
 class SplineType:
-    """.NET: Autodesk.AutoCAD.DatabaseServices.SplineType"""
+    """.NET enum: Autodesk.AutoCAD.DatabaseServices.SplineType"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    FitPoints: int  # = 0
+    ControlPoints: int  # = 1
 class StandardScaleType:
-    """.NET: Autodesk.AutoCAD.DatabaseServices.StandardScaleType"""
+    """.NET enum: Autodesk.AutoCAD.DatabaseServices.StandardScaleType"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    ScaleToFit: int  # = 0
+    CustomScale: int  # = 1
+    Scale1To1: int  # = 2
+    Scale1To2: int  # = 3
+    Scale1To4: int  # = 4
+    Scale1To5: int  # = 5
+    Scale1To8: int  # = 6
+    Scale1To10: int  # = 7
+    Scale1To16: int  # = 8
+    Scale1To20: int  # = 9
+    Scale1To30: int  # = 10
+    Scale1To40: int  # = 11
+    Scale1To50: int  # = 12
+    Scale1To100: int  # = 13
+    Scale2To1: int  # = 14
+    Scale4To1: int  # = 15
+    Scale8To1: int  # = 16
+    Scale10To1: int  # = 17
+    Scale100To1: int  # = 18
+    Scale1To128inAnd1ft: int  # = 19
+    Scale1To64inchAnd1ft: int  # = 20
+    Scale1To32inchAnd1ft: int  # = 21
+    Scale1To16inchAnd1ft: int  # = 22
+    Scale3To32inchAnd1ft: int  # = 23
+    Scale1To8inchAnd1ft: int  # = 24
+    Scale3To16inchAnd1ft: int  # = 25
+    Scale1To4inchAnd1ft: int  # = 26
+    Scale3To8inchAnd1ft: int  # = 27
+    Scale1To2inchAnd1ft: int  # = 28
+    Scale3To4inchAnd1ft: int  # = 29
+    Scale1inAnd1ft: int  # = 30
+    Scale3inAnd1ft: int  # = 32
+    Scale6inAnd1ft: int  # = 33
+    Scale1ftAnd1ft: int  # = 34
 class StdScaleType:
-    """.NET: Autodesk.AutoCAD.DatabaseServices.StdScaleType"""
+    """.NET enum: Autodesk.AutoCAD.DatabaseServices.StdScaleType"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    ScaleToFit: int  # = 0
+    StdScale1To128InchIs1ft: int  # = 1
+    StdScale1To64InchIs1ft: int  # = 2
+    StdScale1To32InchIs1ft: int  # = 3
+    StdScale1To16InchIs1ft: int  # = 4
+    StdScale3To32InchIs1ft: int  # = 5
+    StdScale1To8InchIs1ft: int  # = 6
+    StdScale3To16InchIs1ft: int  # = 7
+    StdScale1To4InchIs1ft: int  # = 8
+    StdScale3To8InchIs1ft: int  # = 9
+    StdScale1To2InchIs1ft: int  # = 10
+    StdScale3To4InchIs1ft: int  # = 11
+    StdScale1InchIs1ft: int  # = 12
+    StdScale3InchIs1ft: int  # = 13
+    StdScale6InchIs1ft: int  # = 14
+    StdScale1ftIs1ft: int  # = 15
+    StdScale1To1: int  # = 16
+    StdScale1To2: int  # = 17
+    StdScale1To4: int  # = 18
+    StdScale1To5: int  # = 19
+    StdScale1To8: int  # = 20
+    StdScale1To10: int  # = 21
+    StdScale1To16: int  # = 22
+    StdScale1To20: int  # = 23
+    StdScale1To30: int  # = 24
+    StdScale1To40: int  # = 25
+    StdScale1To50: int  # = 26
+    StdScale1To100: int  # = 27
+    StdScale2To1: int  # = 28
+    StdScale4To1: int  # = 29
+    StdScale8To1: int  # = 30
+    StdScale10To1: int  # = 31
+    StdScale100To1: int  # = 32
+    StdScale1000To1: int  # = 33
 class SubDMesh(Entity):
     """.NET: Autodesk.AutoCAD.DatabaseServices.SubDMesh"""
     def __init__(self, *args) -> None: ...
@@ -18302,10 +19303,14 @@ class SubentityOverrule(Overrule):
     def TransformSubentPathsBy(self, entity: Entity, paths: list, xform: Matrix3d) -> None: ...
 
 class SubentityType:
-    """.NET: Autodesk.AutoCAD.DatabaseServices.SubentityType"""
+    """.NET enum: Autodesk.AutoCAD.DatabaseServices.SubentityType"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    Null: int  # = 0
+    Face: int  # = 1
+    Edge: int  # = 2
+    Vertex: int  # = 3
+    MlineCache: int  # = 4
+    Class: int  # = 5
 class Sun(DBObject):
     """.NET: Autodesk.AutoCAD.DatabaseServices.Sun"""
     def __init__(self, *args) -> None: ...
@@ -18531,10 +19536,12 @@ class SweepOptions(DisposableWrapper):
     def Clone(self, ) -> object: ...
 
 class SweepOptionsAlignOption:
-    """.NET: Autodesk.AutoCAD.DatabaseServices.SweepOptionsAlignOption"""
+    """.NET enum: Autodesk.AutoCAD.DatabaseServices.SweepOptionsAlignOption"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    NoAlignment: int  # = 0
+    AlignSweepEntityToPath: int  # = 1
+    TranslateSweepEntityToPath: int  # = 2
+    TranslatePathToSweepEntity: int  # = 3
 class SweepOptionsBuilder:
     """.NET: Autodesk.AutoCAD.DatabaseServices.SweepOptionsBuilder"""
     def __init__(self, *args) -> None: ...
@@ -19157,20 +20164,27 @@ class Table(BlockReference):
     def Value(self, row: int, col: int) -> object: ...
 
 class TableBreakFlowDirection:
-    """.NET: Autodesk.AutoCAD.DatabaseServices.TableBreakFlowDirection"""
+    """.NET enum: Autodesk.AutoCAD.DatabaseServices.TableBreakFlowDirection"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    Right: int  # = 1
+    DownOrUp: int  # = 2
+    Left: int  # = 4
 class TableBreakOptions:
-    """.NET: Autodesk.AutoCAD.DatabaseServices.TableBreakOptions"""
+    """.NET enum: Autodesk.AutoCAD.DatabaseServices.TableBreakOptions"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    None_: int  # = 0
+    EnableBreaking: int  # = 1
+    RepeatTopLabels: int  # = 2
+    RepeatBottomLabels: int  # = 4
+    AllowManualPositions: int  # = 8
+    AllowManualHeights: int  # = 16
 class TableCellType:
-    """.NET: Autodesk.AutoCAD.DatabaseServices.TableCellType"""
+    """.NET enum: Autodesk.AutoCAD.DatabaseServices.TableCellType"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    UnknownCell: int  # = 0
+    TextCell: int  # = 1
+    BlockCell: int  # = 2
+    MultipleContentCell: int  # = 3
 class TableContent(FormattedTableData):
     """.NET: Autodesk.AutoCAD.DatabaseServices.TableContent"""
     def __init__(self, *args) -> None: ...
@@ -19227,10 +20241,35 @@ class TableContent(FormattedTableData):
     def SetRowHeight(self, row: int, height: float) -> None: ...
 
 class TableCopyOptions:
-    """.NET: Autodesk.AutoCAD.DatabaseServices.TableCopyOptions"""
+    """.NET enum: Autodesk.AutoCAD.DatabaseServices.TableCopyOptions"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    None_: int  # = 0
+    ExpandOrContractTable: int  # = 1
+    SkipContent: int  # = 2
+    SkipValue: int  # = 4
+    SkipField: int  # = 8
+    SkipFormula: int  # = 16
+    SkipBlock: int  # = 32
+    SkipDataLink: int  # = 64
+    SkipLabelCell: int  # = 128
+    SkipDataCell: int  # = 256
+    SkipFormat: int  # = 512
+    SkipCellStyle: int  # = 1024
+    ConvertFormatToOverrides: int  # = 2048
+    SkipCellState: int  # = 4096
+    SkipContentFormat: int  # = 8192
+    SkipDissimilarContentFormat: int  # = 16384
+    SkipGeometry: int  # = 32768
+    SkipMerges: int  # = 65536
+    FillTarget: int  # = 131072
+    OverwriteReadOnlyContent: int  # = 262144
+    OverwriteReadOnlyFormat: int  # = 524288
+    OverwriteContentModifiedAfterUpdate: int  # = 1048576
+    OverwriteFormatModifiedAfterUpdate: int  # = 2097152
+    OnlyContentModifiedAfterUpdate: int  # = 4194304
+    OnlyFormatModifiedAfterUpdate: int  # = 8388608
+    TableCopyRowHeight: int  # = 16777216
+    TableCopyColumnWidth: int  # = 33554432
 class TableEnumerator(DisposableWrapper):
     """.NET: Autodesk.AutoCAD.DatabaseServices.TableEnumerator"""
     def __init__(self, *args) -> None: ...
@@ -19242,15 +20281,26 @@ class TableEnumerator(DisposableWrapper):
     def Reset(self, ) -> None: ...
 
 class TableEnumeratorOption:
-    """.NET: Autodesk.AutoCAD.DatabaseServices.TableEnumeratorOption"""
+    """.NET enum: Autodesk.AutoCAD.DatabaseServices.TableEnumeratorOption"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    None_: int  # = 0
+    IterateSelection: int  # = 1
+    IterateRows: int  # = 2
+    IterateColumns: int  # = 4
+    SkipReadOnlyContent: int  # = 16
+    SkipReadOnlyFormat: int  # = 32
+    SkipMerged: int  # = 64
 class TableFillOptions:
-    """.NET: Autodesk.AutoCAD.DatabaseServices.TableFillOptions"""
+    """.NET enum: Autodesk.AutoCAD.DatabaseServices.TableFillOptions"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    None_: int  # = 0
+    Row: int  # = 1
+    Reverse: int  # = 2
+    GenerateSeries: int  # = 4
+    CopyContent: int  # = 8
+    CopyFormat: int  # = 16
+    OverwriteReadOnlyContent: int  # = 32
+    OverwriteReadOnlyFormat: int  # = 64
 class TableHitTestInfo:
     """.NET: Autodesk.AutoCAD.DatabaseServices.TableHitTestInfo"""
     def __init__(self, *args) -> None: ...
@@ -19260,10 +20310,10 @@ class TableHitTestInfo:
     def ToString(self, provider: IFormatProvider) -> str: ...
 
 class TableHitTestType:
-    """.NET: Autodesk.AutoCAD.DatabaseServices.TableHitTestType"""
+    """.NET enum: Autodesk.AutoCAD.DatabaseServices.TableHitTestType"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    None_: int  # = 0
+    Cell: int  # = 1
 class TableStyle(DBObject):
     """.NET: Autodesk.AutoCAD.DatabaseServices.TableStyle"""
     def __init__(self, *args) -> None: ...
@@ -19353,15 +20403,114 @@ class TableStyle(DBObject):
     def UnitType(self, rowType: RowType) -> UnitType: ...
 
 class TableStyleFlags:
-    """.NET: Autodesk.AutoCAD.DatabaseServices.TableStyleFlags"""
+    """.NET enum: Autodesk.AutoCAD.DatabaseServices.TableStyleFlags"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    HorizontalInsideLineFirst: int  # = 1
+    HorizontalInsideLineSecond: int  # = 2
+    HorizontalInsideLineThird: int  # = 4
+    TableStyleModified: int  # = 8
 class TableStyleOverride:
-    """.NET: Autodesk.AutoCAD.DatabaseServices.TableStyleOverride"""
+    """.NET enum: Autodesk.AutoCAD.DatabaseServices.TableStyleOverride"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    TitleSuppressed: int  # = 1
+    HeaderSuppressed: int  # = 2
+    FlowDirection: int  # = 3
+    HorizontalCellMargin: int  # = 4
+    VerticalCellMargin: int  # = 5
+    TitleRowColor: int  # = 6
+    HeaderRowColor: int  # = 7
+    DataRowColor: int  # = 8
+    TitleRowFillNone: int  # = 9
+    HeaderRowFillNone: int  # = 10
+    DataRowFillNone: int  # = 11
+    TitleRowFillColor: int  # = 12
+    HeaderRowFillColor: int  # = 13
+    DataRowFillColor: int  # = 14
+    TitleRowAlignment: int  # = 15
+    HeaderRowAlignment: int  # = 16
+    DataRowAlignment: int  # = 17
+    TitleRowTextStyle: int  # = 18
+    HeaderRowTextStyle: int  # = 19
+    DataRowTextStyle: int  # = 20
+    TitleRowTextHeight: int  # = 21
+    HeaderRowTextHeight: int  # = 22
+    DataRowTextHeight: int  # = 23
+    TitleRowDataType: int  # = 24
+    HeaderRowDataType: int  # = 25
+    DataRowDataType: int  # = 26
+    TitleHorizontalTopColor: int  # = 40
+    TitleHorizontalInsideColor: int  # = 41
+    TitleHorizontalBottomColor: int  # = 42
+    TitleVerticalLeftColor: int  # = 43
+    TitleVerticalInsideColor: int  # = 44
+    TitleVerticalRightColor: int  # = 45
+    HeaderHorizontalTopColor: int  # = 46
+    HeaderHorizontalInsideColor: int  # = 47
+    HeaderHorizontalBottomColor: int  # = 48
+    HeaderVerticalLeftColor: int  # = 49
+    HeaderVerticalInsideColor: int  # = 50
+    HeaderVerticalRightColor: int  # = 51
+    DataHorizontalTopColor: int  # = 52
+    DataHorizontalInsideColor: int  # = 53
+    DataHorizontalBottomColor: int  # = 54
+    DataVerticalLeftColor: int  # = 55
+    DataVerticalInsideColor: int  # = 56
+    DataVerticalRightColor: int  # = 57
+    TitleHorizontalTopLineWeight: int  # = 70
+    TitleHorizontalInsideLineWeight: int  # = 71
+    TitleHorizontalBottomLineWeight: int  # = 72
+    TitleVerticalLeftLineWeight: int  # = 73
+    TitleVerticalInsideLineWeight: int  # = 74
+    TitleVerticalRightLineWeight: int  # = 75
+    HeaderHorizontalTopLineWeight: int  # = 76
+    HeaderHorizontalInsideLineWeight: int  # = 77
+    HeaderHorizontalBottomLineWeight: int  # = 78
+    HeaderVerticalLeftLineWeight: int  # = 79
+    HeaderVerticalInsideLineWeight: int  # = 80
+    HeaderVerticalRightLineWeight: int  # = 81
+    DataHorizontalTopLineWeight: int  # = 82
+    DataHorizontalInsideLineWeight: int  # = 83
+    DataHorizontalBottomLineWeight: int  # = 84
+    DataVerticalLeftLineWeight: int  # = 85
+    DataVerticalInsideLineWeight: int  # = 86
+    DataVerticalRightLineWeight: int  # = 87
+    TitleHorizontalTopVisibility: int  # = 100
+    TitleHorizontalInsideVisibility: int  # = 101
+    TitleHorizontalBottomVisibility: int  # = 102
+    TitleVerticalLeftVisibility: int  # = 103
+    TitleVerticalInsideVisibility: int  # = 104
+    TitleVerticalRightVisibility: int  # = 105
+    HeaderHorizontalTopVisibility: int  # = 106
+    HeaderHorizontalInsideVisibility: int  # = 107
+    HeaderHorizontalBottomVisibility: int  # = 108
+    HeaderVerticalLeftVisibility: int  # = 109
+    HeaderVerticalInsideVisibility: int  # = 110
+    HeaderVerticalRightVisibility: int  # = 111
+    DataHorizontalTopVisibility: int  # = 112
+    DataHorizontalInsideVisibility: int  # = 113
+    DataHorizontalBottomVisibility: int  # = 114
+    DataVerticalLeftVisibility: int  # = 115
+    DataVerticalInsideVisibility: int  # = 116
+    DataVerticalRightVisibility: int  # = 117
+    CellAlignment: int  # = 130
+    CellBackgroundFillNone: int  # = 131
+    CellBackgroundColor: int  # = 132
+    CellContentColor: int  # = 133
+    CellTextStyle: int  # = 134
+    CellTextHeight: int  # = 135
+    CellTopGridColor: int  # = 136
+    CellRightGridColor: int  # = 137
+    CellBottomGridColor: int  # = 138
+    CellLeftGridColor: int  # = 139
+    CellTopGridLineWeight: int  # = 140
+    CellRightGridLineWeight: int  # = 141
+    CellBottomGridLineWeight: int  # = 142
+    CellLeftGridLineWeight: int  # = 143
+    CellTopVisibility: int  # = 144
+    CellRightVisibility: int  # = 145
+    CellBottomVisibility: int  # = 146
+    CellLeftVisibility: int  # = 147
+    CellDataType: int  # = 148
 class TableTemplate(TableContent):
     """.NET: Autodesk.AutoCAD.DatabaseServices.TableTemplate"""
     def __init__(self, *args) -> None: ...
@@ -19430,30 +20579,42 @@ class TangentConstraint(GeometricalConstraint):
     UnmanagedObject: IntPtr
 
 class TextAlignment:
-    """.NET: Autodesk.AutoCAD.DatabaseServices.TextAlignment"""
+    """.NET enum: Autodesk.AutoCAD.DatabaseServices.TextAlignment"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    LeftAlignment: int  # = 0
+    CenterAlignment: int  # = 1
+    RightAlignment: int  # = 2
 class TextAlignmentType:
-    """.NET: Autodesk.AutoCAD.DatabaseServices.TextAlignmentType"""
+    """.NET enum: Autodesk.AutoCAD.DatabaseServices.TextAlignmentType"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    LeftAlignment: int  # = 0
+    CenterAlignment: int  # = 1
+    RightAlignment: int  # = 2
 class TextAngleType:
-    """.NET: Autodesk.AutoCAD.DatabaseServices.TextAngleType"""
+    """.NET enum: Autodesk.AutoCAD.DatabaseServices.TextAngleType"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    InsertAngle: int  # = 0
+    HorizontalAngle: int  # = 1
+    AlwaysRightReadingAngle: int  # = 2
 class TextAttachmentDirection:
-    """.NET: Autodesk.AutoCAD.DatabaseServices.TextAttachmentDirection"""
+    """.NET enum: Autodesk.AutoCAD.DatabaseServices.TextAttachmentDirection"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    AttachmentHorizontal: int  # = 0
+    AttachmentVertical: int  # = 1
 class TextAttachmentType:
-    """.NET: Autodesk.AutoCAD.DatabaseServices.TextAttachmentType"""
+    """.NET enum: Autodesk.AutoCAD.DatabaseServices.TextAttachmentType"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    AttachmentTopOfTop: int  # = 0
+    AttachmentMiddleOfTop: int  # = 1
+    AttachmentMiddle: int  # = 2
+    AttachmentMiddleOfBottom: int  # = 3
+    AttachmentBottomOfBottom: int  # = 4
+    AttachmentBottomLine: int  # = 5
+    AttachmentBottomOfTopLine: int  # = 6
+    AttachmentBottomOfTop: int  # = 7
+    AttachmentAllLine: int  # = 8
+    AttachmentCenter: int  # = 9
+    AttachmentLinedCenter: int  # = 10
 class TextEditor(DisposableWrapper):
     """.NET: Autodesk.AutoCAD.DatabaseServices.TextEditor"""
     def __init__(self, *args) -> None: ...
@@ -19685,10 +20846,14 @@ class TextEditorWipeout(DisposableWrapper):
     UnmanagedObject: IntPtr
 
 class TextHorizontalMode:
-    """.NET: Autodesk.AutoCAD.DatabaseServices.TextHorizontalMode"""
+    """.NET enum: Autodesk.AutoCAD.DatabaseServices.TextHorizontalMode"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    TextLeft: int  # = 0
+    TextCenter: int  # = 1
+    TextRight: int  # = 2
+    TextAlign: int  # = 3
+    TextMid: int  # = 4
+    TextFit: int  # = 5
 class TextStyleTable(SymbolTable):
     """.NET: Autodesk.AutoCAD.DatabaseServices.TextStyleTable"""
     def __init__(self, *args) -> None: ...
@@ -19793,10 +20958,12 @@ class TextStyleTableRecord(SymbolTableRecord):
     UnmanagedObject: IntPtr
 
 class TextVerticalMode:
-    """.NET: Autodesk.AutoCAD.DatabaseServices.TextVerticalMode"""
+    """.NET enum: Autodesk.AutoCAD.DatabaseServices.TextVerticalMode"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    TextBase: int  # = 0
+    TextBottom: int  # = 1
+    TextVerticalMid: int  # = 2
+    TextTop: int  # = 3
 class ThreePointAngleConstraint(AngularConstraint):
     """.NET: Autodesk.AutoCAD.DatabaseServices.ThreePointAngleConstraint"""
     def __init__(self, *args) -> None: ...
@@ -19818,10 +20985,84 @@ class ThreePointAngleConstraint(AngularConstraint):
     UnmanagedObject: IntPtr
 
 class TimeZone:
-    """.NET: Autodesk.AutoCAD.DatabaseServices.TimeZone"""
+    """.NET enum: Autodesk.AutoCAD.DatabaseServices.TimeZone"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    UTC: int  # = 0
+    GMT: int  # = 1
+    Monrovia: int  # = 2
+    Berlin: int  # = 1000
+    Paris: int  # = 1001
+    Prague: int  # = 1002
+    Sarajevo: int  # = 1003
+    WestCentralAfrica: int  # = 1004
+    Athens: int  # = 2000
+    EasternEurope: int  # = 2001
+    Cairo: int  # = 2002
+    Harare: int  # = 2003
+    Helsinki: int  # = 2004
+    Jerusalem: int  # = 2005
+    Moscow: int  # = 3000
+    Riyadh: int  # = 3001
+    Baghdad: int  # = 3002
+    EastAfrica: int  # = 3003
+    Tehran: int  # = 3300
+    AbuDhabi: int  # = 4000
+    Caucasus: int  # = 4001
+    Kabul: int  # = 4300
+    Ekaterinburg: int  # = 5000
+    Islamabad: int  # = 5001
+    Kolkata: int  # = 5300
+    Kathmandu: int  # = 5450
+    Almaty: int  # = 6000
+    Dhaka: int  # = 6001
+    SriLanka: int  # = 6002
+    Rangoon: int  # = 6300
+    Bangkok: int  # = 7000
+    Krasnoyarsk: int  # = 7001
+    Beijing: int  # = 8000
+    Singapore: int  # = 8001
+    Taipei: int  # = 8002
+    Irkutsk: int  # = 8003
+    Perth: int  # = 8004
+    Tokyo: int  # = 9000
+    Seoul: int  # = 9001
+    Yakutsk: int  # = 9002
+    Adelaide: int  # = 9300
+    Darwin: int  # = 9301
+    Sydney: int  # = 10000
+    Guam: int  # = 10001
+    Brisbane: int  # = 10002
+    Hobart: int  # = 10003
+    Vladivostock: int  # = 10004
+    Magadan: int  # = 11000
+    Wellington: int  # = 12000
+    Fiji: int  # = 12001
+    Tonga: int  # = 13000
+    InternationalDateLine: int  # = -12000
+    MidwayIsland: int  # = -11000
+    Hawaii: int  # = -10000
+    Alaska: int  # = -9000
+    Pacific: int  # = -8000
+    Mazatlan: int  # = -7002
+    Arizona: int  # = -7001
+    Mountain: int  # = -7000
+    Saskatchewan: int  # = -6003
+    MexicoCity: int  # = -6002
+    CentralAmerica: int  # = -6001
+    Central: int  # = -6000
+    Bogota: int  # = -5002
+    Indiana: int  # = -5001
+    Eastern: int  # = -5000
+    Santiago: int  # = -4002
+    Caracas: int  # = -4001
+    AtlanticCanada: int  # = -4000
+    Newfoundland: int  # = -3300
+    Greenland: int  # = -3002
+    BuenosAires: int  # = -3001
+    Brasilia: int  # = -3000
+    MidAtlantic: int  # = -2000
+    CapeVerde: int  # = -1001
+    Azores: int  # = -1000
 class Trace(Entity):
     """.NET: Autodesk.AutoCAD.DatabaseServices.Trace"""
     def __init__(self, *args) -> None: ...
@@ -19949,10 +21190,12 @@ class TransformOverrule(Overrule):
     def TransformBy(self, entity: Entity, transform: Matrix3d) -> None: ...
 
 class TypeOfCoordinates:
-    """.NET: Autodesk.AutoCAD.DatabaseServices.TypeOfCoordinates"""
+    """.NET enum: Autodesk.AutoCAD.DatabaseServices.TypeOfCoordinates"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    CoordinateTypeUnknown: int  # = 0
+    CoordinateTypeLocal: int  # = 1
+    CoordinateTypeGrid: int  # = 2
+    CoordinateTypeGeographic: int  # = 3
 class TypedValue:
     """.NET: Autodesk.AutoCAD.DatabaseServices.TypedValue"""
     def __init__(self, *args) -> None: ...
@@ -20169,10 +21412,10 @@ class UnderlayLayerCollection:
     def GetEnumerator(self, ) -> IEnumerator: ...
 
 class UnderlayLayerState:
-    """.NET: Autodesk.AutoCAD.DatabaseServices.UnderlayLayerState"""
+    """.NET enum: Autodesk.AutoCAD.DatabaseServices.UnderlayLayerState"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    Off: int  # = 0
+    On: int  # = 1
 class UnderlayReference(Entity):
     """.NET: Autodesk.AutoCAD.DatabaseServices.UnderlayReference"""
     def __init__(self, *args) -> None: ...
@@ -20277,15 +21520,40 @@ class UnderlayReference(Entity):
     def SetClipBoundary(self, points: list) -> None: ...
 
 class Unit:
-    """.NET: Autodesk.AutoCAD.DatabaseServices.Unit"""
+    """.NET enum: Autodesk.AutoCAD.DatabaseServices.Unit"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    None_: int  # = 0
+    Millimeter: int  # = 1
+    Centimeter: int  # = 2
+    Meter: int  # = 3
+    Kilometer: int  # = 4
+    Inch: int  # = 5
+    Foot: int  # = 6
+    Yard: int  # = 7
+    Mile: int  # = 8
+    Microinches: int  # = 9
+    Mils: int  # = 10
+    Angstroms: int  # = 11
+    Nanometers: int  # = 12
+    Microns: int  # = 13
+    Decimeters: int  # = 14
+    Dekameters: int  # = 15
+    Hectometers: int  # = 16
+    GigaMeters: int  # = 17
+    Astronomical: int  # = 18
+    LightYears: int  # = 19
+    Parsecs: int  # = 20
 class UnitType:
-    """.NET: Autodesk.AutoCAD.DatabaseServices.UnitType"""
+    """.NET enum: Autodesk.AutoCAD.DatabaseServices.UnitType"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    Unitless: int  # = 0
+    Distance: int  # = 1
+    Angle: int  # = 2
+    Area: int  # = 4
+    Volume: int  # = 8
+    Currency: int  # = 16
+    Percentage: int  # = 32
+    AngleNotTransformed: int  # = 65536
 class UnitTypeAttribute(Attribute):
     """.NET: Autodesk.AutoCAD.DatabaseServices.UnitTypeAttribute"""
     def __init__(self, *args) -> None: ...
@@ -20302,25 +21570,57 @@ class UnitsConverter(TypeConverter):
     def GetConversionFactor(from_: UnitsValue, to: UnitsValue) -> float: ...
 
 class UnitsValue:
-    """.NET: Autodesk.AutoCAD.DatabaseServices.UnitsValue"""
+    """.NET enum: Autodesk.AutoCAD.DatabaseServices.UnitsValue"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    Undefined: int  # = 0
+    Inches: int  # = 1
+    Feet: int  # = 2
+    Miles: int  # = 3
+    Millimeters: int  # = 4
+    Centimeters: int  # = 5
+    Meters: int  # = 6
+    Kilometers: int  # = 7
+    MicroInches: int  # = 8
+    Mils: int  # = 9
+    Yards: int  # = 10
+    Angstroms: int  # = 11
+    Nanometers: int  # = 12
+    Microns: int  # = 13
+    Decimeters: int  # = 14
+    Dekameters: int  # = 15
+    Hectometers: int  # = 16
+    Gigameters: int  # = 17
+    Astronomical: int  # = 18
+    LightYears: int  # = 19
+    Parsecs: int  # = 20
+    USSurveyFeet: int  # = 21
+    USSurveyInch: int  # = 22
+    USSurveyYard: int  # = 23
+    USSurveyMile: int  # = 24
 class UpdateAction:
-    """.NET: Autodesk.AutoCAD.DatabaseServices.UpdateAction"""
+    """.NET enum: Autodesk.AutoCAD.DatabaseServices.UpdateAction"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    None_: int  # = 0
+    Ignore: int  # = 1
+    UpdateRequired: int  # = 2
 class UpdateDirection:
-    """.NET: Autodesk.AutoCAD.DatabaseServices.UpdateDirection"""
+    """.NET enum: Autodesk.AutoCAD.DatabaseServices.UpdateDirection"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    SourceToData: int  # = 1
+    DataToSource: int  # = 2
 class UpdateOption:
-    """.NET: Autodesk.AutoCAD.DatabaseServices.UpdateOption"""
+    """.NET enum: Autodesk.AutoCAD.DatabaseServices.UpdateOption"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    None_: int  # = 0
+    SkipFormat: int  # = 131072
+    UpdateRowHeight: int  # = 262144
+    UpdateColumnWidth: int  # = 524288
+    AllowSourceUpdate: int  # = 1048576
+    ForceFullSourceUpdate: int  # = 2097152
+    OverwriteContentModifiedAfterUpdate: int  # = 4194304
+    OverwriteFormatModifiedAfterUpdate: int  # = 8388608
+    ForPreview: int  # = 16777216
+    IncludeXrefs: int  # = 33554432
 class Vertex(Entity):
     """.NET: Autodesk.AutoCAD.DatabaseServices.Vertex"""
     def __init__(self, *args) -> None: ...
@@ -20479,15 +21779,18 @@ class Vertex2d(Vertex):
     UnmanagedObject: IntPtr
 
 class Vertex2dType:
-    """.NET: Autodesk.AutoCAD.DatabaseServices.Vertex2dType"""
+    """.NET enum: Autodesk.AutoCAD.DatabaseServices.Vertex2dType"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    SimpleVertex: int  # = 0
+    SplineControlVertex: int  # = 1
+    SplineFitVertex: int  # = 2
+    CurveFitVertex: int  # = 3
 class Vertex3dType:
-    """.NET: Autodesk.AutoCAD.DatabaseServices.Vertex3dType"""
+    """.NET enum: Autodesk.AutoCAD.DatabaseServices.Vertex3dType"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    SimpleVertex: int  # = 0
+    ControlVertex: int  # = 1
+    FitVertex: int  # = 2
 class VertexRef(SubentRef):
     """.NET: Autodesk.AutoCAD.DatabaseServices.VertexRef"""
     def __init__(self, *args) -> None: ...
@@ -20694,10 +21997,13 @@ class ViewRepBlockReference(BlockReference):
     UnmanagedObject: IntPtr
 
 class ViewStyleType:
-    """.NET: Autodesk.AutoCAD.DatabaseServices.ViewStyleType"""
+    """.NET enum: Autodesk.AutoCAD.DatabaseServices.ViewStyleType"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    FromBase: int  # = 0
+    WireframeVisibleEdges: int  # = 1
+    WireframeHiddenEdges: int  # = 2
+    ShadedVisibleEdges: int  # = 3
+    ShadedHiddenEdges: int  # = 4
 class ViewTable(SymbolTable):
     """.NET: Autodesk.AutoCAD.DatabaseServices.ViewTable"""
     def __init__(self, *args) -> None: ...
@@ -21127,10 +22433,10 @@ class ViewportTableRecord(AbstractViewTableRecord):
     def SetPreviousBackground(self, value: ObjectId, type: DrawableType) -> None: ...
 
 class Visibility:
-    """.NET: Autodesk.AutoCAD.DatabaseServices.Visibility"""
+    """.NET enum: Autodesk.AutoCAD.DatabaseServices.Visibility"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    Visible: int  # = 0
+    Invisible: int  # = 1
 class VisibilityOverrule(Overrule):
     """.NET: Autodesk.AutoCAD.DatabaseServices.VisibilityOverrule"""
     def __init__(self, *args) -> None: ...
@@ -21473,10 +22779,13 @@ class XrefGraphNode(GraphNode):
     UnmanagedObject: IntPtr
 
 class XrefNotificationStatus:
-    """.NET: Autodesk.AutoCAD.DatabaseServices.XrefNotificationStatus"""
+    """.NET enum: Autodesk.AutoCAD.DatabaseServices.XrefNotificationStatus"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    None_: int  # = 0
+    ResolvedMatch: int  # = 1
+    ResolvedElsewhere: int  # = 2
+    ResolvedWithUpdate: int  # = 3
+    ResolvedUpdateAvailable: int  # = 4
 class XrefObjectId:
     """.NET: Autodesk.AutoCAD.DatabaseServices.XrefObjectId"""
     def __init__(self, *args) -> None: ...
@@ -21492,10 +22801,17 @@ class XrefObjectId:
     def Serialize(self, ) -> ResultBuffer: ...
 
 class XrefOperation:
-    """.NET: Autodesk.AutoCAD.DatabaseServices.XrefOperation"""
+    """.NET enum: Autodesk.AutoCAD.DatabaseServices.XrefOperation"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    XrefAttachOperation: int  # = 0
+    XrefBindOperation: int  # = 1
+    XrefXBindOperation: int  # = 1
+    XrefDetachOperation: int  # = 2
+    XrefOverlayOperation: int  # = 3
+    XrefPathOperation: int  # = 4
+    XrefReloadOperation: int  # = 5
+    XrefResolveOperation: int  # = 6
+    XrefUnloadOperation: int  # = 7
 class XrefPreXrefLockFileEventArgs(EventArgs):
     """.NET: Autodesk.AutoCAD.DatabaseServices.XrefPreXrefLockFileEventArgs"""
     def __init__(self, *args) -> None: ...
@@ -21526,10 +22842,14 @@ class XrefRedirectedEventHandler:
     def Invoke(self, sender: object, e: XrefRedirectedEventArgs) -> None: ...
 
 class XrefStatus:
-    """.NET: Autodesk.AutoCAD.DatabaseServices.XrefStatus"""
+    """.NET enum: Autodesk.AutoCAD.DatabaseServices.XrefStatus"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    NotAnXref: int  # = 0
+    Resolved: int  # = 1
+    Unloaded: int  # = 2
+    Unreferenced: int  # = 3
+    FileNotFound: int  # = 4
+    Unresolved: int  # = 5
 class XrefSubCommandAbortedEventHandler:
     """.NET: Autodesk.AutoCAD.DatabaseServices.XrefSubCommandAbortedEventHandler"""
     def __init__(self, *args) -> None: ...

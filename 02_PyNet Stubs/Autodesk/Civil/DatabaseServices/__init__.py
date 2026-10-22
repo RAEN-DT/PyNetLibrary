@@ -234,10 +234,18 @@ class AlignmentArc(AlignmentCurve):
     UnmanagedObject: IntPtr
 
 class AlignmentArcConstraintType:
-    """.NET: Autodesk.Civil.DatabaseServices.AlignmentArcConstraintType"""
+    """.NET enum: Autodesk.Civil.DatabaseServices.AlignmentArcConstraintType"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    ThreePoints: int  # = 769
+    CenterRadius: int  # = 770
+    CenterPassThroughPoint: int  # = 771
+    PassThroughRadius: int  # = 772
+    PassThroughHoldEnd: int  # = 773
+    PassThroughDirection: int  # = 774
+    Radius: int  # = 775
+    PassThrough: int  # = 776
+    RadiusAndLength: int  # = 777
+    BestFitArc: int  # = 784
 class AlignmentCCRC(AlignmentCurve):
     """.NET: Autodesk.Civil.DatabaseServices.AlignmentCCRC"""
     def __init__(self, *args) -> None: ...
@@ -263,10 +271,9 @@ class AlignmentCCRC(AlignmentCurve):
     UnmanagedObject: IntPtr
 
 class AlignmentCCRCConstraintType:
-    """.NET: Autodesk.Civil.DatabaseServices.AlignmentCCRCConstraintType"""
+    """.NET enum: Autodesk.Civil.DatabaseServices.AlignmentCCRCConstraintType"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    TransitionLengthRadius1Radius2Radius3: int  # = 3073
 class AlignmentCRC(AlignmentCurve):
     """.NET: Autodesk.Civil.DatabaseServices.AlignmentCRC"""
     def __init__(self, *args) -> None: ...
@@ -291,10 +298,10 @@ class AlignmentCRC(AlignmentCurve):
     UnmanagedObject: IntPtr
 
 class AlignmentCRCConstraintType:
-    """.NET: Autodesk.Civil.DatabaseServices.AlignmentCRCConstraintType"""
+    """.NET enum: Autodesk.Civil.DatabaseServices.AlignmentCRCConstraintType"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    Radius1: int  # = 3073
+    Radius2: int  # = 3074
 class AlignmentCTC(AlignmentCurve):
     """.NET: Autodesk.Civil.DatabaseServices.AlignmentCTC"""
     def __init__(self, *args) -> None: ...
@@ -320,10 +327,9 @@ class AlignmentCTC(AlignmentCurve):
     UnmanagedObject: IntPtr
 
 class AlignmentCTCConstraintType:
-    """.NET: Autodesk.Civil.DatabaseServices.AlignmentCTCConstraintType"""
+    """.NET enum: Autodesk.Civil.DatabaseServices.AlignmentCTCConstraintType"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    RadiusRadiusLength: int  # = 2817
 class AlignmentCantLabelGroup(AlignmentLabelGroup):
     """.NET: Autodesk.Civil.DatabaseServices.AlignmentCantLabelGroup"""
     def __init__(self, *args) -> None: ...
@@ -468,10 +474,10 @@ class AlignmentCantLabelGroup(AlignmentLabelGroup):
     def SetGeometryPointsOptions(self, transitionPointsOptions: GeometryPointSelector) -> None: ...
 
 class AlignmentCreationType:
-    """.NET: Autodesk.Civil.DatabaseServices.AlignmentCreationType"""
+    """.NET enum: Autodesk.Civil.DatabaseServices.AlignmentCreationType"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    RuleBasedCreation: int  # = 1
+    ManuallyCreation: int  # = 2
 class AlignmentCurve(AlignmentEntity):
     """.NET: Autodesk.Civil.DatabaseServices.AlignmentCurve"""
     def __init__(self, *args) -> None: ...
@@ -841,15 +847,36 @@ class AlignmentEntityCollection(CivilWrapper<AeccDbAlignment>):
     def RemoveAt(self, index: int) -> None: ...
 
 class AlignmentEntityConstraintType:
-    """.NET: Autodesk.Civil.DatabaseServices.AlignmentEntityConstraintType"""
+    """.NET enum: Autodesk.Civil.DatabaseServices.AlignmentEntityConstraintType"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    Fixed: int  # = 289
+    FloatOnPrev: int  # = 290
+    FloatOnNext: int  # = 291
+    Free: int  # = 292
 class AlignmentEntityType:
-    """.NET: Autodesk.Civil.DatabaseServices.AlignmentEntityType"""
+    """.NET enum: Autodesk.Civil.DatabaseServices.AlignmentEntityType"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    Line: int  # = 257
+    Arc: int  # = 258
+    Spiral: int  # = 259
+    SpiralCurveSpiral: int  # = 260
+    SpiralLineSpiral: int  # = 261
+    SpiralLine: int  # = 262
+    LineSpiral: int  # = 263
+    SpiralCurve: int  # = 264
+    CurveSpiral: int  # = 265
+    SpiralSpiralCurveSpiralSpiral: int  # = 266
+    MultipleSegments: int  # = 267
+    SpiralCurveSpiralCurveSpiral: int  # = 268
+    SpiralCurveSpiralSpiralCurveSpiral: int  # = 269
+    SpiralSpiral: int  # = 270
+    SpiralSpiralCurve: int  # = 271
+    CurveSpiralSpiral: int  # = 272
+    CurveLineCurve: int  # = 273
+    CurveReverseCurve: int  # = 274
+    CurveCurveReverseCurve: int  # = 275
+    ReverseSpiralSpiralCurveSpiral: int  # = 276
+    SpiralCurveSpiralReverseSpiral: int  # = 277
 class AlignmentGeometryPointLabelGroup(AlignmentLabelGroup):
     """.NET: Autodesk.Civil.DatabaseServices.AlignmentGeometryPointLabelGroup"""
     def __init__(self, *args) -> None: ...
@@ -996,10 +1023,47 @@ class AlignmentGeometryPointLabelGroup(AlignmentLabelGroup):
     def SetGeometryPointsOptions(self, alignmentGeometryPoints: GeometryPointSelector) -> None: ...
 
 class AlignmentGeometryPointStationType:
-    """.NET: Autodesk.Civil.DatabaseServices.AlignmentGeometryPointStationType"""
+    """.NET enum: Autodesk.Civil.DatabaseServices.AlignmentGeometryPointStationType"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    BegOfAlign: int  # = 257
+    EndOfAlign: int  # = 258
+    TanTan: int  # = 259
+    TanCurve: int  # = 260
+    CurveTan: int  # = 261
+    CurveCompCurve: int  # = 262
+    CurveRevCurve: int  # = 263
+    TanSpiral: int  # = 264
+    SpiralTan: int  # = 265
+    CurveSpiral: int  # = 266
+    SpiralCurve: int  # = 267
+    SpiralCompSpiral: int  # = 268
+    SpiralRevSpiral: int  # = 269
+    PI: int  # = 270
+    CPI: int  # = 271
+    SPI: int  # = 272
+    ProfileTanCurve: int  # = 273
+    ProfileCurveTan: int  # = 274
+    ProfileCurveCompCurve: int  # = 275
+    ProfileCurveRevCurve: int  # = 276
+    ProfileCurveLowPoint: int  # = 277
+    ProfileCurveHighPoint: int  # = 278
+    ProfileCurvePVI: int  # = 279
+    ProfileBegOfAlign: int  # = 280
+    ProfileEndOfAlign: int  # = 281
+    ProfileTanTan: int  # = 282
+    ProfileOverallLowPoint: int  # = 283
+    ProfileOverallHighPoint: int  # = 284
+    BeginNormalCrown: int  # = 514
+    BeginNormalShoulder: int  # = 515
+    BeginFullSuper: int  # = 516
+    EndFullSuper: int  # = 517
+    EndNormalShoulder: int  # = 518
+    EndNormalCrown: int  # = 519
+    LevelCrown: int  # = 521
+    LowShoulderMatch: int  # = 522
+    ReverseCrown: int  # = 523
+    Manual: int  # = 524
+    ShoulderBreakOver: int  # = 525
 class AlignmentIndexedPILabel(FeatureLabel):
     """.NET: Autodesk.Civil.DatabaseServices.AlignmentIndexedPILabel"""
     def __init__(self, *args) -> None: ...
@@ -1319,10 +1383,13 @@ class AlignmentLine(AlignmentCurve):
     UnmanagedObject: IntPtr
 
 class AlignmentLineConstraintType:
-    """.NET: Autodesk.Civil.DatabaseServices.AlignmentLineConstraintType"""
+    """.NET enum: Autodesk.Civil.DatabaseServices.AlignmentLineConstraintType"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    TwoPoints: int  # = 513
+    ThroughPoint: int  # = 514
+    Length: int  # = 515
+    NoConstraint: int  # = 516
+    BestFit: int  # = 517
 class AlignmentMinorStationLabelGroup(AlignmentStationLabelGroup):
     """.NET: Autodesk.Civil.DatabaseServices.AlignmentMinorStationLabelGroup"""
     def __init__(self, *args) -> None: ...
@@ -1491,10 +1558,11 @@ class AlignmentMultipleSegments(AlignmentCurve):
     UnmanagedObject: IntPtr
 
 class AlignmentMultipleSegmentsConstraintType:
-    """.NET: Autodesk.Civil.DatabaseServices.AlignmentMultipleSegmentsConstraintType"""
+    """.NET enum: Autodesk.Civil.DatabaseServices.AlignmentMultipleSegmentsConstraintType"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    RadiiAndLengths: int  # = 2561
+    RatiosAndLengths: int  # = 2562
+    KeyPoints: int  # = 2563
 class AlignmentPILabel(FeatureLabel):
     """.NET: Autodesk.Civil.DatabaseServices.AlignmentPILabel"""
     def __init__(self, *args) -> None: ...
@@ -1671,10 +1739,11 @@ class AlignmentRegionCollection(CivilWrapper<AeccDbAlignment>):
     def Remove(self, index: int) -> None: ...
 
 class AlignmentRegionType:
-    """.NET: Autodesk.Civil.DatabaseServices.AlignmentRegionType"""
+    """.NET enum: Autodesk.Civil.DatabaseServices.AlignmentRegionType"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    Specific: int  # = 1
+    Norminal: int  # = 2
+    Automatic: int  # = 12
 class AlignmentSCS(AlignmentCurve):
     """.NET: Autodesk.Civil.DatabaseServices.AlignmentSCS"""
     def __init__(self, *args) -> None: ...
@@ -1727,15 +1796,44 @@ class AlignmentSCSCS(AlignmentCurve):
     UnmanagedObject: IntPtr
 
 class AlignmentSCSCSConstraintType:
-    """.NET: Autodesk.Civil.DatabaseServices.AlignmentSCSCSConstraintType"""
+    """.NET enum: Autodesk.Civil.DatabaseServices.AlignmentSCSCSConstraintType"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    SpLenAndTanLenIn: int  # = 2049
+    SpLenAndStartPoint: int  # = 2050
+    SpLenAndArc1Angle: int  # = 2051
+    SpLenAndArc1PassPt: int  # = 2052
+    SpAValAndTanLenIn: int  # = 2053
+    SpAValAndStartPoint: int  # = 2054
+    SpAValAndArc1Angle: int  # = 2055
+    SpAValAndArc1PassPt: int  # = 2056
+    SpLenAndTanLenOut: int  # = 2057
+    SpLenAndEndPoint: int  # = 2058
+    SpLenAndArc2Angle: int  # = 2059
+    SpLenAndArc2PassPt: int  # = 2060
+    SpAValAndTanLenOut: int  # = 2061
+    SpAValAndEndPoint: int  # = 2062
+    SpAValAndArc2Angle: int  # = 2063
+    SpAValAndArc2PassPt: int  # = 2064
+    SpLenAndArc1Length: int  # = 2065
+    SpLenAndArc2Length: int  # = 2066
+    SpAValAndArc1Length: int  # = 2067
+    SpAValAndArc2Length: int  # = 2068
 class AlignmentSCSConstraintType:
-    """.NET: Autodesk.Civil.DatabaseServices.AlignmentSCSConstraintType"""
+    """.NET enum: Autodesk.Civil.DatabaseServices.AlignmentSCSConstraintType"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    SpiralInRadiusSpiralOut: int  # = 1025
+    SpiralLenRadiusPassPt: int  # = 1026
+    SpiralLenRadiusArcLen: int  # = 1027
+    SpiralLenRadius: int  # = 1028
+    SpiralLength: int  # = 1029
+    SpInLenSpOutLen: int  # = 1030
+    SpInAValSpOutAVal: int  # = 1031
+    Spiral1AValRadiusSpiral2AVal: int  # = 1201
+    SpiralAValRadiusPassPt: int  # = 1202
+    SpiralAValRadiusArcLen: int  # = 1203
+    SpiralAValRadius: int  # = 1204
+    SpiralAVal: int  # = 1205
+    SpiralNoParameter: int  # = 1206
 class AlignmentSCSSCS(AlignmentCurve):
     """.NET: Autodesk.Civil.DatabaseServices.AlignmentSCSSCS"""
     def __init__(self, *args) -> None: ...
@@ -1764,10 +1862,24 @@ class AlignmentSCSSCS(AlignmentCurve):
     UnmanagedObject: IntPtr
 
 class AlignmentSCSSCSConstraintType:
-    """.NET: Autodesk.Civil.DatabaseServices.AlignmentSCSSCSConstraintType"""
+    """.NET enum: Autodesk.Civil.DatabaseServices.AlignmentSCSSCSConstraintType"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    SpLenAndStartPoint: int  # = 2305
+    SpLenAndArc1Angle: int  # = 2306
+    SpLenAndArc1PassPt: int  # = 2307
+    SpAValAndStartPoint: int  # = 2308
+    SpAValAndArc1Angle: int  # = 2309
+    SpAValAndArc1PassPt: int  # = 2310
+    SpLenAndEndPoint: int  # = 2311
+    SpLenAndArc2Angle: int  # = 2312
+    SpLenAndArc2PassPt: int  # = 2313
+    SpAValAndEndPoint: int  # = 2314
+    SpAValAndArc2Angle: int  # = 2315
+    SpAValAndArc2PassPt: int  # = 2316
+    SpLenAndArc1Length: int  # = 2317
+    SpLenAndArc2Length: int  # = 2318
+    SpAValAndArc1Length: int  # = 2319
+    SpAValAndArc2Length: int  # = 2320
 class AlignmentSSCSS(AlignmentCurve):
     """.NET: Autodesk.Civil.DatabaseServices.AlignmentSSCSS"""
     def __init__(self, *args) -> None: ...
@@ -1796,10 +1908,15 @@ class AlignmentSSCSS(AlignmentCurve):
     UnmanagedObject: IntPtr
 
 class AlignmentSSCSSConstraintType:
-    """.NET: Autodesk.Civil.DatabaseServices.AlignmentSSCSSConstraintType"""
+    """.NET enum: Autodesk.Civil.DatabaseServices.AlignmentSSCSSConstraintType"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    kSp1LenSp2LenRadiusPt: int  # = 1793
+    kSp1LenSp2LenPt1Pt2: int  # = 1794
+    kSp1AValSp2AValRadiusPt: int  # = 1795
+    kSp1AValSp2AValPt1Pt2: int  # = 1796
+    kSp1RevSp2RadiusSp3: int  # = 1797
+    kSp1RadiusSp3RevSp4: int  # = 1798
+    kSp1RevSp2RadiusSp3RevSp4: int  # = 1799
 class AlignmentSTS(AlignmentCurve):
     """.NET: Autodesk.Civil.DatabaseServices.AlignmentSTS"""
     def __init__(self, *args) -> None: ...
@@ -1825,15 +1942,21 @@ class AlignmentSTS(AlignmentCurve):
     UnmanagedObject: IntPtr
 
 class AlignmentSTSConstraintType:
-    """.NET: Autodesk.Civil.DatabaseServices.AlignmentSTSConstraintType"""
+    """.NET enum: Autodesk.Civil.DatabaseServices.AlignmentSTSConstraintType"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    Spiral1LengthSpiral2Length: int  # = 1537
+    TangentLength: int  # = 1538
+    Spiral1AValSpiral2AVal: int  # = 1539
+    SpiralLengthTangentPassPt: int  # = 1546
+    SpiralLengthTangentLength: int  # = 1547
+    SpiralAValTangentPassPt: int  # = 1550
+    SpiralAValTangentLength: int  # = 1551
 class AlignmentSide:
-    """.NET: Autodesk.Civil.DatabaseServices.AlignmentSide"""
+    """.NET enum: Autodesk.Civil.DatabaseServices.AlignmentSide"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    Both: int  # = 0
+    Left: int  # = 1
+    Right: int  # = 2
 class AlignmentSpiral(AlignmentCurve):
     """.NET: Autodesk.Civil.DatabaseServices.AlignmentSpiral"""
     def __init__(self, *args) -> None: ...
@@ -1879,10 +2002,10 @@ class AlignmentSpiral(AlignmentCurve):
     UnmanagedObject: IntPtr
 
 class AlignmentSpiralConstraintType:
-    """.NET: Autodesk.Civil.DatabaseServices.AlignmentSpiralConstraintType"""
+    """.NET enum: Autodesk.Civil.DatabaseServices.AlignmentSpiralConstraintType"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    StartPtAndDirRadiusLength: int  # = 1281
+    StartPtAndDirStartAndEndRadiusLength: int  # = 1282
 class AlignmentSpiralLabel(FeatureLabel):
     """.NET: Autodesk.Civil.DatabaseServices.AlignmentSpiralLabel"""
     def __init__(self, *args) -> None: ...
@@ -2433,10 +2556,11 @@ class AlignmentSubEntitySpiral(AlignmentSubEntity):
     UnmanagedObject: IntPtr
 
 class AlignmentSubEntityType:
-    """.NET: Autodesk.Civil.DatabaseServices.AlignmentSubEntityType"""
+    """.NET enum: Autodesk.Civil.DatabaseServices.AlignmentSubEntityType"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    Line: int  # = 0
+    Arc: int  # = 1
+    Spiral: int  # = 2
 class AlignmentSuperelevationLabelGroup(AlignmentLabelGroup):
     """.NET: Autodesk.Civil.DatabaseServices.AlignmentSuperelevationLabelGroup"""
     def __init__(self, *args) -> None: ...
@@ -2870,15 +2994,18 @@ class AlignmentTransitionCollection(CivilWrapper<AeccDbAlignment>):
     def GetObjectEnumerator(self, ) -> IEnumerator: ...
 
 class AlignmentType:
-    """.NET: Autodesk.Civil.DatabaseServices.AlignmentType"""
+    """.NET enum: Autodesk.Civil.DatabaseServices.AlignmentType"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    Centerline: int  # = 1
+    Offset: int  # = 2
+    CurbReturn: int  # = 3
+    Utility: int  # = 4
+    Rail: int  # = 5
 class AlignmentUpdateType:
-    """.NET: Autodesk.Civil.DatabaseServices.AlignmentUpdateType"""
+    """.NET enum: Autodesk.Civil.DatabaseServices.AlignmentUpdateType"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    DynamicUpdate: int  # = 1
+    StaticUpdate: int  # = 2
 class AlignmentVerticalGeometryPointLabelGroup(AlignmentLabelGroup):
     """.NET: Autodesk.Civil.DatabaseServices.AlignmentVerticalGeometryPointLabelGroup"""
     def __init__(self, *args) -> None: ...
@@ -3273,10 +3400,14 @@ class AssemblyGroupCollection:
     def RemoveAt(self, index: int) -> None: ...
 
 class AssemblyType:
-    """.NET: Autodesk.Civil.DatabaseServices.AssemblyType"""
+    """.NET enum: Autodesk.Civil.DatabaseServices.AssemblyType"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    UndividedCrownedRoad: int  # = 1
+    UndividedPlanarRoad: int  # = 2
+    DividedCrownedRoad: int  # = 3
+    DividedPlanarRoad: int  # = 4
+    Other: int  # = 5
+    Railway: int  # = 6
 class AttributeTypeInfo(DisposableWrapper):
     """.NET: Autodesk.Civil.DatabaseServices.AttributeTypeInfo"""
     def __init__(self, *args) -> None: ...
@@ -3318,10 +3449,24 @@ class AttributeTypeInfoDouble(AttributeTypeInfo):
     UnmanagedObject: IntPtr
 
 class AttributeTypeInfoDoubleDataType:
-    """.NET: Autodesk.Civil.DatabaseServices.AttributeTypeInfoDoubleDataType"""
+    """.NET enum: Autodesk.Civil.DatabaseServices.AttributeTypeInfoDoubleDataType"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    Double: int  # = 0
+    Angle: int  # = 1
+    Area: int  # = 2
+    Azimuth: int  # = 3
+    Coordinate: int  # = 4
+    Dimension: int  # = 5
+    Direction: int  # = 6
+    Distance: int  # = 7
+    Elevation: int  # = 8
+    GradeSlope: int  # = 9
+    Latitude: int  # = 10
+    Longitude: int  # = 11
+    Rotation: int  # = 12
+    Percent: int  # = 13
+    Station: int  # = 14
+    Volume: int  # = 15
 class AttributeTypeInfoEnum(AttributeTypeInfo):
     """.NET: Autodesk.Civil.DatabaseServices.AttributeTypeInfoEnum"""
     def __init__(self, *args) -> None: ...
@@ -3942,10 +4087,12 @@ class BaselineRegionCollection(CivilWrapper<AeccDbCorridor>):
     def RemoveAt(self, index: int) -> None: ...
 
 class BoundingShapeType:
-    """.NET: Autodesk.Civil.DatabaseServices.BoundingShapeType"""
+    """.NET enum: Autodesk.Civil.DatabaseServices.BoundingShapeType"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    Undefined: int  # = 0
+    Cylinder: int  # = 1
+    Box: int  # = 2
+    Sphere: int  # = 3
 class Bridge(Entity):
     """.NET: Autodesk.Civil.DatabaseServices.Bridge"""
     def __init__(self, *args) -> None: ...
@@ -4548,10 +4695,14 @@ class BridgeGenericObject(BridgeStructure):
     UnmanagedObject: IntPtr
 
 class BridgeGenericObjectType:
-    """.NET: Autodesk.Civil.DatabaseServices.BridgeGenericObjectType"""
+    """.NET enum: Autodesk.Civil.DatabaseServices.BridgeGenericObjectType"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    General: int  # = 0
+    BearingAssembly: int  # = 1
+    CrossFrame: int  # = 2
+    LateralBracing: int  # = 3
+    Diaphragm: int  # = 4
+    FieldSplice: int  # = 5
 class BridgeGirder(BridgeStructure):
     """.NET: Autodesk.Civil.DatabaseServices.BridgeGirder"""
     def __init__(self, *args) -> None: ...
@@ -5029,10 +5180,15 @@ class BridgeStructure(Entity):
     def GetContentIds(self, ) -> ObjectIdCollection: ...
 
 class BridgeStructureType:
-    """.NET: Autodesk.Civil.DatabaseServices.BridgeStructureType"""
+    """.NET enum: Autodesk.Civil.DatabaseServices.BridgeStructureType"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    Abutment: int  # = 1
+    Deck: int  # = 2
+    Foundation: int  # = 3
+    GirderGroup: int  # = 4
+    Girder: int  # = 5
+    Pier: int  # = 6
+    GenericObject: int  # = 1000
 class CANTCriticalStation:
     """.NET: Autodesk.Civil.DatabaseServices.CANTCriticalStation"""
     def __init__(self, *args) -> None: ...
@@ -5906,10 +6062,10 @@ class ConnectedAlignmentSSCSSInfo(ConnectedAlignmentInfo):
     IncomingParentAlignmentId: ObjectId
 
 class ConnectorPositionType:
-    """.NET: Autodesk.Civil.DatabaseServices.ConnectorPositionType"""
+    """.NET enum: Autodesk.Civil.DatabaseServices.ConnectorPositionType"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    Start: int  # = 1
+    End: int  # = 2
 class Corridor(Entity):
     """.NET: Autodesk.Civil.DatabaseServices.Corridor"""
     def __init__(self, *args) -> None: ...
@@ -6044,10 +6200,12 @@ class Corridor(Entity):
     def SetTargets(self, updatedTargets: SubassemblyTargetInfoCollection) -> None: ...
 
 class CorridorBaselineType:
-    """.NET: Autodesk.Civil.DatabaseServices.CorridorBaselineType"""
+    """.NET enum: Autodesk.Civil.DatabaseServices.CorridorBaselineType"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    None_: int  # = 0
+    MainBaseline: int  # = 1
+    OffsetBaseline: int  # = 2
+    HardcodedOffsetBaseline: int  # = 3
 class CorridorCodeCollection(CivilWrapper<AeccDbCorridor>):
     """.NET: Autodesk.Civil.DatabaseServices.CorridorCodeCollection"""
     def __init__(self, *args) -> None: ...
@@ -6085,15 +6243,18 @@ class CorridorFeatureLine(CivilWrapper<AeccDbCorridor>):
     def ExportAsProfile(self, profileName: str, alignmentId: ObjectId, layerId: ObjectId, styleId: ObjectId, labelSetId: ObjectId) -> ObjectId: ...
 
 class CorridorLinkDisplay:
-    """.NET: Autodesk.Civil.DatabaseServices.CorridorLinkDisplay"""
+    """.NET enum: Autodesk.Civil.DatabaseServices.CorridorLinkDisplay"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    Normal: int  # = 0
+    NormalWithArrowhead: int  # = 1
+    Dashed: int  # = 2
+    DashedWithArrowhead: int  # = 3
 class CorridorLinkDrawOverride:
-    """.NET: Autodesk.Civil.DatabaseServices.CorridorLinkDrawOverride"""
+    """.NET enum: Autodesk.Civil.DatabaseServices.CorridorLinkDrawOverride"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    Normal: int  # = 0
+    Dashed: int  # = 1
+    WithArrowhead: int  # = 2
 class CorridorPointCodeOption:
     """.NET: Autodesk.Civil.DatabaseServices.CorridorPointCodeOption"""
     def __init__(self, *args) -> None: ...
@@ -6339,10 +6500,10 @@ class CorridorSurfaceBoundaryCollection(CivilWrapper<AeccDbCorridor>):
     def RemoveAt(self, index: int) -> None: ...
 
 class CorridorSurfaceBoundaryType:
-    """.NET: Autodesk.Civil.DatabaseServices.CorridorSurfaceBoundaryType"""
+    """.NET enum: Autodesk.Civil.DatabaseServices.CorridorSurfaceBoundaryType"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    InsideBoundary: int  # = 1
+    OutsideBoundary: int  # = 2
 class CorridorSurfaceCollection(CivilWrapper<AeccDbCorridor>):
     """.NET: Autodesk.Civil.DatabaseServices.CorridorSurfaceCollection"""
     def __init__(self, *args) -> None: ...
@@ -6396,10 +6557,10 @@ class CorridorTransition:
     ParameterName: str
 
 class CorridorTransitionNameType:
-    """.NET: Autodesk.Civil.DatabaseServices.CorridorTransitionNameType"""
+    """.NET enum: Autodesk.Civil.DatabaseServices.CorridorTransitionNameType"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    SubassemblyName: int  # = 0
+    ClassName: int  # = 1
 class CorridorTransitionSet(DisposableWrapper):
     """.NET: Autodesk.Civil.DatabaseServices.CorridorTransitionSet"""
     def __init__(self, *args) -> None: ...
@@ -6416,10 +6577,15 @@ class CorridorTransitionSet(DisposableWrapper):
     def GetTransitionAt(self, index: int) -> CorridorTransition: ...
 
 class CorridorTransitionType:
-    """.NET: Autodesk.Civil.DatabaseServices.CorridorTransitionType"""
+    """.NET enum: Autodesk.Civil.DatabaseServices.CorridorTransitionType"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    Linear: int  # = 0
+    BayTaper: int  # = 1
+    CubicIn: int  # = 2
+    CubicOut: int  # = 3
+    ParabolicIn: int  # = 4
+    ParabolicOut: int  # = 5
+    ReverseParabolic: int  # = 6
 class CrossingPipeProfileLabel(PartProfileLabel):
     """.NET: Autodesk.Civil.DatabaseServices.CrossingPipeProfileLabel"""
     def __init__(self, *args) -> None: ...
@@ -6574,10 +6740,10 @@ class CrossingPipeProfileLabel(PartProfileLabel):
     def GetAvailableLabelIds(profileViewPartId: ObjectId, profileViewId: ObjectId) -> ObjectIdCollection: ...
 
 class CurbReturnJoiningType:
-    """.NET: Autodesk.Civil.DatabaseServices.CurbReturnJoiningType"""
+    """.NET enum: Autodesk.Civil.DatabaseServices.CurbReturnJoiningType"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    JoiningTangent: int  # = 0
+    ExtendingEdge: int  # = 1
 class CurveCurveReverseCurveTransitionDescription(TransitionDescriptionBase):
     """.NET: Autodesk.Civil.DatabaseServices.CurveCurveReverseCurveTransitionDescription"""
     def __init__(self, *args) -> None: ...
@@ -6598,10 +6764,17 @@ class CurveLineCurveTransitionDescription(TransitionDescriptionBase):
     EndStation: float
 
 class CurveParamType:
-    """.NET: Autodesk.Civil.DatabaseServices.CurveParamType"""
+    """.NET enum: Autodesk.Civil.DatabaseServices.CurveParamType"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    Radius: int  # = 0
+    DegreeOfCurve: int  # = 1
+    TangentLength: int  # = 2
+    ChordLength: int  # = 3
+    CurveLength: int  # = 4
+    ExternalDist: int  # = 5
+    MiddleOrdinate: int  # = 6
+    CurveAngle: int  # = 7
+    CurveThroughPoint: int  # = 8
 class CurveReverseCurveTransitionDescription(TransitionDescriptionBase):
     """.NET: Autodesk.Civil.DatabaseServices.CurveReverseCurveTransitionDescription"""
     def __init__(self, *args) -> None: ...
@@ -6612,10 +6785,10 @@ class CurveReverseCurveTransitionDescription(TransitionDescriptionBase):
     EndStation: float
 
 class CurveType:
-    """.NET: Autodesk.Civil.DatabaseServices.CurveType"""
+    """.NET enum: Autodesk.Civil.DatabaseServices.CurveType"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    Compound: int  # = 0
+    Reverse: int  # = 1
 class CustomPointGroupQuery(PointGroupQuery):
     """.NET: Autodesk.Civil.DatabaseServices.CustomPointGroupQuery"""
     def __init__(self, *args) -> None: ...
@@ -6672,10 +6845,11 @@ class DBObject(DBObject):
     UnmanagedObject: IntPtr
 
 class DatumRoundingType:
-    """.NET: Autodesk.Civil.DatabaseServices.DatumRoundingType"""
+    """.NET enum: Autodesk.Civil.DatabaseServices.DatumRoundingType"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    PreviousMajorGrid: int  # = 16
+    PreviousMinorGrid: int  # = 32
+    ExactElevation: int  # = 64
 class DesignSpeed(CivilWrapper<AeccDbAlignment>):
     """.NET: Autodesk.Civil.DatabaseServices.DesignSpeed"""
     def __init__(self, *args) -> None: ...
@@ -6696,15 +6870,15 @@ class DesignSpeedCollection(CivilWrapper<AeccDbAlignment>):
     def Remove(self, rawStation: float) -> None: ...
 
 class DomainType:
-    """.NET: Autodesk.Civil.DatabaseServices.DomainType"""
+    """.NET enum: Autodesk.Civil.DatabaseServices.DomainType"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    Pipe: int  # = 1
+    Structure: int  # = 2
 class ElevationRangeType:
-    """.NET: Autodesk.Civil.DatabaseServices.ElevationRangeType"""
+    """.NET enum: Autodesk.Civil.DatabaseServices.ElevationRangeType"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    Automatic: int  # = 0
+    UserSpecified: int  # = 1
 class Entity(Entity):
     """.NET: Autodesk.Civil.DatabaseServices.Entity"""
     def __init__(self, *args) -> None: ...
@@ -6823,15 +6997,32 @@ class Entity(Entity):
     def GetReferenceInfo(self, ) -> DataShortcutKey: ...
 
 class EntityAttachType:
-    """.NET: Autodesk.Civil.DatabaseServices.EntityAttachType"""
+    """.NET enum: Autodesk.Civil.DatabaseServices.EntityAttachType"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    Append: int  # = 0
+    Prepend: int  # = 1
 class EntityVerticalConstraintType:
-    """.NET: Autodesk.Civil.DatabaseServices.EntityVerticalConstraintType"""
+    """.NET enum: Autodesk.Civil.DatabaseServices.EntityVerticalConstraintType"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    CurveLength: int  # = 513
+    KValue: int  # = 514
+    Radius: int  # = 515
+    PassThroughPt: int  # = 516
+    PassThroughPt1AndPt2: int  # = 517
+    ThreePassPoints: int  # = 519
+    TwoPassPointsAndGrade: int  # = 520
+    TwoPassPointsAndParameter: int  # = 521
+    PreviousSubEntPassPtAndParameter: int  # = 522
+    NextSubEntPassPtAndParameter: int  # = 523
+    PreviousSubEntPassPtWithGrade: int  # = 524
+    NextSubEntPassPtWithGrade: int  # = 525
+    PreviousSubEntEndAndPassPt: int  # = 526
+    NextSubEntEndAndPassPt: int  # = 527
+    PassThroughPt1: int  # = 528
+    PassThroughPt2: int  # = 529
+    NoConstraints: int  # = 530
+    BestFit: int  # = 531
+    HighLowPoints: int  # = 532
 class Event:
     """.NET: Autodesk.Civil.DatabaseServices.Event"""
     def __init__(self, *args) -> None: ...
@@ -7361,15 +7552,18 @@ class FeatureLinePointCollection(CivilWrapper<AeccDbCorridor>):
     def GetObjectEnumerator(self, ) -> IEnumerator: ...
 
 class FlowDirectionMethodType:
-    """.NET: Autodesk.Civil.DatabaseServices.FlowDirectionMethodType"""
+    """.NET enum: Autodesk.Civil.DatabaseServices.FlowDirectionMethodType"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    Bidirectional: int  # = 0
+    StartToEnd: int  # = 1
+    EndToStart: int  # = 2
+    BySlope: int  # = 3
 class FlowDirectionType:
-    """.NET: Autodesk.Civil.DatabaseServices.FlowDirectionType"""
+    """.NET enum: Autodesk.Civil.DatabaseServices.FlowDirectionType"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    Bidirectional: int  # = 0
+    StartToEnd: int  # = 1
+    EndToStart: int  # = 2
 class FlowPath:
     """.NET: Autodesk.Civil.DatabaseServices.FlowPath"""
     def __init__(self, *args) -> None: ...
@@ -8189,10 +8383,10 @@ class GraphOverrideCollection:
     def GetObjectEnumerator(self, ) -> IEnumerator: ...
 
 class GraphRangeOptions:
-    """.NET: Autodesk.Civil.DatabaseServices.GraphRangeOptions"""
+    """.NET enum: Autodesk.Civil.DatabaseServices.GraphRangeOptions"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    GraphRangeOptionFromAlignment: int  # = 1
+    GraphRangeOptionUserSpecified: int  # = 2
 class GridLocation:
     """.NET: Autodesk.Civil.DatabaseServices.GridLocation"""
     def __init__(self, *args) -> None: ...
@@ -8606,15 +8800,16 @@ class HardcodedOffsetBaseline(BaseBaseline):
     def SortedStations(self, ) -> list: ...
 
 class HatchCriteriaBoundaryType:
-    """.NET: Autodesk.Civil.DatabaseServices.HatchCriteriaBoundaryType"""
+    """.NET enum: Autodesk.Civil.DatabaseServices.HatchCriteriaBoundaryType"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    Upper: int  # = 0
+    Lower: int  # = 1
 class HoldOnResizeType:
-    """.NET: Autodesk.Civil.DatabaseServices.HoldOnResizeType"""
+    """.NET enum: Autodesk.Civil.DatabaseServices.HoldOnResizeType"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    Invert: int  # = 0
+    Crown: int  # = 1
+    Centerline: int  # = 2
 class HorizontalGeometryBandLabelGroup(ProfileBandLabelGroup):
     """.NET: Autodesk.Civil.DatabaseServices.HorizontalGeometryBandLabelGroup"""
     def __init__(self, *args) -> None: ...
@@ -8757,15 +8952,18 @@ class HorizontalGeometryBandLabelGroup(ProfileBandLabelGroup):
     def GetAvailableLabelGroups(profileViewId: ObjectId, includeDerived: bool) -> ObjectIdCollection: ...
 
 class HydrographShapeType:
-    """.NET: Autodesk.Civil.DatabaseServices.HydrographShapeType"""
+    """.NET enum: Autodesk.Civil.DatabaseServices.HydrographShapeType"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    Curvilinear: int  # = 0
+    Triangular: int  # = 1
 class HydrologicalSoilGroup:
-    """.NET: Autodesk.Civil.DatabaseServices.HydrologicalSoilGroup"""
+    """.NET enum: Autodesk.Civil.DatabaseServices.HydrologicalSoilGroup"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    HSG_None: int  # = 0
+    HSG_A: int  # = 1
+    HSG_B: int  # = 2
+    HSG_C: int  # = 3
+    HSG_D: int  # = 4
 class IAppliedSubassemblyParam:
     """.NET: Autodesk.Civil.DatabaseServices.IAppliedSubassemblyParam"""
     def __init__(self, *args) -> None: ...
@@ -8867,30 +9065,40 @@ class IVolumeSurface:
     def GetVolumeProperties(self, ) -> VolumeSurfaceProperties: ...
 
 class InfiltrationMethod:
-    """.NET: Autodesk.Civil.DatabaseServices.InfiltrationMethod"""
+    """.NET enum: Autodesk.Civil.DatabaseServices.InfiltrationMethod"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    Horton: int  # = 0
+    ModifiedHorton: int  # = 1
+    GreenAmpt: int  # = 2
+    ModifiedGreenAmpt: int  # = 3
+    SCSCurveNumber: int  # = 4
 class InitialAbstractionType:
-    """.NET: Autodesk.Civil.DatabaseServices.InitialAbstractionType"""
+    """.NET enum: Autodesk.Civil.DatabaseServices.InitialAbstractionType"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    Depth: int  # = 0
+    Fraction: int  # = 1
 class InletGrateType:
-    """.NET: Autodesk.Civil.DatabaseServices.InletGrateType"""
+    """.NET enum: Autodesk.Civil.DatabaseServices.InletGrateType"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    P50: int  # = 0
+    P50x100: int  # = 1
+    P30: int  # = 2
+    CurvedVane: int  # = 3
+    TiltBar4560: int  # = 4
+    TiltBar3085: int  # = 5
+    Reticuline: int  # = 6
 class InletLocationType:
-    """.NET: Autodesk.Civil.DatabaseServices.InletLocationType"""
+    """.NET enum: Autodesk.Civil.DatabaseServices.InletLocationType"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    OnGrade: int  # = 0
+    InSag: int  # = 1
+    None_: int  # = 2
 class InletThroatAngleType:
-    """.NET: Autodesk.Civil.DatabaseServices.InletThroatAngleType"""
+    """.NET enum: Autodesk.Civil.DatabaseServices.InletThroatAngleType"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    Horizontal: int  # = 0
+    Vertical: int  # = 1
+    Inclined: int  # = 2
 class Interference(GeoEntity):
     """.NET: Autodesk.Civil.DatabaseServices.Interference"""
     def __init__(self, *args) -> None: ...
@@ -9124,10 +9332,11 @@ class InterferenceCheck(GeoEntity):
     UnmanagedObject: IntPtr
 
 class InternalRouting:
-    """.NET: Autodesk.Civil.DatabaseServices.InternalRouting"""
+    """.NET enum: Autodesk.Civil.DatabaseServices.InternalRouting"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    ToPervious: int  # = 0
+    ToImpervious: int  # = 1
+    Direct: int  # = 2
 class Intersection(Entity):
     """.NET: Autodesk.Civil.DatabaseServices.Intersection"""
     def __init__(self, *args) -> None: ...
@@ -9251,10 +9460,10 @@ class Intersection(Entity):
     def GetIntersectionLocaitonLabelIds(self, ) -> ObjectIdCollection: ...
 
 class IntersectionCorridorType:
-    """.NET: Autodesk.Civil.DatabaseServices.IntersectionCorridorType"""
+    """.NET enum: Autodesk.Civil.DatabaseServices.IntersectionCorridorType"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    PrimaryRoadCrownMaintained: int  # = 1
+    AllCrownsMaintained: int  # = 2
 class IntersectionLocationLabel(FeatureLabel):
     """.NET: Autodesk.Civil.DatabaseServices.IntersectionLocationLabel"""
     def __init__(self, *args) -> None: ...
@@ -9945,10 +10154,62 @@ class LabelSelectionProperties:
     def Instance(objIds: ObjectIdCollection) -> LabelSelectionProperties: ...
 
 class LabelType:
-    """.NET: Autodesk.Civil.DatabaseServices.LabelType"""
+    """.NET enum: Autodesk.Civil.DatabaseServices.LabelType"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    Unknown: int  # = 0
+    Note: int  # = 1
+    General: int  # = 2
+    SurfaceContour: int  # = 3
+    ParcelFace: int  # = 4
+    ParcelSegment: int  # = 5
+    AlignmentMajorStation: int  # = 6
+    AlignmentMinorStation: int  # = 7
+    AlignmentGeometryPoint: int  # = 8
+    AlignmentProfileGeometryPoint: int  # = 9
+    AlignmentStationEquation: int  # = 10
+    AlignmentDesignSpeed: int  # = 11
+    AlignmentSuperelevationCriticalPoints: int  # = 12
+    AlignmentCANTCriticalPoints: int  # = 13
+    AlignmentStationOffset: int  # = 14
+    AlignmentTangent: int  # = 15
+    AlignmentCurve: int  # = 16
+    AlignmentSpiral: int  # = 17
+    AlignmentTangentIntersection: int  # = 18
+    AlignmentPointOfIntersection: int  # = 19
+    ProfileMajorStation: int  # = 20
+    ProfileMinorStation: int  # = 21
+    ProfileHorizontalGeometryPoint: int  # = 22
+    ProfileGradeBreaks: int  # = 23
+    ProfileLine: int  # = 24
+    ProfileCrestCurve: int  # = 25
+    ProfileSagCurve: int  # = 26
+    ProfileStationElevation: int  # = 27
+    ProfileViewDepth: int  # = 28
+    ProfileProjection: int  # = 29
+    ProfileDataBand: int  # = 30
+    VerticalGeometryBand: int  # = 31
+    HorizontalGeometryBand: int  # = 32
+    SuperElevationBand: int  # = 33
+    PipeNetworkBand: int  # = 34
+    SectionalDataBand: int  # = 35
+    SectionViewOffsetElevation: int  # = 36
+    SectionViewDepth: int  # = 37
+    SectionProjection: int  # = 38
+    SectionMajorOffset: int  # = 39
+    SectionMinorOffset: int  # = 40
+    SectionGradeBreak: int  # = 41
+    SectionSegment: int  # = 42
+    SectionDataBand: int  # = 43
+    SampleLine: int  # = 44
+    Pipe: int  # = 45
+    PipeProfile: int  # = 46
+    PipeSection: int  # = 47
+    StructureLabel: int  # = 48
+    StructureProfile: int  # = 49
+    StructureSection: int  # = 50
+    ViewFrame: int  # = 51
+    MatchLine: int  # = 52
+    SectionCorridorPoint: int  # = 53
 class LandDatabaseExtension:
     """.NET: Autodesk.Civil.DatabaseServices.LandDatabaseExtension"""
     def __init__(self, *args) -> None: ...
@@ -10623,25 +10884,33 @@ class MatchLineLabelGroup(AutoFeatureLabelGroup):
     def GetLabelGroupIdBySide(viewFrameGroupId: ObjectId, side: EntitySideType) -> ObjectId: ...
 
 class MaterialConditionType:
-    """.NET: Autodesk.Civil.DatabaseServices.MaterialConditionType"""
+    """.NET enum: Autodesk.Civil.DatabaseServices.MaterialConditionType"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    Above: int  # = 0
+    Below: int  # = 1
+    Base: int  # = 2
+    Compare: int  # = 3
+    Include: int  # = 4
+    Exclude: int  # = 5
 class MaterialFactorType:
-    """.NET: Autodesk.Civil.DatabaseServices.MaterialFactorType"""
+    """.NET enum: Autodesk.Civil.DatabaseServices.MaterialFactorType"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    Cut: int  # = 0
+    Fill: int  # = 1
+    Refill: int  # = 2
 class MaterialItemType:
-    """.NET: Autodesk.Civil.DatabaseServices.MaterialItemType"""
+    """.NET enum: Autodesk.Civil.DatabaseServices.MaterialItemType"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    Surface: int  # = 0
+    CorridorShape: int  # = 1
 class MaterialQuantityType:
-    """.NET: Autodesk.Civil.DatabaseServices.MaterialQuantityType"""
+    """.NET enum: Autodesk.Civil.DatabaseServices.MaterialQuantityType"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    Cut: int  # = 0
+    Fill: int  # = 1
+    CutFill: int  # = 2
+    Earthwork: int  # = 3
+    Structure: int  # = 4
 class MaterialSection(Section):
     """.NET: Autodesk.Civil.DatabaseServices.MaterialSection"""
     def __init__(self, *args) -> None: ...
@@ -10791,10 +11060,11 @@ class MaterialSectionSourceCollection:
     def GetObjectEnumerator(self, ) -> IEnumerator: ...
 
 class MaterialVolumeCalculationMethodType:
-    """.NET: Autodesk.Civil.DatabaseServices.MaterialVolumeCalculationMethodType"""
+    """.NET enum: Autodesk.Civil.DatabaseServices.MaterialVolumeCalculationMethodType"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    AverageEndArea: int  # = 0
+    Prismoidal: int  # = 1
+    CompositeVolume: int  # = 2
 class MultipleProfileViewsCreationOptions:
     """.NET: Autodesk.Civil.DatabaseServices.MultipleProfileViewsCreationOptions"""
     def __init__(self, *args) -> None: ...
@@ -11271,15 +11541,16 @@ class OffsetBaselineCollection(CivilWrapper<AeccDbCorridor>):
     def OffsetBaselineNames(self, ) -> list: ...
 
 class OffsetLengthOption:
-    """.NET: Autodesk.Civil.DatabaseServices.OffsetLengthOption"""
+    """.NET enum: Autodesk.Civil.DatabaseServices.OffsetLengthOption"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    IntersectionExtents: int  # = 1
+    AlignmentStartToEnd: int  # = 2
 class OverhangCorrectionType:
-    """.NET: Autodesk.Civil.DatabaseServices.OverhangCorrectionType"""
+    """.NET enum: Autodesk.Civil.DatabaseServices.OverhangCorrectionType"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    None_: int  # = 0
+    TopLinks: int  # = 1
+    BottomLinks: int  # = 2
 class OverriddenStationInfo:
     """.NET: Autodesk.Civil.DatabaseServices.OverriddenStationInfo"""
     def __init__(self, *args) -> None: ...
@@ -12224,15 +12495,77 @@ class Part(GeoEntity):
     def SwapPartFamilyAndSize(self, partFamilyId: ObjectId, partSizeId: ObjectId) -> None: ...
 
 class PartCatalogDataType:
-    """.NET: Autodesk.Civil.DatabaseServices.PartCatalogDataType"""
+    """.NET enum: Autodesk.Civil.DatabaseServices.PartCatalogDataType"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    Double: int  # = 1
+    Int: int  # = 2
+    Bool: int  # = 3
+    String: int  # = 4
 class PartContextType:
-    """.NET: Autodesk.Civil.DatabaseServices.PartContextType"""
+    """.NET enum: Autodesk.Civil.DatabaseServices.PartContextType"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    Material: int  # = 300
+    WallThickness: int  # = 301
+    FloorThickness: int  # = 302
+    ConnectionType: int  # = 303
+    SweptShape: int  # = 400
+    PipeInnerDiameter: int  # = 401
+    PipeInnerHeight: int  # = 402
+    PipeInnerWidth: int  # = 403
+    PipeInnerBottomToBasePoint: int  # = 404
+    MinCurveRadius: int  # = 405
+    FlowAnalysisManning: int  # = 406
+    FlowAnalysisHazenWilliams: int  # = 407
+    FlowAnalysisDarcyWeisbach: int  # = 408
+    StructBoundingShape: int  # = 500
+    StructHeight: int  # = 501
+    StructDiameter: int  # = 502
+    StructLength: int  # = 503
+    StructWidth: int  # = 504
+    StructRimToSumpHeight: int  # = 505
+    StructBarrelHeight: int  # = 506
+    StructRiserHeight: int  # = 507
+    StructInnerDiameter: int  # = 508
+    StructInnerLength: int  # = 509
+    StructInnerWidth: int  # = 510
+    StructFrameHeight: int  # = 511
+    StructFrameDiameter: int  # = 512
+    StructFrameLength: int  # = 513
+    StructFrame: int  # = 514
+    StructGrate: int  # = 515
+    StructCover: int  # = 516
+    StructHeadwallBaseWidth: int  # = 517
+    StructHeadwallBaseThickness: int  # = 518
+    StructHeadwallTopWidth: int  # = 519
+    StructHeadwallTopThickness: int  # = 520
+    StructWingBackHeight: int  # = 521
+    StructWingFrontHeight: int  # = 522
+    StructWingLength: int  # = 523
+    StructWingThickness: int  # = 524
+    StructApronBackThickness: int  # = 525
+    StructApronFrontThickness: int  # = 526
+    StructApronLength: int  # = 527
+    StructApronWidth: int  # = 528
+    StructFrameWidth: int  # = 529
+    StructVerticalPipeClearance: int  # = 530
+    StructHorizontalPipeClearance: int  # = 531
+    StructBarrelPipeClearance: int  # = 532
+    StructConeHeight: int  # = 533
+    StructSlabThickness: int  # = 534
+    StructPipeOuterBottomElevation: int  # = 601
+    StructPipeInvertElevation: int  # = 602
+    StructPipeCenterElevation: int  # = 603
+    StructPipeCrownElevation: int  # = 604
+    StructPipeOuterTopElevation: int  # = 605
+    StructPipeInnerWidth: int  # = 606
+    StructPipeInnerHeight: int  # = 607
+    StructPipeOuterWidth: int  # = 608
+    StructPipeOuterHeight: int  # = 609
+    StructPipeFlowDirection: int  # = 610
+    StructPipeDirection: int  # = 611
+    StructPipeShape: int  # = 612
+    StructPipeWallThickness: int  # = 613
+    StructPipeMaterial: int  # = 614
 class PartDataField:
     """.NET: Autodesk.Civil.DatabaseServices.PartDataField"""
     def __init__(self, *args) -> None: ...
@@ -12336,10 +12669,28 @@ class PartDef(DBObject):
     def GetProfileInFrontView(self, ) -> Profile: ...
 
 class PartParamUsageType:
-    """.NET: Autodesk.Civil.DatabaseServices.PartParamUsageType"""
+    """.NET enum: Autodesk.Civil.DatabaseServices.PartParamUsageType"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    DoubleGeneral: int  # = 101
+    DoubleNonZero: int  # = 102
+    DoubleNonZeroNonNegative: int  # = 103
+    DoubleDistance: int  # = 104
+    DoubleDistanceMinor: int  # = 105
+    DoubleAngle: int  # = 106
+    DoublePercent: int  # = 107
+    DoubleArea: int  # = 108
+    DoubleVolume: int  # = 109
+    DoubleElevation: int  # = 110
+    IntGeneral: int  # = 201
+    IntNonZero: int  # = 202
+    IntNonZeroNonNegative: int  # = 203
+    StringGeneral: int  # = 301
+    StringName: int  # = 302
+    StringGuid: int  # = 303
+    StringEnumKey: int  # = 304
+    BoolGeneral: int  # = 401
+    MultipleValuePosition: int  # = 501
+    MultipleValueDirection: int  # = 502
 class PartProfileLabel(FeatureLabel):
     """.NET: Autodesk.Civil.DatabaseServices.PartProfileLabel"""
     def __init__(self, *args) -> None: ...
@@ -12639,10 +12990,18 @@ class PartSectionLabel(FeatureLabel):
     UnmanagedObject: IntPtr
 
 class PartType:
-    """.NET: Autodesk.Civil.DatabaseServices.PartType"""
+    """.NET enum: Autodesk.Civil.DatabaseServices.PartType"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    UndefinedPartType: int  # = 0
+    Pipe: int  # = 10
+    Channel: int  # = 11
+    Wire: int  # = 12
+    Conduit: int  # = 13
+    StructNull: int  # = 101
+    StructJunction: int  # = 102
+    StructInletOutlet: int  # = 103
+    StructGeneral: int  # = 104
+    StructEquipment: int  # = 105
 class PartViewDef(ImpObject):
     """.NET: Autodesk.Civil.DatabaseServices.PartViewDef"""
     def __init__(self, *args) -> None: ...
@@ -12657,10 +13016,13 @@ class PartViewDef(ImpObject):
     UnmanagedObject: IntPtr
 
 class PayItemFileFormat:
-    """.NET: Autodesk.Civil.DatabaseServices.PayItemFileFormat"""
+    """.NET enum: Autodesk.Civil.DatabaseServices.PayItemFileFormat"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    NotSet: int  # = 0
+    TransXml: int  # = 1
+    FloridaDOT: int  # = 2
+    CommaSeparated: int  # = 3
+    AutodeskTakeoffTemplate: int  # = 4
 class Pipe(Part):
     """.NET: Autodesk.Civil.DatabaseServices.Pipe"""
     def __init__(self, *args) -> None: ...
@@ -12879,10 +13241,11 @@ class PipeCurveGeometry(DisposableWrapper):
     def GetArc2d(self, ) -> CircularArc2d: ...
 
 class PipeEndLocation:
-    """.NET: Autodesk.Civil.DatabaseServices.PipeEndLocation"""
+    """.NET enum: Autodesk.Civil.DatabaseServices.PipeEndLocation"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    StructureCenter: int  # = 0
+    StructureInnerWall: int  # = 1
+    StructureOuterWall: int  # = 2
 class PipeLabel(FeatureLabel):
     """.NET: Autodesk.Civil.DatabaseServices.PipeLabel"""
     def __init__(self, *args) -> None: ...
@@ -13185,10 +13548,14 @@ class PipeNetworkDatabaseExtension:
     def GetCivilPipeNetworkIds(database: Database) -> ObjectIdCollection: ...
 
 class PipeNetworkStructureType:
-    """.NET: Autodesk.Civil.DatabaseServices.PipeNetworkStructureType"""
+    """.NET enum: Autodesk.Civil.DatabaseServices.PipeNetworkStructureType"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    UndefinedType: int  # = 0
+    GrateInlet: int  # = 1
+    CurbInlet: int  # = 2
+    CombinationInlet: int  # = 3
+    Outfall: int  # = 4
+    Manhole: int  # = 5
 class PipeOverride(GraphOverride):
     """.NET: Autodesk.Civil.DatabaseServices.PipeOverride"""
     def __init__(self, *args) -> None: ...
@@ -13516,10 +13883,12 @@ class PipeSectionLabel(PartSectionLabel):
     def GetAvailableLabelIds(sectionViewId: ObjectId) -> ObjectIdCollection: ...
 
 class PipeSubEntityType:
-    """.NET: Autodesk.Civil.DatabaseServices.PipeSubEntityType"""
+    """.NET enum: Autodesk.Civil.DatabaseServices.PipeSubEntityType"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    Straight: int  # = 257
+    Curved: int  # = 258
+    Segmented: int  # = 259
+    Flex: int  # = 260
 class Point(CivilWrapper<AeccDbEntity>):
     """.NET: Autodesk.Civil.DatabaseServices.Point"""
     def __init__(self, *args) -> None: ...
@@ -13914,10 +14283,11 @@ class PointGroupOverrideInfo:
     ActiveOverrideType: PointGroupOverrideType
 
 class PointGroupOverrideType:
-    """.NET: Autodesk.Civil.DatabaseServices.PointGroupOverrideType"""
+    """.NET enum: Autodesk.Civil.DatabaseServices.PointGroupOverrideType"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    FixedValue: int  # = 0
+    XDRef: int  # = 1
+    UserDefinedProperty: int  # = 2
 class PointGroupQuery:
     """.NET: Autodesk.Civil.DatabaseServices.PointGroupQuery"""
     def __init__(self, *args) -> None: ...
@@ -14007,10 +14377,10 @@ class PointInMem:
     Codes: CodeCollection
 
 class PointNumberResolveType:
-    """.NET: Autodesk.Civil.DatabaseServices.PointNumberResolveType"""
+    """.NET enum: Autodesk.Civil.DatabaseServices.PointNumberResolveType"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    UseNext: int  # = 0
+    Overwrite: int  # = 1
 class PointTable(Table):
     """.NET: Autodesk.Civil.DatabaseServices.PointTable"""
     def __init__(self, *args) -> None: ...
@@ -14929,15 +15299,20 @@ class ProfileEntityCollection(CivilWrapper<AeccDbVAlignment>):
     def RemoveAt(self, index: int) -> None: ...
 
 class ProfileEntityConstraintType:
-    """.NET: Autodesk.Civil.DatabaseServices.ProfileEntityConstraintType"""
+    """.NET enum: Autodesk.Civil.DatabaseServices.ProfileEntityConstraintType"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    Fixed: int  # = 289
+    FloatOnPrev: int  # = 290
+    FloatOnNext: int  # = 291
+    Free: int  # = 292
 class ProfileEntityType:
-    """.NET: Autodesk.Civil.DatabaseServices.ProfileEntityType"""
+    """.NET enum: Autodesk.Civil.DatabaseServices.ProfileEntityType"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    Tangent: int  # = 257
+    Circular: int  # = 258
+    ParabolaSymmetric: int  # = 259
+    ParabolaAsymmetric: int  # = 260
+    None_: int  # = 262
 class ProfileHatchArea(CivilWrapper<AeccDbGraphProfile>):
     """.NET: Autodesk.Civil.DatabaseServices.ProfileHatchArea"""
     def __init__(self, *args) -> None: ...
@@ -16392,15 +16767,20 @@ class ProfileTangent(ProfileEntity):
     EntityId: int
 
 class ProfileType:
-    """.NET: Autodesk.Civil.DatabaseServices.ProfileType"""
+    """.NET enum: Autodesk.Civil.DatabaseServices.ProfileType"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    EG: int  # = 0
+    FG: int  # = 1
+    Superimposed: int  # = 2
+    File: int  # = 3
+    CorridorFeature: int  # = 4
+    OffsetProfile: int  # = 6
+    CurbReturnProfile: int  # = 7
 class ProfileUpdateType:
-    """.NET: Autodesk.Civil.DatabaseServices.ProfileUpdateType"""
+    """.NET enum: Autodesk.Civil.DatabaseServices.ProfileUpdateType"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    Static: int  # = 0
+    Dynamic: int  # = 1
 class ProfileView(Graph):
     """.NET: Autodesk.Civil.DatabaseServices.ProfileView"""
     def __init__(self, *args) -> None: ...
@@ -16879,10 +17259,17 @@ class ProfileViewSplitDataCollection(CivilWrapper<AeccDbGraphProfile>):
     def RemoveAt(self, index: int) -> None: ...
 
 class PropertiesSet:
-    """.NET: Autodesk.Civil.DatabaseServices.PropertiesSet"""
+    """.NET enum: Autodesk.Civil.DatabaseServices.PropertiesSet"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    NoProperties: int  # = 0
+    ReportTypeProperty: int  # = 2
+    ReportExtentProperty: int  # = 4
+    ReportSheetOnlyProperty: int  # = 8
+    AlignmentIdProperty: int  # = 16
+    StartStationProperty: int  # = 32
+    EndStationProperty: int  # = 64
+    ReportSelectedPayItemsOnlyProperty: int  # = 128
+    AlignmentOffsetIdProperty: int  # = 256
 class QTOAreaResult(CivilWrapper<AeccQuantityTakeoffResult::SECTIONAL_RESULT>):
     """.NET: Autodesk.Civil.DatabaseServices.QTOAreaResult"""
     def __init__(self, *args) -> None: ...
@@ -17035,25 +17422,45 @@ class QTOMaterialListGapCollection:
     def RemoveAt(self, index: int) -> None: ...
 
 class QTOReportExtent:
-    """.NET: Autodesk.Civil.DatabaseServices.QTOReportExtent"""
+    """.NET enum: Autodesk.Civil.DatabaseServices.QTOReportExtent"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    DrawingExtent: int  # = 0
+    SheetExtent: int  # = 1
+    SelectionExtent: int  # = 2
 class QTOReportFormat:
-    """.NET: Autodesk.Civil.DatabaseServices.QTOReportFormat"""
+    """.NET enum: Autodesk.Civil.DatabaseServices.QTOReportFormat"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    DetailedXML: int  # = 130
+    SummaryXML: int  # = 132
+    SummaryCSV: int  # = 260
+    DetailedAreaCSV: int  # = 264
+    DetailedCountCSV: int  # = 272
+    DetailedLinearCSV: int  # = 288
+    DetailedVolumeCSV: int  # = 320
+    SummaryHTML: int  # = 516
+    DetailedAreaHTML: int  # = 520
+    DetailedCountHTML: int  # = 528
+    DetailedLinearHTML: int  # = 544
+    DetailedVolumeHTML: int  # = 576
+    SummaryTXT: int  # = 1028
+    DetailedAreaTXT: int  # = 1032
+    DetailedCountTXT: int  # = 1040
+    DetailedLinearTXT: int  # = 1056
+    DetailedVolumeTXT: int  # = 1088
 class QTOReportType:
-    """.NET: Autodesk.Civil.DatabaseServices.QTOReportType"""
+    """.NET enum: Autodesk.Civil.DatabaseServices.QTOReportType"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    DetailedReport: int  # = 2
+    SummaryReport: int  # = 4
 class QTOResultType:
-    """.NET: Autodesk.Civil.DatabaseServices.QTOResultType"""
+    """.NET enum: Autodesk.Civil.DatabaseServices.QTOResultType"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    TotalVolume: int  # = 0
+    MaterialCutVolume: int  # = 1
+    MaterialFillVolume: int  # = 2
+    MaterialCutFillVolume: int  # = 3
+    MaterialEarthWorkVolume: int  # = 4
+    MaterialStructureVolume: int  # = 5
 class QTOSectionalResult(CivilWrapper<AeccQuantityTakeoffResult::SECTIONAL_RESULT>):
     """.NET: Autodesk.Civil.DatabaseServices.QTOSectionalResult"""
     def __init__(self, *args) -> None: ...
@@ -17160,15 +17567,20 @@ class RailCANTInfo:
     Pivot: RailAlignmentPivotType
 
 class RegionMatchType:
-    """.NET: Autodesk.Civil.DatabaseServices.RegionMatchType"""
+    """.NET enum: Autodesk.Civil.DatabaseServices.RegionMatchType"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    All: int  # = 0
+    AssemblyAndTarget: int  # = 1
+    Frequency: int  # = 3
 class RunoffMethod:
-    """.NET: Autodesk.Civil.DatabaseServices.RunoffMethod"""
+    """.NET enum: Autodesk.Civil.DatabaseServices.RunoffMethod"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    TimeOfConcentration: int  # = 0
+    SoilConservationService: int  # = 1
+    SWMM: int  # = 2
+    Rational: int  # = 3
+    ModifiedRational: int  # = 4
+    SantaBarbaraUrbanHydrograph: int  # = 5
 class SCSCSConstraints(CivilWrapper<AeccGeSCSCSConstraints>):
     """.NET: Autodesk.Civil.DatabaseServices.SCSCSConstraints"""
     def __init__(self, *args) -> None: ...
@@ -17641,10 +18053,11 @@ class SampleLineVertexCollection(CivilWrapper<AeccDbSampleLine>):
     def GetObjectEnumerator(self, ) -> IEnumerator: ...
 
 class SampleLineVertexSideType:
-    """.NET: Autodesk.Civil.DatabaseServices.SampleLineVertexSideType"""
+    """.NET enum: Autodesk.Civil.DatabaseServices.SampleLineVertexSideType"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    Left: int  # = 0
+    Right: int  # = 1
+    Center: int  # = 2
 class SampledSectionLink(CivilWrapper<Autodesk::Civil::DatabaseServices::SampleSectionLinkData>):
     """.NET: Autodesk.Civil.DatabaseServices.SampledSectionLink"""
     def __init__(self, *args) -> None: ...
@@ -19557,15 +19970,20 @@ class SectionSourceCollection:
     def GetObjectEnumerator(self, ) -> IEnumerator: ...
 
 class SectionSourceType:
-    """.NET: Autodesk.Civil.DatabaseServices.SectionSourceType"""
+    """.NET enum: Autodesk.Civil.DatabaseServices.SectionSourceType"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    TinSurface: int  # = 0
+    Grading: int  # = 1
+    Corridor: int  # = 2
+    CorridorSurface: int  # = 3
+    PipeNetwork: int  # = 4
+    Material: int  # = 5
+    GridSurface: int  # = 6
 class SectionUpdateType:
-    """.NET: Autodesk.Civil.DatabaseServices.SectionUpdateType"""
+    """.NET enum: Autodesk.Civil.DatabaseServices.SectionUpdateType"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    Static: int  # = 0
+    Dynamic: int  # = 1
 class SectionView(Graph):
     """.NET: Autodesk.Civil.DatabaseServices.SectionView"""
     def __init__(self, *args) -> None: ...
@@ -20246,10 +20664,17 @@ class SectionViewQuantityTakeoffTable(Table):
     def RemoveSelectedMaterial(self, materialGuid: Guid) -> bool: ...
 
 class SectionViewVolumeTableAnchorType:
-    """.NET: Autodesk.Civil.DatabaseServices.SectionViewVolumeTableAnchorType"""
+    """.NET enum: Autodesk.Civil.DatabaseServices.SectionViewVolumeTableAnchorType"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    TopLeft: int  # = 0
+    TopCenter: int  # = 1
+    TopRight: int  # = 2
+    MiddleLeft: int  # = 3
+    MiddleCenter: int  # = 4
+    MiddleRight: int  # = 5
+    BottomLeft: int  # = 6
+    BottomCenter: int  # = 7
+    BottomRight: int  # = 8
 class SectionViewVolumeTableGroup:
     """.NET: Autodesk.Civil.DatabaseServices.SectionViewVolumeTableGroup"""
     def __init__(self, *args) -> None: ...
@@ -20264,10 +20689,10 @@ class SectionViewVolumeTableGroup:
     def SwapAt(self, index1: int, index2: int) -> None: ...
 
 class SectionViewVolumeTableLayoutType:
-    """.NET: Autodesk.Civil.DatabaseServices.SectionViewVolumeTableLayoutType"""
+    """.NET enum: Autodesk.Civil.DatabaseServices.SectionViewVolumeTableLayoutType"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    Horizontal: int  # = 0
+    Vertical: int  # = 1
 class SectionalDataBandLabelGroup(ProfileBandLabelGroup):
     """.NET: Autodesk.Civil.DatabaseServices.SectionalDataBandLabelGroup"""
     def __init__(self, *args) -> None: ...
@@ -20410,10 +20835,16 @@ class SectionalDataBandLabelGroup(ProfileBandLabelGroup):
     def GetAvailableLabelGroups(profileViewId: ObjectId, includeDerived: bool) -> ObjectIdCollection: ...
 
 class ShallowFlowSurfaceType:
-    """.NET: Autodesk.Civil.DatabaseServices.ShallowFlowSurfaceType"""
+    """.NET enum: Autodesk.Civil.DatabaseServices.ShallowFlowSurfaceType"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    Paved: int  # = 0
+    Unpaved: int  # = 1
+    GrassedWaterway: int  # = 2
+    NearlyBare: int  # = 3
+    CultivatedStraightRows: int  # = 4
+    ShortGrassPasture: int  # = 5
+    Woodland: int  # = 6
+    Forest_HeavyLitter: int  # = 7
 class Shape(CivilWrapper<AeccDbEntity>):
     """.NET: Autodesk.Civil.DatabaseServices.Shape"""
     def __init__(self, *args) -> None: ...
@@ -20549,10 +20980,10 @@ class Sheet(GeoEntity):
     UnmanagedObject: IntPtr
 
 class SideRoadProfileDistanceRuleType:
-    """.NET: Autodesk.Civil.DatabaseServices.SideRoadProfileDistanceRuleType"""
+    """.NET enum: Autodesk.Civil.DatabaseServices.SideRoadProfileDistanceRuleType"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    ToIntersectionExtents: int  # = 1
+    SpecifyDistance: int  # = 2
 class Site(Entity):
     """.NET: Autodesk.Civil.DatabaseServices.Site"""
     def __init__(self, *args) -> None: ...
@@ -20693,15 +21124,15 @@ class SlopeLineDefinition:
     type: SlopeLineType
 
 class SlopeLineSide:
-    """.NET: Autodesk.Civil.DatabaseServices.SlopeLineSide"""
+    """.NET enum: Autodesk.Civil.DatabaseServices.SlopeLineSide"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    LeftSide: int  # = 1
+    RightSide: int  # = 2
 class SlopeLineType:
-    """.NET: Autodesk.Civil.DatabaseServices.SlopeLineType"""
+    """.NET enum: Autodesk.Civil.DatabaseServices.SlopeLineType"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    Lane: int  # = 1
+    Shoulder: int  # = 2
 class SpanningPipeLabel(FeatureLabel):
     """.NET: Autodesk.Civil.DatabaseServices.SpanningPipeLabel"""
     def __init__(self, *args) -> None: ...
@@ -21027,20 +21458,20 @@ class SpanningPipeProfileLabel(FeatureLabel):
     def GetAvailableLabelIds(profileViewId: ObjectId) -> ObjectIdCollection: ...
 
 class SpiralCurveType:
-    """.NET: Autodesk.Civil.DatabaseServices.SpiralCurveType"""
+    """.NET enum: Autodesk.Civil.DatabaseServices.SpiralCurveType"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    InCurve: int  # = 261
+    OutCurve: int  # = 262
 class SpiralDirectionType:
-    """.NET: Autodesk.Civil.DatabaseServices.SpiralDirectionType"""
+    """.NET enum: Autodesk.Civil.DatabaseServices.SpiralDirectionType"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    DirectionRight: int  # = 0
+    DirectionLeft: int  # = 1
 class SpiralParamType:
-    """.NET: Autodesk.Civil.DatabaseServices.SpiralParamType"""
+    """.NET enum: Autodesk.Civil.DatabaseServices.SpiralParamType"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    AValue: int  # = 0
+    Length: int  # = 1
 class SplitProfileViewCreationOptions:
     """.NET: Autodesk.Civil.DatabaseServices.SplitProfileViewCreationOptions"""
     def __init__(self, *args) -> None: ...
@@ -21052,10 +21483,10 @@ class SplitProfileViewCreationOptions:
     ViewHeight: float
 
 class SplitStationType:
-    """.NET: Autodesk.Civil.DatabaseServices.SplitStationType"""
+    """.NET enum: Autodesk.Civil.DatabaseServices.SplitStationType"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    Automatic: int  # = 0
+    Manual: int  # = 1
 class StackedProfileViewsCreationOptions:
     """.NET: Autodesk.Civil.DatabaseServices.StackedProfileViewsCreationOptions"""
     def __init__(self, *args) -> None: ...
@@ -21265,10 +21696,10 @@ class StationEquationCollection(CivilWrapper<AeccDbAlignment>):
     def Remove(self, rawStationBack: float) -> None: ...
 
 class StationEquationType:
-    """.NET: Autodesk.Civil.DatabaseServices.StationEquationType"""
+    """.NET enum: Autodesk.Civil.DatabaseServices.StationEquationType"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    Decreasing: int  # = 0
+    Increasing: int  # = 1
 class StationOffsetLabel(FeatureLabel):
     """.NET: Autodesk.Civil.DatabaseServices.StationOffsetLabel"""
     def __init__(self, *args) -> None: ...
@@ -21422,20 +21853,32 @@ class StationOffsetLabel(FeatureLabel):
     def Create(alignmentId: ObjectId, labelStyleId: ObjectId, markerStyleId: ObjectId, location: Point2d) -> ObjectId: ...
 
 class StationRangeType:
-    """.NET: Autodesk.Civil.DatabaseServices.StationRangeType"""
+    """.NET enum: Autodesk.Civil.DatabaseServices.StationRangeType"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    Automatic: int  # = 0
+    UserSpecified: int  # = 1
 class StationRoundingType:
-    """.NET: Autodesk.Civil.DatabaseServices.StationRoundingType"""
+    """.NET enum: Autodesk.Civil.DatabaseServices.StationRoundingType"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    PreviousMajorGrid: int  # = 2
+    PreviousMinorGrid: int  # = 4
+    ExactStation: int  # = 8
 class StationTypes:
-    """.NET: Autodesk.Civil.DatabaseServices.StationTypes"""
+    """.NET enum: Autodesk.Civil.DatabaseServices.StationTypes"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    Major: int  # = 1
+    Minor: int  # = 2
+    GeometryPoint: int  # = 8
+    Equation: int  # = 16
+    RangeStart: int  # = 32
+    RangeEnd: int  # = 64
+    SuperTransPoint: int  # = 128
+    CurveByCurvature: int  # = 1024
+    OffsetTargetCurveOnly: int  # = 2048
+    CurveAtIncrement: int  # = 4096
+    HorizontalMask: int  # = 8191
+    PIPoint: int  # = 65536
+    All: int  # = -1
 class Structure(Part):
     """.NET: Autodesk.Civil.DatabaseServices.Structure"""
     def __init__(self, *args) -> None: ...
@@ -21657,10 +22100,10 @@ class Structure(Part):
     def ResizeJunctionStructure(self, partFamilyGuid: str, rimElevation: float, sumpElevation: float) -> None: ...
 
 class StructureControlSumpType:
-    """.NET: Autodesk.Civil.DatabaseServices.StructureControlSumpType"""
+    """.NET enum: Autodesk.Civil.DatabaseServices.StructureControlSumpType"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    ByDepth: int  # = 0
+    ByElevation: int  # = 1
 class StructureLabel(FeatureLabel):
     """.NET: Autodesk.Civil.DatabaseServices.StructureLabel"""
     def __init__(self, *args) -> None: ...
@@ -22314,25 +22757,33 @@ class SubassemblyGenerator:
     GeometryGenerateMode: SubassemblyGeometryGenerateMode
 
 class SubassemblyGeometryGenerateMode:
-    """.NET: Autodesk.Civil.DatabaseServices.SubassemblyGeometryGenerateMode"""
+    """.NET enum: Autodesk.Civil.DatabaseServices.SubassemblyGeometryGenerateMode"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    HardCoded: int  # = 0
+    UseVBA: int  # = 1
+    UseCOM: int  # = 2
+    UseDotNet: int  # = 3
 class SubassemblyLogicalNameType:
-    """.NET: Autodesk.Civil.DatabaseServices.SubassemblyLogicalNameType"""
+    """.NET enum: Autodesk.Civil.DatabaseServices.SubassemblyLogicalNameType"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    Surface: int  # = 1
+    Alignment: int  # = 2
+    Profile: int  # = 3
+    Offset: int  # = 4
+    Elevation: int  # = 5
+    OffsetPipe: int  # = 6
+    ElevationPipe: int  # = 7
 class SubassemblySideType:
-    """.NET: Autodesk.Civil.DatabaseServices.SubassemblySideType"""
+    """.NET enum: Autodesk.Civil.DatabaseServices.SubassemblySideType"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    Left: int  # = 0
+    Right: int  # = 1
 class SubassemblyStatus:
-    """.NET: Autodesk.Civil.DatabaseServices.SubassemblyStatus"""
+    """.NET enum: Autodesk.Civil.DatabaseServices.SubassemblyStatus"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    UpToDate: int  # = 0
+    OutOfDate: int  # = 1
+    FileNotFound: int  # = 2
 class SubassemblyTargetInfo(DisposableWrapper):
     """.NET: Autodesk.Civil.DatabaseServices.SubassemblyTargetInfo"""
     def __init__(self, *args) -> None: ...
@@ -22360,10 +22811,12 @@ class SubassemblyTargetInfoCollection(DisposableWrapper):
     def GetObjectEnumerator(self, ) -> IEnumerator: ...
 
 class SubassemblyTargetToOption:
-    """.NET: Autodesk.Civil.DatabaseServices.SubassemblyTargetToOption"""
+    """.NET enum: Autodesk.Civil.DatabaseServices.SubassemblyTargetToOption"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    Nearest: int  # = 1
+    Farthest: int  # = 2
+    Flattest: int  # = 3
+    Steepest: int  # = 4
 class SuperElevationBandLabelGroup(ProfileBandLabelGroup):
     """.NET: Autodesk.Civil.DatabaseServices.SuperElevationBandLabelGroup"""
     def __init__(self, *args) -> None: ...
@@ -22560,10 +23013,11 @@ class SuperelevationCurveCollection:
     def ImportSuperelevationDataFromFile(fileName: str, alignmentId: ObjectId, acceptGarbage: bool) -> None: ...
 
 class SuperelevationType:
-    """.NET: Autodesk.Civil.DatabaseServices.SuperelevationType"""
+    """.NET enum: Autodesk.Civil.DatabaseServices.SuperelevationType"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    NotSupported: int  # = 1
+    Superelevation: int  # = 2
+    Cant: int  # = 3
 class SuperelevationView(Entity):
     """.NET: Autodesk.Civil.DatabaseServices.SuperelevationView"""
     def __init__(self, *args) -> None: ...
@@ -23408,10 +23862,10 @@ class SurfaceMaskCreationData:
     Name: str
 
 class SurfaceMaskType:
-    """.NET: Autodesk.Civil.DatabaseServices.SurfaceMaskType"""
+    """.NET enum: Autodesk.Civil.DatabaseServices.SurfaceMaskType"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    InSide: int  # = 0
+    OutSide: int  # = 1
 class SurfaceMinimizeFlatAreaOptions:
     """.NET: Autodesk.Civil.DatabaseServices.SurfaceMinimizeFlatAreaOptions"""
     def __init__(self, *args) -> None: ...
@@ -23793,10 +24247,11 @@ class SurfaceOperationTransformBy(SurfaceOperation):
     Enabled: bool
 
 class SurfaceOriginationType:
-    """.NET: Autodesk.Civil.DatabaseServices.SurfaceOriginationType"""
+    """.NET enum: Autodesk.Civil.DatabaseServices.SurfaceOriginationType"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    None_: int  # = 0
+    FromCorridor: int  # = 1
+    FromGrading: int  # = 2
 class SurfacePartialReferenceBoundaryMgr:
     """.NET: Autodesk.Civil.DatabaseServices.SurfacePartialReferenceBoundaryMgr"""
     def __init__(self, *args) -> None: ...
@@ -23830,10 +24285,10 @@ class SurfaceSimplifyOptions:
     def SetUserSpecifiedPolygonRegionByEntityId(self, entityId: ObjectId, midOrdinate: float) -> None: ...
 
 class SurfaceSimplifyRegionType:
-    """.NET: Autodesk.Civil.DatabaseServices.SurfaceSimplifyRegionType"""
+    """.NET enum: Autodesk.Civil.DatabaseServices.SurfaceSimplifyRegionType"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    SurfaceBorder: int  # = 0
+    UserSpecified: int  # = 1
 class SurfaceSlopeLabel(FeatureLabel):
     """.NET: Autodesk.Civil.DatabaseServices.SurfaceSlopeLabel"""
     def __init__(self, *args) -> None: ...
@@ -23992,15 +24447,16 @@ class SurfaceSlopeLabel(FeatureLabel):
     def GetAvailableSurfaceSlopeLabels(surfaceId: ObjectId) -> ObjectIdCollection: ...
 
 class SurfaceSlopeLabelType:
-    """.NET: Autodesk.Civil.DatabaseServices.SurfaceSlopeLabelType"""
+    """.NET enum: Autodesk.Civil.DatabaseServices.SurfaceSlopeLabelType"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    OnePoint: int  # = 0
+    TwoPoint: int  # = 1
 class SurfaceTransformOperationType:
-    """.NET: Autodesk.Civil.DatabaseServices.SurfaceTransformOperationType"""
+    """.NET enum: Autodesk.Civil.DatabaseServices.SurfaceTransformOperationType"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    Rotate: int  # = 1
+    Scale: int  # = 2
+    Move: int  # = 3
 class SurfaceVolumeInfo:
     """.NET: Autodesk.Civil.DatabaseServices.SurfaceVolumeInfo"""
     def __init__(self, *args) -> None: ...
@@ -24252,15 +24708,22 @@ class SurveyNetworkEntity(Entity):
     UnmanagedObject: IntPtr
 
 class SweptShapeType:
-    """.NET: Autodesk.Civil.DatabaseServices.SweptShapeType"""
+    """.NET enum: Autodesk.Civil.DatabaseServices.SweptShapeType"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    Undefined: int  # = 0
+    CustomShape: int  # = 1
+    Circular: int  # = 2
+    Rectangular: int  # = 3
+    Elliptical: int  # = 4
+    EggShaped: int  # = 5
+    HorizontalElliptical: int  # = 6
+    Arched: int  # = 7
 class TR55FlowSegmentType:
-    """.NET: Autodesk.Civil.DatabaseServices.TR55FlowSegmentType"""
+    """.NET enum: Autodesk.Civil.DatabaseServices.TR55FlowSegmentType"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    FlowTypeSheet: int  # = 1
+    FlowTypeShallowConc: int  # = 2
+    FlowTypeChannel: int  # = 3
 class Table(Entity):
     """.NET: Autodesk.Civil.DatabaseServices.Table"""
     def __init__(self, *args) -> None: ...
@@ -24386,10 +24849,12 @@ class TerrainSurfaceProperties:
     SurfaceArea2D: float
 
 class TimeOfConcentrationCalculationMethod:
-    """.NET: Autodesk.Civil.DatabaseServices.TimeOfConcentrationCalculationMethod"""
+    """.NET enum: Autodesk.Civil.DatabaseServices.TimeOfConcentrationCalculationMethod"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    CalculationMethodTR55: int  # = 1
+    CalculationMethodUserDefined: int  # = 2
+    CalculationMethodKirpich: int  # = 3
+    CalculationMethodFAA: int  # = 4
 class TinSurface(Surface):
     """.NET: Autodesk.Civil.DatabaseServices.TinSurface"""
     def __init__(self, *args) -> None: ...
@@ -24825,10 +25290,11 @@ class TinVolumeSurface(Surface):
     def GetVolumeProperties(self, ) -> VolumeSurfaceProperties: ...
 
 class TrackDistanceCalculationMode:
-    """.NET: Autodesk.Civil.DatabaseServices.TrackDistanceCalculationMode"""
+    """.NET enum: Autodesk.Civil.DatabaseServices.TrackDistanceCalculationMode"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    PrimaryAlignmentToSecondaryRail: int  # = 0
+    PrimaryRailToSecondaryAlignment: int  # = 1
+    AlignmentToAignmentMinusGauge: int  # = 2
 class TransitionDescriptionBase(CivilWrapper<AeccDbAlignment>):
     """.NET: Autodesk.Civil.DatabaseServices.TransitionDescriptionBase"""
     def __init__(self, *args) -> None: ...
@@ -25145,20 +25611,32 @@ class TurnoutCreationParams:
     def CreateDivertedProfile(self, entry: str) -> bool: ...
 
 class TurnoutCriticalPointType:
-    """.NET: Autodesk.Civil.DatabaseServices.TurnoutCriticalPointType"""
+    """.NET enum: Autodesk.Civil.DatabaseServices.TurnoutCriticalPointType"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    Custom: int  # = 0
+    StockRailJoint: int  # = 1
+    PointOfSwitch: int  # = 2
+    HeelOfBlade: int  # = 3
+    PointOfIntersection: int  # = 4
+    PointOfFrog: int  # = 5
+    HeelOfFrogOnMain: int  # = 6
+    HeelOfFrogOnDiverted: int  # = 7
+    LastLongTieOnMain: int  # = 8
+    LastLongTieOnDiverted: int  # = 9
+    EndOfTurnoutOnMain: int  # = 10
+    EndOfTurnoutOnDiverted: int  # = 11
+    HeelOfSwitch: int  # = 12
+    LastType: int  # = 13
 class TurnoutDirectionType:
-    """.NET: Autodesk.Civil.DatabaseServices.TurnoutDirectionType"""
+    """.NET enum: Autodesk.Civil.DatabaseServices.TurnoutDirectionType"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    Forward: int  # = 0
+    Backward: int  # = 1
 class TurnoutSideType:
-    """.NET: Autodesk.Civil.DatabaseServices.TurnoutSideType"""
+    """.NET enum: Autodesk.Civil.DatabaseServices.TurnoutSideType"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    Left: int  # = 0
+    Right: int  # = 1
 class UDP:
     """.NET: Autodesk.Civil.DatabaseServices.UDP"""
     def __init__(self, *args) -> None: ...
@@ -25193,10 +25671,11 @@ class UDPClassification:
     def RemoveUDP(self, udp: UDP) -> bool: ...
 
 class UDPClassificationApplyType:
-    """.NET: Autodesk.Civil.DatabaseServices.UDPClassificationApplyType"""
+    """.NET enum: Autodesk.Civil.DatabaseServices.UDPClassificationApplyType"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    All: int  # = 0
+    None_: int  # = 1
+    Custom: int  # = 2
 class UDPClassificationCollection:
     """.NET: Autodesk.Civil.DatabaseServices.UDPClassificationCollection"""
     def __init__(self, *args) -> None: ...
@@ -25282,10 +25761,10 @@ class UDPString(UDP):
     Name: str
 
 class VerticalCurveType:
-    """.NET: Autodesk.Civil.DatabaseServices.VerticalCurveType"""
+    """.NET enum: Autodesk.Civil.DatabaseServices.VerticalCurveType"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    Sag: int  # = 769
+    Crest: int  # = 770
 class VerticalGeometryBandLabelGroup(ProfileBandLabelGroup):
     """.NET: Autodesk.Civil.DatabaseServices.VerticalGeometryBandLabelGroup"""
     def __init__(self, *args) -> None: ...
@@ -25833,10 +26312,10 @@ class VolumeSurfaceProperties:
     BaseSurface: ObjectId
 
 class VolumeTableType:
-    """.NET: Autodesk.Civil.DatabaseServices.VolumeTableType"""
+    """.NET enum: Autodesk.Civil.DatabaseServices.VolumeTableType"""
     def __init__(self, *args) -> None: ...
-    ...
-
+    TotalVolume: int  # = 0
+    Material: int  # = 1
 class WallBreaklineCreationData:
     """.NET: Autodesk.Civil.DatabaseServices.WallBreaklineCreationData"""
     def __init__(self, *args) -> None: ...

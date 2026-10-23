@@ -7,16 +7,16 @@
 
 <p align="center">
   <a href="https://github.com/RAEN-DT/PyNetLibrary/releases"><img src="https://img.shields.io/github/v/release/RAEN-DT/PyNetLibrary?label=release&color=f78166" alt="Release"/></a>
-  <img src="https://img.shields.io/badge/reference%20scripts-113-2b7489" alt="Scripts"/>
-  <img src="https://img.shields.io/badge/API%20stubs-8%2C788%20classes-6f42c1" alt="Stubs"/>
+  <img src="https://img.shields.io/badge/reference%20scripts-157-2b7489" alt="Scripts"/>
+  <img src="https://img.shields.io/badge/API%20stubs-12%2C213%20classes-6f42c1" alt="Stubs"/>
   <img src="https://img.shields.io/badge/python-3.10%2B-blue" alt="Python"/>
   <img src="https://img.shields.io/badge/platform-Windows-lightgrey" alt="Windows"/>
-  <img src="https://img.shields.io/badge/hosts-Navisworks%20%C2%B7%20Revit%20%C2%B7%20Civil%203D-orange" alt="Hosts"/>
+  <img src="https://img.shields.io/badge/hosts-Navisworks%20%C2%B7%20Revit%20%C2%B7%20Civil%203D%20%C2%B7%20Rhino%20%C2%B7%20Tekla%20%C2%B7%20Presto-orange" alt="Hosts"/>
 </p>
 
 #
 
-**API context and reference scripts for Autodesk applications (Navisworks, Revit, Civil 3D)**, designed for the **[PyNet Platform](https://github.com/RAEN-DT/PyNet)**. This repo provides Python-style **stubs** of the Autodesk .NET APIs and example scripts, so that AI models (and developers) have the context they need to generate and understand automation code that runs through PyNet's embedded **Python.NET** engine.
+**API context and reference scripts for the six hosts PyNET supports (Navisworks, Revit, Civil 3D, Rhino, Tekla Structures and RIB Presto)**, designed for the **[PyNet Platform](https://github.com/RAEN-DT/PyNet)**. This repo provides Python-style **stubs** of the Autodesk .NET APIs and example scripts, so that AI models (and developers) have the context they need to generate and understand automation code that runs through PyNet's embedded **Python.NET** engine.
 
 > **AI Users:** This README, the example scripts under `01_Scripts/`, and the API stubs under
 > `02_PyNet Stubs/` are the primary context sources for generating scripts. Read the execution
@@ -74,7 +74,7 @@ Scripts run via **Python.NET** (CPython 3.10+ + `pythonnet` — not IronPython).
 
 ## 🧠 AI Usage Guidelines
 
-When generating scripts for PyNet (Navisworks, Revit, Civil 3D), follow these rules:
+When generating scripts for PyNet (Navisworks, Revit, Civil 3D, Rhino, Tekla Structures, RIB Presto), follow these rules:
 
 ### Structure
 - Always use a class-based architecture

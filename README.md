@@ -488,7 +488,7 @@ Have questions about installation, configuration, or usage? Check the full FAQ p
 
 ## 🔗 How This Library Fits Into the Ecosystem
 
-This library is part of a modular system designed to enable AI-driven BIM automation across Autodesk tools.
+This library is part of a modular system designed to enable AI-driven BIM automation across every host PyNET supports.
 
 This repository is designed to work alongside:
 
@@ -501,7 +501,7 @@ Natural Language → AI → Python Script → PyNet → Navisworks / Revit / Civ
 
 | Component | Repository | Purpose |
 | :--- | :--- | :--- |
-| **PyNet Platform** | [PyNet](https://github.com/RAEN-DT/PyNet) | Navisworks/Revit plugin — hosts the Python.NET engine |
+| **PyNet Platform** | [PyNet](https://github.com/RAEN-DT/PyNet) | Plugin for the six supported hosts — hosts the Python.NET engine |
 | **PyNet Bridge (MCP)** | [PyNetBridge](https://github.com/RAEN-DT/PyNetBridge) | MCP server - connects AI models to PyNET with including secure scripts validation|
 | **PyNet Library** | This repo | Script reference library and AI context |
 
@@ -561,12 +561,12 @@ driving an already-loaded package from the AI side, see [docs/viewer-mcp.md](doc
 ## ⚠️ Notes and Limitations
 
 ### Runtime Limitations
-- Scripts run inside the Autodesk application context (Navisworks, Revit, Civil 3D)
+- Scripts run inside the host application context (Navisworks, Revit, Civil 3D, Rhino, Tekla Structures, RIB Presto)
 - File system and OS-level operations are restricted
 - Certain Python standard libraries are not available due to security constraints
 
 ### Compatibility
-- Requires Autodesk applications with Python.NET support via PyNet Platform
+- Requires one of the supported host applications with Python.NET support via PyNet Platform
 - Compatible with Python 3.10+
 - **Python 3.14 is supported.**
 - Behavior may vary depending on application version

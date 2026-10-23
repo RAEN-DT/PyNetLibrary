@@ -7,16 +7,16 @@
 
 <p align="center">
   <a href="https://github.com/RAEN-DT/PyNetLibrary/releases"><img src="https://img.shields.io/github/v/release/RAEN-DT/PyNetLibrary?label=release&color=f78166" alt="Release"/></a>
-  <img src="https://img.shields.io/badge/reference%20scripts-113-2b7489" alt="Scripts"/>
-  <img src="https://img.shields.io/badge/API%20stubs-8%2C788%20classes-6f42c1" alt="Stubs"/>
+  <img src="https://img.shields.io/badge/reference%20scripts-157-2b7489" alt="Scripts"/>
+  <img src="https://img.shields.io/badge/API%20stubs-12%2C213%20classes-6f42c1" alt="Stubs"/>
   <img src="https://img.shields.io/badge/python-3.10%2B-blue" alt="Python"/>
   <img src="https://img.shields.io/badge/platform-Windows-lightgrey" alt="Windows"/>
-  <img src="https://img.shields.io/badge/hosts-Navisworks%20%C2%B7%20Revit%20%C2%B7%20Civil%203D-orange" alt="Hosts"/>
+  <img src="https://img.shields.io/badge/hosts-Navisworks%20%C2%B7%20Revit%20%C2%B7%20Civil%203D%20%C2%B7%20Rhino%20%C2%B7%20Tekla%20%C2%B7%20Presto-orange" alt="Hosts"/>
 </p>
 
 #
 
-**API context and reference scripts for Autodesk applications (Navisworks, Revit, Civil 3D)**, designed for the **[PyNet Platform](https://github.com/RAEN-DT/PyNet)**. This repo provides Python-style **stubs** of the Autodesk .NET APIs and example scripts, so that AI models (and developers) have the context they need to generate and understand automation code that runs through PyNet's embedded **Python.NET** engine.
+**API context and reference scripts for the six hosts PyNET supports (Navisworks, Revit, Civil 3D, Rhino, Tekla Structures and RIB Presto)**, designed for the **[PyNet Platform](https://github.com/RAEN-DT/PyNet)**. This repo provides Python-style **stubs** of the Autodesk .NET APIs and example scripts, so that AI models (and developers) have the context they need to generate and understand automation code that runs through PyNet's embedded **Python.NET** engine.
 
 > **AI Users:** This README, the example scripts under `01_Scripts/`, and the API stubs under
 > `02_PyNet Stubs/` are the primary context sources for generating scripts. Read the execution
@@ -74,7 +74,7 @@ Scripts run via **Python.NET** (CPython 3.10+ + `pythonnet` — not IronPython).
 
 ## 🧠 AI Usage Guidelines
 
-When generating scripts for PyNet (Navisworks, Revit, Civil 3D), follow these rules:
+When generating scripts for PyNet (Navisworks, Revit, Civil 3D, Rhino, Tekla Structures, RIB Presto), follow these rules:
 
 ### Structure
 - Always use a class-based architecture
@@ -488,7 +488,7 @@ Have questions about installation, configuration, or usage? Check the full FAQ p
 
 ## 🔗 How This Library Fits Into the Ecosystem
 
-This library is part of a modular system designed to enable AI-driven BIM automation across Autodesk tools.
+This library is part of a modular system designed to enable AI-driven BIM automation across every host PyNET supports.
 
 This repository is designed to work alongside:
 
@@ -501,7 +501,7 @@ Natural Language → AI → Python Script → PyNet → Navisworks / Revit / Civ
 
 | Component | Repository | Purpose |
 | :--- | :--- | :--- |
-| **PyNet Platform** | [PyNet](https://github.com/RAEN-DT/PyNet) | Navisworks/Revit plugin — hosts the Python.NET engine |
+| **PyNet Platform** | [PyNet](https://github.com/RAEN-DT/PyNet) | Plugin for the six supported hosts — hosts the Python.NET engine |
 | **PyNet Bridge (MCP)** | [PyNetBridge](https://github.com/RAEN-DT/PyNetBridge) | MCP server - connects AI models to PyNET with including secure scripts validation|
 | **PyNet Library** | This repo | Script reference library and AI context |
 
@@ -561,12 +561,12 @@ driving an already-loaded package from the AI side, see [docs/viewer-mcp.md](doc
 ## ⚠️ Notes and Limitations
 
 ### Runtime Limitations
-- Scripts run inside the Autodesk application context (Navisworks, Revit, Civil 3D)
+- Scripts run inside the host application context (Navisworks, Revit, Civil 3D, Rhino, Tekla Structures, RIB Presto)
 - File system and OS-level operations are restricted
 - Certain Python standard libraries are not available due to security constraints
 
 ### Compatibility
-- Requires Autodesk applications with Python.NET support via PyNet Platform
+- Requires one of the supported host applications with Python.NET support via PyNet Platform
 - Compatible with Python 3.10+
 - **Python 3.14 is supported.**
 - Behavior may vary depending on application version

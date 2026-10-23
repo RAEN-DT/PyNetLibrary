@@ -50,7 +50,35 @@ doc = __revit__.ActiveUIDocument.Document
 print(doc.Title)
 ```
 
-If either executes successfully inside PyNet, the environment is correctly configured.
+**Rhino:**
+```python
+import clr
+clr.AddReference("RhinoCommon")
+from Rhino import RhinoDoc
+
+doc = __rhinodoc__          # injected; falls back to RhinoDoc.ActiveDoc
+print(doc.Name)
+```
+
+**Tekla Structures:**
+```python
+import clr
+clr.AddReference("Tekla.Structures.Model")
+from Tekla.Structures.Model import Model
+
+model = __teklamodel__      # injected; falls back to Model()
+print(model.GetInfo().ModelName)
+```
+
+**RIB Presto:**
+```python
+# No clr.AddReference: Presto has no .NET assemblies. The host attaches to the
+# running Presto over COM and injects the application as __presto__.
+app = __presto__
+print(app.VersionStr)
+```
+
+If any of these executes successfully inside PyNet, the environment is correctly configured.
 
 ---
 
@@ -223,6 +251,77 @@ with doc.LockDocument():
         t.Abort()
         raise
 ```
+
+### Rhino
+
+```python
+import clr
+clr.AddReference("RhinoCommon")
+from Rhino import RhinoDoc
+
+# __rhinodoc__ is injected by the PyNET plug-in; the fallback keeps the script
+# runnable from Rhino's own editor.
+try:
+    doc = __rhinodoc__
+except NameError:
+    doc = RhinoDoc.ActiveDoc
+```
+
+After changing the document, refresh the viewports:
+```python
+doc.Views.Redraw()
+```
+
+---
+
+### Tekla Structures
+
+```python
+import clr
+clr.AddReference("Tekla.Structures.Model")
+from Tekla.Structures.Model import Model
+
+# __teklamodel__ is the model PyNET is already connected to. PyNET for Tekla runs
+# in its own process and talks to the running Tekla over the Open API.
+try:
+    model = __teklamodel__
+except NameError:
+    model = Model()
+```
+
+Objects are created one by one and committed **once**, at the end:
+```python
+beam.Insert()
+model.CommitChanges("PyNET: what you did")
+```
+
+---
+
+### RIB Presto
+
+```python
+# Presto exposes no .NET assemblies, so there is nothing to clr.AddReference.
+# The host attaches to the running Presto through its COM automation server
+# (Presto.App.18) and injects it as __presto__. Members are resolved by name at
+# call time, so a typo surfaces as MissingMemberException, not as a NameError.
+try:
+    app = __presto__
+except NameError:
+    raise Exception("__presto__ not found: run this from PyNET for Presto (Complementos > PyNET).")
+```
+
+Writes go inside a redo block, so Presto can undo them as one step:
+```python
+app.BeginRedo()
+try:
+    app.SetField(...)
+    app.UpdateRecord(...)
+finally:
+    app.EndRedo()
+```
+Changes are **not** saved: save the obra in Presto, or close without saving to discard them.
+
+---
 
 ## 🧪 Minimal Working Example
 
@@ -445,6 +544,37 @@ class SearchSetsManager():
         instance.DisplayName = value
         selectionSets.AddCopy(instance)
 ```
+
+---
+
+### Rhino — 01_Scripts/04_Rhino/
+
+- **Layers** (`01_Layers/`) — list the layer table and manage layers.
+- **Blocks** (`02_Blocks/`) — list block definitions and insert instances.
+- **Objects** (`03_Objects/`) — list objects, read and attach user text, zoom to objects by user text.
+- **Layouts** (`05_Layouts/`) — list layouts.
+- **Geometry** (`06_Geometry/`) — geometry statistics over the document.
+- **Export** (`07_Export/`) — takeoff export for RIB Presto.
+
+---
+
+### Tekla Structures — 01_Scripts/05_Tekla/
+
+- **Model** (`01_Model/`) — model info, delete all geometry.
+- **Query** (`02_Query/`) — list parts, read the current selection, select by GUID, bounding boxes.
+- **Create** (`03_Create/`) — columns on a grid, a full apartment building.
+- **Properties** (`04_Properties/`) — set UDAs on the selection.
+- **Quantities** (`05_Quantities/`) — quantities grouped by profile.
+- **Export** (`06_Export/`) — parts to Excel, takeoff for RIB Presto.
+- **Drawings** (`07_Drawings/`) — list drawings.
+
+---
+
+### RIB Presto — 01_Scripts/06_Presto/
+
+- **Read** (`01_Read/`) — project info, walk the budget tree, read measurement lines, read the selection, read any table by key, count concepts by nature.
+- **Write** (`02_Write/`) — create a budget from JSON, write measurement lines from JSON, set partida and CYPE prices, classify CYPE chapters, normalize summaries.
+- **Export** (`03_Export/`) — budget to Excel, FIEBDC.
 
 ---
 
